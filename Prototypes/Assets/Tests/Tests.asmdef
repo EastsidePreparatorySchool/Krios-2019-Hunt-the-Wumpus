@@ -1,0 +1,22 @@
+{
+    "name": "Tests",
+    "references": [
+        "GameControlAssembly",
+        "HighScoreAssembly",
+        "LocationsAssembly",
+        "MapAssembly",
+        "MiniGameAssembly",
+        "UIAssembly",
+        "WumpusAssembly"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
