@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Map/Scenes/CommandView.unity
-  isLoaded: 1
-  isActive: 1
