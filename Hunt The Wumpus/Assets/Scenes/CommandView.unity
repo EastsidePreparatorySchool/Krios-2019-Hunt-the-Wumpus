@@ -3124,7 +3124,7 @@ GameObject:
   - component: {fileID: 1143216133}
   - component: {fileID: 1143216134}
   m_Layer: 5
-  m_Name: Content
+  m_Name: TroopSelectorScrollContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
