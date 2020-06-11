@@ -250,6 +250,7 @@ namespace CommandView
             UpdateLocalHintData(hintsToGive);
 
             //print("before game");
+            
             PlayMiniGame();
             //print("After game");
         }
@@ -258,15 +259,31 @@ namespace CommandView
         {
             // TODO: put in Max's code to select troops
             List<TroopMeta> deployedTroops = new List<TroopMeta>();
+            /*
             int numTroops = Random.Range(2, 5); //TODO make this not dumb
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < deployedTroops.Count; i++)
             {
                 print(meta.troops.Count);
                 deployedTroops.Add(meta.troops[0]);
                 meta.troops.RemoveAt(0);
+            }*/
+
+            foreach (var troop in meta.troops)
+            {
+                if (troop.sendToBattle)
+                {
+                    deployedTroops.Add(troop);
+                }
             }
 
+            foreach (var troop in deployedTroops)
+            {
+                meta.troops.Remove(troop);
+            }
+
+            print("Sending "+ deployedTroops.Count + " troops to battle");
+            
             _planet.result = new MiniGameResult(deployedTroops);
 
             if (playMiniGame)

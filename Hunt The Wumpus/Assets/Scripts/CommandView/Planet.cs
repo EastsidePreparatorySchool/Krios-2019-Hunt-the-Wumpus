@@ -37,6 +37,7 @@ namespace CommandView
         // UI global variables
         private GameObject _colonizedLine;
         private List<GameObject> _lines = new List<GameObject>();
+        public bool borderAroundTerritory = false;
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
@@ -44,7 +45,6 @@ namespace CommandView
         private bool[] _hintsToGive = new bool[3]; //index 0=Wumpus, 1=pit, 2=bat
         public int[] wumplingWaves;
         public int soldiers;
-
 
         public GameMeta meta;
         public MiniGameResult result;
@@ -363,9 +363,9 @@ namespace CommandView
                 order.Add(i);
             }
 
-            print(OutputList(order));
+            //print(OutputList(order));
             Shuffle(order, random);
-            print(OutputList(order));
+            //print(OutputList(order));
 
             for (int i = 0; i < 30; i++)
             {
@@ -455,6 +455,7 @@ namespace CommandView
 
         public void ColonizedLineUpdate()
         {
+            if (!borderAroundTerritory) { return;}
             DestroyVertexLines();
 
             List<MeshVertex> edgeVertices = new List<MeshVertex>();

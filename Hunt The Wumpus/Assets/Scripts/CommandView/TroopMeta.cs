@@ -18,6 +18,8 @@ namespace CommandView
         public TroopType type = TroopType.Marine;
         public String name;
 
+        public bool sendToBattle = false;
+        
         public int battlesFought;
 
         public TroopMeta(TroopType type, String name)

@@ -98,8 +98,8 @@ public class UpdateGui : MonoBehaviour
             _inGameMeta = Planet.GetComponent<GameMeta>();
         }
 
-        print("Stats: " + _inGameMeta);
-        print("Troops: " + _inGameMeta.troops);
+        //print("Stats: " + _inGameMeta);
+       // print("Troops: " + _inGameMeta.troops);
         _troopCounter.text = "Troops: " + _inGameMeta.troops.Count;
         _moneyCounter.text = "Money: " + _inGameMeta.money;
 
