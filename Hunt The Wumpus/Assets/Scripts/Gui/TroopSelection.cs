@@ -8,8 +8,6 @@ namespace Gui
 {
     public class TroopSelection : MonoBehaviour
     {
-        public GameObject planet;
-
         public GameObject troopSelector; // The menu
 
         public GameObject troopToggleBlueprint;
@@ -20,30 +18,24 @@ namespace Gui
 
         public GameObject sendNoneButton;
 
+        private GameObject _planet;
         private GameMeta _gameMeta;
 
         private List<GameObject> _toggles = new List<GameObject>();
 
+        private String _troopSelectorName;
+        private String _scrollViewContentName;
+
         // Start is called before the first frame update
-        void Awake()
+        private void Start()
         {
-            _gameMeta = planet.GetComponent<GameMeta>();
+            _planet = GameObject.Find("Planet");
+            _gameMeta = _planet.GetComponent<GameMeta>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (troopSelector == null)
-            {
-                print("Refilling troopselector");
-                troopSelector = GameObject.Find("TroopSelectorUI");
-            }
-
-            if (scrollViewContent == null)
-            {
-                print("refilling scrollviewcontent");
-                troopSelector = GameObject.Find("TroopSelectorScrollContent");
-            }
         }
 
         public void ActivateTroopSelector()
@@ -52,6 +44,7 @@ namespace Gui
 
             if (troopSelector.activeSelf)
             {
+                print("Meta: "+_gameMeta+"; Troops: "+_gameMeta.troops);
                 foreach (var troop in _gameMeta.troops)
                 {
                     _toggles.Add(CreateNewToggle(troop));
@@ -70,7 +63,7 @@ namespace Gui
 
         public void SendTroopsToBattle()
         {
-            Planet planetHandler = planet.GetComponent<Planet>();
+            Planet planetHandler = _planet.GetComponent<Planet>();
             planetHandler.faces[planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().PlayMiniGame();
         }
 
@@ -79,13 +72,17 @@ namespace Gui
 
         private GameObject CreateNewToggle(TroopMeta troop)
         {
-            GameObject obj = Instantiate(troopToggleBlueprint, scrollViewContent.transform);
-            Toggle toggle = obj.gameObject.GetComponent<Toggle>();
+            GameObject newTroopToggle =
+                Instantiate(troopToggleBlueprint,
+                    scrollViewContent.transform); //Resources.Load<GameObject>("Objects/TroopToggle");
+            // newTroopToggle.transform.parent = scrollViewContent.transform;
+
+            Toggle toggle = newTroopToggle.gameObject.GetComponent<Toggle>();
             toggle.isOn = troop.sendToBattle;
 
             toggle.onValueChanged.AddListener(delegate { ToggleValueChanged(toggle, troop); });
 
-            return obj;
+            return newTroopToggle;
         }
 
         private void ToggleValueChanged(Toggle toggle, TroopMeta troop)
