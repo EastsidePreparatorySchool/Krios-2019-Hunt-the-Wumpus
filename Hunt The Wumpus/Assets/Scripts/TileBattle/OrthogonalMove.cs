@@ -52,7 +52,6 @@ namespace TileBattle
                 _inBattle = false;
                 print("Battle Over, You Won! Showing hints");
 
-                inBattleFace.GetComponent<FaceHandler>().SetColorToColonized();
                 planet.SetFaceInBattle(-1);
                 hintCanvas.SetActive(true);
             }
