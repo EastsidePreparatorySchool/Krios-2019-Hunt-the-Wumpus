@@ -281,6 +281,7 @@ namespace CommandView
                 foreach (var troop in deployedTroops)
                 {
                     meta.troops.Remove(troop);
+                    troop.sendToBattle = false;
                 }
 
                 print("Sending " + deployedTroops.Count + " troops to battle");

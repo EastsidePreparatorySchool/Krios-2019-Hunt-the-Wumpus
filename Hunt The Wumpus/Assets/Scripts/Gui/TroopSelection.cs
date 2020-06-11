@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
 using Toggle = UnityEngine.UI.Toggle;
@@ -8,8 +9,6 @@ namespace Gui
     public class TroopSelection : MonoBehaviour
     {
         public GameObject planet;
-
-        public GameObject toggleTroopSelect; // Button that brings up the menu
 
         public GameObject troopSelector; // The menu
 
@@ -34,6 +33,17 @@ namespace Gui
         // Update is called once per frame
         void Update()
         {
+            if (troopSelector == null)
+            {
+                print("Refilling troopselector");
+                troopSelector = GameObject.Find("TroopSelectorUI");
+            }
+
+            if (scrollViewContent == null)
+            {
+                print("refilling scrollviewcontent");
+                troopSelector = GameObject.Find("TroopSelectorScrollContent");
+            }
         }
 
         public void ActivateTroopSelector()

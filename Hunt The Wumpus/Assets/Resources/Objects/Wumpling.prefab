@@ -362,6 +362,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 195560320964207676}
+  nearestTarget: {x: 0, y: 0, z: 0}
+  searchRange: 20
   speed: 3
 --- !u!114 &301416516323056759
 MonoBehaviour:
@@ -377,7 +379,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   maxHealth: 50
-  attackDamage: 1
+  attackDamage: 5
   attackRange: 2
   isEnemy: 1
   target: {fileID: 0}

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - ResultHandler
   - EventSystem
+  - TroopSelectorUI
+  - TroopSelectorContent
   layers:
   - Default
   - TransparentFX
