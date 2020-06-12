@@ -227,7 +227,8 @@ public class UpdateGui : MonoBehaviour
         //faceCenter *= faceHandler.gameObject.transform.localScale.x;
 
         print(faceCenter.x+", "+faceCenter.y+", "+faceCenter.z);
-        Debug.DrawRay(faceCenter,faceMesh.mesh.normals[0],Color.cyan);
+        Vector3 worldSpaceNormal = faceHandler.transform.TransformPoint(faceMesh.mesh.normals[0]);
+        Debug.DrawRay(faceCenter,worldSpaceNormal,Color.cyan);
     }
 
     private void CloseFaceDataHolder(FaceHandler faceHandler)

@@ -10829,7 +10829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnsElapsed: 0
-  money: 100000000
+  money: 0
   nukes: 0
   infiniteNukes: 0
   names:
