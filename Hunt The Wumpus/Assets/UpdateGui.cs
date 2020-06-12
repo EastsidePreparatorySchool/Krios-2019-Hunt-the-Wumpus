@@ -15,7 +15,7 @@ public class UpdateGui : MonoBehaviour
     // Script reads off variables in a bunch of other scripts to update UI elements.
     //
 
-    public GameObject Planet;
+    public GameObject planet;
 
     private GameObject _faceInfoBox; // Blueprint for the UI elements that will be spawned
 
@@ -37,8 +37,8 @@ public class UpdateGui : MonoBehaviour
     void Awake()
     {
         // Fill Variables
-        Planet = GameObject.Find("Planet");
-        _planetHandler = Planet.GetComponent<Planet>();
+        planet = GameObject.Find("Planet");
+        _planetHandler = planet.GetComponent<Planet>();
         _faceInfoBox = GameObject.Find("FaceInfoBox");
         _faceInfoBox.SetActive(false);
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
@@ -95,7 +95,7 @@ public class UpdateGui : MonoBehaviour
         // TODO: Implement Troops, Money, & Score
         if (_inGameMeta == null)
         {
-            _inGameMeta = Planet.GetComponent<GameMeta>();
+            _inGameMeta = planet.GetComponent<GameMeta>();
         }
 
         //print("Stats: " + _inGameMeta);

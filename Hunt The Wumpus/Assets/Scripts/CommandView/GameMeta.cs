@@ -101,7 +101,6 @@ namespace CommandView
             if (result.didWin)
             {
                 inBattleFaceHandler.SetColonized();
-                inBattleFaceHandler.GetComponent<FaceHandler>().SetColorToColonized();
             }
         }
     }

@@ -59,8 +59,8 @@ namespace CommandView
         private bool playMiniGame = true; // you can turn this off if you just want to mess with the map
 
         private GameMeta meta;
-        
-        
+
+
         private void Awake()
         {
             // Initialize variables
@@ -75,7 +75,6 @@ namespace CommandView
         // Start is called before the first frame update
         private void Start()
         {
-            
         }
 
         // Update is called once per frame
@@ -223,7 +222,6 @@ namespace CommandView
 
             bool[] hintsToGive = new bool[3];
 
-            //TODO: exclude blocked sides
             foreach (GameObject face in GetOpenAdjacentFaces())
             {
                 FaceHandler adjFace = face.GetComponent<FaceHandler>();
@@ -250,12 +248,13 @@ namespace CommandView
             UpdateLocalHintData(hintsToGive);
 
             //print("before game");
-            
-            PlayMiniGame();
+
+            GameObject eventSystem = GameObject.Find("Canvas");
+            eventSystem.GetComponent<TroopSelection>().ActivateTroopSelector();
             //print("After game");
         }
 
-        private void PlayMiniGame()
+        public void PlayMiniGame()
         {
             // TODO: put in Max's code to select troops
             List<TroopMeta> deployedTroops = new List<TroopMeta>();
@@ -277,24 +276,28 @@ namespace CommandView
                 }
             }
 
-            foreach (var troop in deployedTroops)
+            if (deployedTroops.Count != 0)
             {
-                meta.troops.Remove(troop);
-            }
+                foreach (var troop in deployedTroops)
+                {
+                    meta.troops.Remove(troop);
+                    troop.sendToBattle = false;
+                }
 
-            print("Sending "+ deployedTroops.Count + " troops to battle");
-            
-            _planet.result = new MiniGameResult(deployedTroops);
+                print("Sending " + deployedTroops.Count + " troops to battle");
 
-            if (playMiniGame)
-            {
-                print("Going to Battle");
-                SceneManager.LoadScene(2);
-            }
-            else
-            {
-                print("Going to TileBattle");
-                SceneManager.LoadScene(1);
+                _planet.result = new MiniGameResult(deployedTroops);
+
+                if (playMiniGame)
+                {
+                    print("Going to Battle");
+                    SceneManager.LoadScene(2);
+                }
+                else
+                {
+                    print("Going to TileBattle");
+                    SceneManager.LoadScene(1);
+                }
             }
         }
 
@@ -333,10 +336,6 @@ namespace CommandView
 
             print("Colonized Here");
             _planet.ColonizedLineUpdate();
-        }
-
-        public void SetColorToColonized()
-        {
         }
 
         public void SetDiscovered()
