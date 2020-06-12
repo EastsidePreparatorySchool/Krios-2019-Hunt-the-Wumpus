@@ -323,9 +323,9 @@ namespace CommandView
                 else
                 {
                     print("You didn't hit the Wumpus, but the tile is cleared. Adjacent faces don't make money");
-                    
+
                     bool wumpusAdjacent = false;
-                    
+
                     foreach (GameObject adjacentFace in adjacentFaces)
                     {
                         FaceHandler adjacentFaceHandler = adjacentFace.GetComponent<FaceHandler>();

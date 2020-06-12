@@ -137,6 +137,8 @@ public class UpdateGui : MonoBehaviour
             FaceHandler face = _faceHandlers[i];
             if (face.displayFaceData)
             {
+                DisplayHintsOnFace(face);
+                /*
                 // Update faceDataHolder GUI positioning
                 if (!face.faceDataHolder.activeSelf)
                 {
@@ -199,6 +201,7 @@ public class UpdateGui : MonoBehaviour
                     text.text += "<align=\"right\">" + _inGameMeta.NumDiscoveredFaces() + "/" + _inGameMeta.totalFaces +
                                  " discovered</align>";
                 }
+                */
             }
             else if (face.faceDataHolder)
             {
@@ -208,6 +211,23 @@ public class UpdateGui : MonoBehaviour
                 }
             }
         }
+    }
+    
+    private void DisplayHintsOnFace(FaceHandler faceHandler)
+    {
+        MeshFilter faceMesh = faceHandler.GetComponent<MeshFilter>();
+        Vector3 faceCenter = new Vector3();
+
+        foreach (Vector3 faceMeshVertex in faceMesh.mesh.vertices)
+        {
+            faceCenter += faceMeshVertex;
+        }
+
+        faceCenter /= faceMesh.mesh.vertices.Length;
+        faceCenter *= faceHandler.gameObject.transform.localScale.x;
+
+        print(faceCenter.x+", "+faceCenter.y+", "+faceCenter.z);
+        Debug.DrawRay(faceCenter,faceMesh.mesh.normals[0],Color.cyan);
     }
 
     private void CloseFaceDataHolder(FaceHandler faceHandler)
