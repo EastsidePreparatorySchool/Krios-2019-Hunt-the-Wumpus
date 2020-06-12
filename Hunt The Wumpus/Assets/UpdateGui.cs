@@ -24,6 +24,10 @@ public class UpdateGui : MonoBehaviour
     private TextMeshProUGUI _nukeCounter;
     private TextMeshProUGUI _turnDisplay;
 
+    private Button _openStoreBtn;
+    private Graphic _openStoreBtnTargetGraphic;
+    private TextMeshProUGUI btnText;
+
     private int[] _counterValues = new int[3];
 
     private Planet _planetHandler;
@@ -44,6 +48,11 @@ public class UpdateGui : MonoBehaviour
         _planetHandler = planet.GetComponent<Planet>();
         _faceInfoBox = GameObject.Find("FaceInfoBox");
         _faceInfoBox.SetActive(false);
+
+        _openStoreBtn = GameObject.Find("OpenStoreBtn").GetComponent<Button>();
+        _openStoreBtnTargetGraphic = _openStoreBtn.targetGraphic;
+        btnText = _openStoreBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
+
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         _orbit = FindObjectOfType<CameraOrbit>();
 
@@ -61,7 +70,7 @@ public class UpdateGui : MonoBehaviour
                 .AddListener(() => CloseFaceDataHolder(faceHandler));
             faceHandler.faceDataHolder.GetComponent<Dragging>().face = faceHandler;
             _faceDataHolderText[i] =
-                faceHandler.faceDataHolder
+                faceHandler.faceDataHolder.transform.Find("InfoText").gameObject
                     .GetComponent<TextMeshProUGUI>(); // Reduce invocations of GetComponent() later in script
         }
         //
@@ -73,23 +82,30 @@ public class UpdateGui : MonoBehaviour
             {
                 case "TroopCounter":
                     _troopCounter = i;
-                    _troopCounter.alpha = 0;
+                    _troopCounter.alpha = 0f;
                     break;
                 case "MoneyCounter":
                     _moneyCounter = i;
-                    _moneyCounter.alpha = 0;
+                    _moneyCounter.alpha = 0f;
                     break;
                 case "NukeCounter":
                     _nukeCounter = i;
-                    _nukeCounter.alpha = 0;
+                    _nukeCounter.alpha = 0f;
                     break;
                 case "TurnNumDisplay":
                     _turnDisplay = i;
-                    _turnDisplay.alpha = 1;
+                    _turnDisplay.alpha = 1f;
                     _turnDisplay.gameObject.SetActive(false);
                     break;
             }
         }
+
+
+        Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
+        btnText.alpha = 0f;
+        storeBtnAlpha.a = 0f;
+        _openStoreBtnTargetGraphic.color = storeBtnAlpha;
+
         //
 
         StartCoroutine(WaitUntilGameBegins());
@@ -203,11 +219,16 @@ public class UpdateGui : MonoBehaviour
     {
         yield return new WaitUntil(() => Math.Abs(_orbit.beginningSpin) < 0.1f);
 
+        Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
         while (_troopCounter.alpha < 1)
         {
             _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
             _nukeCounter.alpha += 0.1f;
+
+            btnText.alpha += 0.1f;
+            storeBtnAlpha.a += 0.1f;
+            _openStoreBtnTargetGraphic.color = storeBtnAlpha;
 
             yield return new WaitForSeconds(0.2F);
         }
