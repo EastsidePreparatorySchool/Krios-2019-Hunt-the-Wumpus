@@ -53,6 +53,11 @@ namespace Gui
             }
         }
 
+        public void OpenUpgradePanel()
+        {
+
+        }
+
         public void BuyTroops()
         {
             print("buying troops");

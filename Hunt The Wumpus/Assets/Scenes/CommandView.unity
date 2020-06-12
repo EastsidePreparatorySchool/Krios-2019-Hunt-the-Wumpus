@@ -2479,7 +2479,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Upgrade Damage
+  m_text: Upgrade Troops
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4309,7 +4309,7 @@ GameObject:
   - component: {fileID: 1034946233}
   - component: {fileID: 1034946232}
   m_Layer: 5
-  m_Name: BuyTroopDmgBtn
+  m_Name: TroopUpgradeBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4376,7 +4376,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2055068145}
-        m_MethodName: BuyTroopDmg
+        m_MethodName: OpenUpgradePanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
