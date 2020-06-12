@@ -8,7 +8,7 @@ namespace MiniGame
 {
     public class PlayerController : MonoBehaviour
     {
-        private Queue<PointerController> pointers;
+        private Queue<PointerController> pointers = new Queue<PointerController>();
         public bool atPointer;
 
         public NavMeshAgent navMeshAgent;
@@ -26,7 +26,7 @@ namespace MiniGame
         void Start()
         {
             _combatController = GetComponent<CombatController>();
-            pointers = new Queue<PointerController>();
+            
         }
 
         // Update is called once per frame
@@ -96,7 +96,10 @@ namespace MiniGame
         private void ArriveAtPointer()
         {
             PointerController pointer = DequeuePointer();
-            pointer.followers--;
+            if (pointer != null)
+            {
+                pointer.followers--;
+            }
             PointerController next = PeekPointer();
             if (next == null)
             {
