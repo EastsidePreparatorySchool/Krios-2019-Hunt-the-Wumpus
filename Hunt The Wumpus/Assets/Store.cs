@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using CommandView;
+using TMPro;
 
 namespace Gui
 {
@@ -11,6 +12,7 @@ namespace Gui
         private GameObject _planet;
         private Planet _planetHandler;
         private GameMeta _gameMeta;
+
 
         // Start is called before the first frame update
         void Start()
@@ -58,9 +60,20 @@ namespace Gui
 
         }
 
+        //public GameObject name;
+        //GameObject tMP_Input = name.GetComponent<TMP_InputField>();
+        //string inputText = tMP_Input.text;
+
         public void BuyTroops()
         {
             print("buying troops");
+            GameObject BuyPanel = GameObject.Find("BuyTroopsPanel");
+            GameObject parent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
+            //GameObject ttext = BuyPanel.transform.Find("Text").gameObject;
+
+            TMP_InputField inp = parent.GetComponent<TMP_InputField>();
+
+            print(inp.text);
         }
 
         public void BuyTroopDmg()
