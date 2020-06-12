@@ -11,7 +11,7 @@ namespace CommandView
 
         public int turnsElapsed;
         public int money;
-        public int nukes = 3;
+        public int nukes;
 
         public int totalFaces;
 
@@ -28,6 +28,8 @@ namespace CommandView
             turnsElapsed = 1;
             _planetHandler = GetComponent<Planet>();
             totalFaces = _planetHandler.faces.Length;
+
+            nukes = 3;
 
             _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
             for (int i = 0; i < _planetHandler.faces.Length; i++)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
+using UnityEngine.UI;
 using Toggle = UnityEngine.UI.Toggle;
 
 namespace Gui
