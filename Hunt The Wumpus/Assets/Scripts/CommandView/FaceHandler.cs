@@ -249,7 +249,7 @@ namespace CommandView
 
             //print("before game");
 
-            GameObject eventSystem = GameObject.FindWithTag("EventSystem");
+            GameObject eventSystem = GameObject.Find("Canvas");
             eventSystem.GetComponent<TroopSelection>().ActivateTroopSelector();
             //print("After game");
         }
