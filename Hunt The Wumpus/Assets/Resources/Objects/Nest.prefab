@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 2973662379733780855}
   - component: {fileID: 114161952361806728}
   - component: {fileID: 6318851363116525567}
+  - component: {fileID: 114488824543900088}
   - component: {fileID: 114627874577716208}
   - component: {fileID: 114560898999707086}
   m_Layer: 10
@@ -219,12 +220,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 500
   maxHealth: 500
-  attackDamage: -1
+  healthBar: {fileID: 6083710632983030881}
+  healthBarCanvas: {fileID: 3531911908205660330}
+--- !u!114 &114488824543900088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2973662379733780852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efd7d93b57ea4acca239ff4881f8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthmgr: {fileID: 6318851363116525567}
+  attackInterval: 3
+  attackDamage: 0
   attackRange: 0
   isEnemy: 1
   target: {fileID: 0}
-  healthBar: {fileID: 6083710632983030881}
-  healthBarCanvas: {fileID: 3531911908205660330}
+  doesAttack: 0
+  doesAttackWhileMoving: 0
 --- !u!114 &114627874577716208
 MonoBehaviour:
   m_ObjectHideFlags: 0

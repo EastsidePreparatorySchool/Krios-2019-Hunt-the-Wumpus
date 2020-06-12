@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MiniGame.Creatures;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,7 +8,7 @@ namespace MiniGame
 {
     public class PlayerController : MonoBehaviour
     {
-        public PointerController pointer;
+        private Queue<PointerController> pointers = new Queue<PointerController>();
         public bool atPointer;
 
         public NavMeshAgent navMeshAgent;
@@ -17,45 +18,100 @@ namespace MiniGame
         public float maxDistFromPointer = 6;
         public float curDisFromPointer;
 
-        public HealthManager Healthmgr { get; private set; }
+        private CombatController _combatController;
+
+        //public HealthManager Healthmgr { get; private set; }
 
         // Start is called before the first frame update
         void Start()
         {
-            Healthmgr = GetComponent<HealthManager>();
+            _combatController = GetComponent<CombatController>();
+            
         }
 
         // Update is called once per frame
         void Update()
         {
+            PointerController pointer = PeekPointer();
             if (pointer && !atPointer)
             {
-                Vector3 pointerLoc = pointer.GetPosition();
-                curDisFromPointer = Vector3.Distance(pointerLoc, transform.position);
-
-                if (curDisFromPointer > minDistFromPointer)
+                if (pointer.attackMove && !_combatController.doesAttackWhileMoving && _combatController.target != null) //must stop to attack
                 {
-                    // Transform myTrans;
-                    // (myTrans = transform).LookAt(pointerLoc);
-                    // myTrans.eulerAngles = new Vector3(0, myTrans.rotation.eulerAngles.y, 0);
-                    //
-                    // transform.Translate(Vector3.forward * (Time.deltaTime * speed));
-                    navMeshAgent.SetDestination(pointerLoc);
+                    StopMoving();
                 }
                 else
                 {
-                    //once you get close enough to the pointer, you are considered "there" and stop moving to it
-                    StopMoving();
-                    //pointer = null;
+                    Vector3 pointerLoc = pointer.GetPosition();
+                    curDisFromPointer = Vector3.Distance(pointerLoc, transform.position);
+
+                    if (curDisFromPointer > minDistFromPointer)
+                    {
+                        MoveTo(pointerLoc);
+                    }
+                    else
+                    {
+                        //once you get close enough to the pointer, you are considered "there" and stop moving to it
+                        ArriveAtPointer();
+                        //pointer = null;
+                    }
                 }
+            }
+        }
+
+        public PointerController PeekPointer()
+        {
+            if (pointers.Count == 0)
+            {
+                return null;
+            }
+            return pointers.Peek();
+        }
+        public PointerController DequeuePointer()
+        {
+            if (pointers.Count == 0)
+            {
+                return null;
+            }
+            return pointers.Dequeue();
+        }
+        public void AddPointer(PointerController item)
+        {
+            pointers.Enqueue(item);
+        }
+        public void RemovePointers()
+        {
+            foreach (PointerController pointer in pointers)
+            {
+                pointer.followers--;
+            }
+            pointers.Clear();
+        }
+
+        private void MoveTo(Vector3 pointerLoc)
+        {
+            navMeshAgent.SetDestination(pointerLoc);
+            _combatController.isMoving = true;
+        }
+
+        private void ArriveAtPointer()
+        {
+            PointerController pointer = DequeuePointer();
+            if (pointer != null)
+            {
+                pointer.followers--;
+            }
+            PointerController next = PeekPointer();
+            if (next == null)
+            {
+                atPointer = true;
+                StopMoving();
             }
         }
 
         private void StopMoving()
         {
-            pointer.followers--;
-            atPointer = true;
             navMeshAgent.ResetPath();
+            _combatController.isMoving = false;
         }
 
         public Vector3 GetPosition()
@@ -72,9 +128,11 @@ namespace MiniGame
                 return;
             }
 
-            if (otherController.pointer == pointer && otherController.atPointer && curDisFromPointer < maxDistFromPointer)
+            if (otherController.PeekPointer() == PeekPointer() && 
+                otherController.atPointer && 
+                curDisFromPointer < maxDistFromPointer)
             {
-                StopMoving();
+                ArriveAtPointer();
             }
         }
     }
