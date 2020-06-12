@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
 using Toggle = UnityEngine.UI.Toggle;
+using Text = UnityEngine.UI.Text;
 
 namespace Gui
 {
@@ -76,11 +77,16 @@ namespace Gui
                 Instantiate(troopToggleBlueprint,
                     scrollViewContent.transform); //Resources.Load<GameObject>("Objects/TroopToggle");
             // newTroopToggle.transform.parent = scrollViewContent.transform;
-
+            
             Toggle toggle = newTroopToggle.gameObject.GetComponent<Toggle>();
             toggle.isOn = troop.sendToBattle;
 
             toggle.onValueChanged.AddListener(delegate { ToggleValueChanged(toggle, troop); });
+
+            // Code for naming troops
+            GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
+            Text label = labelGameObject.GetComponent<Text>();
+            label.text = "test";
 
             return newTroopToggle;
         }
