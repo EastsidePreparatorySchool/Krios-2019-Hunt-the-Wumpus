@@ -48,16 +48,23 @@ namespace MiniGame
                                 PointerController previous = playerController.pointer;
                                 if (makeWaypoint)
                                 {
-                                    for(int i = 0; i < 10 && previous.next != null; i++)
+                                    while(previous != pointerController && previous.next != null)
                                     {
-                                        print(i + " " + previous);
+                                        //print(i + " " + (previous==null? "null":previous.ToString()));
                                         previous = previous.next;
                                     }
-                                    previous.next = pointerController;
+                                    if (previous != pointerController)
+                                    {
+                                        previous.next = pointerController;
+                                    }
                                 }
                                 else
                                 {
-                                    playerController.pointer.followers--;
+                                    while (previous != null)
+                                    {
+                                        previous.followers--;
+                                        previous = previous.next;
+                                    }
                                     playerController.pointer = pointerController;
                                     playerController.atPointer = false;
                                 }
