@@ -10796,7 +10796,7 @@ MonoBehaviour:
   - {fileID: 1544512854}
   - {fileID: 897113460}
   lineEventSystem: {fileID: 1006137553}
-  borderAroundTerritory: 0
+  borderAroundTerritory: 1
   wumplingWaves: 03000000050000000a000000
   soldiers: 20
   meta: {fileID: 2076108099}
@@ -10831,6 +10831,7 @@ MonoBehaviour:
   turnsElapsed: 0
   money: 0
   nukes: 0
+  infiniteNukes: 0
   names:
   - James
   - Michael
