@@ -13,6 +13,8 @@ namespace CommandView
         public int money;
         public int nukes;
 
+        public bool infiniteNukes;
+
         public int totalFaces;
 
         public List<TroopMeta> troops;
@@ -30,6 +32,10 @@ namespace CommandView
             totalFaces = _planetHandler.faces.Length;
 
             nukes = 3;
+            if (infiniteNukes)
+            {
+                nukes = 10000;
+            }
 
             _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
             for (int i = 0; i < _planetHandler.faces.Length; i++)
