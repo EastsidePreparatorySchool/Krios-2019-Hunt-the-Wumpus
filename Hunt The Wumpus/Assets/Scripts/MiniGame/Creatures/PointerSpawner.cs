@@ -32,8 +32,7 @@ namespace MiniGame
                 {
                     GameObject pointerInstance = Instantiate(pointerPrefab, hit.point, Quaternion.identity);
                     PointerController pointerController = pointerInstance.GetComponent<PointerController>(); //the pointerController script of the new instance
-
-                    pointerController.next = null;
+                    
                     CheckAttackCommand(pointerController, pointerInstance);
                     bool makeWaypoint = Input.GetKey(WaypointKey);
                     
@@ -43,38 +42,13 @@ namespace MiniGame
                         if (selectable.IsSelected)
                         {
                             PlayerController playerController = selectable.gameObject.GetComponent<PlayerController>(); //playerController scrip of the soldier
-                            if (playerController.pointer)
-                            {
-                                PointerController previous = playerController.pointer;
-                                if (makeWaypoint)
-                                {
-                                    while(previous != pointerController && previous.next != null)
-                                    {
-                                        //print(i + " " + (previous==null? "null":previous.ToString()));
-                                        previous = previous.next;
-                                    }
-                                    if (previous != pointerController)
-                                    {
-                                        previous.next = pointerController;
-                                    }
-                                }
-                                else
-                                {
-                                    while (previous != null)
-                                    {
-                                        previous.followers--;
-                                        previous = previous.next;
-                                    }
-                                    playerController.pointer = pointerController;
-                                    playerController.atPointer = false;
-                                }
-                            }
-                            else
-                            {
-                                playerController.pointer = pointerController;
-                                playerController.atPointer = false;
-                            }
 
+                            if (!makeWaypoint)
+                            {
+                                playerController.RemovePointers();
+                            }
+                            playerController.AddPointer(pointerController);
+                            playerController.atPointer = false;
                             followerCount++;
                         }
                     }

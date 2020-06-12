@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MiniGame.Creatures;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,7 +8,7 @@ namespace MiniGame
 {
     public class PlayerController : MonoBehaviour
     {
-        public PointerController pointer;
+        private Queue<PointerController> pointers;
         public bool atPointer;
 
         public NavMeshAgent navMeshAgent;
@@ -25,11 +26,13 @@ namespace MiniGame
         void Start()
         {
             _combatController = GetComponent<CombatController>();
+            pointers = new Queue<PointerController>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            PointerController pointer = PeekPointer();
             if (pointer && !atPointer)
             {
                 if (pointer.attackMove && !_combatController.doesAttackWhileMoving && _combatController.target != null) //must stop to attack
@@ -55,6 +58,35 @@ namespace MiniGame
             }
         }
 
+        public PointerController PeekPointer()
+        {
+            if (pointers.Count == 0)
+            {
+                return null;
+            }
+            return pointers.Peek();
+        }
+        public PointerController DequeuePointer()
+        {
+            if (pointers.Count == 0)
+            {
+                return null;
+            }
+            return pointers.Dequeue();
+        }
+        public void AddPointer(PointerController item)
+        {
+            pointers.Enqueue(item);
+        }
+        public void RemovePointers()
+        {
+            foreach (PointerController pointer in pointers)
+            {
+                pointer.followers--;
+            }
+            pointers.Clear();
+        }
+
         private void MoveTo(Vector3 pointerLoc)
         {
             navMeshAgent.SetDestination(pointerLoc);
@@ -63,13 +95,10 @@ namespace MiniGame
 
         private void ArriveAtPointer()
         {
+            PointerController pointer = DequeuePointer();
             pointer.followers--;
-            PointerController next = pointer.next;
-            if (next != null)
-            {
-                pointer = next;
-            }
-            else
+            PointerController next = PeekPointer();
+            if (next == null)
             {
                 atPointer = true;
                 StopMoving();
@@ -96,7 +125,9 @@ namespace MiniGame
                 return;
             }
 
-            if (otherController.pointer == pointer && otherController.atPointer && curDisFromPointer < maxDistFromPointer)
+            if (otherController.PeekPointer() == PeekPointer() && 
+                otherController.atPointer && 
+                curDisFromPointer < maxDistFromPointer)
             {
                 ArriveAtPointer();
             }

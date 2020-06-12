@@ -26,12 +26,9 @@ namespace MiniGame.Creatures.DeathHandlers
         public void Die()
         {
             print("Troop Death");
-            PointerController pointer = gameObject.GetComponent<PlayerController>().pointer;
-            while (pointer != null)
-            {
-                pointer.followers--;
-                pointer = pointer.next;
-            }
+            PlayerController playerController = gameObject.GetComponent<PlayerController>();
+            playerController.RemovePointers();
+            
             _resultHandler.RemoveTroop(troopMeta);
             if (_resultHandler.NumTroopsLeft() == 0)
             {

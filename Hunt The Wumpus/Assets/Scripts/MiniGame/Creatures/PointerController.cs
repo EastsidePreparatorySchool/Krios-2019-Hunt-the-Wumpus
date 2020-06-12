@@ -6,7 +6,6 @@ namespace MiniGame
     {
         public int followers;
         public bool attackMove;
-        public PointerController next;
         
         // Start is called before the first frame update
         void Start()
