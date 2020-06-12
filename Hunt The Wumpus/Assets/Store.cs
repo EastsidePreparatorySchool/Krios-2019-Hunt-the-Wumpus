@@ -9,6 +9,16 @@ namespace Gui
 {
     public class Store : MonoBehaviour
     {
+        public int marineCost;
+        public int sniperCost;
+        public int tankCost;
+        public int defenderCost;
+
+        public int troopDamagIncrease;
+        public int troopDamagCost;
+        public int NukeCost;
+        public int SensorTowerCost;
+
         private GameObject _planet;
         private Planet _planetHandler;
         private GameMeta _gameMeta;
@@ -26,12 +36,6 @@ namespace Gui
         void Update()
         {
         }
-
-        int troopDmgIncrease = 1;
-        int troopDmgCost = 1;
-        int NukeCost = 1;
-        int SensorTowerCost = 1;
-
 
         public void Open()
         {
@@ -60,28 +64,34 @@ namespace Gui
 
         }
 
-        //public GameObject name;
-        //GameObject tMP_Input = name.GetComponent<TMP_InputField>();
-        //string inputText = tMP_Input.text;
-
         public void BuyTroops()
         {
-            print("buying troops");
             GameObject BuyPanel = GameObject.Find("BuyTroopsPanel");
-            GameObject parent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
-            //GameObject ttext = BuyPanel.transform.Find("Text").gameObject;
+            GameObject inpparent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
+            GameObject dropparent = BuyPanel.transform.Find("TroopTypeDropdown").gameObject;
 
-            TMP_InputField inp = parent.GetComponent<TMP_InputField>();
+            TMP_InputField troopNumberInput = inpparent.GetComponent<TMP_InputField>();
+            TMP_Dropdown troopDropType = dropparent.GetComponent<TMP_Dropdown>();
 
-            print(inp.text);
+            print("attempting to buy " + troopNumberInput.text + " troops of type " + troopDropType.value);
+
+            //temp until new troops
+            if (_gameMeta.money >= marineCost)
+            {
+                for (int i = 0; i < int.Parse(troopNumberInput.text); i++)
+                {
+                    _gameMeta.money -= marineCost;
+                    _gameMeta.troops.Add(new TroopMeta(TroopType.Marine, _gameMeta.names[Random.Range(0, _gameMeta.names.Length)]));
+                }
+            }
         }
 
         public void BuyTroopDmg()
         {
-            if (_gameMeta.money >= troopDmgCost)
+            if (_gameMeta.money >= troopDamagCost)
             {
                 print("Buyng Damage Upgrade");
-                _gameMeta.money -= troopDmgCost;
+                _gameMeta.money -= troopDamagCost;
                 //_gameMeta.nukes++;
             }
             else
