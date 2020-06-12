@@ -15,6 +15,8 @@ namespace Gui
         public List<MeshVertex> VertexNeighbors = new List<MeshVertex>();
         public int Id;
         private static Random _random = new Random();
+        
+        public static List<MeshVertex> vertices = new List<MeshVertex>();
 
         public MeshVertex(FaceHandler parent, Vector3 vertexCoords)
         {
@@ -84,10 +86,10 @@ namespace Gui
             }
         }
 
-        public bool IsOnColonizedEdge()
+        public static bool IsOnColonizedEdge(MeshVertex mv)
         {
             int countColonized = 0;
-            foreach (FaceHandler face in ParentFaces)
+            foreach (FaceHandler face in mv.ParentFaces)
             {
                 if (face.colonized)
                 {
@@ -95,7 +97,7 @@ namespace Gui
                 }
             } 
             //Debug.Log(ParentFaces.Count);
-            if (countColonized == 0 || countColonized == ParentFaces.Count)
+            if (countColonized == 0 || countColonized == mv.ParentFaces.Count)
             {
                 return false;
             }

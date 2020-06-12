@@ -13,6 +13,15 @@ namespace CommandView
         public int money;
         public int nukes;
 
+        public bool infiniteNukes;
+
+        public String[] names = new[]
+        {
+                "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
+                "Mary",
+                "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
+            };
+
         public int totalFaces;
 
         public List<TroopMeta> troops;
@@ -30,6 +39,10 @@ namespace CommandView
             totalFaces = _planetHandler.faces.Length;
 
             nukes = 3;
+            if (infiniteNukes)
+            {
+                nukes = 10000;
+            }
 
             _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
             for (int i = 0; i < _planetHandler.faces.Length; i++)
@@ -74,12 +87,6 @@ namespace CommandView
 
         public void SetupForDebug()
         {
-            String[] names = new[]
-            {
-                "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
-                "Mary",
-                "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
-            };
             for (int i = 0; i < names.Length; i++)
             {
                 troops.Add(new TroopMeta(TroopType.Marine, names[i]));
