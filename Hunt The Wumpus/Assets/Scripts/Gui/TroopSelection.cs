@@ -48,7 +48,7 @@ namespace Gui
 
             if (troopSelector.activeSelf)
             {
-                print("Meta: "+_gameMeta+"; Troops: "+_gameMeta.troops);
+                print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.troops);
                 foreach (var troop in _gameMeta.troops)
                 {
                     _toggles.Add(CreateNewToggle(troop));
@@ -85,9 +85,7 @@ namespace Gui
             GameObject newTroopToggle =
                 Instantiate(troopToggleBlueprint,
                     scrollViewContent.transform); //Resources.Load<GameObject>("Objects/TroopToggle");
-                                                  // newTroopToggle.transform.parent = scrollViewContent.transform;
-
-            newTroopToggle.transform.position = new Vector3(100, 0, 0);
+            // newTroopToggle.transform.parent = scrollViewContent.transform;
 
             Toggle toggle = newTroopToggle.gameObject.GetComponent<Toggle>();
             toggle.isOn = troop.sendToBattle;
@@ -97,7 +95,7 @@ namespace Gui
             // Code for naming troops
             GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
             Text label = labelGameObject.GetComponent<Text>();
-            label.text = troop.type.ToString() + " " + troop.name;
+            label.text = troop.type + ": " + troop.name;
 
             return newTroopToggle;
         }
