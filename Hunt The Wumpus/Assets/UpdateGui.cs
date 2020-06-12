@@ -31,7 +31,7 @@ public class UpdateGui : MonoBehaviour
 
     private CameraOrbit _orbit;
 
-    private int _default = 0;
+    // private int _default = 0;
 
     // Start is called before the first frame update
     void Awake()
