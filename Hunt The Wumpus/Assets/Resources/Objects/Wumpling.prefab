@@ -379,10 +379,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   maxHealth: 50
-  attackDamage: 5
-  attackRange: 2
-  isEnemy: 1
-  target: {fileID: 0}
   healthBar: {fileID: 2002702188}
   healthBarCanvas: {fileID: 1756639730}
 --- !u!114 &9040775022169154810
@@ -399,6 +395,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthmgr: {fileID: 301416516323056759}
   attackInterval: 0.5
+  attackDamage: 20
+  attackRange: 1
+  isEnemy: 1
+  target: {fileID: 0}
+  doesAttack: 1
+  doesAttackWhileMoving: 1
 --- !u!114 &114346654870202162
 MonoBehaviour:
   m_ObjectHideFlags: 0
