@@ -13,6 +13,14 @@ namespace CommandView
         public int money;
         public int nukes;
 
+
+        public String[] names = new[]
+        {
+                "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
+                "Mary",
+                "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
+            };
+
         public int totalFaces;
 
         public List<TroopMeta> troops;
@@ -74,12 +82,6 @@ namespace CommandView
 
         public void SetupForDebug()
         {
-            String[] names = new[]
-            {
-                "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
-                "Mary",
-                "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
-            };
             for (int i = 0; i < names.Length; i++)
             {
                 troops.Add(new TroopMeta(TroopType.Marine, names[i]));
