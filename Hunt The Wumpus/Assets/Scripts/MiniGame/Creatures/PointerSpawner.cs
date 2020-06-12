@@ -32,7 +32,8 @@ namespace MiniGame
                 {
                     GameObject pointerInstance = Instantiate(pointerPrefab, hit.point, Quaternion.identity);
                     PointerController pointerController = pointerInstance.GetComponent<PointerController>(); //the pointerController script of the new instance
-                    
+
+                    pointerController.next = null;
                     CheckAttackCommand(pointerController, pointerInstance);
                     bool makeWaypoint = Input.GetKey(WaypointKey);
                     
@@ -44,11 +45,12 @@ namespace MiniGame
                             PlayerController playerController = selectable.gameObject.GetComponent<PlayerController>(); //playerController scrip of the soldier
                             if (playerController.pointer)
                             {
+                                PointerController previous = playerController.pointer;
                                 if (makeWaypoint)
                                 {
-                                    PointerController previous = playerController.pointer;
-                                    while (previous.next != null)
+                                    for(int i = 0; i < 10 && previous.next != null; i++)
                                     {
+                                        print(i + " " + previous);
                                         previous = previous.next;
                                     }
                                     previous.next = pointerController;

@@ -116,8 +116,8 @@ namespace MiniGame.Creatures
                 }
             }
 
-            print(typeLayerMask+" Size: " + size);
-            print("Nearest Target: " + nearestTarget);
+            //print(typeLayerMask+" Size: " + size);
+            //print("Nearest Target: " + nearestTarget);
 
             target = nearestTarget;
             return nearestTarget;
