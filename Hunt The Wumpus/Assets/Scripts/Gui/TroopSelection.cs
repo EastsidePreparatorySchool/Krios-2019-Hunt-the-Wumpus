@@ -76,8 +76,10 @@ namespace Gui
             GameObject newTroopToggle =
                 Instantiate(troopToggleBlueprint,
                     scrollViewContent.transform); //Resources.Load<GameObject>("Objects/TroopToggle");
-            // newTroopToggle.transform.parent = scrollViewContent.transform;
-            
+                                                  // newTroopToggle.transform.parent = scrollViewContent.transform;
+
+            newTroopToggle.transform.position = new Vector3(100, 0, 0);
+
             Toggle toggle = newTroopToggle.gameObject.GetComponent<Toggle>();
             toggle.isOn = troop.sendToBattle;
 
@@ -86,7 +88,7 @@ namespace Gui
             // Code for naming troops
             GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
             Text label = labelGameObject.GetComponent<Text>();
-            label.text = "test";
+            label.text = troop.type.ToString() + " " + troop.name;
 
             return newTroopToggle;
         }
