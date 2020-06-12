@@ -4,6 +4,7 @@ using CommandView;
 using UnityEngine;
 using UnityEngine.UI;
 using Toggle = UnityEngine.UI.Toggle;
+using Text = UnityEngine.UI.Text;
 
 namespace Gui
 {
@@ -47,7 +48,7 @@ namespace Gui
 
             if (troopSelector.activeSelf)
             {
-                print("Meta: "+_gameMeta+"; Troops: "+_gameMeta.troops);
+                print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.troops);
                 foreach (var troop in _gameMeta.troops)
                 {
                     _toggles.Add(CreateNewToggle(troop));
@@ -90,6 +91,11 @@ namespace Gui
             toggle.isOn = troop.sendToBattle;
 
             toggle.onValueChanged.AddListener(delegate { ToggleValueChanged(toggle, troop); });
+
+            // Code for naming troops
+            GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
+            Text label = labelGameObject.GetComponent<Text>();
+            label.text = troop.type + ": " + troop.name;
 
             return newTroopToggle;
         }
