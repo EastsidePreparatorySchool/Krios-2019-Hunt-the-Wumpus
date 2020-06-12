@@ -30,6 +30,29 @@ namespace Gui
         int NukeCost = 1;
         int SensorTowerCost = 1;
 
+
+        public void Open()
+        {
+            GameObject store = GameObject.Find("StoreUI");
+            for (int i = 0; i < store.transform.childCount; i++)
+            {
+                var child = store.transform.GetChild(i).gameObject;
+                if (child != null)
+                    child.SetActive(true);
+            }
+        }
+
+        public void Close()
+        {
+            GameObject store = GameObject.Find("StoreUI");
+            for (int i = 0; i < store.transform.childCount; i++)
+            {
+                var child = store.transform.GetChild(i).gameObject;
+                if (child != null)
+                    child.SetActive(false);
+            }
+        }
+
         public void BuyTroops()
         {
             print("buying troops");
