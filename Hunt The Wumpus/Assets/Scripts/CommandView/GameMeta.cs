@@ -11,6 +11,7 @@ namespace CommandView
 
         public int turnsElapsed;
         public int money;
+        public int nukes = 3;
 
         public int totalFaces;
 
@@ -23,7 +24,7 @@ namespace CommandView
         {
             troops = new List<TroopMeta>();
             SetupForDebug();
-            
+
             turnsElapsed = 1;
             _planetHandler = GetComponent<Planet>();
             totalFaces = _planetHandler.faces.Length;
@@ -31,14 +32,14 @@ namespace CommandView
             _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
             for (int i = 0; i < _planetHandler.faces.Length; i++)
             {
-                _faceHandlers[i] = _planetHandler.faces[i].GetComponent<FaceHandler>(); // Save computation time from repeated 
+                _faceHandlers[i] =
+                    _planetHandler.faces[i].GetComponent<FaceHandler>(); // Save computation time from repeated 
             }
         }
 
         // Update is called once per frame
         void Update()
         {
-            
         }
 
         public int NumColonizedFaces()
@@ -73,29 +74,35 @@ namespace CommandView
         {
             String[] names = new[]
             {
-                "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles", "Mary",
+                "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
+                "Mary",
                 "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
             };
             for (int i = 0; i < names.Length; i++)
             {
                 troops.Add(new TroopMeta(TroopType.Marine, names[i]));
             }
+
             print("We have " + troops.Count + " Troops!");
         }
 
         public void UpdateGameStateWithResult()
         {
             MiniGameResult result = _planetHandler.result;
-            
+
             foreach (TroopMeta t in result.inGameTroops)
             {
                 troops.Add(t);
             }
 
-            money += result.moneyCollected;
-            // TODO: handle results
-            
-            FaceHandler inBattleFaceHandler = _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>();
+            FaceHandler inBattleFaceHandler =
+                _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>();
+
+            if (!inBattleFaceHandler.noMoney)
+            {
+                money += result.moneyCollected;
+            }
+
             _planetHandler.SetFaceInBattle(-1);
 
             if (result.didWin)

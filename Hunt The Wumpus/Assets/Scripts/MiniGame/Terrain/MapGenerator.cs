@@ -329,16 +329,8 @@ namespace MiniGame.Terrain
                     //for each "room"
                     int doorwayOffsetRight;
                     int doorwayOffsetBottom;
-                    if (randomizeDoorLocations)
-                    {
-                        doorwayOffsetRight = Random.Range(0, tilesPerInterior - doorwaySize + 1);
-                        doorwayOffsetBottom = Random.Range(0, tilesPerInterior - doorwaySize + 1);
-                    }
-                    else
-                    {
-                        doorwayOffsetRight = (tilesPerInterior - doorwaySize) / 2;
-                        doorwayOffsetBottom = doorwayOffsetRight;
-                    }
+                    doorwayOffsetRight = Random.Range(0, tilesPerInterior - doorwaySize + 1);
+                    doorwayOffsetBottom = Random.Range(0, tilesPerInterior - doorwaySize + 1);
 
                     for (int tileI = 0; tileI < tilesPerInterior + 1; tileI++)
                     {

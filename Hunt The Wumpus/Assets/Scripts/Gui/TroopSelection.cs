@@ -19,6 +19,7 @@ namespace Gui
         public GameObject sendNoneButton;
 
         private GameObject _planet;
+        private Planet _planetHandler;
         private GameMeta _gameMeta;
 
         private List<GameObject> _toggles = new List<GameObject>();
@@ -30,6 +31,7 @@ namespace Gui
         private void Start()
         {
             _planet = GameObject.Find("Planet");
+            _planetHandler = _planet.GetComponent<Planet>();
             _gameMeta = _planet.GetComponent<GameMeta>();
         }
 
@@ -63,8 +65,14 @@ namespace Gui
 
         public void SendTroopsToBattle()
         {
-            Planet planetHandler = _planet.GetComponent<Planet>();
-            planetHandler.faces[planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().PlayMiniGame();
+            print("Sending selected troops to battle!");
+            _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().PlayMiniGame();
+        }
+
+        public void NukeTile()
+        {
+            print("Nuking Tile!");
+            _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile();
         }
 
         // Turn on toggle

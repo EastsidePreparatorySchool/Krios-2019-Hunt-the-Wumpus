@@ -5,12 +5,12 @@ namespace MiniGame.Creatures.DeathHandlers
     public class WumplingDeathHandler : MonoBehaviour, DeathHandler
     {
         private ResultHandler _resultHandler;
-        private GameObject camera;
+        private GameObject _camera;
         // Start is called before the first frame update
         void Start()
         {
-            camera = GameObject.FindWithTag("ResultHandler");
-            _resultHandler = camera.GetComponent<ResultHandler>();
+            _camera = GameObject.FindWithTag("ResultHandler");
+            _resultHandler = _camera.GetComponent<ResultHandler>();
         }
 
         // Update is called once per frame
