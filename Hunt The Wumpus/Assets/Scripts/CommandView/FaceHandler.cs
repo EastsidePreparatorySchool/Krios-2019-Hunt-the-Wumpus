@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Gui;
 //using NUnit.Framework;
 using UnityEngine;
@@ -44,6 +45,7 @@ namespace CommandView
         public bool displayFaceData; // is UI screen of this face's data displayed
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public Vector3 lastRightClickPos;
+        public bool noMoney;
 
         public List<MeshVertex> meshVertices = new List<MeshVertex>();
 
@@ -298,6 +300,53 @@ namespace CommandView
                     print("Going to TileBattle");
                     SceneManager.LoadScene(1);
                 }
+            }
+            else
+            {
+                print("You didn't select any troops to deploy");
+            }
+        }
+
+        public void NukeTile()
+        {
+            print("Nukes: " + meta.nukes);
+            if (meta.nukes != 0)
+            {
+                Wumpus.Wumpus wumpus = _planet.GetComponent<Wumpus.Wumpus>();
+                meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
+                SetColonized();
+                if (wumpus.location == _faceNumber)
+                {
+                    print("Hit the Wumpus! You win!");
+                    // TODO: end the game
+                }
+                else
+                {
+                    print("You didn't hit the Wumpus, but the tile is cleared. Adjacent faces don't make money");
+                    
+                    bool wumpusAdjacent = false;
+                    
+                    foreach (GameObject adjacentFace in adjacentFaces)
+                    {
+                        FaceHandler adjacentFaceHandler = adjacentFace.GetComponent<FaceHandler>();
+
+                        adjacentFaceHandler.noMoney = true;
+
+                        if (wumpus.location == adjacentFaceHandler._faceNumber)
+                        {
+                            wumpusAdjacent = true;
+                        }
+                    }
+
+                    if (wumpusAdjacent)
+                    {
+                        wumpus.Move();
+                    }
+                }
+            }
+            else
+            {
+                print("Not enough nukes");
             }
         }
 

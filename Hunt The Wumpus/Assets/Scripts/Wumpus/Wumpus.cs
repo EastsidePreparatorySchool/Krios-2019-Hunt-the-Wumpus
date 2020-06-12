@@ -52,7 +52,7 @@ namespace Wumpus
 
         // movement function (if player location == wumpus location, fight, then run)
         //takes adj faces of current location, th
-        private void Move() {
+        public void Move() {
             //if the wumpus is asleep it won't move
             if(status == false) return;
             //otherwise, we simply pick a random adj face and update the location
