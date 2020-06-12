@@ -21,7 +21,10 @@ public class UpdateGui : MonoBehaviour
 
     private TextMeshProUGUI _troopCounter;
     private TextMeshProUGUI _moneyCounter;
+    private TextMeshProUGUI _nukeCounter;
     private TextMeshProUGUI _turnDisplay;
+
+    private int[] _counterValues = new int[3];
 
     private Planet _planetHandler;
     private GameMeta _inGameMeta;
@@ -76,6 +79,10 @@ public class UpdateGui : MonoBehaviour
                     _moneyCounter = i;
                     _moneyCounter.alpha = 0;
                     break;
+                case "NukeCounter":
+                    _nukeCounter = i;
+                    _nukeCounter.alpha = 0;
+                    break;
                 case "TurnNumDisplay":
                     _turnDisplay = i;
                     _turnDisplay.alpha = 1;
@@ -89,6 +96,7 @@ public class UpdateGui : MonoBehaviour
 
         StartCoroutine(TurnDisplayAnimation());
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -99,9 +107,14 @@ public class UpdateGui : MonoBehaviour
         }
 
         //print("Stats: " + _inGameMeta);
-       // print("Troops: " + _inGameMeta.troops);
-        _troopCounter.text = "Troops: " + _inGameMeta.troops.Count;
-        _moneyCounter.text = "Money: " + _inGameMeta.money;
+        // print("Troops: " + _inGameMeta.troops);
+        int[] curCounterValue = {_inGameMeta.troops.Count, _inGameMeta.money, _inGameMeta.nukes};
+        if (!_counterValues.Equals(curCounterValue))
+        {
+            _troopCounter.text = "Troops: " + _inGameMeta.troops.Count;
+            _moneyCounter.text = "Money: " + _inGameMeta.money;
+            _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
+        }
 
         for (int i = 0; i < _faceHandlers.Length; i++)
         {
@@ -173,7 +186,10 @@ public class UpdateGui : MonoBehaviour
             }
             else if (face.faceDataHolder)
             {
-                face.faceDataHolder.SetActive(false);
+                if (face.faceDataHolder.activeSelf)
+                {
+                    face.faceDataHolder.SetActive(false);
+                }
             }
         }
     }
@@ -189,8 +205,9 @@ public class UpdateGui : MonoBehaviour
 
         while (_troopCounter.alpha < 1)
         {
-            _troopCounter.alpha += 0.1F;
-            _moneyCounter.alpha += 0.1F;
+            _troopCounter.alpha += 0.1f;
+            _moneyCounter.alpha += 0.1f;
+            _nukeCounter.alpha += 0.1f;
 
             yield return new WaitForSeconds(0.2F);
         }
