@@ -70,7 +70,7 @@ public class UpdateGui : MonoBehaviour
                 .AddListener(() => CloseFaceDataHolder(faceHandler));
             faceHandler.faceDataHolder.GetComponent<Dragging>().face = faceHandler;
             _faceDataHolderText[i] =
-                faceHandler.faceDataHolder
+                faceHandler.faceDataHolder.transform.Find("InfoText").gameObject
                     .GetComponent<TextMeshProUGUI>(); // Reduce invocations of GetComponent() later in script
         }
         //
