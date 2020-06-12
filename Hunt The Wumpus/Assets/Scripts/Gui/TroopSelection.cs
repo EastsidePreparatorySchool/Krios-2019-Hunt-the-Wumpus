@@ -59,9 +59,12 @@ namespace Gui
             if (troopSelector.activeSelf)
             {
                 print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.troops);
-                foreach (var troop in _gameMeta.troops)
+                if (_toggles.Count == 0)
                 {
-                    _toggles.Add(CreateNewToggle(troop));
+                    foreach (var troop in _gameMeta.troops)
+                    {
+                        _toggles.Add(CreateNewToggle(troop));
+                    }
                 }
             }
             else
@@ -71,7 +74,7 @@ namespace Gui
                     Destroy(toggle);
                 }
 
-                _toggles = new List<GameObject>();
+                _toggles.Clear();
             }
         }
 
