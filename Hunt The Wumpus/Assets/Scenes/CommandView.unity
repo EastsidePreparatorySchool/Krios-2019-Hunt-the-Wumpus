@@ -4375,8 +4375,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2055068143}
-        m_MethodName: 
+      - m_Target: {fileID: 2055068145}
+        m_MethodName: BuyTroopDmg
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7877,8 +7877,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2055068143}
-        m_MethodName: 
+      - m_Target: {fileID: 2055068145}
+        m_MethodName: BuySensorTower
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9121,8 +9121,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2055068143}
-        m_MethodName: 
+      - m_Target: {fileID: 2055068145}
+        m_MethodName: BuyTroops
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9660,6 +9660,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5c4203679840a048aecfc72d3dfc57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  troopDmgIncrease: 0
+  troopDmgCost: 0
+  NukeCost: 0
+  SensorTowerCost: 0
 --- !u!1 &2065121122
 GameObject:
   m_ObjectHideFlags: 0
