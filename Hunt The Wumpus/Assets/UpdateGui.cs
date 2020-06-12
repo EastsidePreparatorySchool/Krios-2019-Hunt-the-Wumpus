@@ -216,15 +216,15 @@ public class UpdateGui : MonoBehaviour
     private void DisplayHintsOnFace(FaceHandler faceHandler)
     {
         MeshFilter faceMesh = faceHandler.GetComponent<MeshFilter>();
-        Vector3 faceCenter = new Vector3();
+        Vector3 faceCenter = Vector3.zero;
 
         foreach (Vector3 faceMeshVertex in faceMesh.mesh.vertices)
         {
-            faceCenter += faceMeshVertex;
+            faceCenter += faceHandler.transform.TransformPoint(faceMeshVertex);;
         }
 
         faceCenter /= faceMesh.mesh.vertices.Length;
-        faceCenter *= faceHandler.gameObject.transform.localScale.x;
+        //faceCenter *= faceHandler.gameObject.transform.localScale.x;
 
         print(faceCenter.x+", "+faceCenter.y+", "+faceCenter.z);
         Debug.DrawRay(faceCenter,faceMesh.mesh.normals[0],Color.cyan);
