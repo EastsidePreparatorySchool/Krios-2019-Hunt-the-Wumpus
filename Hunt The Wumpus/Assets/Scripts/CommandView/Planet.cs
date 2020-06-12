@@ -32,12 +32,12 @@ namespace CommandView
         // Planet properties and class-wide variables
         private readonly Random _random = new Random();
         private bool _isHidden;
-        private List<MeshVertex> _vertices = new List<MeshVertex>();
 
         // UI global variables
+        private List<MeshVertex> _vertices = new List<MeshVertex>();
         private GameObject _colonizedLine;
         private List<GameObject> _lines = new List<GameObject>();
-        public bool borderAroundTerritory = false;
+        public bool borderAroundTerritory;
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
@@ -430,10 +430,13 @@ namespace CommandView
                 foreach (Vector3 vertex in face.GetComponent<MeshFilter>().mesh.vertices)
                 {
                     Vector3 correctCoords = face.transform.TransformPoint(vertex);
+                    FaceHandler faceHandler = face.GetComponent<FaceHandler>();
                     if (!allVertices.Contains(correctCoords))
                     {
                         allVertices.Add(correctCoords);
-                        _vertices.Add(new MeshVertex(face.GetComponent<FaceHandler>(), correctCoords));
+                        MeshVertex mv = new MeshVertex(faceHandler, correctCoords);
+                        _vertices.Add(mv);
+                        faceHandler.meshVertices.Add(mv);
                     }
                     else
                     {
@@ -441,7 +444,6 @@ namespace CommandView
                         {
                             if (meshVertex.Coords == correctCoords)
                             {
-                                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
                                 meshVertex.ParentFaces.Add(faceHandler);
                                 faceHandler.meshVertices.Add(meshVertex);
                             }
@@ -462,7 +464,7 @@ namespace CommandView
             List<int> edgePairs = new List<int>();
             foreach (MeshVertex vertex in _vertices)
             {
-                if (vertex.IsOnColonizedEdge())
+                if (MeshVertex.IsOnColonizedEdge(vertex))
                 {
                     edgeVertices.Add(vertex);
                 }
@@ -474,6 +476,22 @@ namespace CommandView
             {
                 foreach (MeshVertex neighbor in vertex.VertexNeighbors)
                 {
+                    int colonizedSharedFaces = 0;
+                    foreach (var faceHandler1 in neighbor.ParentFaces)
+                    {
+                        foreach (var faceHandler2 in vertex.ParentFaces)
+                        {
+                            if (!faceHandler2.Equals(faceHandler1)) { continue; }
+                            if (!(faceHandler1.colonized && faceHandler2.colonized)) { continue; }
+                            colonizedSharedFaces++;
+                        }
+                    }
+
+                    if (colonizedSharedFaces == 2 || colonizedSharedFaces == 0) 
+                    {
+                        continue;
+                    }
+                    
                     if (edgeVertices.Contains(neighbor))
                     {
                         if (!edgePairs.Contains(vertex.Id * neighbor.Id)
