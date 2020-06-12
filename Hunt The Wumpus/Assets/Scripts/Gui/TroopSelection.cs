@@ -26,8 +26,7 @@ namespace Gui
 
         private List<GameObject> _toggles = new List<GameObject>();
 
-        private String _troopSelectorName;
-        private String _scrollViewContentName;
+        private int _prevFaceNum;
 
         // Start is called before the first frame update
         private void Start()
@@ -42,16 +41,30 @@ namespace Gui
         {
         }
 
-        public void ActivateTroopSelector()
+        public void ActivateTroopSelector(int faceNum)
         {
-            troopSelector.SetActive(!troopSelector.activeSelf);
+            bool activate = true;
+            if (_prevFaceNum == faceNum)
+            {
+                activate = !troopSelector.activeSelf;
+            }
+            else
+            {
+                _prevFaceNum = faceNum;
+            }
+
+            troopSelector.SetActive(activate);
+
 
             if (troopSelector.activeSelf)
             {
                 print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.troops);
-                foreach (var troop in _gameMeta.troops)
+                if (_toggles.Count == 0)
                 {
-                    _toggles.Add(CreateNewToggle(troop));
+                    foreach (var troop in _gameMeta.troops)
+                    {
+                        _toggles.Add(CreateNewToggle(troop));
+                    }
                 }
             }
             else
@@ -61,7 +74,7 @@ namespace Gui
                     Destroy(toggle);
                 }
 
-                _toggles = new List<GameObject>();
+                _toggles.Clear();
             }
         }
 

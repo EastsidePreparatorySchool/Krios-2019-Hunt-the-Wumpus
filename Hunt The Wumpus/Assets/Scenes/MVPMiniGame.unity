@@ -373,8 +373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flySpeed: 10
-  minX: -15
-  maxX: 15
+  minX: -10
+  maxX: 10
   minZ: -35
   maxZ: 15
 --- !u!114 &1212444796
