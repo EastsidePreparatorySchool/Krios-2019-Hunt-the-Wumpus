@@ -56,24 +56,6 @@ public class UpdateGui : MonoBehaviour
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         _orbit = FindObjectOfType<CameraOrbit>();
 
-        _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
-        _faceDataHolderText = new TextMeshProUGUI[_planetHandler.faces.Length];
-        for (int i = 0; i < _planetHandler.faces.Length; i++)
-        {
-            _faceHandlers[i] =
-                _planetHandler.faces[i].GetComponent<FaceHandler>(); // Save computation time from repeated 
-            FaceHandler faceHandler = _faceHandlers[i];
-            faceHandler.faceDataHolder =
-                Instantiate(_faceInfoBox, GameObject.Find("Canvas").transform); // Could be source of bug later on
-            faceHandler.faceDataHolder.SetActive(false);
-            faceHandler.faceDataHolder.GetComponentInChildren<Button>().onClick
-                .AddListener(() => CloseFaceDataHolder(faceHandler));
-            faceHandler.faceDataHolder.GetComponent<Dragging>().face = faceHandler;
-            _faceDataHolderText[i] =
-                faceHandler.faceDataHolder.transform.Find("InfoText").gameObject
-                    .GetComponent<TextMeshProUGUI>(); // Reduce invocations of GetComponent() later in script
-        }
-        //
 
         // Sync UI appearance with camera entry spin
         foreach (TextMeshProUGUI i in _compArr)
@@ -131,11 +113,6 @@ public class UpdateGui : MonoBehaviour
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
         }
-    }
-
-    private void CloseFaceDataHolder(FaceHandler faceHandler)
-    {
-        faceHandler.displayFaceData = false;
     }
 
     private IEnumerator WaitUntilGameBegins()
