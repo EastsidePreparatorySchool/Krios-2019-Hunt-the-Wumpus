@@ -64,6 +64,7 @@ namespace CommandView
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public bool displayFaceData; // is UI screen of this face's data displayed
         public bool faceDataShowing;
+        public bool lastPressed;
         public Vector3 faceCenter;
         public Vector3 faceNormal;
         private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
@@ -163,6 +164,33 @@ namespace CommandView
 
                 print(temp);
                 _firstTimeRun = true;
+            }
+
+            if (Input.GetButton("ShowAllHints") && !lastPressed)
+            {
+                lastPressed = true;
+                bool show = false;
+                foreach (GameObject adjacentFace in adjacentFaces)
+                {
+                    if (!adjacentFace.GetComponent<FaceHandler>().colonized)
+                    {
+                        show = true;
+                        break;
+                    }
+                }
+
+                if (show)
+                {
+                    displayFaceData = !displayFaceData;
+                    DisplayHintsOnFace();
+                }
+            }
+            else
+            {
+                if (!Input.GetButton("ShowAllHints"))
+                {
+                    lastPressed = false;
+                }
             }
         }
 
