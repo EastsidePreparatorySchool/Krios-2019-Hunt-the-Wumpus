@@ -5,6 +5,7 @@ using Gui;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+
 //using Random = System.Random;
 
 namespace CommandView
@@ -33,9 +34,12 @@ namespace CommandView
     public class FaceHandler : MonoBehaviour
     {
         //Public variables
-        public static readonly Color UndiscoveredColor = Color.gray;
-        public static readonly Color DiscoveredColor = Color.white;
-        public static readonly Color ColonizedColor = Color.yellow;
+        public static readonly Color UndiscoveredColor = new Color(.1f, .1f, .1f);
+
+        public static readonly Color[] DiscoveredColor =
+            {new Color(.25f, .25f, .25f), new Color(.5f, .5f, 0f), new Color(0f, .5f, 0f)};
+
+        public static readonly Color[] ColonizedColor = {Color.gray, Color.yellow, Color.green};
 
         //individual variables
         private Planet _planet; // store reference back to planet
@@ -177,7 +181,7 @@ namespace CommandView
 
             if (colonized)
             {
-                if (_planet.displayHints && !faceDataShowing)
+                if (_planet.displayHints && (!faceDataShowing || faceDataShowing && _hintsGo[0] == null))
                 {
                     UpdateHintData();
                     bool checkUncolonized = false;
@@ -253,9 +257,6 @@ namespace CommandView
                 {
                     RegenerateHintGOs();
                 }
-                print(_hintsGo[0]);
-                print(_hintsGo[1]);
-                print(_hintsGo[2]);
                 // Show relevant info
                 for (int i = 0; i < lastHintGiven.Length; i++)
                 {
@@ -284,6 +285,10 @@ namespace CommandView
             else
             {
                 print("Hiding info");
+                if (_hintsGo[0] == null)
+                {
+                    RegenerateHintGOs();
+                }
                 foreach (GameObject o in _hintsGo)
                 {
                     o.SetActive(false);
@@ -530,6 +535,22 @@ namespace CommandView
         }
 
         // Public Set functions
+        public void UpdateFaceColors()
+        {
+            if (colonized)
+            {
+                GetComponent<Renderer>().material.color = ColonizedColor[(int) biomeType - 1];
+            }
+            else if (discovered)
+            {
+                GetComponent<Renderer>().material.color = DiscoveredColor[(int) biomeType - 1];
+            }
+            else
+            {
+                GetComponent<Renderer>().material.color = UndiscoveredColor;
+            }
+        }
+
         public void SetHazard(HazardTypes haz)
         {
             _hazardObject = haz;
@@ -540,7 +561,7 @@ namespace CommandView
             discovered = true;
             colonized = true;
 
-            GetComponent<Renderer>().material.color = ColonizedColor;
+            UpdateFaceColors();
 
             // Identify adjacent faces as discovered
             foreach (GameObject face in GetOpenAdjacentFaces())
@@ -561,7 +582,7 @@ namespace CommandView
         public void SetDiscovered()
         {
             discovered = true;
-            GetComponent<Renderer>().material.color = DiscoveredColor;
+            UpdateFaceColors();
         }
 
         // Public Get functions

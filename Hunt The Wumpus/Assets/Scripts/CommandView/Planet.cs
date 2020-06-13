@@ -77,10 +77,34 @@ namespace CommandView
             _colonizedLine.SetActive(false);
             CreateMeshVertices();
 
-            // Reset planet to undiscovered
-            foreach (var face in faces)
+            // Populate biomes
+            foreach (GameObject face in faces)
             {
-                face.GetComponent<Renderer>().material.color = FaceHandler.UndiscoveredColor;
+                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                if (faceHandler.biomeType != BiomeType.None)
+                {
+                    continue;
+                }
+                int biomeNum = Random.Range(0, 3);
+                faceHandler.biomeType = biomeNum == 0 ? BiomeType.Planes :
+                    biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
+                
+                print(biomeNum);
+
+                foreach (GameObject openAdjacentFace in faceHandler.GetOpenAdjacentFaces())
+                {
+                    FaceHandler adjacentHandler = openAdjacentFace.GetComponent<FaceHandler>();
+                    if (adjacentHandler.biomeType == BiomeType.None)
+                    {
+                        adjacentHandler.biomeType = faceHandler.biomeType;
+                    }
+                }
+            }
+            
+            // Reset planet to undiscovered
+            foreach (GameObject face in faces)
+            {
+                face.GetComponent<FaceHandler>().UpdateFaceColors();
             }
 
             // Set player start location to a random face, make it colonized (safe)
@@ -111,33 +135,6 @@ namespace CommandView
             // Initialize hazards
             MakeHazardObjects(splashSpot);
 
-            // Populate biomes
-            foreach (GameObject face in faces)
-            {
-                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
-                if (faceHandler.biomeType != BiomeType.None)
-                {
-                    continue;
-                }
-                int biomeNum = Random.Range(0, 3);
-                faceHandler.biomeType = biomeNum == 0 ? BiomeType.Planes :
-                    biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
-                
-                print(biomeNum);
-                faceHandler.GetComponent<Renderer>().material.color = biomeNum == 1 ? Color.yellow :
-                    biomeNum == 2 ? Color.green : Color.gray;
-
-                foreach (GameObject openAdjacentFace in faceHandler.GetOpenAdjacentFaces())
-                {
-                    BiomeType adjacentBiomeType = openAdjacentFace.GetComponent<FaceHandler>().biomeType;
-                    if (openAdjacentFace.GetComponent<FaceHandler>().biomeType == BiomeType.None)
-                    {
-                        openAdjacentFace.GetComponent<FaceHandler>().biomeType = faceHandler.biomeType;
-                        openAdjacentFace.GetComponent<Renderer>().material.color = biomeNum == 1 ? Color.yellow :
-                            biomeNum == 2 ? Color.green : Color.gray;
-                    }
-                }
-            }
 
 
             // print("Open faces for face 3: " + OutputList(FindOpenAdjacentFaces(2)));
@@ -426,7 +423,7 @@ namespace CommandView
                         if (faces[r - 1].GetComponent<FaceHandler>().adjacentFaces[m].GetComponent<FaceHandler>()
                             .CountCs() > 1)
                         {
-                            Disconnect((r - 1),
+                            Disconnect(r - 1,
                                 faces[r - 1].GetComponent<FaceHandler>().adjacentFaces[m].GetComponent<FaceHandler>()
                                     .GetTileNumber());
                         }
