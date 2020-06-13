@@ -55,6 +55,11 @@ namespace Gui
                 if (child != null)
                     child.SetActive(true);
             }
+
+            // Closes "Not Enough Coins" Text if still up
+            GameObject notEnoghText = GameObject.Find("StoreUI/BackShading/NotEnough");
+            if (notEnoghText != null)
+                notEnoghText.SetActive(false);
         }
 
 
@@ -82,9 +87,28 @@ namespace Gui
         {
         }
 
+        private bool useMoney(int amount)
+        {
+            if (_gameMeta.money >= amount)
+            {
+                GameObject notEnoghText = GameObject.Find("StoreUI/BackShading/NotEnough");
+                if (notEnoghText != null)
+                    notEnoghText.SetActive(false);
+                print("Deducting " + amount + " coins");
+                _gameMeta.money -= amount;
+                return true;
+            }
+            else
+            {
+                print("Not enough money");
+                GameObject notEnoghTextParent = GameObject.Find("StoreUI/BackShading");
+                notEnoghTextParent.transform.GetChild(0).gameObject.SetActive(true);
+                return false;
+            }
+        }
 
-// For buying troops (duh)
-public void BuyTroops()
+        //For buying troops (duh)
+        public void BuyTroops()
         {
             GameObject BuyPanel = GameObject.Find("BuyTroopsPanel");
             GameObject inpparent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
@@ -98,14 +122,10 @@ public void BuyTroops()
             // e.g.  attempting to buy 2 troops of type 0
 
             //temp until new troops
-            if (_gameMeta.money >= marineCost)
-            {
+            int totalCost = marineCost * int.Parse(troopNumberInput.text);
+            if (useMoney(totalCost))
                 for (int i = 0; i < int.Parse(troopNumberInput.text); i++)
-                {
-                    _gameMeta.money -= marineCost;
                     _gameMeta.troops.Add(new TroopMeta(TroopType.Marine, _gameMeta.names[Random.Range(0, _gameMeta.names.Length)]));
-                }
-            }
         }
 
         // Work in progress
@@ -114,7 +134,7 @@ public void BuyTroops()
             if (_gameMeta.money >= troopDamagCost)
             {
                 print("Buyng Damage Upgrade");
-                _gameMeta.money -= troopDamagCost;
+                //_gameMeta.money -= troopDamagCost;
                 //_gameMeta.nukes++;
             }
             else
@@ -124,14 +144,8 @@ public void BuyTroops()
         // Buy NUKES!!!
         public void BuyNuke()
         {
-            if (_gameMeta.money >= NukeCost)
-            {
-                print("Buyng Nuke");
-                _gameMeta.money -= NukeCost;
+            if (useMoney(NukeCost))
                 _gameMeta.nukes++;
-            }
-            else
-                print("Not enough money");
         }
 
         // Work in progress
@@ -140,7 +154,7 @@ public void BuyTroops()
             if (_gameMeta.money >= SensorTowerCost)
             {
                 print("Buyng Sensor Tower");
-                _gameMeta.money -= SensorTowerCost;
+                //_gameMeta.money -= SensorTowerCost;
                 //_gameMeta.sensor....++;
             }
             else
