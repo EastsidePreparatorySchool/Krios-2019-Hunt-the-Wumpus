@@ -37,13 +37,17 @@ namespace Gui
         {
         }
 
+        // For opening store UI
         public void Open()
         {
+            // Closes TroopSelector if open
             GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
             if(TroopSelector != null)
             {
-                TroopSelector.active = false;
+                TroopSelector.SetActive(false);
             }
+
+            // Activates all children of the StoreUI object
             GameObject store = GameObject.Find("StoreUI");
             for (int i = 0; i < store.transform.childCount; i++)
             {
@@ -51,10 +55,18 @@ namespace Gui
                 if (child != null)
                     child.SetActive(true);
             }
+
+            // Closes "Not Enough Coins" Text if still up
+            GameObject notEnoghText = GameObject.Find("StoreUI/BackShading/NotEnough");
+            if (notEnoghText != null)
+                notEnoghText.SetActive(false);
         }
 
+
+        // For closing store UI
         public void Close()
         {
+            // De-activates all children of StoreUI object
             GameObject store = GameObject.Find("StoreUI");
             for (int i = 0; i < store.transform.childCount; i++)
             {
@@ -64,63 +76,89 @@ namespace Gui
             }
         }
 
+
+        // work in progress
         public void OpenUpgradePanel()
         {
-
+            setUpTroopView();
         }
 
+        private void setUpTroopView()
+        {
+        }
+
+        // This is used for managing money whenever something is bought
+        private bool useMoney(int amount)
+        {
+            if (_gameMeta.money >= amount)
+            {
+                // Remove "NotEnoghCoins" text if it's up
+                GameObject notEnoghText = GameObject.Find("StoreUI/BackShading/NotEnough");
+                if (notEnoghText != null)
+                    notEnoghText.SetActive(false);
+
+                print("Deducting " + amount + " coins");
+                _gameMeta.money -= amount;
+                return true;
+            }
+            else
+            {
+                print("Not enough money");
+                // Make "NotEnoghCoins" text visible
+                GameObject notEnoghTextParent = GameObject.Find("StoreUI/BackShading");
+                notEnoghTextParent.transform.GetChild(0).gameObject.SetActive(true);
+                return false;
+            }
+        }
+
+        //For buying troops (duh)
         public void BuyTroops()
         {
             GameObject BuyPanel = GameObject.Find("BuyTroopsPanel");
             GameObject inpparent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
             GameObject dropparent = BuyPanel.transform.Find("TroopTypeDropdown").gameObject;
 
+            // Get TMPro components
             TMP_InputField troopNumberInput = inpparent.GetComponent<TMP_InputField>();
             TMP_Dropdown troopDropType = dropparent.GetComponent<TMP_Dropdown>();
 
             print("attempting to buy " + troopNumberInput.text + " troops of type " + troopDropType.value);
+            // e.g.  attempting to buy 2 troops of type 0
 
             //temp until new troops
-            if (_gameMeta.money >= marineCost)
-            {
+            int totalCost = marineCost * int.Parse(troopNumberInput.text);
+            if (useMoney(totalCost))
                 for (int i = 0; i < int.Parse(troopNumberInput.text); i++)
-                {
-                    _gameMeta.money -= marineCost;
                     _gameMeta.troops.Add(new TroopMeta(TroopType.Marine, _gameMeta.names[Random.Range(0, _gameMeta.names.Length)]));
-                }
-            }
         }
 
+        // Work in progress
         public void BuyTroopDmg()
         {
             if (_gameMeta.money >= troopDamagCost)
             {
                 print("Buyng Damage Upgrade");
-                _gameMeta.money -= troopDamagCost;
+                //_gameMeta.money -= troopDamagCost;
                 //_gameMeta.nukes++;
             }
             else
                 print("Not enough money");
         }
 
+        // Buy NUKES!!!
         public void BuyNuke()
         {
-            if (_gameMeta.money >= NukeCost)
-            {
-                print("Buyng Nuke");
-                _gameMeta.money -= NukeCost;
+            if (useMoney(NukeCost))
                 _gameMeta.nukes++;
-            }
-            else
-                print("Not enough money");
         }
 
+        // Work in progress
         public void BuySensorTower()
         {
             if (_gameMeta.money >= SensorTowerCost)
             {
                 print("Buyng Sensor Tower");
-                _gameMeta.money -= SensorTowerCost;
+                //_gameMeta.money -= SensorTowerCost;
                 //_gameMeta.sensor....++;
             }
             else
