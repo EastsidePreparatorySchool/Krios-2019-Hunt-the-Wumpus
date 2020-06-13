@@ -37,13 +37,17 @@ namespace Gui
         {
         }
 
+        // For opening store UI
         public void Open()
         {
+            // Closes TroopSelector if open
             GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
             if(TroopSelector != null)
             {
                 TroopSelector.active = false;
             }
+
+            // Activates all children of the StoreUI object
             GameObject store = GameObject.Find("StoreUI");
             for (int i = 0; i < store.transform.childCount; i++)
             {
@@ -53,8 +57,11 @@ namespace Gui
             }
         }
 
+
+        // For closing store UI
         public void Close()
         {
+            // De-activates all children of StoreUI object
             GameObject store = GameObject.Find("StoreUI");
             for (int i = 0; i < store.transform.childCount; i++)
             {
@@ -64,21 +71,27 @@ namespace Gui
             }
         }
 
+
+        // work in progress
         public void OpenUpgradePanel()
         {
 
         }
 
+
+        // For buying troops (duh)
         public void BuyTroops()
         {
             GameObject BuyPanel = GameObject.Find("BuyTroopsPanel");
             GameObject inpparent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
             GameObject dropparent = BuyPanel.transform.Find("TroopTypeDropdown").gameObject;
 
+            // Get TMPro components
             TMP_InputField troopNumberInput = inpparent.GetComponent<TMP_InputField>();
             TMP_Dropdown troopDropType = dropparent.GetComponent<TMP_Dropdown>();
 
             print("attempting to buy " + troopNumberInput.text + " troops of type " + troopDropType.value);
+            // e.g.  attempting to buy 2 troops of type 0
 
             //temp until new troops
             if (_gameMeta.money >= marineCost)
@@ -91,6 +104,7 @@ namespace Gui
             }
         }
 
+        // Work in progress
         public void BuyTroopDmg()
         {
             if (_gameMeta.money >= troopDamagCost)
@@ -103,6 +117,7 @@ namespace Gui
                 print("Not enough money");
         }
 
+        // Buy NUKES!!!
         public void BuyNuke()
         {
             if (_gameMeta.money >= NukeCost)
@@ -115,6 +130,7 @@ namespace Gui
                 print("Not enough money");
         }
 
+        // Work in progress
         public void BuySensorTower()
         {
             if (_gameMeta.money >= SensorTowerCost)
