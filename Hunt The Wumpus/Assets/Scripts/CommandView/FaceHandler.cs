@@ -67,6 +67,8 @@ namespace CommandView
         public Vector3 faceCenter;
         public Vector3 faceNormal;
         private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
+        private Vector3 _majorAxisA = new Vector3();
+        private Vector3 _majorAxisB = new Vector3();
 
         private void Awake()
         {
@@ -103,8 +105,6 @@ namespace CommandView
 
             // Calculate major axis and standard direction
             float furthestDistance = 0f;
-            Vector3 a = new Vector3();
-            Vector3 b = new Vector3();
 
             for (int i = 0; i < transformedVerts.Count; i++)
             {
@@ -121,13 +121,13 @@ namespace CommandView
                     if (distSqr > furthestDistance)
                     {
                         furthestDistance = distSqr;
-                        a = transformedVerts[j];
-                        b = transformedVerts[i];
+                        _majorAxisA = transformedVerts[j];
+                        _majorAxisB = transformedVerts[i];
                     }
                 }
             }
 
-            Debug.DrawLine(b, a, Color.red, Mathf.Infinity);
+            Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
 
 
             _hintsGo = new List<GameObject>();
@@ -138,13 +138,13 @@ namespace CommandView
                     Instantiate(Resources.Load<GameObject>("Objects/" + hintGoResourcePathStrings[i] + "Hint"),
                         faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
 
-                hintObject.transform.rotation = Quaternion.LookRotation(a - hintObject.transform.position, faceNormal);
-                hintObject.transform.position += 1.5f * hintObject.transform.forward;
+                hintObject.transform.rotation =
+                    Quaternion.LookRotation(_majorAxisA - hintObject.transform.position, faceNormal);
 
                 Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
                     Mathf.Infinity);
 
-                // hintObject.SetActive(false);
+                hintObject.SetActive(false);
 
                 _hintsGo.Add(hintObject);
             }
@@ -195,9 +195,11 @@ namespace CommandView
         private IEnumerator WaitUntilRightMouseUp()
         {
             yield return new WaitUntil(() => Input.GetMouseButtonUp(1)); // Wait until right click is released 
-            displayFaceData = !displayFaceData;
-
-            DisplayHintsOnFace();
+            if (colonized)
+            {
+                displayFaceData = !displayFaceData;
+                DisplayHintsOnFace();
+            }
 
             lastRightClickPos = Input.mousePosition;
         }
@@ -206,6 +208,10 @@ namespace CommandView
         {
             if (displayFaceData && !faceDataShowing)
             {
+                print("Showing info");
+                // lastHintGiven[0] = true;
+                // lastHintGiven[1] = true;
+                print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
                 List<GameObject> activeGOs = new List<GameObject>();
                 // Show relevant info
                 for (int i = 0; i < lastHintGiven.Length; i++)
@@ -217,12 +223,30 @@ namespace CommandView
                     }
                 }
 
+                // hintObject.transform.position += 1.5f * hintObject.transform.forward;
+
+                float distanceInterval = Vector3.Distance(_majorAxisA, _majorAxisB) / (activeGOs.Count + 1);
+                float distanceStep = 1;
+
+                foreach (GameObject activeGo in activeGOs)
+                {
+                    activeGo.transform.position =
+                        _majorAxisB + distanceInterval * distanceStep * activeGo.transform.forward;
+                    distanceStep++;
+                }
+
 
                 faceDataShowing = true;
             }
             else
             {
-                // Hide data
+                print("Hiding info");
+                foreach (GameObject o in _hintsGo)
+                {
+                    o.SetActive(false);
+                }
+
+                faceDataShowing = false;
             }
         }
 
