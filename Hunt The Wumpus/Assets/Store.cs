@@ -87,13 +87,16 @@ namespace Gui
         {
         }
 
+        // This is used for managing money whenever something is bought
         private bool useMoney(int amount)
         {
             if (_gameMeta.money >= amount)
             {
+                // Remove "NotEnoghCoins" text if it's up
                 GameObject notEnoghText = GameObject.Find("StoreUI/BackShading/NotEnough");
                 if (notEnoghText != null)
                     notEnoghText.SetActive(false);
+
                 print("Deducting " + amount + " coins");
                 _gameMeta.money -= amount;
                 return true;
@@ -101,6 +104,7 @@ namespace Gui
             else
             {
                 print("Not enough money");
+                // Make "NotEnoghCoins" text visible
                 GameObject notEnoghTextParent = GameObject.Find("StoreUI/BackShading");
                 notEnoghTextParent.transform.GetChild(0).gameObject.SetActive(true);
                 return false;
