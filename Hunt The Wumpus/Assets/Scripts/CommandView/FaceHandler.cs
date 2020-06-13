@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Gui;
+using UnityEditorInternal.Profiling;
 //using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -42,8 +43,6 @@ namespace CommandView
         public bool colonized;
         public int lastSeenTurnsAgo;
 
-        public bool displayFaceData; // is UI screen of this face's data displayed
-        public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public Vector3 lastRightClickPos;
         public bool noMoney;
 
@@ -62,6 +61,12 @@ namespace CommandView
 
         private GameMeta meta;
 
+        public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
+        public bool displayFaceData; // is UI screen of this face's data displayed
+        public bool faceDataShowing;
+        public Vector3 faceCenter;
+        public Vector3 faceNormal;
+        private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
 
         private void Awake()
         {
@@ -77,6 +82,72 @@ namespace CommandView
         // Start is called before the first frame update
         private void Start()
         {
+            MeshFilter faceMeshFilter = GetComponent<MeshFilter>();
+            Mesh faceMesh = faceMeshFilter.mesh;
+            List<Vector3> transformedVerts = new List<Vector3>();
+            faceCenter = new Vector3();
+
+            // Calculate center
+            foreach (Vector3 faceMeshVertex in faceMesh.vertices)
+            {
+                Vector3 transformedPoint = transform.TransformPoint(faceMeshVertex);
+                transformedVerts.Add(transformedPoint);
+                faceCenter += transformedPoint;
+            }
+
+            faceCenter /= faceMesh.vertices.Length;
+
+            // Calculate face normal
+            faceNormal = transform.TransformPoint(faceMesh.normals[0]);
+            Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
+
+            // Calculate major axis and standard direction
+            float furthestDistance = 0f;
+            Vector3 a = new Vector3();
+            Vector3 b = new Vector3();
+
+            for (int i = 0; i < transformedVerts.Count; i++)
+            {
+                for (int j = 0; j < transformedVerts.Count; j++)
+                {
+                    if (i == j)
+                    {
+                        continue;
+                    }
+
+                    Vector3 curVectorCheck = transformedVerts[i] - transformedVerts[j];
+                    float distSqr = curVectorCheck.sqrMagnitude;
+
+                    if (distSqr > furthestDistance)
+                    {
+                        furthestDistance = distSqr;
+                        a = transformedVerts[j];
+                        b = transformedVerts[i];
+                    }
+                }
+            }
+
+            Debug.DrawLine(b, a, Color.red, Mathf.Infinity);
+
+
+            _hintsGo = new List<GameObject>();
+            String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
+            for (int i = 0; i < hintGoResourcePathStrings.Length; i++)
+            {
+                GameObject hintObject =
+                    Instantiate(Resources.Load<GameObject>("Objects/" + hintGoResourcePathStrings[i] + "Hint"),
+                        faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
+
+                hintObject.transform.rotation = Quaternion.LookRotation(a - hintObject.transform.position, faceNormal);
+                hintObject.transform.position += 1.5f * hintObject.transform.forward;
+
+                Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
+                    Mathf.Infinity);
+
+                // hintObject.SetActive(false);
+
+                _hintsGo.Add(hintObject);
+            }
         }
 
         // Update is called once per frame
@@ -125,7 +196,34 @@ namespace CommandView
         {
             yield return new WaitUntil(() => Input.GetMouseButtonUp(1)); // Wait until right click is released 
             displayFaceData = !displayFaceData;
+
+            DisplayHintsOnFace();
+
             lastRightClickPos = Input.mousePosition;
+        }
+
+        private void DisplayHintsOnFace()
+        {
+            if (displayFaceData && !faceDataShowing)
+            {
+                List<GameObject> activeGOs = new List<GameObject>();
+                // Show relevant info
+                for (int i = 0; i < lastHintGiven.Length; i++)
+                {
+                    _hintsGo[i].SetActive(lastHintGiven[i]);
+                    if (lastHintGiven[i])
+                    {
+                        activeGOs.Add(_hintsGo[i]);
+                    }
+                }
+
+
+                faceDataShowing = true;
+            }
+            else
+            {
+                // Hide data
+            }
         }
 
         // Private functions
