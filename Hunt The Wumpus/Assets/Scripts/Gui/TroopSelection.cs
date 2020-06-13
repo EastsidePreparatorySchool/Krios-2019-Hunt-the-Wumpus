@@ -58,10 +58,10 @@ namespace Gui
 
             if (troopSelector.activeSelf)
             {
-                print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.troops);
+                print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
                 if (_toggles.Count == 0)
                 {
-                    foreach (var troop in _gameMeta.troops)
+                    foreach (var troop in _gameMeta.availableTroops)
                     {
                         _toggles.Add(CreateNewToggle(troop));
                     }
@@ -115,9 +115,9 @@ namespace Gui
 
         private void ToggleValueChanged(Toggle toggle, TroopMeta troop)
         {
-            print(("TOGGLE WORKS! isOn: " + toggle.isOn));
+            //print(("TOGGLE WORKS! isOn: " + toggle.isOn));
             troop.sendToBattle = toggle.isOn;
-            print(troop.sendToBattle + " should be the same as above");
+            //print(troop.sendToBattle + " should be the same as above");
         }
     }
 }
