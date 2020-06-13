@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Gui;
+using UnityEditorInternal.Profiling;
 //using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -42,8 +43,6 @@ namespace CommandView
         public bool colonized;
         public int lastSeenTurnsAgo;
 
-        public bool displayFaceData; // is UI screen of this face's data displayed
-        public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public Vector3 lastRightClickPos;
         public bool noMoney;
 
@@ -62,6 +61,15 @@ namespace CommandView
 
         private GameMeta meta;
 
+        public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
+        public bool displayFaceData; // is UI screen of this face's data displayed
+        public bool faceDataShowing;
+        public bool lastPressed;
+        public Vector3 faceCenter;
+        public Vector3 faceNormal;
+        private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
+        private Vector3 _majorAxisA = new Vector3();
+        private Vector3 _majorAxisB = new Vector3();
 
         private void Awake()
         {
@@ -77,6 +85,70 @@ namespace CommandView
         // Start is called before the first frame update
         private void Start()
         {
+            MeshFilter faceMeshFilter = GetComponent<MeshFilter>();
+            Mesh faceMesh = faceMeshFilter.mesh;
+            List<Vector3> transformedVerts = new List<Vector3>();
+            faceCenter = new Vector3();
+
+            // Calculate center
+            foreach (Vector3 faceMeshVertex in faceMesh.vertices)
+            {
+                Vector3 transformedPoint = transform.TransformPoint(faceMeshVertex);
+                transformedVerts.Add(transformedPoint);
+                faceCenter += transformedPoint;
+            }
+
+            faceCenter /= faceMesh.vertices.Length;
+
+            // Calculate face normal
+            faceNormal = transform.TransformPoint(faceMesh.normals[0]);
+            Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
+
+            // Calculate major axis and standard direction
+            float furthestDistance = 0f;
+
+            for (int i = 0; i < transformedVerts.Count; i++)
+            {
+                for (int j = 0; j < transformedVerts.Count; j++)
+                {
+                    if (i == j)
+                    {
+                        continue;
+                    }
+
+                    Vector3 curVectorCheck = transformedVerts[i] - transformedVerts[j];
+                    float distSqr = curVectorCheck.sqrMagnitude;
+
+                    if (distSqr > furthestDistance)
+                    {
+                        furthestDistance = distSqr;
+                        _majorAxisA = transformedVerts[j];
+                        _majorAxisB = transformedVerts[i];
+                    }
+                }
+            }
+
+            Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
+
+
+            _hintsGo = new List<GameObject>();
+            String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
+            for (int i = 0; i < hintGoResourcePathStrings.Length; i++)
+            {
+                GameObject hintObject =
+                    Instantiate(Resources.Load<GameObject>("Objects/" + hintGoResourcePathStrings[i] + "Hint"),
+                        faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
+
+                hintObject.transform.rotation =
+                    Quaternion.LookRotation(_majorAxisA - hintObject.transform.position, faceNormal);
+
+                Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
+                    Mathf.Infinity);
+
+                hintObject.SetActive(false);
+
+                _hintsGo.Add(hintObject);
+            }
         }
 
         // Update is called once per frame
@@ -92,6 +164,33 @@ namespace CommandView
 
                 print(temp);
                 _firstTimeRun = true;
+            }
+
+            if (Input.GetButton("ShowAllHints") && !lastPressed)
+            {
+                lastPressed = true;
+                bool show = false;
+                foreach (GameObject adjacentFace in adjacentFaces)
+                {
+                    if (!adjacentFace.GetComponent<FaceHandler>().colonized)
+                    {
+                        show = true;
+                        break;
+                    }
+                }
+
+                if (show)
+                {
+                    displayFaceData = !displayFaceData;
+                    DisplayHintsOnFace();
+                }
+            }
+            else
+            {
+                if (!Input.GetButton("ShowAllHints"))
+                {
+                    lastPressed = false;
+                }
             }
         }
 
@@ -124,8 +223,59 @@ namespace CommandView
         private IEnumerator WaitUntilRightMouseUp()
         {
             yield return new WaitUntil(() => Input.GetMouseButtonUp(1)); // Wait until right click is released 
-            displayFaceData = !displayFaceData;
+            if (colonized)
+            {
+                displayFaceData = !displayFaceData;
+                DisplayHintsOnFace();
+            }
+
             lastRightClickPos = Input.mousePosition;
+        }
+
+        private void DisplayHintsOnFace()
+        {
+            if (displayFaceData && !faceDataShowing)
+            {
+                print("Showing info");
+                // lastHintGiven[0] = true;
+                // lastHintGiven[1] = true;
+                print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
+                List<GameObject> activeGOs = new List<GameObject>();
+                // Show relevant info
+                for (int i = 0; i < lastHintGiven.Length; i++)
+                {
+                    _hintsGo[i].SetActive(lastHintGiven[i]);
+                    if (lastHintGiven[i])
+                    {
+                        activeGOs.Add(_hintsGo[i]);
+                    }
+                }
+
+                // hintObject.transform.position += 1.5f * hintObject.transform.forward;
+
+                float distanceInterval = Vector3.Distance(_majorAxisA, _majorAxisB) / (activeGOs.Count + 1);
+                float distanceStep = 1;
+
+                foreach (GameObject activeGo in activeGOs)
+                {
+                    activeGo.transform.position =
+                        _majorAxisB + distanceInterval * distanceStep * activeGo.transform.forward;
+                    distanceStep++;
+                }
+
+
+                faceDataShowing = true;
+            }
+            else
+            {
+                print("Hiding info");
+                foreach (GameObject o in _hintsGo)
+                {
+                    o.SetActive(false);
+                }
+
+                faceDataShowing = false;
+            }
         }
 
         // Private functions
@@ -323,9 +473,9 @@ namespace CommandView
                 else
                 {
                     print("You didn't hit the Wumpus, but the tile is cleared. Adjacent faces don't make money");
-                    
+
                     bool wumpusAdjacent = false;
-                    
+
                     foreach (GameObject adjacentFace in adjacentFaces)
                     {
                         FaceHandler adjacentFaceHandler = adjacentFace.GetComponent<FaceHandler>();
