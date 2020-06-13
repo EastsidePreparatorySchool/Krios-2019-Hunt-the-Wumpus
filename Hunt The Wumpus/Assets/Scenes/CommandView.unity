@@ -2674,7 +2674,7 @@ GameObject:
   - component: {fileID: 507445256}
   - component: {fileID: 507445255}
   m_Layer: 5
-  m_Name: TarasBtn
+  m_Name: EndTurnBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
