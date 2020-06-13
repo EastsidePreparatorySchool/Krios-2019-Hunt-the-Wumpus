@@ -129,12 +129,17 @@ namespace CommandView
             Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
 
 
+            RegenerateHintGOs();
+        }
+
+        private void RegenerateHintGOs()
+        {
             _hintsGo = new List<GameObject>();
             String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
-            for (int i = 0; i < hintGoResourcePathStrings.Length; i++)
+            foreach (string hazardName in hintGoResourcePathStrings)
             {
                 GameObject hintObject =
-                    Instantiate(Resources.Load<GameObject>("Objects/" + hintGoResourcePathStrings[i] + "Hint"),
+                    Instantiate(Resources.Load<GameObject>("Objects/" + hazardName + "Hint"),
                         faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
 
                 hintObject.transform.rotation =
@@ -238,6 +243,13 @@ namespace CommandView
                 // lastHintGiven[1] = true;
                 print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
                 List<GameObject> activeGOs = new List<GameObject>();
+                if (_hintsGo[0] == null)
+                {
+                    RegenerateHintGOs();
+                }
+                print(_hintsGo[0]);
+                print(_hintsGo[1]);
+                print(_hintsGo[2]);
                 // Show relevant info
                 for (int i = 0; i < lastHintGiven.Length; i++)
                 {

@@ -51,8 +51,6 @@ public class UpdateGui : MonoBehaviour
         // Fill Variables
         planet = GameObject.Find("Planet");
         _planetHandler = planet.GetComponent<Planet>();
-        _faceInfoBox = GameObject.Find("FaceInfoBox");
-        _faceInfoBox.SetActive(false);
 
         _openStoreBtn = GameObject.Find("OpenStoreBtn").GetComponent<Button>();
         _openStoreBtnTargetGraphic = _openStoreBtn.targetGraphic;
