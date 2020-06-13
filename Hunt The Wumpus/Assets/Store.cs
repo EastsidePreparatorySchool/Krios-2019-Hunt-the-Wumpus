@@ -129,7 +129,7 @@ namespace Gui
             int totalCost = marineCost * int.Parse(troopNumberInput.text);
             if (useMoney(totalCost))
                 for (int i = 0; i < int.Parse(troopNumberInput.text); i++)
-                    _gameMeta.troops.Add(new TroopMeta(TroopType.Marine, _gameMeta.names[Random.Range(0, _gameMeta.names.Length)]));
+                    _gameMeta.availableTroops.Add(new TroopMeta(TroopType.Marine, _gameMeta.firstNames[Random.Range(0, _gameMeta.firstNames.Length)]));
         }
 
         // Work in progress
