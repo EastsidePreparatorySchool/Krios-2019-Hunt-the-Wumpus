@@ -21,6 +21,14 @@ namespace CommandView
         }
     }
 
+    public enum BiomeType
+    {
+        None,
+        Planes,
+        Desert,
+        Jungle,
+    }
+
     // Data object and event handler for haves on CommandView planet
     public class FaceHandler : MonoBehaviour
     {
@@ -38,6 +46,7 @@ namespace CommandView
         public bool discovered;
         public bool colonized;
         public int lastSeenTurnsAgo;
+        public BiomeType biomeType;
 
         public Vector3 lastRightClickPos;
         public bool noMoney;
@@ -73,6 +82,7 @@ namespace CommandView
             _ingameStat = _planet.GetComponent<GameMeta>();
             lastHintGiven = _planet.GetHintsToGive();
             state = new[] {true, true, true, true};
+            biomeType = BiomeType.None;
             meta = _planet.GetComponent<GameMeta>();
         }
 

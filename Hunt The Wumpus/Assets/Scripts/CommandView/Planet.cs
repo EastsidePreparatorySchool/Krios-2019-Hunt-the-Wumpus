@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using Gui;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using Random = System.Random;
 
 public enum HazardTypes
 {
@@ -28,7 +28,7 @@ namespace CommandView
         public GameObject[] faces;
 
         public EventSystem lineEventSystem;
-        
+
         // Planet properties and class-wide variables
         private readonly Random _random = new Random();
         private bool _isHidden;
@@ -85,7 +85,7 @@ namespace CommandView
 
             // Set player start location to a random face, make it colonized (safe)
             // _playerLoc = Mathf.RoundToInt(_random.Next(0, 29));
-            int splashSpot = Mathf.RoundToInt(_random.Next(0, 29));
+            int splashSpot = Random.Range(0, 30);
             faces[splashSpot].GetComponent<FaceHandler>().SetColonized();
             _faceConquestStatuses[splashSpot] = true;
             print("Player starting at " + splashSpot);
@@ -111,6 +111,35 @@ namespace CommandView
             // Initialize hazards
             MakeHazardObjects(splashSpot);
 
+            // Populate biomes
+            foreach (GameObject face in faces)
+            {
+                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                if (faceHandler.biomeType != BiomeType.None)
+                {
+                    continue;
+                }
+                int biomeNum = Random.Range(0, 3);
+                faceHandler.biomeType = biomeNum == 0 ? BiomeType.Planes :
+                    biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
+                
+                print(biomeNum);
+                faceHandler.GetComponent<Renderer>().material.color = biomeNum == 1 ? Color.yellow :
+                    biomeNum == 2 ? Color.green : Color.gray;
+
+                foreach (GameObject openAdjacentFace in faceHandler.GetOpenAdjacentFaces())
+                {
+                    BiomeType adjacentBiomeType = openAdjacentFace.GetComponent<FaceHandler>().biomeType;
+                    if (openAdjacentFace.GetComponent<FaceHandler>().biomeType == BiomeType.None)
+                    {
+                        openAdjacentFace.GetComponent<FaceHandler>().biomeType = faceHandler.biomeType;
+                        openAdjacentFace.GetComponent<Renderer>().material.color = biomeNum == 1 ? Color.yellow :
+                            biomeNum == 2 ? Color.green : Color.gray;
+                    }
+                }
+            }
+
+
             // print("Open faces for face 3: " + OutputList(FindOpenAdjacentFaces(2)));
         }
 
@@ -123,11 +152,12 @@ namespace CommandView
             {
                 ShowPlanet(_isHidden);
             }
-            
+
             if (Input.GetButtonDown("ShowAllHints"))
             {
                 displayHints = !displayHints;
             }
+
             // else
             // {
             //     if (Input.GetButtonUp("ShowAllHints"))
@@ -156,7 +186,7 @@ namespace CommandView
                 int randFace;
                 do
                 {
-                    randFace = Mathf.RoundToInt(_random.Next(0, 29));
+                    randFace = Random.Range(0, 30);
                 } while (usedFaces.Contains(randFace));
 
                 usedFaces.Add(randFace);
@@ -195,7 +225,7 @@ namespace CommandView
         private /*static*/ void Shuffle(List<int> list, Random rnd)
         {
             for (var i = list.Count; i > 0; i--)
-                Swap(list, 0, rnd.Next(0, i));
+                Swap(list, 0, Random.Range(0, i+1));
         }
 
 
@@ -384,7 +414,7 @@ namespace CommandView
             for (int i = 0; i < 30; i++)
             {
                 int r = order[i]; //r is ID of room
-                int m = Mathf.RoundToInt(random.Next(0, 3));
+                int m = Random.Range(0, 4);
 
                 if (faces[r - 1].GetComponent<FaceHandler>().CountCs() > 3)
                 {
@@ -471,7 +501,11 @@ namespace CommandView
 
         public void ColonizedLineUpdate()
         {
-            if (!borderAroundTerritory) { return;}
+            if (!borderAroundTerritory)
+            {
+                return;
+            }
+
             DestroyVertexLines();
 
             List<MeshVertex> edgeVertices = new List<MeshVertex>();
@@ -495,17 +529,25 @@ namespace CommandView
                     {
                         foreach (var faceHandler2 in vertex.ParentFaces)
                         {
-                            if (!faceHandler2.Equals(faceHandler1)) { continue; }
-                            if (!(faceHandler1.colonized && faceHandler2.colonized)) { continue; }
+                            if (!faceHandler2.Equals(faceHandler1))
+                            {
+                                continue;
+                            }
+
+                            if (!(faceHandler1.colonized && faceHandler2.colonized))
+                            {
+                                continue;
+                            }
+
                             colonizedSharedFaces++;
                         }
                     }
 
-                    if (colonizedSharedFaces == 2 || colonizedSharedFaces == 0) 
+                    if (colonizedSharedFaces == 2 || colonizedSharedFaces == 0)
                     {
                         continue;
                     }
-                    
+
                     if (edgeVertices.Contains(neighbor))
                     {
                         if (!edgePairs.Contains(vertex.Id * neighbor.Id)
