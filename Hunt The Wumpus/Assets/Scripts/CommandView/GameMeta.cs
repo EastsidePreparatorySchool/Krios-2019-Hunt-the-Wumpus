@@ -15,23 +15,29 @@ namespace CommandView
 
         public bool infiniteNukes;
 
-        public String[] names = new[]
+        public String[] firstNames = new[]
         {
                 "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
-                "Mary",
-                "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
-            };
+                "Mary", "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
+        };
+        public String[] lastNames = new[]
+        {
+            "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
+            "Hernandez", "Lopez", "Gonzales", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin"
+        };
 
         public int totalFaces;
 
-        public List<TroopMeta> troops;
+        public List<TroopMeta> availableTroops;
+        public List<TroopMeta> exhaustedTroops;
 
         //public MiniGameResult miniGameResult;
 
         // Start is called before the first frame update
         void Start()
         {
-            troops = new List<TroopMeta>();
+            availableTroops = new List<TroopMeta>();
+            exhaustedTroops = new List<TroopMeta>();
             SetupForDebug();
 
             turnsElapsed = 1;
@@ -87,30 +93,27 @@ namespace CommandView
 
         public void SetupForDebug()
         {
-            for (int i = 0; i < names.Length; i++)
+            for (int i = 0; i < firstNames.Length; i++)
             {
-                troops.Add(new TroopMeta(TroopType.Marine, names[i]));
+                availableTroops.Add(new TroopMeta(TroopType.Marine, firstNames[i] + " " + lastNames[i]));
             }
 
-            print("We have " + troops.Count + " Troops!");
+            print("We have " + availableTroops.Count + " Troops!");
         }
 
         public void UpdateGameStateWithResult()
         {
             MiniGameResult result = _planetHandler.result;
-
+            
             foreach (TroopMeta t in result.inGameTroops)
             {
-                troops.Add(t);
+                exhaustedTroops.Add(t);
             }
 
             FaceHandler inBattleFaceHandler =
                 _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>();
 
-            if (!inBattleFaceHandler.noMoney)
-            {
-                money += result.moneyCollected;
-            }
+            money += result.moneyCollected;
 
             _planetHandler.SetFaceInBattle(-1);
 
@@ -119,5 +122,23 @@ namespace CommandView
                 inBattleFaceHandler.SetColonized();
             }
         }
-    }
-}
+
+        public void EndTurn()
+         {
+             print("end turn");
+             foreach (TroopMeta troop in exhaustedTroops)
+             {
+                 availableTroops.Add(troop);
+             }
+             exhaustedTroops.Clear();
+ 
+             foreach (FaceHandler face in _faceHandlers)
+             {
+                 if (face.colonized && !face.noMoney)
+                 {
+                     money++;
+                 }
+             }
+         }
+     }
+ }

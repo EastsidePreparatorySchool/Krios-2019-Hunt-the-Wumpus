@@ -423,7 +423,7 @@ namespace CommandView
                 meta.troops.RemoveAt(0);
             }*/
 
-            foreach (var troop in meta.troops)
+            foreach (var troop in meta.availableTroops)
             {
                 if (troop.sendToBattle)
                 {
@@ -435,7 +435,7 @@ namespace CommandView
             {
                 foreach (var troop in deployedTroops)
                 {
-                    meta.troops.Remove(troop);
+                    meta.availableTroops.Remove(troop);
                     troop.sendToBattle = false;
                 }
 
