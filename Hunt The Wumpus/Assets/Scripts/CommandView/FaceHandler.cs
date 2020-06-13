@@ -62,9 +62,7 @@ namespace CommandView
         private GameMeta meta;
 
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
-        public bool displayFaceData; // is UI screen of this face's data displayed
         public bool faceDataShowing;
-        public bool lastPressed;
         public Vector3 faceCenter;
         public Vector3 faceNormal;
         private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
@@ -131,12 +129,17 @@ namespace CommandView
             Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
 
 
+            RegenerateHintGOs();
+        }
+
+        private void RegenerateHintGOs()
+        {
             _hintsGo = new List<GameObject>();
             String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
-            for (int i = 0; i < hintGoResourcePathStrings.Length; i++)
+            foreach (string hazardName in hintGoResourcePathStrings)
             {
                 GameObject hintObject =
-                    Instantiate(Resources.Load<GameObject>("Objects/" + hintGoResourcePathStrings[i] + "Hint"),
+                    Instantiate(Resources.Load<GameObject>("Objects/" + hazardName + "Hint"),
                         faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
 
                 hintObject.transform.rotation =
@@ -166,30 +169,29 @@ namespace CommandView
                 _firstTimeRun = true;
             }
 
-            if (Input.GetButton("ShowAllHints") && !lastPressed)
+            if (colonized)
             {
-                lastPressed = true;
-                bool show = false;
-                foreach (GameObject adjacentFace in adjacentFaces)
+                if (_planet.displayHints && !faceDataShowing)
                 {
-                    if (!adjacentFace.GetComponent<FaceHandler>().colonized)
+                    UpdateHintData();
+                    bool checkUncolonized = false;
+                    foreach (GameObject adjacentFace in GetOpenAdjacentFaces())
                     {
-                        show = true;
-                        break;
+                        if (!adjacentFace.GetComponent<FaceHandler>().colonized)
+                        {
+                            checkUncolonized = true;
+                            break;
+                        }
+                    }
+
+                    if (checkUncolonized)
+                    {
+                        DisplayHintsOnFace();
                     }
                 }
-
-                if (show)
+                else if (!_planet.displayHints && faceDataShowing)
                 {
-                    displayFaceData = !displayFaceData;
                     DisplayHintsOnFace();
-                }
-            }
-            else
-            {
-                if (!Input.GetButton("ShowAllHints"))
-                {
-                    lastPressed = false;
                 }
             }
         }
@@ -214,33 +216,40 @@ namespace CommandView
 
 
         // When face is clicked with non-left-click input
-        public void OnMouseOver()
-        {
-            if (!Input.GetMouseButtonDown(1) || IsPointerOverUiElement()) return;
-            StartCoroutine(WaitUntilRightMouseUp());
-        }
-
-        private IEnumerator WaitUntilRightMouseUp()
-        {
-            yield return new WaitUntil(() => Input.GetMouseButtonUp(1)); // Wait until right click is released 
-            if (colonized)
-            {
-                displayFaceData = !displayFaceData;
-                DisplayHintsOnFace();
-            }
-
-            lastRightClickPos = Input.mousePosition;
-        }
+        // public void OnMouseOver()
+        // {
+        //     if (!Input.GetMouseButtonDown(1) || IsPointerOverUiElement()) return;
+        //     StartCoroutine(WaitUntilRightMouseUp());
+        // }
+        //
+        // private IEnumerator WaitUntilRightMouseUp()
+        // {
+        //     yield return new WaitUntil(() => Input.GetMouseButtonUp(1)); // Wait until right click is released 
+        //     if (colonized)
+        //     {
+        //         displayFaceData = !displayFaceData;
+        //         DisplayHintsOnFace();
+        //     }
+        //
+        //     lastRightClickPos = Input.mousePosition;
+        // }
 
         private void DisplayHintsOnFace()
         {
-            if (displayFaceData && !faceDataShowing)
+            if (_planet.displayHints)
             {
                 print("Showing info");
                 // lastHintGiven[0] = true;
                 // lastHintGiven[1] = true;
                 print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
                 List<GameObject> activeGOs = new List<GameObject>();
+                if (_hintsGo[0] == null)
+                {
+                    RegenerateHintGOs();
+                }
+                print(_hintsGo[0]);
+                print(_hintsGo[1]);
+                print(_hintsGo[2]);
                 // Show relevant info
                 for (int i = 0; i < lastHintGiven.Length; i++)
                 {
@@ -326,38 +335,40 @@ namespace CommandView
                     case HazardTypes.Bat:
                         //TODO: re-implement for split army sit.
                         print("YOU'VE ENCOUNTERED THE SUPER-BATS!");
-                        Random random = new Random();
-
-                        // Generate new location for player
-                        int newPlayerLoc;
-                        do
-                        {
-                            newPlayerLoc = Random.Range(0, 29);
-                        } while (newPlayerLoc == _faceNumber);
-
-                        // Generate new location for bat
-                        int newBatLoc;
-                        do
-                        {
-                            newBatLoc = Random.Range(0, 29);
-                        } while (newBatLoc == newPlayerLoc);
-
-                        _planet.faces[newBatLoc].GetComponent<FaceHandler>().SetHazard(HazardTypes.Bat);
-
-                        print("Player will now be located at " + newPlayerLoc);
-
-                        // Do action on the face (like colonize)
-                        FaceHandler newPlayerFaceHandler = _planet.faces[newPlayerLoc].GetComponent<FaceHandler>();
-                        if (!newPlayerFaceHandler.colonized)
-                        {
-                            newPlayerFaceHandler.SetDiscovered();
-                            newPlayerFaceHandler.ActionOnFace(true);
-                        }
-
-                        // Clean up current face
-                        SetHazard(HazardTypes.None);
                         SetColonized();
-                        print("Super bats from " + _faceNumber + " are now at " + newBatLoc);
+                        SetHazard(HazardTypes.None);
+                        // Random random = new Random();
+                        //
+                        // // Generate new location for player
+                        // int newPlayerLoc;
+                        // do
+                        // {
+                        //     newPlayerLoc = Random.Range(0, 29);
+                        // } while (newPlayerLoc == _faceNumber);
+                        //
+                        // // Generate new location for bat
+                        // int newBatLoc;
+                        // do
+                        // {
+                        //     newBatLoc = Random.Range(0, 29);
+                        // } while (newBatLoc == newPlayerLoc);
+                        //
+                        // _planet.faces[newBatLoc].GetComponent<FaceHandler>().SetHazard(HazardTypes.Bat);
+                        //
+                        // print("Player will now be located at " + newPlayerLoc);
+                        //
+                        // // Do action on the face (like colonize)
+                        // FaceHandler newPlayerFaceHandler = _planet.faces[newPlayerLoc].GetComponent<FaceHandler>();
+                        // if (!newPlayerFaceHandler.colonized)
+                        // {
+                        //     newPlayerFaceHandler.SetDiscovered();
+                        //     newPlayerFaceHandler.ActionOnFace(true);
+                        // }
+                        //
+                        // // Clean up current face
+                        // SetHazard(HazardTypes.None);
+                        // SetColonized();
+                        // print("Super bats from " + _faceNumber + " are now at " + newBatLoc);
                         break;
                 }
             }
@@ -372,6 +383,17 @@ namespace CommandView
         {
             _planet.SetFaceInBattle(_faceNumber);
 
+            UpdateHintData();
+
+            //print("before game");
+
+            GameObject eventSystem = GameObject.Find("Canvas");
+            eventSystem.GetComponent<TroopSelection>().ActivateTroopSelector(_faceNumber);
+            //print("After game");
+        }
+
+        private void UpdateHintData()
+        {
             bool[] hintsToGive = new bool[3];
 
             foreach (GameObject face in GetOpenAdjacentFaces())
@@ -395,15 +417,8 @@ namespace CommandView
                 }
             }
 
-
             _planet.SetHintsToGive(hintsToGive);
             UpdateLocalHintData(hintsToGive);
-
-            //print("before game");
-
-            GameObject eventSystem = GameObject.Find("Canvas");
-            eventSystem.GetComponent<TroopSelection>().ActivateTroopSelector(_faceNumber);
-            //print("After game");
         }
 
         public void PlayMiniGame()
