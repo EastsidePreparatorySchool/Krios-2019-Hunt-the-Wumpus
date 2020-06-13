@@ -42,9 +42,9 @@ namespace MiniGame
                 else
                 {
                     Vector3 pointerLoc = pointer.GetPosition();
-                    curDisFromPointer = Vector3.Distance(pointerLoc, transform.position);
+                    curDisFromPointer = (pointerLoc - transform.position).sqrMagnitude;
 
-                    if (curDisFromPointer > minDistFromPointer)
+                    if (curDisFromPointer > minDistFromPointer * minDistFromPointer)
                     {
                         MoveTo(pointerLoc);
                     }

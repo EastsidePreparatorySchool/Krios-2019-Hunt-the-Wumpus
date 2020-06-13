@@ -45,7 +45,7 @@ namespace MiniGame
                 }
             }
 
-            if (Vector3.Distance(myPos, nearestTarget) > _combatController.attackRange)
+            if ((myPos -nearestTarget).sqrMagnitude > _combatController.attackRange * _combatController.attackRange)
             {
                 navMeshAgent.SetDestination(nearestTarget);
             }
