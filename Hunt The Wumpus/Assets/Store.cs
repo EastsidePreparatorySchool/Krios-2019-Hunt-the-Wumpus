@@ -39,6 +39,11 @@ namespace Gui
 
         public void Open()
         {
+            GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
+            if(TroopSelector != null)
+            {
+                TroopSelector.active = false;
+            }
             GameObject store = GameObject.Find("StoreUI");
             for (int i = 0; i < store.transform.childCount; i++)
             {
