@@ -44,7 +44,7 @@ namespace Gui
             GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
             if(TroopSelector != null)
             {
-                TroopSelector.active = false;
+                TroopSelector.SetActive(false);
             }
 
             // Activates all children of the StoreUI object
@@ -75,12 +75,16 @@ namespace Gui
         // work in progress
         public void OpenUpgradePanel()
         {
+            setUpTroopView();
+        }
 
+        private void setUpTroopView()
+        {
         }
 
 
-        // For buying troops (duh)
-        public void BuyTroops()
+// For buying troops (duh)
+public void BuyTroops()
         {
             GameObject BuyPanel = GameObject.Find("BuyTroopsPanel");
             GameObject inpparent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
