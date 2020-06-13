@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Hunt The Wumpus/Assets/Resources/Materials/LaserBlastParticleMaterial.mat.meta
 guid: 780d3a062d2f218429e343bfc87a8aea
 NativeFormatImporter:
+=======
+guid: cf73a54660921464c90f58461664f2fa
+PrefabImporter:
+>>>>>>> master:Hunt The Wumpus/Assets/Resources/Objects/BatHint.prefab.meta
   externalObjects: {}
   mainObjectFileID: 2100000
   userData: 

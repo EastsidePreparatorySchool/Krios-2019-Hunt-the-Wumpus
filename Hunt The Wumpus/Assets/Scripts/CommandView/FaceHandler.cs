@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Gui;
 //using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+
 //using Random = System.Random;
-using Random = UnityEngine.Random;
 
 namespace CommandView
 {
@@ -24,13 +22,24 @@ namespace CommandView
         }
     }
 
+    public enum BiomeType
+    {
+        None,
+        Planes,
+        Desert,
+        Jungle,
+    }
+
     // Data object and event handler for haves on CommandView planet
     public class FaceHandler : MonoBehaviour
     {
         //Public variables
-        public static readonly Color UndiscoveredColor = Color.gray;
-        public static readonly Color DiscoveredColor = Color.white;
-        public static readonly Color ColonizedColor = Color.yellow;
+        public static readonly Color UndiscoveredColor = new Color(.1f, .1f, .1f);
+
+        public static readonly Color[] DiscoveredColor =
+            {new Color(.25f, .25f, .25f), new Color(.5f, .5f, 0f), new Color(0f, .5f, 0f)};
+
+        public static readonly Color[] ColonizedColor = {Color.gray, Color.yellow, Color.green};
 
         //individual variables
         private Planet _planet; // store reference back to planet
@@ -41,9 +50,8 @@ namespace CommandView
         public bool discovered;
         public bool colonized;
         public int lastSeenTurnsAgo;
+        public BiomeType biomeType;
 
-        public bool displayFaceData; // is UI screen of this face's data displayed
-        public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public Vector3 lastRightClickPos;
         public bool noMoney;
 
@@ -62,6 +70,13 @@ namespace CommandView
 
         private GameMeta meta;
 
+        public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
+        public bool faceDataShowing;
+        public Vector3 faceCenter;
+        public Vector3 faceNormal;
+        private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
+        private Vector3 _majorAxisA = new Vector3();
+        private Vector3 _majorAxisB = new Vector3();
 
         private void Awake()
         {
@@ -71,12 +86,82 @@ namespace CommandView
             _ingameStat = _planet.GetComponent<GameMeta>();
             lastHintGiven = _planet.GetHintsToGive();
             state = new[] {true, true, true, true};
+            biomeType = BiomeType.None;
             meta = _planet.GetComponent<GameMeta>();
         }
 
         // Start is called before the first frame update
         private void Start()
         {
+            MeshFilter faceMeshFilter = GetComponent<MeshFilter>();
+            Mesh faceMesh = faceMeshFilter.mesh;
+            List<Vector3> transformedVerts = new List<Vector3>();
+            faceCenter = new Vector3();
+
+            // Calculate center
+            foreach (Vector3 faceMeshVertex in faceMesh.vertices)
+            {
+                Vector3 transformedPoint = transform.TransformPoint(faceMeshVertex);
+                transformedVerts.Add(transformedPoint);
+                faceCenter += transformedPoint;
+            }
+
+            faceCenter /= faceMesh.vertices.Length;
+
+            // Calculate face normal
+            faceNormal = transform.TransformPoint(faceMesh.normals[0]);
+            Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
+
+            // Calculate major axis and standard direction
+            float furthestDistance = 0f;
+
+            for (int i = 0; i < transformedVerts.Count; i++)
+            {
+                for (int j = 0; j < transformedVerts.Count; j++)
+                {
+                    if (i == j)
+                    {
+                        continue;
+                    }
+
+                    Vector3 curVectorCheck = transformedVerts[i] - transformedVerts[j];
+                    float distSqr = curVectorCheck.sqrMagnitude;
+
+                    if (distSqr > furthestDistance)
+                    {
+                        furthestDistance = distSqr;
+                        _majorAxisA = transformedVerts[j];
+                        _majorAxisB = transformedVerts[i];
+                    }
+                }
+            }
+
+            Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
+
+
+            RegenerateHintGOs();
+        }
+
+        private void RegenerateHintGOs()
+        {
+            _hintsGo = new List<GameObject>();
+            String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
+            foreach (string hazardName in hintGoResourcePathStrings)
+            {
+                GameObject hintObject =
+                    Instantiate(Resources.Load<GameObject>("Objects/" + hazardName + "Hint"),
+                        faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
+
+                hintObject.transform.rotation =
+                    Quaternion.LookRotation(_majorAxisA - hintObject.transform.position, faceNormal);
+
+                Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
+                    Mathf.Infinity);
+
+                hintObject.SetActive(false);
+
+                _hintsGo.Add(hintObject);
+            }
         }
 
         // Update is called once per frame
@@ -92,6 +177,32 @@ namespace CommandView
 
                 print(temp);
                 _firstTimeRun = true;
+            }
+
+            if (colonized)
+            {
+                if (_planet.displayHints && (!faceDataShowing || faceDataShowing && _hintsGo[0] == null))
+                {
+                    UpdateHintData();
+                    bool checkUncolonized = false;
+                    foreach (GameObject adjacentFace in GetOpenAdjacentFaces())
+                    {
+                        if (!adjacentFace.GetComponent<FaceHandler>().colonized)
+                        {
+                            checkUncolonized = true;
+                            break;
+                        }
+                    }
+
+                    if (checkUncolonized)
+                    {
+                        DisplayHintsOnFace();
+                    }
+                }
+                else if (!_planet.displayHints && faceDataShowing)
+                {
+                    DisplayHintsOnFace();
+                }
             }
         }
 
@@ -115,17 +226,76 @@ namespace CommandView
 
 
         // When face is clicked with non-left-click input
-        public void OnMouseOver()
-        {
-            if (!Input.GetMouseButtonDown(1) || IsPointerOverUiElement()) return;
-            StartCoroutine(WaitUntilRightMouseUp());
-        }
+        // public void OnMouseOver()
+        // {
+        //     if (!Input.GetMouseButtonDown(1) || IsPointerOverUiElement()) return;
+        //     StartCoroutine(WaitUntilRightMouseUp());
+        // }
+        //
+        // private IEnumerator WaitUntilRightMouseUp()
+        // {
+        //     yield return new WaitUntil(() => Input.GetMouseButtonUp(1)); // Wait until right click is released 
+        //     if (colonized)
+        //     {
+        //         displayFaceData = !displayFaceData;
+        //         DisplayHintsOnFace();
+        //     }
+        //
+        //     lastRightClickPos = Input.mousePosition;
+        // }
 
-        private IEnumerator WaitUntilRightMouseUp()
+        private void DisplayHintsOnFace()
         {
-            yield return new WaitUntil(() => Input.GetMouseButtonUp(1)); // Wait until right click is released 
-            displayFaceData = !displayFaceData;
-            lastRightClickPos = Input.mousePosition;
+            if (_planet.displayHints)
+            {
+                print("Showing info");
+                // lastHintGiven[0] = true;
+                // lastHintGiven[1] = true;
+                print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
+                List<GameObject> activeGOs = new List<GameObject>();
+                if (_hintsGo[0] == null)
+                {
+                    RegenerateHintGOs();
+                }
+                // Show relevant info
+                for (int i = 0; i < lastHintGiven.Length; i++)
+                {
+                    _hintsGo[i].SetActive(lastHintGiven[i]);
+                    if (lastHintGiven[i])
+                    {
+                        activeGOs.Add(_hintsGo[i]);
+                    }
+                }
+
+                // hintObject.transform.position += 1.5f * hintObject.transform.forward;
+
+                float distanceInterval = Vector3.Distance(_majorAxisA, _majorAxisB) / (activeGOs.Count + 1);
+                float distanceStep = 1;
+
+                foreach (GameObject activeGo in activeGOs)
+                {
+                    activeGo.transform.position =
+                        _majorAxisB + distanceInterval * distanceStep * activeGo.transform.forward;
+                    distanceStep++;
+                }
+
+
+                faceDataShowing = true;
+            }
+            else
+            {
+                print("Hiding info");
+                if (_hintsGo[0] == null)
+                {
+                    RegenerateHintGOs();
+                }
+                foreach (GameObject o in _hintsGo)
+                {
+                    o.SetActive(false);
+                }
+
+                faceDataShowing = false;
+            }
         }
 
         // Private functions
@@ -176,38 +346,40 @@ namespace CommandView
                     case HazardTypes.Bat:
                         //TODO: re-implement for split army sit.
                         print("YOU'VE ENCOUNTERED THE SUPER-BATS!");
-                        Random random = new Random();
-
-                        // Generate new location for player
-                        int newPlayerLoc;
-                        do
-                        {
-                            newPlayerLoc = Random.Range(0, 29);
-                        } while (newPlayerLoc == _faceNumber);
-
-                        // Generate new location for bat
-                        int newBatLoc;
-                        do
-                        {
-                            newBatLoc = Random.Range(0, 29);
-                        } while (newBatLoc == newPlayerLoc);
-
-                        _planet.faces[newBatLoc].GetComponent<FaceHandler>().SetHazard(HazardTypes.Bat);
-
-                        print("Player will now be located at " + newPlayerLoc);
-
-                        // Do action on the face (like colonize)
-                        FaceHandler newPlayerFaceHandler = _planet.faces[newPlayerLoc].GetComponent<FaceHandler>();
-                        if (!newPlayerFaceHandler.colonized)
-                        {
-                            newPlayerFaceHandler.SetDiscovered();
-                            newPlayerFaceHandler.ActionOnFace(true);
-                        }
-
-                        // Clean up current face
-                        SetHazard(HazardTypes.None);
                         SetColonized();
-                        print("Super bats from " + _faceNumber + " are now at " + newBatLoc);
+                        SetHazard(HazardTypes.None);
+                        // Random random = new Random();
+                        //
+                        // // Generate new location for player
+                        // int newPlayerLoc;
+                        // do
+                        // {
+                        //     newPlayerLoc = Random.Range(0, 29);
+                        // } while (newPlayerLoc == _faceNumber);
+                        //
+                        // // Generate new location for bat
+                        // int newBatLoc;
+                        // do
+                        // {
+                        //     newBatLoc = Random.Range(0, 29);
+                        // } while (newBatLoc == newPlayerLoc);
+                        //
+                        // _planet.faces[newBatLoc].GetComponent<FaceHandler>().SetHazard(HazardTypes.Bat);
+                        //
+                        // print("Player will now be located at " + newPlayerLoc);
+                        //
+                        // // Do action on the face (like colonize)
+                        // FaceHandler newPlayerFaceHandler = _planet.faces[newPlayerLoc].GetComponent<FaceHandler>();
+                        // if (!newPlayerFaceHandler.colonized)
+                        // {
+                        //     newPlayerFaceHandler.SetDiscovered();
+                        //     newPlayerFaceHandler.ActionOnFace(true);
+                        // }
+                        //
+                        // // Clean up current face
+                        // SetHazard(HazardTypes.None);
+                        // SetColonized();
+                        // print("Super bats from " + _faceNumber + " are now at " + newBatLoc);
                         break;
                 }
             }
@@ -222,6 +394,17 @@ namespace CommandView
         {
             _planet.SetFaceInBattle(_faceNumber);
 
+            UpdateHintData();
+
+            //print("before game");
+
+            GameObject eventSystem = GameObject.Find("Canvas");
+            eventSystem.GetComponent<TroopSelection>().ActivateTroopSelector(_faceNumber);
+            //print("After game");
+        }
+
+        private void UpdateHintData()
+        {
             bool[] hintsToGive = new bool[3];
 
             foreach (GameObject face in GetOpenAdjacentFaces())
@@ -245,15 +428,8 @@ namespace CommandView
                 }
             }
 
-
             _planet.SetHintsToGive(hintsToGive);
             UpdateLocalHintData(hintsToGive);
-
-            //print("before game");
-
-            GameObject eventSystem = GameObject.Find("Canvas");
-            eventSystem.GetComponent<TroopSelection>().ActivateTroopSelector(_faceNumber);
-            //print("After game");
         }
 
         public void PlayMiniGame()
@@ -270,7 +446,7 @@ namespace CommandView
                 meta.troops.RemoveAt(0);
             }*/
 
-            foreach (var troop in meta.troops)
+            foreach (var troop in meta.availableTroops)
             {
                 if (troop.sendToBattle)
                 {
@@ -282,7 +458,7 @@ namespace CommandView
             {
                 foreach (var troop in deployedTroops)
                 {
-                    meta.troops.Remove(troop);
+                    meta.availableTroops.Remove(troop);
                     troop.sendToBattle = false;
                 }
 
@@ -323,9 +499,9 @@ namespace CommandView
                 else
                 {
                     print("You didn't hit the Wumpus, but the tile is cleared. Adjacent faces don't make money");
-                    
+
                     bool wumpusAdjacent = false;
-                    
+
                     foreach (GameObject adjacentFace in adjacentFaces)
                     {
                         FaceHandler adjacentFaceHandler = adjacentFace.GetComponent<FaceHandler>();
@@ -359,6 +535,22 @@ namespace CommandView
         }
 
         // Public Set functions
+        public void UpdateFaceColors()
+        {
+            if (colonized)
+            {
+                GetComponent<Renderer>().material.color = ColonizedColor[(int) biomeType - 1];
+            }
+            else if (discovered)
+            {
+                GetComponent<Renderer>().material.color = DiscoveredColor[(int) biomeType - 1];
+            }
+            else
+            {
+                GetComponent<Renderer>().material.color = UndiscoveredColor;
+            }
+        }
+
         public void SetHazard(HazardTypes haz)
         {
             _hazardObject = haz;
@@ -369,7 +561,7 @@ namespace CommandView
             discovered = true;
             colonized = true;
 
-            GetComponent<Renderer>().material.color = ColonizedColor;
+            UpdateFaceColors();
 
             // Identify adjacent faces as discovered
             foreach (GameObject face in GetOpenAdjacentFaces())
@@ -390,7 +582,7 @@ namespace CommandView
         public void SetDiscovered()
         {
             discovered = true;
-            GetComponent<Renderer>().material.color = DiscoveredColor;
+            UpdateFaceColors();
         }
 
         // Public Get functions

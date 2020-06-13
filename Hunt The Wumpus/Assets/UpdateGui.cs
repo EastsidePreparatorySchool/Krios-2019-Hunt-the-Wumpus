@@ -24,9 +24,14 @@ public class UpdateGui : MonoBehaviour
     private TextMeshProUGUI _nukeCounter;
     private TextMeshProUGUI _turnDisplay;
 
+    private Button _endTurnBtn;
+    private Graphic _endTurnBtnTargetGraphic;
+    private TextMeshProUGUI _endTurnBtnText;
+    
+    
     private Button _openStoreBtn;
     private Graphic _openStoreBtnTargetGraphic;
-    private TextMeshProUGUI btnText;
+    private TextMeshProUGUI _openStoreBtnText;
 
     private int[] _counterValues = new int[3];
 
@@ -46,34 +51,18 @@ public class UpdateGui : MonoBehaviour
         // Fill Variables
         planet = GameObject.Find("Planet");
         _planetHandler = planet.GetComponent<Planet>();
-        _faceInfoBox = GameObject.Find("FaceInfoBox");
-        _faceInfoBox.SetActive(false);
 
         _openStoreBtn = GameObject.Find("OpenStoreBtn").GetComponent<Button>();
         _openStoreBtnTargetGraphic = _openStoreBtn.targetGraphic;
-        btnText = _openStoreBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
+        _openStoreBtnText = _openStoreBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
+        
+        _endTurnBtn = GameObject.Find("EndTurnBtn").GetComponent<Button>();
+        _endTurnBtnTargetGraphic = _endTurnBtn.targetGraphic;
+        _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
 
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         _orbit = FindObjectOfType<CameraOrbit>();
 
-        _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
-        _faceDataHolderText = new TextMeshProUGUI[_planetHandler.faces.Length];
-        for (int i = 0; i < _planetHandler.faces.Length; i++)
-        {
-            _faceHandlers[i] =
-                _planetHandler.faces[i].GetComponent<FaceHandler>(); // Save computation time from repeated 
-            FaceHandler faceHandler = _faceHandlers[i];
-            faceHandler.faceDataHolder =
-                Instantiate(_faceInfoBox, GameObject.Find("Canvas").transform); // Could be source of bug later on
-            faceHandler.faceDataHolder.SetActive(false);
-            faceHandler.faceDataHolder.GetComponentInChildren<Button>().onClick
-                .AddListener(() => CloseFaceDataHolder(faceHandler));
-            faceHandler.faceDataHolder.GetComponent<Dragging>().face = faceHandler;
-            _faceDataHolderText[i] =
-                faceHandler.faceDataHolder.transform.Find("InfoText").gameObject
-                    .GetComponent<TextMeshProUGUI>(); // Reduce invocations of GetComponent() later in script
-        }
-        //
 
         // Sync UI appearance with camera entry spin
         foreach (TextMeshProUGUI i in _compArr)
@@ -102,9 +91,14 @@ public class UpdateGui : MonoBehaviour
 
 
         Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
-        btnText.alpha = 0f;
+        _openStoreBtnText.alpha = 0f;
         storeBtnAlpha.a = 0f;
         _openStoreBtnTargetGraphic.color = storeBtnAlpha;
+        
+        Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
+        _endTurnBtnText.alpha = 0f;
+        endTurnBtnAlpha.a = 0f;
+        _endTurnBtnTargetGraphic.color = endTurnBtnAlpha;
 
         //
 
@@ -124,111 +118,35 @@ public class UpdateGui : MonoBehaviour
 
         //print("Stats: " + _inGameMeta);
         // print("Troops: " + _inGameMeta.troops);
-        int[] curCounterValue = {_inGameMeta.troops.Count, _inGameMeta.money, _inGameMeta.nukes};
+        int[] curCounterValue = {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes};
         if (!_counterValues.Equals(curCounterValue))
         {
-            _troopCounter.text = "Troops: " + _inGameMeta.troops.Count;
+            _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/" 
+                                 + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
         }
-
-        for (int i = 0; i < _faceHandlers.Length; i++)
-        {
-            FaceHandler face = _faceHandlers[i];
-            if (face.displayFaceData)
-            {
-                // Update faceDataHolder GUI positioning
-                if (!face.faceDataHolder.activeSelf)
-                {
-                    if (face.lastRightClickPos.x < Screen.width / 2)
-                    {
-                        face.faceDataHolder.transform.position =
-                            new Vector2((float) (Screen.width * 0.25), face.lastRightClickPos.y);
-                    }
-                    else
-                    {
-                        face.faceDataHolder.transform.position =
-                            new Vector2((float) (Screen.width * 0.75), face.lastRightClickPos.y);
-                    }
-                }
-
-                face.faceDataHolder.SetActive(true);
-
-                // Update faceDataHolder text
-                TextMeshProUGUI text = _faceDataHolderText[i];
-                bool[] hints = face.lastHintGiven;
-
-                text.text = "<align=\"left\"><b>Tile " + face.transform.name + "</b></align>\n";
-                if (hints[0])
-                {
-                    text.text += "Wumpus nearby\n";
-                }
-
-                if (hints[1])
-                {
-                    text.text += "Pit nearby\n";
-                }
-
-                if (hints[2])
-                {
-                    text.text += "Bat nearby\n";
-                }
-
-                if (!hints[0] && !hints[1] && !hints[2] && face.discovered == false)
-                {
-                    text.text += "Tile not yet seen.\n";
-                }
-                else if (!hints[0] && !hints[1] && !hints[2] && face.colonized == false)
-                {
-                    text.text += "Tile not yet visited.\n";
-                }
-                else if (!hints[0] && !hints[1] && !hints[2])
-                {
-                    text.text += "No hazards nearby!\n(last hint: " + face.turnsSinceLastHint + " turns ago)\n";
-                }
-
-                // text.text += "(last hint: " + face.turnsSinceLastHint + " turns ago)\n";
-
-                if (face.colonized || face.discovered)
-                {
-                    text.text += "<align=\"right\">" + _inGameMeta.NumColonizedFaces() + "/" + _inGameMeta.totalFaces +
-                                 " colonized</align>";
-                }
-                else
-                {
-                    text.text += "<align=\"right\">" + _inGameMeta.NumDiscoveredFaces() + "/" + _inGameMeta.totalFaces +
-                                 " discovered</align>";
-                }
-            }
-            else if (face.faceDataHolder)
-            {
-                if (face.faceDataHolder.activeSelf)
-                {
-                    face.faceDataHolder.SetActive(false);
-                }
-            }
-        }
-    }
-
-    private void CloseFaceDataHolder(FaceHandler faceHandler)
-    {
-        faceHandler.displayFaceData = false;
     }
 
     private IEnumerator WaitUntilGameBegins()
     {
         yield return new WaitUntil(() => Math.Abs(_orbit.beginningSpin) < 0.1f);
 
-        Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
+        Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
+        Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
         while (_troopCounter.alpha < 1)
         {
             _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
             _nukeCounter.alpha += 0.1f;
 
-            btnText.alpha += 0.1f;
-            storeBtnAlpha.a += 0.1f;
-            _openStoreBtnTargetGraphic.color = storeBtnAlpha;
+            _openStoreBtnText.alpha += 0.1f;
+            openStoreBtnAlpha.a += 0.1f;
+            _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
+            
+            _endTurnBtnText.alpha += 0.1f;
+            endTurnBtnAlpha.a += 0.1f;
+            _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
 
             yield return new WaitForSeconds(0.2F);
         }

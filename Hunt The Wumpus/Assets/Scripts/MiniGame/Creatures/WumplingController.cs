@@ -6,7 +6,8 @@ namespace MiniGame
 {
     public class WumplingController : MonoBehaviour
     {
-        private HealthManager _healthmgr;
+        //private HealthManager _healthmgr;
+        private CombatController _combatController;
         public NavMeshAgent navMeshAgent;
 
         public Vector3 nearestTarget; 
@@ -17,7 +18,7 @@ namespace MiniGame
         // Start is called before the first frame update
         void Start()
         {
-            _healthmgr = GetComponent<HealthManager>();
+            _combatController = GetComponent<CombatController>();
         }
 
         // Update is called once per frame
@@ -44,29 +45,10 @@ namespace MiniGame
                 }
             }
 
-            if (Vector3.Distance(myPos, nearestTarget) > _healthmgr.attackRange)
+            if ((myPos -nearestTarget).sqrMagnitude > _combatController.attackRange * _combatController.attackRange)
             {
                 navMeshAgent.SetDestination(nearestTarget);
             }
-
-
-            // HealthManager nearestEnemy = _healthmgr.GetNearestEnemy();
-            // if (nearestEnemy != null)
-            // {
-            //     Vector3 pointerLoc = nearestEnemy.gameObject.transform.position;
-            //
-            //     float distance = Vector3.Distance(pointerLoc, transform.position);
-            //
-            //     if (distance > 2)
-            //     {
-            //         // Transform mytransform;
-            //         // (mytransform = transform).LookAt(pointerLoc);
-            //         // mytransform.eulerAngles = new Vector3(0, mytransform.rotation.eulerAngles.y, 0);
-            //         //
-            //         // transform.Translate(Vector3.forward * (Time.deltaTime * speed));
-            //         navMeshAgent.SetDestination(pointerLoc);
-            //     }
-            // }
         }
     }
 }
