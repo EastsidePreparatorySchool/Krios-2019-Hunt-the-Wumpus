@@ -436,12 +436,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &52494929
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1531,12 +1535,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &388149497
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1781,12 +1789,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &422161223
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2089,12 +2101,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &482096404
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2362,12 +2378,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &507746993
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2409,12 +2429,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &519159999
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3140,12 +3164,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &679834729
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3258,12 +3286,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &722211305
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3932,12 +3964,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &897113464
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3979,12 +4015,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &908993635
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4026,12 +4066,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &930464259
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4605,12 +4649,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1010497504
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5651,12 +5699,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1151715727
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6085,12 +6137,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1219734997
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6132,12 +6188,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1232942829
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6304,12 +6364,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1245853693
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6506,12 +6570,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1265968095
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6553,12 +6621,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1323274189
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6671,12 +6743,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1341166152
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6718,12 +6794,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1350880571
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7128,12 +7208,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1476745952
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7175,12 +7259,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1480566156
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7435,12 +7523,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1537926626
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7482,12 +7574,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1544512858
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7529,12 +7625,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1547546937
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8075,12 +8175,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1619252887
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9663,12 +9767,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1922655172
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9710,12 +9818,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1926142142
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9914,12 +10026,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &1981068893
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10241,12 +10357,16 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
-  displayFaceData: 0
-  faceDataHolder: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
   turnsSinceLastHint: 0
+  faceDataHolder: {fileID: 0}
+  displayFaceData: 0
+  faceDataShowing: 0
+  lastPressed: 0
+  faceCenter: {x: 0, y: 0, z: 0}
+  faceNormal: {x: 0, y: 0, z: 0}
 --- !u!64 &2015295522
 MeshCollider:
   m_ObjectHideFlags: 0
