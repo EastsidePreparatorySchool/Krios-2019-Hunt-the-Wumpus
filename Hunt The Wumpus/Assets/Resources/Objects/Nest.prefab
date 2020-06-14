@@ -203,7 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b92fda547b2f2d488a6a597fae62f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wumpling: {fileID: 301416516323056749, guid: 7b4babca1400d4d07bf9ca0d054d3769, type: 3}
+  wumpling: {fileID: 5664777907750552445, guid: 79b226b911fefcf4b8a4f4571a8b5048,
+    type: 3}
   timeBetweenSpawns: 10
   wumpsPerSpawn: 1
 --- !u!114 &6318851363116525567
@@ -241,6 +242,7 @@ MonoBehaviour:
   isEnemy: 1
   target: {fileID: 0}
   doesAttack: 0
+  isMoving: 0
   doesAttackWhileMoving: 0
 --- !u!114 &114627874577716208
 MonoBehaviour:

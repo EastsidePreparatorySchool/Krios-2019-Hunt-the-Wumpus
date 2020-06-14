@@ -6,6 +6,8 @@ namespace MiniGame
 {
     public class WumplingController : MonoBehaviour
     {
+        public Animator animator;
+        
         //private HealthManager _healthmgr;
         private CombatController _combatController;
         public NavMeshAgent navMeshAgent;
@@ -48,6 +50,15 @@ namespace MiniGame
             if ((myPos -nearestTarget).sqrMagnitude > _combatController.attackRange * _combatController.attackRange)
             {
                 navMeshAgent.SetDestination(nearestTarget);
+            }
+
+            if (!navMeshAgent.hasPath)
+            {
+                animator.speed = 0f;
+            }
+            else
+            {
+                animator.speed = 1f;
             }
         }
     }

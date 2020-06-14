@@ -88,13 +88,13 @@ namespace MiniGame.Creatures
         {
             float nearestDistanceSqr = int.MaxValue;
             Vector3 myPos = transform.position;
-            Vector3 lowerMyPos = new Vector3(myPos.x, 0.1f, myPos.z);
+            Vector3 lowerMyPos = new Vector3(myPos.x, 0.25f, myPos.z);
             CombatController nearestTarget = null;
 
             Collider[] nearbyThings = new Collider[10];
             String typeLayerMask = isEnemy ? "Troop" : "MiniGameEnemy";
             LayerMask combinedMask = LayerMask.GetMask("MiniGameObstacle", typeLayerMask);
-
+            
             int size = Physics.OverlapSphereNonAlloc(myPos, attackRange, nearbyThings,
                 LayerMask.GetMask(typeLayerMask));
 
@@ -106,7 +106,7 @@ namespace MiniGame.Creatures
                     if (Physics.Raycast(lowerMyPos, enemyDir, out RaycastHit hit,
                         attackRange, combinedMask))
                     {
-                        Debug.DrawRay(lowerMyPos, enemyDir * hit.distance, Color.cyan, 1f);
+                        Debug.DrawRay(lowerMyPos, enemyDir * hit.distance, isEnemy ? Color.red : Color.cyan, 1f);
                         if (hit.collider.Equals(nearbyThings[i]))
                         {
                             float distSqr = enemyDir.sqrMagnitude;
