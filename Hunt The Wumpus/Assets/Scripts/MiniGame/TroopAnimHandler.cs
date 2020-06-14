@@ -7,14 +7,14 @@ public class TroopAnimHandler : MonoBehaviour
 {
     public CombatController combatCtr;
     Animator anim;
-    private GameObject gun;
     void Start()
     {
         anim = this.GetComponent<Animator>();
-        gun = GameObject.Find("StandardGun -model");
     }
     void Update()
     {
+        GameObject gun = GameObject.Find("StandardGun -model");
+
         if (combatCtr.isMoving == true)
         {
             anim.SetBool("isShooting", false);
