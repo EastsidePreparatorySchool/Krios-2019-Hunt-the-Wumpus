@@ -632,7 +632,7 @@ namespace CommandView
 
         public List<int> FindAdjacentFaces(int inputLocation)
         {
-            print("called");
+            //print("called");
             // int[] adjFaces = new int[4];
 
             // for(int i = 0; i < 4; i++) {
