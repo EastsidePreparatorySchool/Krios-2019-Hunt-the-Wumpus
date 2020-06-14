@@ -38,11 +38,9 @@ namespace MiniGame
 
             startAudioSource.clip = _startClip;
             loopAudioSource.clip = _loopClip;
-            
-            startAudioSource.Play();
-            loopAudioSource.PlayDelayed(_startClip.length);
 
             SceneManager.activeSceneChanged += FadeAudio;
+            DontDestroyOnLoad(gameObject);
         }
 
         private void FadeAudio(Scene current, Scene next)
@@ -74,10 +72,15 @@ namespace MiniGame
             }
             
             print("MiniGame faded out");
+            Destroy(gameObject);
         }
         private IEnumerator FadeIn()
         {
+            print("Begin wait for audioListener");
             yield return new WaitWhile(() => AudioListener.volume > 0);
+            startAudioSource.Play();
+            loopAudioSource.PlayDelayed(_startClip.length);
+            print("End wait for audioListener");
             
             float elapsedTime = 0;
             float curVol = AudioListener.volume;

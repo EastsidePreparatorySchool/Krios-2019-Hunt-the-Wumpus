@@ -6,10 +6,13 @@ namespace CommandView
 {
     public class MusicController : MonoBehaviour
     {
+        public AudioSource ambientMusic;
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             SceneManager.activeSceneChanged += FadeAudio;
+            DontDestroyOnLoad(gameObject);
+            ambientMusic.Play();
         }
         
         private void FadeAudio(Scene current, Scene next)
@@ -41,10 +44,14 @@ namespace CommandView
             }
             
             print("CommandView Faded out");
+            Destroy(gameObject);
         }
         private IEnumerator FadeIn()
         {
+            print("Begin wait for audioListener");
             yield return new WaitWhile(() => AudioListener.volume > 0);
+            ambientMusic.Play();
+            print("End wait for audioListener");
             
             float elapsedTime = 0;
             float curVol = AudioListener.volume;
