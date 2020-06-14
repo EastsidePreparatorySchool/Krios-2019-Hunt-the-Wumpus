@@ -30,7 +30,7 @@ public class SaveData
         money = _gameMeta.money;
         nukes = _gameMeta.nukes;
 
-        wumpusLocation = planet.wumpus.location;
+        wumpusLocation = planet.wumpus.location.GetTileNumber();
 
         int i = 0;
         foreach (GameObject face in planet.faces)
