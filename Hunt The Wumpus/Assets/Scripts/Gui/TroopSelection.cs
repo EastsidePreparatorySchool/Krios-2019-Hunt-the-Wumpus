@@ -78,6 +78,24 @@ namespace Gui
             }
         }
 
+        public void SelectAll()
+        {
+            foreach (var toggle in _toggles)
+            {
+                Toggle toggle1 = toggle.gameObject.GetComponent<Toggle>();
+                toggle1.isOn = true;
+            }
+        }
+
+        public void DeselectAll()
+        {
+            foreach (var toggle in _toggles)
+            {
+                Toggle toggle1 = toggle.gameObject.GetComponent<Toggle>();
+                toggle1.isOn = false;
+            }
+        }
+
         public void SendTroopsToBattle()
         {
             print("Sending selected troops to battle!");
