@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using CommandView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MiniGame
 {
@@ -39,6 +40,13 @@ namespace MiniGame
             
             startAudioSource.Play();
             loopAudioSource.PlayDelayed(_startClip.length);
+
+            SceneManager.activeSceneChanged += FadeOut;
+        }
+
+        private void FadeOut(Scene current, Scene next)
+        {
+            print("MiniGame: cur: "+current.name+"; next: "+next.name);
         }
 
         // Update is called once per frame
