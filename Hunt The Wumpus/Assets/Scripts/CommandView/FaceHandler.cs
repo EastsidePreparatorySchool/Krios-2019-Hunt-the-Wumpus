@@ -48,6 +48,7 @@ namespace CommandView
 
         // Face Properties
         public GameObject[] adjacentFaces;
+        public FaceHandler[] adjacentFaceHandlers;
         public bool discovered;
         public bool colonized;
         public int lastSeenTurnsAgo;
@@ -108,6 +109,12 @@ namespace CommandView
             }
 
             faceCenter /= faceMesh.vertices.Length;
+
+            adjacentFaceHandlers = new FaceHandler[adjacentFaces.Length];
+            for (int i = 0; i < adjacentFaces.Length; i++)
+            {
+                adjacentFaceHandlers[i] = adjacentFaces[i].GetComponent<FaceHandler>();
+            }
 
             // Calculate face normal
             faceNormal = transform.TransformPoint(faceMesh.normals[0]);
@@ -176,7 +183,7 @@ namespace CommandView
                     temp += i + ", ";
                 }
 
-                print(temp);
+                //print(temp);
                 _firstTimeRun = true;
             }
 
@@ -186,9 +193,9 @@ namespace CommandView
                 {
                     UpdateHintData();
                     bool checkUncolonized = false;
-                    foreach (GameObject adjacentFace in GetOpenAdjacentFaces())
+                    foreach (FaceHandler adjacentFace in GetOpenAdjacentFaces())
                     {
-                        if (!adjacentFace.GetComponent<FaceHandler>().colonized)
+                        if (!adjacentFace.colonized)
                         {
                             checkUncolonized = true;
                             break;
@@ -334,7 +341,7 @@ namespace CommandView
             }
 
             //if discovered but not yet colonized, play game to try to colonize
-            if (_planet.GetComponent<Wumpus.Wumpus>().location != _faceNumber)
+            if (_planet.wumpus.location != this)
             {
                 switch (_hazardObject)
                 {
@@ -410,9 +417,8 @@ namespace CommandView
         {
             bool[] hintsToGive = new bool[3];
 
-            foreach (GameObject face in GetOpenAdjacentFaces())
+            foreach (FaceHandler adjFace in GetOpenAdjacentFaces())
             {
-                FaceHandler adjFace = face.GetComponent<FaceHandler>();
                 HazardTypes haz = adjFace.GetHazardObject();
                 if (haz == HazardTypes.Pit)
                 {
@@ -424,7 +430,7 @@ namespace CommandView
                 }
                 else
                 {
-                    if (adjFace.GetTileNumber() == _planet.GetComponent<Wumpus.Wumpus>().location)
+                    if (adjFace == _planet.wumpus.location)
                     {
                         hintsToGive[0] = true;
                     }
@@ -500,10 +506,10 @@ namespace CommandView
             print("Nukes: " + meta.nukes);
             if (meta.nukes != 0)
             {
-                Wumpus.Wumpus wumpus = _planet.GetComponent<Wumpus.Wumpus>();
+                Wumpus.Wumpus wumpus = _planet.wumpus;
                 meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
                 SetColonized();
-                if (wumpus.location == _faceNumber)
+                if (wumpus.location == this)
                 {
                     print("Hit the Wumpus! You win!");
                     // TODO: end the game
@@ -514,13 +520,11 @@ namespace CommandView
 
                     bool wumpusAdjacent = false;
 
-                    foreach (GameObject adjacentFace in adjacentFaces)
+                    foreach (FaceHandler adjacentFaceHandler in adjacentFaceHandlers)
                     {
-                        FaceHandler adjacentFaceHandler = adjacentFace.GetComponent<FaceHandler>();
-
                         adjacentFaceHandler.noMoney = true;
 
-                        if (wumpus.location == adjacentFaceHandler._faceNumber)
+                        if (wumpus.location == adjacentFaceHandler)
                         {
                             wumpusAdjacent = true;
                         }
@@ -528,7 +532,7 @@ namespace CommandView
 
                     if (wumpusAdjacent)
                     {
-                        wumpus.Move();
+                        wumpus.Move(30);
                     }
                 }
             }
@@ -576,9 +580,8 @@ namespace CommandView
             UpdateFaceColors();
 
             // Identify adjacent faces as discovered
-            foreach (GameObject face in GetOpenAdjacentFaces())
+            foreach (FaceHandler faceHandler in GetOpenAdjacentFaces())
             {
-                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
                 if (faceHandler.colonized)
                 {
                     continue;
@@ -603,14 +606,14 @@ namespace CommandView
             return _faceNumber;
         }
 
-        public List<GameObject> GetOpenAdjacentFaces()
+        public List<FaceHandler> GetOpenAdjacentFaces()
         {
-            List<GameObject> openAdjacent = new List<GameObject>();
+            List<FaceHandler> openAdjacent = new List<FaceHandler>();
             for (int i = 0; i < adjacentFaces.Length; i++)
             {
                 if (state[i])
                 {
-                    openAdjacent.Add(adjacentFaces[i]);
+                    openAdjacent.Add(adjacentFaceHandlers[i]);
                 }
             }
 
@@ -634,6 +637,11 @@ namespace CommandView
             }
 
             return n;
+        }
+
+        public bool HadWumpus()
+        {
+            return _planet.wumpus.location == this;
         }
     }
 }
