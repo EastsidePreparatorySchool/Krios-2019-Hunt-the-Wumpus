@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using CommandView;
@@ -11,6 +12,7 @@ namespace MiniGame
     {
         public AudioSource startAudioSource;
         public AudioSource loopAudioSource;
+        public AudioListener myAudioListener;
 
         private Planet _planet;
 
@@ -41,12 +43,57 @@ namespace MiniGame
             startAudioSource.Play();
             loopAudioSource.PlayDelayed(_startClip.length);
 
-            SceneManager.activeSceneChanged += FadeOut;
+            SceneManager.activeSceneChanged += FadeAudio;
         }
 
-        private void FadeOut(Scene current, Scene next)
+        private void FadeAudio(Scene current, Scene next)
         {
-            print("MiniGame: cur: "+current.name+"; next: "+next.name);
+            // print("MiniGame: cur: "+current.name+"; next: "+next.name);
+            if (next.name.Equals("CommandView"))
+            {
+                print("MiniGame fading out");
+                StartCoroutine(FadeOut());
+            }
+            else
+            {
+                print("MiniGame fading in");
+                StartCoroutine(FadeIn());
+            }
+        }
+
+        private IEnumerator FadeOut()
+        {
+            float elapsedTime = 0;
+            float curVol = AudioListener.volume;
+            float dur = 1f;
+
+            while (elapsedTime < dur)
+            {
+                elapsedTime += Time.deltaTime;
+                AudioListener.volume = Mathf.Lerp(curVol, 0, elapsedTime / dur);
+                yield return null;
+            }
+            
+            myAudioListener.gameObject.SetActive(false);
+            print("MiniGame faded out");
+        }
+        private IEnumerator FadeIn()
+        {
+            yield return new WaitWhile(() => AudioListener.volume > 0);
+            
+            float elapsedTime = 0;
+            float curVol = AudioListener.volume;
+            float dur = 1f;
+
+            myAudioListener.gameObject.SetActive(true);
+            
+            while (elapsedTime < dur)
+            {
+                elapsedTime += Time.deltaTime;
+                AudioListener.volume = Mathf.Lerp(curVol, 1, elapsedTime / dur);
+                yield return null;
+            }
+            print("MiniGame faded in");
         }
 
         // Update is called once per frame

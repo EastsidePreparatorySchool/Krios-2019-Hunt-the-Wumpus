@@ -1,19 +1,67 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CommandView
 {
     public class MusicController : MonoBehaviour
     {
+        public AudioListener myAudioListener;
+        
         // Start is called before the first frame update
         void Start()
         {
-            SceneManager.activeSceneChanged += FadeOut;
+            SceneManager.activeSceneChanged += FadeAudio;
+        }
+        
+        private void FadeAudio(Scene current, Scene next)
+        {
+            // print("MiniGame: cur: "+current.name+"; next: "+next.name);
+            if (next.name.Equals("MVPMiniGame"))
+            {
+                print("CommandView Fading out");
+                StartCoroutine(FadeOut());
+            }
+            else
+            {
+                print("CommandView Fading in");
+                StartCoroutine(FadeIn());
+            }
         }
 
-        private void FadeOut(Scene current, Scene next)
+        private IEnumerator FadeOut()
         {
-            print("CommandView Music: cur: "+current.name+"; next: "+next.name);
+            float elapsedTime = 0;
+            float curVol = AudioListener.volume;
+            float dur = 1f;
+
+            while (elapsedTime < dur)
+            {
+                elapsedTime += Time.deltaTime;
+                AudioListener.volume = Mathf.Lerp(curVol, 0, elapsedTime / dur);
+                yield return null;
+            }
+            
+            myAudioListener.gameObject.SetActive(false);
+            print("CommandView Faded out");
+        }
+        private IEnumerator FadeIn()
+        {
+            yield return new WaitWhile(() => AudioListener.volume > 0);
+            
+            float elapsedTime = 0;
+            float curVol = AudioListener.volume;
+            float dur = 1f;
+
+            myAudioListener.gameObject.SetActive(true);
+            
+            while (elapsedTime < dur)
+            {
+                elapsedTime += Time.deltaTime;
+                AudioListener.volume = Mathf.Lerp(curVol, 1, elapsedTime / dur);
+                yield return null;
+            }
+            print("CommandView Faded in");
         }
 
         // Update is called once per frame

@@ -3693,6 +3693,7 @@ GameObject:
   m_Component:
   - component: {fileID: 657961593}
   - component: {fileID: 657961592}
+  - component: {fileID: 657961595}
   - component: {fileID: 657961591}
   - component: {fileID: 657961594}
   m_Layer: 0
@@ -3714,6 +3715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c683822ffb400546999e86eac217854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myAudioListener: {fileID: 657961595}
 --- !u!20 &657961592
 Camera:
   m_ObjectHideFlags: 0
@@ -3790,6 +3792,14 @@ MonoBehaviour:
   zoomSpeed: 5
   rotationSpeed: 80
   distance: 17
+--- !u!81 &657961595
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657961590}
+  m_Enabled: 1
 --- !u!1 &679834725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 7289e6735f2c09245b25ffbe59fbc180,

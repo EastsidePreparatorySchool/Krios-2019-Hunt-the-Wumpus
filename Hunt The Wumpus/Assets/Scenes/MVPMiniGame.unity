@@ -306,7 +306,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212444791}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1212444793
 Camera:
   m_ObjectHideFlags: 0
@@ -553,6 +553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startAudioSource: {fileID: 1212444800}
   loopAudioSource: {fileID: 1212444802}
+  myAudioListener: {fileID: 1212444792}
 --- !u!82 &1212444802
 AudioSource:
   m_ObjectHideFlags: 0
