@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using CommandView;
+using UnityEngine.SceneManagement;
 
 public static class DoSaving
 {
@@ -17,8 +18,26 @@ public static class DoSaving
         stream.Close();
     }
 
-    /*public static SaveData LoadTheData ()
+    public static SaveData LoadTheData ()
     {
+        SceneManager.LoadScene("CommanView", LoadSceneMode.Single);
+
+
         string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
-    }*/
+        if (File.Exists(path))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+
+            SaveData data = formatter.Deserialize(stream) as SaveData;
+            stream.Close();
+
+            return data;
+        }
+        else
+        {
+            Debug.LogError("Savegame not found");
+            return null;
+        }
+    }
 }

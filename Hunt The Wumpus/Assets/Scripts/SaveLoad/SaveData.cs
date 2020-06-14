@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using CommandView;
+﻿using CommandView;
 using UnityEngine;
 
 [System.Serializable]
@@ -24,7 +22,7 @@ public class SaveData
 
     public int[] troopType;
     public string[] troopName;
-    public bool[] iseEhausted;
+    public bool[] isEhausted;
 
     public SaveData(Planet planet)
     {
@@ -49,13 +47,13 @@ public class SaveData
         {
             troopType[i] = (int)troop.type;
             troopName[i] = troop.name;
-            iseEhausted[i] = false;
+            isEhausted[i] = false;
         }
         foreach (TroopMeta troop in _gameMeta.availableTroops)
         {
             troopType[i] = (int)troop.type;
             troopName[i] = troop.name;
-            iseEhausted[i] = true;
+            isEhausted[i] = true;
         }
     }
 }

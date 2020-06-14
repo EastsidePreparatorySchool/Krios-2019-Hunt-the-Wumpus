@@ -1,15 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using CommandView;
+using MiniGame;
 
 public class PauseMenu : MonoBehaviour
 {
+    private GameObject _planet;
+    private Planet _planetHandler;
+    private GameMeta _gameMeta;
 
     public static bool isPaused = false;
 
     public GameObject pauseMenu;
 
-    // Update is called once per frame
+    void Start()
+    {
+        _planet = GameObject.Find("Planet");
+        _planetHandler = _planet.GetComponent<Planet>();
+        _gameMeta = _planet.GetComponent<GameMeta>();
+    }
+
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -35,14 +45,12 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
     }
 
-    public void LoadGame()
+    public void Surrender()
     {
-        print("make tis actually load a game save");
-    }
-
-    public void SaveQuit()
-    {
-        print("make tis actually save an quit");
-        Application.Quit();
+        _planetHandler.result.inGameTroops.Clear();
+        GameObject resultParent = GameObject.Find("Minigame Main Camera");
+        ResultHandler rehandle = resultParent.GetComponent<ResultHandler>();
+        Resume();
+        rehandle.EndMiniGame();
     }
 }
