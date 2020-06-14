@@ -20,6 +20,7 @@ namespace MiniGame.Creatures
 
         public bool doesAttack;
         public bool isMoving;
+        public bool isAttacking;
         public bool doesAttackWhileMoving;
 
         // Start is called before the first frame update
@@ -38,6 +39,8 @@ namespace MiniGame.Creatures
                     Attack(target);
                     _timeDiffCounter = 0f;
                 }
+                else
+                    isAttacking = false;
             }
         }
 
@@ -67,7 +70,8 @@ namespace MiniGame.Creatures
             }
             else if (attackDamage > 0)
             {
-                
+                isAttacking = true;
+
                 GetComponent<ParticleSystem>().Play();
                 _particleTimeoutTime = Time.deltaTime + particleTimeout;
 
