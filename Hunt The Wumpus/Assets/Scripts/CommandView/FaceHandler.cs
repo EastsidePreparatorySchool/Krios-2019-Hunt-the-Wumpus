@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Gui;
 //using NUnit.Framework;
@@ -257,6 +258,7 @@ namespace CommandView
                 {
                     RegenerateHintGOs();
                 }
+
                 // Show relevant info
                 for (int i = 0; i < lastHintGiven.Length; i++)
                 {
@@ -289,6 +291,7 @@ namespace CommandView
                 {
                     RegenerateHintGOs();
                 }
+
                 foreach (GameObject o in _hintsGo)
                 {
                     o.SetActive(false);
@@ -466,20 +469,29 @@ namespace CommandView
 
                 _planet.result = new MiniGameResult(deployedTroops);
 
-                if (playMiniGame)
-                {
-                    print("Going to Battle");
-                    SceneManager.LoadScene(2);
-                }
-                else
-                {
-                    print("Going to TileBattle");
-                    SceneManager.LoadScene(1);
-                }
+                StartCoroutine(FadeOutAndSwitch());
             }
             else
             {
                 print("You didn't select any troops to deploy");
+            }
+        }
+
+        private IEnumerator FadeOutAndSwitch()
+        {
+            _planet.GetComponent<MusicController>().FadeOut();
+
+            yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
+
+            if (playMiniGame)
+            {
+                print("Going to Battle");
+                SceneManager.LoadScene(2);
+            }
+            else
+            {
+                print("Going to TileBattle");
+                SceneManager.LoadScene(1);
             }
         }
 

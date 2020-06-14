@@ -1,4 +1,6 @@
-﻿using CommandView;
+﻿using System;
+using System.Collections;
+using CommandView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -48,6 +50,13 @@ namespace MiniGame
 
 
             _meta.UpdateGameStateWithResult();
+            StartCoroutine(FadeOutAndSwitch());
+        }
+
+        private IEnumerator FadeOutAndSwitch()
+        {
+            _planet.GetComponent<MusicController>().FadeOut();
+            yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
             SceneManager.LoadScene(0);
         }
     }
