@@ -718,7 +718,7 @@ namespace CommandView
             meta.money = data.money;
             meta.nukes = data.nukes;
 
-            wumpus.location = data.wumpusLocation;
+            wumpus.location = faces[data.wumpusLocation].GetComponent<FaceHandler>();
 
             int i = 0;
             foreach (GameObject face in faces)

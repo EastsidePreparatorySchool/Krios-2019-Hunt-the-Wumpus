@@ -3695,6 +3695,7 @@ GameObject:
   - component: {fileID: 657961592}
   - component: {fileID: 657961595}
   - component: {fileID: 657961596}
+  - component: {fileID: 657961591}
   - component: {fileID: 657961594}
   m_Layer: 0
   m_Name: Main Camera
@@ -3703,6 +3704,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &657961591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657961590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c683822ffb400546999e86eac217854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ambientMusic: {fileID: 657961596}
 --- !u!20 &657961592
 Camera:
   m_ObjectHideFlags: 0
@@ -3798,7 +3812,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4365857bc070a9140b413b1d264e7614, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -11286,8 +11300,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.01886791, g: 1, b: 0.8627577, a: 1}
-      key1: {r: 0.01886791, g: 1, b: 0.8627577, a: 1}
+      key0: {r: 0.44313726, g: 0.039215688, b: 0.5294118, a: 1}
+      key1: {r: 0.44313726, g: 0.039215688, b: 0.5294118, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -11310,7 +11324,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
