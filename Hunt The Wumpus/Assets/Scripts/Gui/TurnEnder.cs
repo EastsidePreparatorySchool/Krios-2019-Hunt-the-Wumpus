@@ -18,6 +18,11 @@ public class TurnEnder : MonoBehaviour
     }
     public void EndTurn()
     {
+        GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
+        if (TroopSelector != null)
+        {
+            TroopSelector.SetActive(false);
+        }
         _meta.EndTurn();
     }
 }

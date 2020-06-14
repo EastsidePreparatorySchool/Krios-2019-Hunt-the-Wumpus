@@ -222,7 +222,7 @@ namespace CommandView
         private /*static*/ void Shuffle(List<int> list, Random rnd)
         {
             for (var i = list.Count; i > 0; i--)
-                Swap(list, 0, Random.Range(0, i+1));
+                Swap(list, 0, Random.Range(0, i));
         }
 
 
