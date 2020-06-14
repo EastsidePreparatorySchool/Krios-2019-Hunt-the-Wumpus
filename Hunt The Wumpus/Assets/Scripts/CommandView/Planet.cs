@@ -699,5 +699,56 @@ namespace CommandView
         {
             return wumplingWaves;
         }
+
+        public void Savefunc()
+        {
+            DoSaving.DoTheSaving(this);
+        }
+
+        public void Loadfunc()
+        {
+            /*Scene currentScene = SceneManager.GetActiveScene();
+            string sceneName = currentScene.name;
+            if (sceneName == "MVPMiniGame")
+            {
+                GameObject canvas = GameObject.Find("PauseCanvas");
+                PauseMenu menu = canvas.GetComponent<PauseMenu>();
+                menu.Resume();
+                SceneManager.LoadScene("CommandView");
+            }*/
+            
+            SaveData data = DoSaving.LoadTheData();
+
+            meta.turnsElapsed = data.turnsElapsed;
+            meta.money = data.money;
+            meta.nukes = data.nukes;
+
+            wumpus.location = data.wumpusLocation;
+
+            int i = 0;
+            foreach (GameObject face in faces)
+            {
+                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                faceHandler.biomeType = (BiomeType)data.biomeNum[i];
+                faceHandler.colonized = data.isColonized[i];
+                faceHandler.SetHazard((HazardTypes)data.hazardType[i]);
+            }
+
+            meta.availableTroops.Clear();
+            meta.exhaustedTroops.Clear();
+
+            for (i = 0; i < data.troopType.Count(); i++)
+            {
+                if (data.isEhausted[i])
+                {
+                    meta.exhaustedTroops.Add(new TroopMeta((TroopType)data.troopType[i],data.troopName[i]));
+                }
+                else
+                {
+                    meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
+                }
+            }
+        }
+
     }
 }
