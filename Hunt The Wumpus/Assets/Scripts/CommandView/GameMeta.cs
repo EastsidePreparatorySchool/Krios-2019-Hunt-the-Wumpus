@@ -13,8 +13,6 @@ namespace CommandView
         public int money;
         public int nukes;
 
-        public bool infiniteNukes;
-
         public String[] firstNames = new[]
         {
                 "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
@@ -44,11 +42,7 @@ namespace CommandView
             _planetHandler = GetComponent<Planet>();
             totalFaces = _planetHandler.faces.Length;
 
-            nukes = 300;
-            if (infiniteNukes)
-            {
-                nukes = 10000;
-            }
+            nukes = 3;
 
             _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
             for (int i = 0; i < _planetHandler.faces.Length; i++)
