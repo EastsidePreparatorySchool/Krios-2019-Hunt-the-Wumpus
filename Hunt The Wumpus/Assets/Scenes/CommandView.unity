@@ -3695,7 +3695,6 @@ GameObject:
   - component: {fileID: 657961592}
   - component: {fileID: 657961595}
   - component: {fileID: 657961596}
-  - component: {fileID: 657961591}
   - component: {fileID: 657961594}
   m_Layer: 0
   m_Name: Main Camera
@@ -3704,18 +3703,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &657961591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657961590}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c683822ffb400546999e86eac217854, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!20 &657961592
 Camera:
   m_ObjectHideFlags: 0
@@ -11653,6 +11640,7 @@ GameObject:
   - component: {fileID: 2076108097}
   - component: {fileID: 2076108098}
   - component: {fileID: 2076108099}
+  - component: {fileID: 2076108100}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Untagged
@@ -11830,6 +11818,18 @@ MonoBehaviour:
   - Jackson
   - Martin
   totalFaces: 0
+--- !u!114 &2076108100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076108095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daccddc4ec314b147947bcd21672c918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2088986118
 GameObject:
   m_ObjectHideFlags: 0
