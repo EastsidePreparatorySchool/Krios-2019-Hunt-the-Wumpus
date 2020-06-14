@@ -13,23 +13,31 @@ public class TroopAnimHandler : MonoBehaviour
     }
     void Update()
     {
+        GameObject gun = GameObject.Find("StandardGun -model");
+
         if (combatCtr.isMoving == true)
         {
             anim.SetBool("isShooting", false);
             anim.SetBool("isRunning", true);
             anim.SetBool("isIdle", false);
+            gun.transform.position = new Vector3(0, 1, -1);
+            gun.transform.rotation = Quaternion.Euler(204, 254, 234);
         }
         else if (combatCtr.isAttacking == true)
         {
             anim.SetBool("isShooting", true);
             anim.SetBool("isRunning", false);
             anim.SetBool("isIdle", false);
+            gun.transform.position = new Vector3(0.5f, 2, 0);
+            gun.transform.rotation = Quaternion.Euler(184, 238, 292);
         }
         else
         {
             anim.SetBool("isShooting", false);
             anim.SetBool("isRunning", false);
             anim.SetBool("isIdle", true);
+            gun.transform.position = new Vector3(0.5f, 1, -1);
+            gun.transform.rotation = Quaternion.Euler(143, 280, 236);
         }
     }
 }
