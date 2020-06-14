@@ -4,6 +4,7 @@
  * Enjoy :)
  */
 
+using UnityEditor;
 using UnityEngine;
 
 namespace MiniGame
@@ -25,9 +26,10 @@ namespace MiniGame
             {
                 _isSelected = value;
                 //Replace this with your custom code. What do you want to happen to a Selectable when it get's (de)selected?
-                Renderer r = GetComponentInChildren<Renderer>();
+                //GameObject matParent = GameObject.Find("Soldier/Cube");
+                Renderer r = GetComponentInChildren<SkinnedMeshRenderer>();
                 if (r != null)
-                    r.material.color = value ? Color.blue : Color.white;
+                    r.material.color = value ? new Color(.5f, .5f, .7f) : new Color(.8f, .8f, .8f);
             }
         }
  
