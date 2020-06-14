@@ -43,5 +43,6 @@ public class PauseMenu : MonoBehaviour
     public void SaveQuit()
     {
         print("make tis actually save an quit");
+        Application.Quit();
     }
 }

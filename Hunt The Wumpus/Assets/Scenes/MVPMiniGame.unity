@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 496030996}
   - component: {fileID: 496030998}
   - component: {fileID: 496030997}
+  - component: {fileID: 496030999}
   m_Layer: 0
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -371,6 +372,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496030995}
   m_CullTransparentMesh: 0
+--- !u!95 &496030999
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496030995}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bcba062914a90b9428bb9676ba1cd7d1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &665694365
 GameObject:
   m_ObjectHideFlags: 0
