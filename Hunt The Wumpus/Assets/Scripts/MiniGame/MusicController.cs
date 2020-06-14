@@ -12,7 +12,6 @@ namespace MiniGame
     {
         public AudioSource startAudioSource;
         public AudioSource loopAudioSource;
-        public AudioListener myAudioListener;
 
         private Planet _planet;
 
@@ -74,7 +73,6 @@ namespace MiniGame
                 yield return null;
             }
             
-            myAudioListener.gameObject.SetActive(false);
             print("MiniGame faded out");
         }
         private IEnumerator FadeIn()
@@ -85,8 +83,6 @@ namespace MiniGame
             float curVol = AudioListener.volume;
             float dur = 1f;
 
-            myAudioListener.gameObject.SetActive(true);
-            
             while (elapsedTime < dur)
             {
                 elapsedTime += Time.deltaTime;

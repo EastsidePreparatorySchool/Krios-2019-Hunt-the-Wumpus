@@ -6,8 +6,6 @@ namespace CommandView
 {
     public class MusicController : MonoBehaviour
     {
-        public AudioListener myAudioListener;
-        
         // Start is called before the first frame update
         void Start()
         {
@@ -42,7 +40,6 @@ namespace CommandView
                 yield return null;
             }
             
-            myAudioListener.gameObject.SetActive(false);
             print("CommandView Faded out");
         }
         private IEnumerator FadeIn()
@@ -53,8 +50,6 @@ namespace CommandView
             float curVol = AudioListener.volume;
             float dur = 1f;
 
-            myAudioListener.gameObject.SetActive(true);
-            
             while (elapsedTime < dur)
             {
                 elapsedTime += Time.deltaTime;
