@@ -26,7 +26,6 @@ namespace CommandView
 
         // Hold ref to all of the faces
         public GameObject[] faces;
-        public FaceHandler[] faceHandlers;
 
         public EventSystem lineEventSystem;
 
@@ -44,6 +43,7 @@ namespace CommandView
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
+        private readonly bool[] _faceConquestStatuses = new bool[30];
         private bool[] _hintsToGive = new bool[3]; //index 0=Wumpus, 1=pit, 2=bat
         public int[] wumplingWaves;
         public int soldiers;
@@ -77,15 +77,10 @@ namespace CommandView
             _colonizedLine.SetActive(false);
             CreateMeshVertices();
 
-            faceHandlers = new FaceHandler[faces.Length];
-            for (int i = 0; i < faces.Length; i++)
-            {
-                faceHandlers[i] = faces[i].GetComponent<FaceHandler>();
-            }
-
             // Populate biomes
-            foreach (FaceHandler faceHandler in faceHandlers)
+            foreach (GameObject face in faces)
             {
+                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
                 if (faceHandler.biomeType != BiomeType.None)
                 {
                     continue;
@@ -107,15 +102,16 @@ namespace CommandView
             }
             
             // Reset planet to undiscovered
-            foreach (FaceHandler faceHandler in faceHandlers)
+            foreach (GameObject face in faces)
             {
-                faceHandler.UpdateFaceColors();
+                face.GetComponent<FaceHandler>().UpdateFaceColors();
             }
 
             // Set player start location to a random face, make it colonized (safe)
             // _playerLoc = Mathf.RoundToInt(_random.Next(0, 29));
             int splashSpot = Random.Range(0, 30);
-            faceHandlers[splashSpot].SetColonized();
+            faces[splashSpot].GetComponent<FaceHandler>().SetColonized();
+            _faceConquestStatuses[splashSpot] = true;
             print("Player starting at " + splashSpot);
 
             // TODO: either use the code below or something else to init wumpus with correct location
@@ -599,6 +595,10 @@ namespace CommandView
         }
 
         //Public Get functions
+        public bool[] GetFaceConquestStatus()
+        {
+            return _faceConquestStatuses;
+        }
 
         public bool[] GetHintsToGive()
         {
@@ -611,6 +611,10 @@ namespace CommandView
         }
 
         // Public Set functions
+        public void SetFaceConquestStatus(int face, bool stat = true)
+        {
+            _faceConquestStatuses[face] = stat;
+        }
 
         public void SetHintsToGive(bool[] hints)
         {

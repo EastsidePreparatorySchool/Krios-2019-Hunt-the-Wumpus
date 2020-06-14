@@ -175,7 +175,7 @@ namespace CommandView
                     temp += i + ", ";
                 }
 
-                //print(temp);
+                print(temp);
                 _firstTimeRun = true;
             }
 

@@ -39,6 +39,7 @@ namespace TileBattle
             {
                 print("1");
                 // Mark face as colonized
+                planet.SetFaceConquestStatus(faceInBattle);
                 print("2");
                 // planet.ColonizeFace(faceInBattle);
                 print("Face number: " + faceInBattle);
