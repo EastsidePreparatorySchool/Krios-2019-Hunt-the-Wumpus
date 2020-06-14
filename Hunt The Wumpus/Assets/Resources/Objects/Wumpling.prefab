@@ -2008,6 +2008,7 @@ MonoBehaviour:
   target: {fileID: 0}
   doesAttack: 1
   isMoving: 0
+  isAttacking: 0
   doesAttackWhileMoving: 1
 --- !u!114 &5664777907750454409
 MonoBehaviour:
