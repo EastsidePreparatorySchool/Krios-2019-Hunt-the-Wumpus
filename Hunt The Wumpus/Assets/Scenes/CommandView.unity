@@ -436,6 +436,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -1773,6 +1774,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -2025,6 +2027,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -2335,6 +2338,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -2860,6 +2864,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -2909,6 +2914,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -3798,6 +3804,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -3918,6 +3925,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -4439,6 +4447,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -4488,6 +4497,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -4537,6 +4547,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -5118,6 +5129,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -6166,6 +6178,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -6602,6 +6615,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -6651,6 +6665,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -6825,6 +6840,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7029,6 +7045,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7233,6 +7250,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7353,6 +7371,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7402,6 +7421,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7969,6 +7989,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -8018,6 +8039,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -8435,6 +8457,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -8484,6 +8507,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -8533,6 +8557,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -8844,6 +8869,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10447,6 +10473,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10496,6 +10523,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10702,6 +10730,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -11032,6 +11061,7 @@ MonoBehaviour:
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
+  biomeType: 0
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
