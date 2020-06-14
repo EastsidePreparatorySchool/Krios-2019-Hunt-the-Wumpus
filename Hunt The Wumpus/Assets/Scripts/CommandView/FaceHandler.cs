@@ -35,12 +35,13 @@ namespace CommandView
     public class FaceHandler : MonoBehaviour
     {
         //Public variables
-        public static readonly Color UndiscoveredColor = new Color(.1f, .1f, .1f);
+        public static readonly Color UndiscoveredColor = new Color(.1f, .1f, .2f);
 
         public static readonly Color[] DiscoveredColor =
-            {new Color(.25f, .25f, .25f), new Color(.5f, .5f, 0f), new Color(0f, .5f, 0f)};
+            {new Color(.25f, .25f, .25f), new Color(168f/255f, 117f/255f, 50f/255f), new Color(66f/255f,92f/255f,49f/255f)};
 
-        public static readonly Color[] ColonizedColor = {Color.gray, Color.yellow, Color.green};
+        public static readonly Color[] ColonizedColor = {Color.gray, new Color(227f/255f, 156f/255f, 64f/255f), new Color(90f/255f, 140f/255f,47f/255f), };
+        // new Color(173f/255f, 144f/255f, 106f/255f)
 
         //individual variables
         private Planet _planet; // store reference back to planet
