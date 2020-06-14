@@ -82,10 +82,6 @@ namespace MiniGame.Creatures
         
         public CombatController GetNearestEnemy()
         {
-            if (isEnemy)
-            {
-                print("Wumpling getting nearest enemy");
-            }
             float nearestDistanceSqr = int.MaxValue;
             Vector3 myPos = transform.position;
             Vector3 lowerMyPos = new Vector3(myPos.x, 0.25f, myPos.z);
@@ -94,50 +90,24 @@ namespace MiniGame.Creatures
             Collider[] nearbyThings = new Collider[10];
             String typeLayerMask = isEnemy ? "Troop" : "MiniGameEnemy";
             LayerMask combinedMask = LayerMask.GetMask("MiniGameObstacle", typeLayerMask);
-
-            if (isEnemy)
-            {
-                print("Wumpling layermask: "+typeLayerMask);
-            }
             
             int size = Physics.OverlapSphereNonAlloc(myPos, attackRange, nearbyThings,
                 LayerMask.GetMask(typeLayerMask));
 
-            if (isEnemy)
-            {
-                print("Detected size: "+size);
-            }
-
             if (size != 0)
             {
-                if (isEnemy)
-                {
-                    print("Wumpling sees target");
-                }
                 for (int i = 0; i < size; i++)
                 {
                     Vector3 enemyDir = nearbyThings[i].gameObject.transform.position - lowerMyPos;
                     if (Physics.Raycast(lowerMyPos, enemyDir, out RaycastHit hit,
                         attackRange, combinedMask))
                     {
-                        if (isEnemy)
-                        {
-                            print("Wumpling raycast to target");
-                        }
                         Debug.DrawRay(lowerMyPos, enemyDir * hit.distance, isEnemy ? Color.red : Color.cyan, 1f);
                         if (hit.collider.Equals(nearbyThings[i]))
                         {
-                            if (isEnemy)
-                            {
-                                print("Wumpling hits target");
-                            }
                             float distSqr = enemyDir.sqrMagnitude;
                             if (distSqr < nearestDistanceSqr)
                             {
-                                if (isEnemy)
-                                {
-                                    print("Wumpling target is sorted");
-                                }
                                 nearestDistanceSqr = distSqr;
                                 nearestTarget = nearbyThings[i].gameObject.GetComponent<CombatController>();
                             }

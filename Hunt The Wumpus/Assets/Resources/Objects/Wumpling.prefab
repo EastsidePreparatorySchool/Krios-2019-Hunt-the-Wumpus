@@ -1927,7 +1927,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5664777907750552445}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.2854627, y: 1.2854627, z: 1.2854627}
   m_Children:
   - {fileID: 5664777907750592241}
@@ -1967,6 +1967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0c817d41351e4e43b86dd74edeb6718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 5664777907741045009}
   navMeshAgent: {fileID: 5664777907750454386}
   nearestTarget: {x: 0, y: 0, z: 0}
   searchRange: 20
