@@ -1,4 +1,5 @@
-﻿using CommandView;
+﻿using System.Collections.Generic;
+using CommandView;
 using UnityEngine;
 
 namespace Wumpus
@@ -10,11 +11,8 @@ namespace Wumpus
         private GameMeta _ingameStat;
     
         // init variables
-        public int location;
+        public FaceHandler location;
         public bool status; //false = sleeping | true = awake
-        private int _wumpTurn = 1;
-        
-        public int playerLocation;
 
         void Awake() {
             _planet = planetGameObject.GetComponent<Planet>();
@@ -27,7 +25,10 @@ namespace Wumpus
             // TODO: fix dependence on playerLocation (will not be using such)
             //pick random face
             // playerLocation = _planet.GetPlayerLocation();
-            location = Mathf.RoundToInt(Random.Range(0, 29));
+            do
+            {
+                location = _planet.faceHandlers[Random.Range(0, 30)];
+            } while (location.colonized || location.discovered || location.GetHazardObject() != HazardTypes.None);
 
             //make sure room doesn't conflict
             // if (location == playerLocation) {
@@ -42,25 +43,28 @@ namespace Wumpus
         // Update is called once per frame
         void Update()
         {
-            //if a turn has passed, then the wumpus moves then update the turn counter
-            if(_ingameStat.turnsElapsed > _wumpTurn) {
-                Move();
-                _wumpTurn++;
-            }
-
         }
 
         // movement function (if player location == wumpus location, fight, then run)
         //takes adj faces of current location, th
-        public void Move() {
-            //if the wumpus is asleep it won't move
-            if(status == false) return;
+        public void Move(int repeat) {
             //otherwise, we simply pick a random adj face and update the location
-            int[] adjFaces;
-            adjFaces = _planet.FindAdjacentFaces(location).ToArray();
-            // adjFaces = _planet.FindOpenAdjacentFaces(location).ToArray();
-            location = adjFaces[Mathf.RoundToInt(Random.Range(0, 3))];
-            print("wumpus moevd to " + location);
+            for (int i = 0; i < repeat; i++)
+            {
+                List<int> adjFaces = _planet.FindAdjacentFaces(location.GetTileNumber());
+                List<FaceHandler> potentialFaces = new List<FaceHandler>();
+                potentialFaces.Add(location);
+                foreach (var faceNum in adjFaces)
+                {
+                    FaceHandler face = _planet.faceHandlers[faceNum];
+                    if (!face.colonized && !face.discovered && face.GetHazardObject() == HazardTypes.None)
+                    {
+                        potentialFaces.Add(face);
+                    }
+                }
+                location = potentialFaces[Random.Range(0, potentialFaces.Count)];
+            }
+            print("wumpus moved to " + location.GetTileNumber());
         }
     }
 }

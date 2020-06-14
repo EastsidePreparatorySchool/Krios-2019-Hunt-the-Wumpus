@@ -59,7 +59,7 @@ namespace TileBattle
                 _inBattle = false;
                 print("Battle Over, You Lost! Going back to Command View");
 
-                if (planet.GetComponent<Wumpus.Wumpus>().location == faceInBattle)
+                if (planet.wumpus.location.GetTileNumber() == faceInBattle)
                 {
                     //TODO: move Wumpus twice
                 }

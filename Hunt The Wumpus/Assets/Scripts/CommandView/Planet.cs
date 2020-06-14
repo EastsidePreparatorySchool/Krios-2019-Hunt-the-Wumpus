@@ -94,11 +94,10 @@ namespace CommandView
                 faceHandler.biomeType = biomeNum == 0 ? BiomeType.Planes :
                     biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
                 
-                print(biomeNum);
+                //print(biomeNum);
 
-                foreach (GameObject openAdjacentFace in faceHandler.GetOpenAdjacentFaces())
+                foreach (FaceHandler adjacentHandler in faceHandler.GetOpenAdjacentFaces())
                 {
-                    FaceHandler adjacentHandler = openAdjacentFace.GetComponent<FaceHandler>();
                     if (adjacentHandler.biomeType == BiomeType.None)
                     {
                         adjacentHandler.biomeType = faceHandler.biomeType;
@@ -174,9 +173,9 @@ namespace CommandView
             List<int> usedFaces = new List<int> {safeSpot};
 
             // Making sure no hazards get added to the initial face and it's adjacent faces
-            foreach (GameObject face in faces[safeSpot].GetComponent<FaceHandler>().GetOpenAdjacentFaces())
+            foreach (FaceHandler face in faceHandlers[safeSpot].GetOpenAdjacentFaces())
             {
-                int adjFace = face.GetComponent<FaceHandler>().GetTileNumber();
+                int adjFace = face.GetTileNumber();
                 usedFaces.Add(adjFace);
             }
 
@@ -643,9 +642,9 @@ namespace CommandView
 
             List<int> adjFaces = new List<int>();
 
-            foreach (GameObject face in faces[inputLocation].GetComponent<FaceHandler>().adjacentFaces)
+            foreach (FaceHandler face in faceHandlers[inputLocation].adjacentFaceHandlers)
             {
-                int adjFace = face.GetComponent<FaceHandler>().GetTileNumber();
+                int adjFace = face.GetTileNumber();
                 adjFaces.Add(adjFace);
             }
 

@@ -44,7 +44,7 @@ namespace CommandView
             _planetHandler = GetComponent<Planet>();
             totalFaces = _planetHandler.faces.Length;
 
-            nukes = 3;
+            nukes = 300;
             if (infiniteNukes)
             {
                 nukes = 10000;
