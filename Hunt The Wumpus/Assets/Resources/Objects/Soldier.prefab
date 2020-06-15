@@ -431,8 +431,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthmgr: {fileID: 2544031465486300984}
-  attackInterval: 1
-  attackDamage: 20
+  attackInterval: 0.5
+  attackDamage: 10
   attackRange: 10
   isEnemy: 0
   target: {fileID: 0}
