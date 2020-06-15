@@ -14,8 +14,8 @@ namespace MiniGame
         public NavMeshAgent navMeshAgent;
 
         public float speed = 5;
-        public float minDistFromPointer = 2;
-        public float maxDistFromPointer = 6;
+        public float minDistFromPointer = 15;
+        public float maxDistFromPointer = 15;
         public float curDisFromPointer;
 
         private CombatController _combatController;
