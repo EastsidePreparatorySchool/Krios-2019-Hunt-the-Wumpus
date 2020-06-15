@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace MiniGame
 {
@@ -51,6 +52,14 @@ namespace MiniGame
             {
                 myTrans.position = new Vector3(curX, curY, minZ);
             }
+        }
+
+        public void goTo(float x, float z)
+        {
+            this.gameObject.transform.position = new Vector3(
+                Math.Min(maxX, Math.Max(minX, x)),
+                this.gameObject.transform.position.y,
+                Math.Min(maxZ, Math.Max(minZ, z)));
         }
     }
 }
