@@ -612,7 +612,7 @@ namespace CommandView
 
         public void AddSensorOnTile()
         {
-            if (meta.sensorTowers > 0 && colonized)
+            if (meta.sensorTowers > 0 && colonized && !showHintOnTile)
             {
                 showHintOnTile = true;
                 meta.sensorTowers--;

@@ -24,6 +24,7 @@ namespace Gui
         public GameObject troopSelectScrollObject;
         public GameObject sendToBattleBtn;
         public GameObject nukeBtn;
+        public GameObject buildSensorBtn;
 
         public GameObject BatEncounterAlertText;
 
@@ -136,6 +137,7 @@ namespace Gui
             troopSelectScrollObject.SetActive(!show);
             sendToBattleBtn.SetActive(!show);
             nukeBtn.SetActive(!show);
+            buildSensorBtn.SetActive(show);
         }
 
         public IEnumerator FlashBatsEncounterAlert()
