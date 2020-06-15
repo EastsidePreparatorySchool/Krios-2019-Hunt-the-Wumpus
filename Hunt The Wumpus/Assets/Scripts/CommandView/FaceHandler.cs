@@ -85,6 +85,7 @@ namespace CommandView
         public List<TroopMeta> heldTroops = new List<TroopMeta>();
 
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
+        public MeshFilter faceMeshFilter;
         public bool faceDataShowing;
         public Vector3 faceCenter;
         public Vector3 faceNormal;
@@ -107,7 +108,21 @@ namespace CommandView
         // Start is called before the first frame update
         private void Start()
         {
-            MeshFilter faceMeshFilter = GetComponent<MeshFilter>();
+            CalculateFaceGeometry();
+
+            adjacentFaceHandlers = new FaceHandler[adjacentFaces.Length];
+            for (int i = 0; i < adjacentFaces.Length; i++)
+            {
+                adjacentFaceHandlers[i] = adjacentFaces[i].GetComponent<FaceHandler>();
+            }
+
+
+            RegenerateHintGOs();
+        }
+
+        private void CalculateFaceGeometry()
+        {
+            faceMeshFilter = GetComponent<MeshFilter>();
             Mesh faceMesh = faceMeshFilter.mesh;
             List<Vector3> transformedVerts = new List<Vector3>();
             faceCenter = new Vector3();
@@ -122,15 +137,9 @@ namespace CommandView
 
             faceCenter /= faceMesh.vertices.Length;
 
-            adjacentFaceHandlers = new FaceHandler[adjacentFaces.Length];
-            for (int i = 0; i < adjacentFaces.Length; i++)
-            {
-                adjacentFaceHandlers[i] = adjacentFaces[i].GetComponent<FaceHandler>();
-            }
-
             // Calculate face normal
             faceNormal = transform.TransformPoint(faceMesh.normals[0]);
-            //Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
+            // Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
 
             // Calculate major axis and standard direction
             float furthestDistance = 0f;
@@ -156,14 +165,13 @@ namespace CommandView
                 }
             }
 
-            //Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
-
-
-            RegenerateHintGOs();
+            // Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
         }
 
         private void RegenerateHintGOs()
         {
+            CalculateFaceGeometry();
+
             _hintsGo = new List<GameObject>();
             String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
             foreach (string hazardName in hintGoResourcePathStrings)
@@ -175,7 +183,10 @@ namespace CommandView
                 hintObject.transform.rotation =
                     Quaternion.LookRotation(_majorAxisA - hintObject.transform.position, faceNormal);
 
-                //Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow, Mathf.Infinity);
+                hintObject.transform.parent = gameObject.transform;
+
+                // Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
+                    // Mathf.Infinity);
 
                 hintObject.SetActive(false);
 
@@ -186,6 +197,7 @@ namespace CommandView
         // Update is called once per frame
         private void Update()
         {
+            CalculateFaceGeometry();
             if (!_firstTimeRun)
             {
                 string temp = "Face " + _faceNumber + " has states: ";
