@@ -16,6 +16,7 @@ namespace MiniGame
         public float speed = 5;
         public float minDistFromPointer = 15;
         public float maxDistFromPointer = 15;
+        public Vector3 curTargetPointer;
         public float curDisFromPointer;
 
         private CombatController _combatController;
@@ -42,6 +43,7 @@ namespace MiniGame
                 else
                 {
                     Vector3 pointerLoc = pointer.GetPosition();
+                    curTargetPointer = pointerLoc;
                     curDisFromPointer = (pointerLoc - transform.position).sqrMagnitude;
 
                     if (curDisFromPointer > minDistFromPointer * minDistFromPointer)
