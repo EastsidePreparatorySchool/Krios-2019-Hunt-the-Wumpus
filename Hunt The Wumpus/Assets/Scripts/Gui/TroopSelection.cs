@@ -21,6 +21,11 @@ namespace Gui
 
         public GameObject sendNoneButton;
 
+        public GameObject troopSelectScrollObject;
+        public GameObject sendToBattleBtn;
+        public GameObject nukeBtn;
+        public GameObject buildSensorBtn;
+
         public GameObject BatEncounterAlertText;
 
         private GameObject _planet;
@@ -59,6 +64,7 @@ namespace Gui
                 }
 
                 troopSelector.SetActive(activate);
+                ShowOnlyBuildSensorBtn(!activate);
             }
             else
             {
@@ -79,6 +85,7 @@ namespace Gui
             }
             else
             {
+                ShowOnlyBuildSensorBtn(false);
                 foreach (var toggle in _toggles)
                 {
                     Destroy(toggle);
@@ -116,6 +123,21 @@ namespace Gui
         {
             print("Nuking Tile!");
             _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile();
+        }
+
+        public void AddSensorOnTile()
+        {
+            _planetHandler.faces[_prevFaceNum].GetComponent<FaceHandler>().AddSensorOnTile();
+        }
+
+        public void ShowOnlyBuildSensorBtn(bool show=true)
+        {
+            sendAllButton.SetActive(!show);
+            sendNoneButton.SetActive(!show);
+            troopSelectScrollObject.SetActive(!show);
+            sendToBattleBtn.SetActive(!show);
+            nukeBtn.SetActive(!show);
+            buildSensorBtn.SetActive(show);
         }
 
         public IEnumerator FlashBatsEncounterAlert()
