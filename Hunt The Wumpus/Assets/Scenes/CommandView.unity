@@ -11817,7 +11817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnsElapsed: 0
   money: 0
-  nukes: 3
+  nukes: 30
   firstNames:
   - James
   - Michael

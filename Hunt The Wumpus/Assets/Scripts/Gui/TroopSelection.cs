@@ -41,24 +41,31 @@ namespace Gui
         {
         }
 
-        public void ActivateTroopSelector(int faceNum)
+        public void ActivateTroopSelector(int faceNum, bool resetClose = false)
         {
-            bool activate = true;
-            if (_prevFaceNum == faceNum)
+            if (!resetClose)
             {
-                activate = !troopSelector.activeSelf;
+                bool activate = true;
+                if (_prevFaceNum == faceNum)
+                {
+                    activate = !troopSelector.activeSelf;
+                }
+                else
+                {
+                    _prevFaceNum = faceNum;
+                }
+
+                troopSelector.SetActive(activate);
             }
             else
             {
-                _prevFaceNum = faceNum;
+                troopSelector.SetActive(false);
             }
 
-            troopSelector.SetActive(activate);
 
-
-            if (troopSelector.activeSelf)
+            if (troopSelector.activeSelf && !resetClose)
             {
-               // print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
+                // print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
                 if (_toggles.Count == 0)
                 {
                     foreach (var troop in _gameMeta.availableTroops)

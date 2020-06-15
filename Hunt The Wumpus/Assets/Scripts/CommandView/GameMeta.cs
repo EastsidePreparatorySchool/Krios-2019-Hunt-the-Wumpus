@@ -105,6 +105,12 @@ namespace CommandView
             FaceHandler inBattleFaceHandler =
                 _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>();
 
+            foreach (TroopMeta heldTroop in inBattleFaceHandler.heldTroops)
+            {
+                exhaustedTroops.Add(heldTroop);
+            }
+            inBattleFaceHandler.heldTroops = new List<TroopMeta>();
+
             money += result.moneyCollected;
 
             _planetHandler.SetFaceInBattle(-1);

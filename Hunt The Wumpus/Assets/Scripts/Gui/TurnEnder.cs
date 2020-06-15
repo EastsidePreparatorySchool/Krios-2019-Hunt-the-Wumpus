@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using CommandView;
+using Gui;
 using UnityEngine;
 
 public class TurnEnder : MonoBehaviour
@@ -18,10 +19,10 @@ public class TurnEnder : MonoBehaviour
     }
     public void EndTurn()
     {
-        GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
-        if (TroopSelector != null)
+        TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+        if (troopSelector != null)
         {
-            TroopSelector.SetActive(false);
+            troopSelector.ActivateTroopSelector(0, true);
         }
         _meta.EndTurn();
     }

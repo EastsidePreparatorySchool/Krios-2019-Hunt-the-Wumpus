@@ -81,7 +81,7 @@ namespace CommandView
         private bool playMiniGame = true; // you can turn this off if you just want to mess with the map
 
         private GameMeta meta;
-        private List<TroopMeta> _heldTroops;
+        public List<TroopMeta> heldTroops = new List<TroopMeta>();
 
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public bool faceDataShowing;
@@ -502,7 +502,13 @@ namespace CommandView
                     }
 
                     // Set heldTroops to deployedTroops
-                    randomFace._heldTroops = deployedTroops;
+                    randomFace.heldTroops = deployedTroops;
+                    foreach (TroopMeta deployedTroop in deployedTroops)
+                    {
+                        meta.availableTroops.Remove(deployedTroop);
+                        deployedTroop.sendToBattle = false;
+                    }
+                    
                     randomFace.GetComponent<Renderer>().material.color = Color.yellow;
                     GameObject.Find("Canvas").GetComponent<TurnEnder>().EndTurn();
                 }
