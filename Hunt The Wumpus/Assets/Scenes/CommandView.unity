@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4548,7 +4548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c683822ffb400546999e86eac217854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambientMusic: {fileID: 657961596}
 --- !u!20 &657961592
 Camera:
   m_ObjectHideFlags: 0
@@ -4617,9 +4616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e667e4e03d425244b2b27c9d205265d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beginningSpin: 500
-  spinSlowFactor: 0.98
-  minSpinSpeedBeforeZero: 20
   beginningDistance: 30
   targetDistance: 17
   zoomSpeed: 5
@@ -13179,6 +13175,7 @@ GameObject:
   - component: {fileID: 2076108098}
   - component: {fileID: 2076108099}
   - component: {fileID: 2076108100}
+  - component: {fileID: 2076108101}
   m_Layer: 0
   m_Name: Planet
   m_TagString: Untagged
@@ -13368,6 +13365,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daccddc4ec314b147947bcd21672c918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2076108101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076108095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cade481669c114d9066616e69814cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beginningSpin: 500
+  spinSlowFactor: 0.99
+  minSpinSpeedBeforeZero: 10
+  rotationSpeed: 80
+  distance: 17
 --- !u!1 &2088986118
 GameObject:
   m_ObjectHideFlags: 0

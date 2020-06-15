@@ -30,13 +30,13 @@ namespace MiniGame
             }
         }
         
-        private Hotkey[] armyHotkeys;
-        private KeyCode selectAllArmyKey = KeyCode.Alpha1;
+        private Hotkey[] _armyHotkeys;
+        //private KeyCode selectAllArmyKey = KeyCode.Alpha1;
 
         public static readonly float DoubleClickCooldown = 0.5f;
-        private float buttonCooler;
-        private KeyCode lastButton;
-        private int buttonCount;
+        private float _buttonCooler;
+        private KeyCode _lastButton;
+        //private int _buttonCount;
         
         public Camera minigameCamera;
         public CameraController cameraController;
@@ -149,23 +149,23 @@ namespace MiniGame
         private void InitializeHotkeys()
         {
             KeyCode[] hotkeyOptions = {KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5};
-            armyHotkeys = new Hotkey[hotkeyOptions.Length];
+            _armyHotkeys = new Hotkey[hotkeyOptions.Length];
             for (int i = 0; i < hotkeyOptions.Length; i++)
             {
-                armyHotkeys[i] = new Hotkey(hotkeyOptions[i], new List<Selectable>());
+                _armyHotkeys[i] = new Hotkey(hotkeyOptions[i], new List<Selectable>());
             }
         }
         private void HandleHotkeys()
         {
-            if (armyHotkeys[0].selectables.Count == 0)
+            if (_armyHotkeys[0].selectables.Count == 0)
             {
                 foreach (Selectable s in Selectables)
                 {
-                    armyHotkeys[0].selectables.Add(s);
+                    _armyHotkeys[0].selectables.Add(s);
                 }
             }
             
-            foreach (Hotkey hotkey in armyHotkeys)
+            foreach (Hotkey hotkey in _armyHotkeys)
             {
                 if(Input.GetKeyDown(hotkey.keyCode))
                 {
@@ -191,24 +191,24 @@ namespace MiniGame
                             s.IsSelected = true;
                         }
 
-                        if (lastButton == hotkey.keyCode)
+                        if (_lastButton == hotkey.keyCode)
                         {
-                            print("double click " + lastButton);
+                            print("double click " + _lastButton);
                             MoveCameraToArmy(hotkey);
                         }
-                        lastButton = hotkey.keyCode;
-                        buttonCooler = DoubleClickCooldown;
+                        _lastButton = hotkey.keyCode;
+                        _buttonCooler = DoubleClickCooldown;
                     }
                 }
             }
-            if (buttonCooler > 0)
+            if (_buttonCooler > 0)
             {
-                buttonCooler -= 1 * Time.deltaTime ;
+                _buttonCooler -= 1 * Time.deltaTime ;
             }
             else
             {
-                buttonCount = 0;
-                lastButton = KeyCode.None;
+                //_buttonCount = 0;
+                _lastButton = KeyCode.None;
             }
         }
 
