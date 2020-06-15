@@ -123,7 +123,7 @@ public class UpdateGui : MonoBehaviour
 
         //print("Stats: " + _inGameMeta);
         // print("Troops: " + _inGameMeta.troops);
-        int[] curCounterValue = {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes};
+        int[] curCounterValue = {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
         if (!_counterValues.Equals(curCounterValue))
         {
             _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/" 

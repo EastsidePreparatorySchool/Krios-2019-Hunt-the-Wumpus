@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class PointerController : MonoBehaviour
     {
@@ -18,13 +18,14 @@ namespace MiniGame
         {
             if (followers <= 0)
             {
-                Object.Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
         
         public Vector3 GetPosition()
         {
-            return transform.position;
+            Vector3 position = transform.position;
+            return new Vector3(position.x, 0f,position.z);
         }
     }
 }
