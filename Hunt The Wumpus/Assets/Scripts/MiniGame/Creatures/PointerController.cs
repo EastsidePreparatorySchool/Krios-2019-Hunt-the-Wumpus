@@ -25,7 +25,7 @@ namespace MiniGame.Creatures
         public Vector3 GetPosition()
         {
             Vector3 position = transform.position;
-            return new Vector3(position.x, 0f,position.y);
+            return new Vector3(position.x, 0f,position.z);
         }
     }
 }
