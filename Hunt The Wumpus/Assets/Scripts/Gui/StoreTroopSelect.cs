@@ -75,6 +75,7 @@ namespace Gui
             {
                 if (oldValue == null)
                 {
+                    checkedTroop = troop;
                     oldValue = toggle;
                     return;
                 }
@@ -86,11 +87,6 @@ namespace Gui
                 }
             }
 
-        }
-
-        public void UpgradeTroop()
-        {
-            
         }
     }
 }
