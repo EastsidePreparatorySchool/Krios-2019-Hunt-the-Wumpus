@@ -93,7 +93,7 @@ namespace MiniGame.Terrain
         // Start is called before the first frame update
         void Start()
         {
-            print("started");
+            // print("started");
 
             //NodeInterior.PopulateTileMap(_maze, rows, cols);                   
         }
@@ -216,11 +216,11 @@ namespace MiniGame.Terrain
             {
                 for (int j = 0; j < nodeCols; j++)
                 {
-                    debug += (_nodes[i, j].connections + " ");
+                    debug += _nodes[i, j].connections + " ";
                 }
-                debug += ("\n");
+                debug += "\n";
             }
-            print(debug);
+            // print(debug);
         }
 
         private bool isCornered(Node[,] maze, Node current, int rows, int cols)

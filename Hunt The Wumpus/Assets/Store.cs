@@ -154,7 +154,7 @@ namespace Gui
         {
             if (_gameMeta.money >= SensorTowerCost)
             {
-                print("Buyng Sensor Tower");
+                print("Buying Sensor Tower");
                 //_gameMeta.money -= SensorTowerCost;
                 //_gameMeta.sensor....++;
             }
