@@ -6,11 +6,10 @@ namespace MiniGame.Creatures
     {
         public int followers;
         public bool attackMove;
-        
+
         // Start is called before the first frame update
         void Start()
         {
-            
         }
 
         // Update is called once per frame
@@ -21,11 +20,11 @@ namespace MiniGame.Creatures
                 Destroy(gameObject);
             }
         }
-        
+
         public Vector3 GetPosition()
         {
             Vector3 position = transform.position;
-            return new Vector3(position.x, 0f,position.z);
+            return new Vector3(position.x, 0f, position.z);
         }
     }
 }
