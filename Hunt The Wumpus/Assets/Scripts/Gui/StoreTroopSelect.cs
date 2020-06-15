@@ -18,6 +18,7 @@ namespace Gui
         public GameObject scrollViewContent;
 
         public Toggle oldValue;
+        public TroopMeta checkedTroop;
 
         private GameObject _planet;
         private Planet _planetHandler;
@@ -80,24 +81,16 @@ namespace Gui
                 else
                 {
                     oldValue.isOn = false;
-                    oldValue.troop.
+                    checkedTroop = troop;
                     oldValue = toggle;
                 }
-                troop
             }
 
         }
 
         public void UpgradeTroop()
         {
-            foreach (GameObject toggleGO in toggles)
-            {
-                Toggle toggle = toggleGO.GetComponent<Toggle>();
-                if (toggle.isOn)
-                {
-                    GameObject.Find("Canvas").GetComponent<Store>.UpgradeTroop(toggle);
-                }
-            }
+            
         }
     }
 }
