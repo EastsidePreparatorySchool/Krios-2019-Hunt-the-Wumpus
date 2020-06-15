@@ -90,8 +90,8 @@ namespace CommandView
         public Vector3 faceCenter;
         public Vector3 faceNormal;
         private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
-        private Vector3 _majorAxisA = new Vector3();
-        private Vector3 _majorAxisB = new Vector3();
+        private Vector3 _majorAxisA;
+        private Vector3 _majorAxisB;
 
         private void Awake()
         {
@@ -108,6 +108,7 @@ namespace CommandView
         // Start is called before the first frame update
         private void Start()
         {
+            faceMeshFilter = GetComponent<MeshFilter>();
             CalculateFaceGeometry();
 
             adjacentFaceHandlers = new FaceHandler[adjacentFaces.Length];
@@ -116,13 +117,11 @@ namespace CommandView
                 adjacentFaceHandlers[i] = adjacentFaces[i].GetComponent<FaceHandler>();
             }
 
-
             RegenerateHintGOs();
         }
 
         private void CalculateFaceGeometry()
         {
-            faceMeshFilter = GetComponent<MeshFilter>();
             Mesh faceMesh = faceMeshFilter.mesh;
             List<Vector3> transformedVerts = new List<Vector3>();
             faceCenter = new Vector3();
@@ -197,7 +196,7 @@ namespace CommandView
         // Update is called once per frame
         private void Update()
         {
-            CalculateFaceGeometry();
+            // CalculateFaceGeometry();
             if (!_firstTimeRun)
             {
                 string temp = "Face " + _faceNumber + " has states: ";
@@ -284,10 +283,8 @@ namespace CommandView
                 // lastHintGiven[1] = true;
                 print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
                 List<GameObject> activeGOs = new List<GameObject>();
-                if (_hintsGo[0] == null)
-                {
-                    RegenerateHintGOs();
-                }
+                
+                RegenerateHintGOs();
 
                 // Show relevant info
                 for (int i = 0; i < lastHintGiven.Length; i++)
@@ -317,10 +314,8 @@ namespace CommandView
             else
             {
                 print("Hiding info");
-                if (_hintsGo[0] == null)
-                {
-                    RegenerateHintGOs();
-                }
+                
+                RegenerateHintGOs();
 
                 foreach (GameObject o in _hintsGo)
                 {

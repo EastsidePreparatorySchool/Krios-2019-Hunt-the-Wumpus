@@ -13628,7 +13628,7 @@ MonoBehaviour:
   turnsElapsed: 0
   money: 0
   nukes: 30
-  sensorTowers: 3
+  sensorTowers: 30
   firstNames:
   - James
   - Michael
