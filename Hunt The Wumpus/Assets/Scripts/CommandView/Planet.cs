@@ -603,7 +603,7 @@ namespace CommandView
 
                     if (edgePairs.Contains(discoveredEdgeVertex.Id * neighbor.Id)) continue;
                     edgePairs.Add(discoveredEdgeVertex.Id * neighbor.Id);
-                    DrawVertexLine(discoveredEdgeVertex, neighbor, territoryLineWidth / 1.5f);
+                    DrawVertexLine(discoveredEdgeVertex, neighbor, territoryLineWidth / 2f);
                     // There might be more to add here
                 }
             }
