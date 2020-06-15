@@ -22,6 +22,7 @@ public class UpdateGui : MonoBehaviour
     private TextMeshProUGUI _troopCounter;
     private TextMeshProUGUI _moneyCounter;
     private TextMeshProUGUI _nukeCounter;
+    private TextMeshProUGUI _sensorCounter;
     private TextMeshProUGUI _turnDisplay;
 
     private Button _endTurnBtn;
@@ -33,7 +34,7 @@ public class UpdateGui : MonoBehaviour
     private Graphic _openStoreBtnTargetGraphic;
     private TextMeshProUGUI _openStoreBtnText;
 
-    private int[] _counterValues = new int[3];
+    private int[] _counterValues = new int[4];
 
     private Planet _planetHandler;
     private GameMeta _inGameMeta;
@@ -81,6 +82,10 @@ public class UpdateGui : MonoBehaviour
                     _nukeCounter = i;
                     _nukeCounter.alpha = 0f;
                     break;
+                case "SensorCounter":
+                    _sensorCounter = i;
+                    _sensorCounter.alpha = 0f;
+                    break;
                 case "TurnNumDisplay":
                     _turnDisplay = i;
                     _turnDisplay.alpha = 1f;
@@ -125,6 +130,7 @@ public class UpdateGui : MonoBehaviour
                                  + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
+            _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
         }
     }
 
@@ -139,6 +145,7 @@ public class UpdateGui : MonoBehaviour
             _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
             _nukeCounter.alpha += 0.1f;
+            _sensorCounter.alpha += 0.1f;
 
             _openStoreBtnText.alpha += 0.1f;
             openStoreBtnAlpha.a += 0.1f;
