@@ -314,14 +314,19 @@ namespace CommandView
         {
             print("PlayMinigame: " + playMiniGame);
             print("Picked face: " + _faceNumber + " which has " +
-                  adjacentFaces[0].GetComponent<FaceHandler>().GetTileNumber() + ", " +
-                  adjacentFaces[1].GetComponent<FaceHandler>().GetTileNumber() + ", " +
-                  adjacentFaces[2].GetComponent<FaceHandler>().GetTileNumber() + ", " +
-                  adjacentFaces[3].GetComponent<FaceHandler>().GetTileNumber() + " adjacent");
+                  adjacentFaceHandlers[0].GetTileNumber() + ", " +
+                  adjacentFaceHandlers[1].GetTileNumber() + ", " +
+                  adjacentFaceHandlers[2].GetTileNumber() + ", " +
+                  adjacentFaceHandlers[3].GetTileNumber() + " adjacent");
             // Check if actionable
             if (!discovered)
             {
                 Debug.Log("This tile is not yet discovered");
+                GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+                if(troopSelector != null)
+                {
+                    troopSelector.SetActive(false);
+                }
                 return;
             }
 
@@ -334,10 +339,9 @@ namespace CommandView
             if (!arrivedViaBat)
             {
                 _ingameStat.turnsElapsed++;
-                foreach (GameObject face in _planet.faces)
+                foreach (FaceHandler face in _planet.faceHandlers)
                 {
-                    face.GetComponent<FaceHandler>()
-                        .turnsSinceLastHint++; // TODO: Consider optimizing by storing FaceHandler[]
+                    face.turnsSinceLastHint++; // TODO: Consider optimizing by storing FaceHandler[]
                 }
             }
 
