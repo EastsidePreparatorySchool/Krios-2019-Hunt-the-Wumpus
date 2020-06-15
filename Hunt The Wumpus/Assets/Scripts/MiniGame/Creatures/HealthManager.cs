@@ -51,12 +51,23 @@ namespace MiniGame.Creatures
                 }
                 Destroy(gameObject);
             }
+
+            if (health >= maxHealth)
+            {
+                health = maxHealth;
+                healthBarCanvas.transform.gameObject.SetActive(false);
+            }
+            else
+            {
+                healthBarCanvas.transform.gameObject.SetActive(true);
+            }
+
+            healthBarCanvas.transform.SetPositionAndRotation(healthBarCanvas.transform.position, Quaternion.Euler(90,0,0));
         }
 
         public void TakeDamage(int damage)
         {
             health -= damage;
-            healthBarCanvas.transform.gameObject.SetActive(true);
 
             //set the fill of the health bar
             healthBar.fillAmount = health / (float) maxHealth;
