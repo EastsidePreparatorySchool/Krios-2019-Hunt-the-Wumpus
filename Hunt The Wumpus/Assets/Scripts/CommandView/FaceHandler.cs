@@ -129,7 +129,7 @@ namespace CommandView
 
             // Calculate face normal
             faceNormal = transform.TransformPoint(faceMesh.normals[0]);
-            Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
+            //Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
 
             // Calculate major axis and standard direction
             float furthestDistance = 0f;
@@ -155,7 +155,7 @@ namespace CommandView
                 }
             }
 
-            Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
+            //Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
 
 
             RegenerateHintGOs();
@@ -174,8 +174,7 @@ namespace CommandView
                 hintObject.transform.rotation =
                     Quaternion.LookRotation(_majorAxisA - hintObject.transform.position, faceNormal);
 
-                Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
-                    Mathf.Infinity);
+                //Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow, Mathf.Infinity);
 
                 hintObject.SetActive(false);
 

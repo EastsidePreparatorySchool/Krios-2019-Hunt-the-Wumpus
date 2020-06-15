@@ -31,7 +31,7 @@ namespace CommandView
         public EventSystem lineEventSystem;
 
         // Planet properties and class-wide variables
-        private readonly Random _random = new Random();
+        //private readonly Random _random = new Random();
         private bool _isHidden;
         public bool displayHints;
         private bool _lastPressed;
@@ -115,6 +115,10 @@ namespace CommandView
             // _playerLoc = Mathf.RoundToInt(_random.Next(0, 29));
             int splashSpot = Random.Range(0, 30);
             faceHandlers[splashSpot].SetColonized();
+            /*transform.Rotate(Vector3.up, 
+                Vector3.Angle(Vector3.forward, 
+                    new Vector3(faceHandlers[splashSpot].faceNormal.x, 0, faceHandlers[splashSpot].faceNormal.z)), 
+                Space.World);*/
             print("Player starting at " + splashSpot);
 
             // TODO: either use the code below or something else to init wumpus with correct location
