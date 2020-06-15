@@ -322,12 +322,12 @@ namespace CommandView
         // Private functions
         public void ActionOnFace(bool arrivedViaBat = false)
         {
-            print("PlayMinigame: " + playMiniGame);
-            print("Picked face: " + _faceNumber + " which has " +
-                  adjacentFaceHandlers[0].GetTileNumber() + ", " +
-                  adjacentFaceHandlers[1].GetTileNumber() + ", " +
-                  adjacentFaceHandlers[2].GetTileNumber() + ", " +
-                  adjacentFaceHandlers[3].GetTileNumber() + " adjacent");
+            // print("PlayMinigame: " + playMiniGame);
+            // print("Picked face: " + _faceNumber + " which has " +
+            //       adjacentFaceHandlers[0].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[1].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[2].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[3].GetTileNumber() + " adjacent");
             // Check if actionable
             if (!discovered)
             {
@@ -640,7 +640,7 @@ namespace CommandView
                 faceHandler.SetDiscovered();
             }
 
-            print("Colonized Here");
+            // print("Colonized Here");
             _planet.ColonizedLineUpdate();
         }
 
