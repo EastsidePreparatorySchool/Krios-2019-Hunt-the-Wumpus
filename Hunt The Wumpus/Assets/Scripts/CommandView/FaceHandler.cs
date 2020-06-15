@@ -6,6 +6,9 @@ using Gui;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
+
+// using Random = System.Random;
 
 //using Random = System.Random;
 
@@ -38,9 +41,15 @@ namespace CommandView
         public static readonly Color UndiscoveredColor = new Color(.1f, .1f, .2f);
 
         public static readonly Color[] DiscoveredColor =
-            {new Color(.25f, .25f, .25f), new Color(168f/255f, 117f/255f, 50f/255f), new Color(66f/255f,92f/255f,49f/255f)};
+        {
+            new Color(.25f, .25f, .25f), new Color(168f / 255f, 117f / 255f, 50f / 255f),
+            new Color(66f / 255f, 92f / 255f, 49f / 255f)
+        };
 
-        public static readonly Color[] ColonizedColor = {Color.gray, new Color(227f/255f, 156f/255f, 64f/255f), new Color(90f/255f, 140f/255f,47f/255f), };
+        public static readonly Color[] ColonizedColor =
+        {
+            Color.gray, new Color(227f / 255f, 156f / 255f, 64f / 255f), new Color(90f / 255f, 140f / 255f, 47f / 255f),
+        };
         // new Color(173f/255f, 144f/255f, 106f/255f)
 
         //individual variables
@@ -72,6 +81,7 @@ namespace CommandView
         private bool playMiniGame = true; // you can turn this off if you just want to mess with the map
 
         private GameMeta meta;
+        public List<TroopMeta> heldTroops = new List<TroopMeta>();
 
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public bool faceDataShowing;
@@ -323,10 +333,11 @@ namespace CommandView
             {
                 Debug.Log("This tile is not yet discovered");
                 GameObject troopSelector = GameObject.Find("TroopSelectorUI");
-                if(troopSelector != null)
+                if (troopSelector != null)
                 {
                     troopSelector.SetActive(false);
                 }
+
                 return;
             }
 
@@ -361,40 +372,9 @@ namespace CommandView
                     case HazardTypes.Bat:
                         //TODO: re-implement for split army sit.
                         print("YOU'VE ENCOUNTERED THE SUPER-BATS!");
-                        SetColonized();
-                        SetHazard(HazardTypes.None);
-                        // Random random = new Random();
-                        //
-                        // // Generate new location for player
-                        // int newPlayerLoc;
-                        // do
-                        // {
-                        //     newPlayerLoc = Random.Range(0, 29);
-                        // } while (newPlayerLoc == _faceNumber);
-                        //
-                        // // Generate new location for bat
-                        // int newBatLoc;
-                        // do
-                        // {
-                        //     newBatLoc = Random.Range(0, 29);
-                        // } while (newBatLoc == newPlayerLoc);
-                        //
-                        // _planet.faces[newBatLoc].GetComponent<FaceHandler>().SetHazard(HazardTypes.Bat);
-                        //
-                        // print("Player will now be located at " + newPlayerLoc);
-                        //
-                        // // Do action on the face (like colonize)
-                        // FaceHandler newPlayerFaceHandler = _planet.faces[newPlayerLoc].GetComponent<FaceHandler>();
-                        // if (!newPlayerFaceHandler.colonized)
-                        // {
-                        //     newPlayerFaceHandler.SetDiscovered();
-                        //     newPlayerFaceHandler.ActionOnFace(true);
-                        // }
-                        //
-                        // // Clean up current face
-                        // SetHazard(HazardTypes.None);
+                        SetupMiniGame();
                         // SetColonized();
-                        // print("Super bats from " + _faceNumber + " are now at " + newBatLoc);
+                        // SetHazard(HazardTypes.None);
                         break;
                 }
             }
@@ -470,17 +450,82 @@ namespace CommandView
 
             if (deployedTroops.Count != 0)
             {
-                foreach (var troop in deployedTroops)
+                if (GetHazardObject().Equals(HazardTypes.Bat))
                 {
-                    meta.availableTroops.Remove(troop);
-                    troop.sendToBattle = false;
+                    SetHazard(HazardTypes.None);
+                    SetColonized();
+
+                    //// Pick two faces out
+                    // Get Face with border
+                    List<FaceHandler> borderFaces = new List<FaceHandler>();
+                    foreach (GameObject planetFace in _planet.faces)
+                    {
+                        FaceHandler curFaceHandler = planetFace.GetComponent<FaceHandler>();
+
+                        if (!curFaceHandler.colonized)
+                        {
+                            continue;
+                        }
+
+                        foreach (FaceHandler openAdjacentFace in curFaceHandler.GetOpenAdjacentFaces())
+                        {
+                            if (!openAdjacentFace.colonized)
+                            {
+                                borderFaces.Add(curFaceHandler);
+                                break;
+                            }
+                        }
+                    }
+
+                    // pick one randomly
+                    FaceHandler randomFace = borderFaces[Random.Range(0, borderFaces.Count)];
+
+                    // Move two faces out
+                    for (int i = 0; i < 2; i++)
+                    {
+                        List<FaceHandler> validFaces = new List<FaceHandler>();
+
+                        foreach (FaceHandler openAdjacentFace in randomFace.GetOpenAdjacentFaces())
+                        {
+                            if (borderFaces.Contains(openAdjacentFace) || validFaces.Contains(openAdjacentFace) || openAdjacentFace.Equals(randomFace) || openAdjacentFace.Equals(this))
+                            {
+                                continue;
+                            }
+
+                            if (!openAdjacentFace.colonized)
+                            {
+                                validFaces.Add(openAdjacentFace);
+                            }
+                        }
+
+                        randomFace = validFaces[Random.Range(0, validFaces.Count)];
+                    }
+
+                    // Set heldTroops to deployedTroops
+                    randomFace.heldTroops = deployedTroops;
+                    foreach (TroopMeta deployedTroop in deployedTroops)
+                    {
+                        meta.availableTroops.Remove(deployedTroop);
+                        deployedTroop.sendToBattle = false;
+                    }
+                    
+                    randomFace.GetComponent<Renderer>().material.color = Color.yellow;
+                    GameObject.Find("Canvas").GetComponent<TurnEnder>().EndTurn();
                 }
+                else
+                {
+                    foreach (var troop in deployedTroops)
+                    {
+                        meta.availableTroops.Remove(troop);
+                        troop.sendToBattle = false;
+                    }
 
-                print("Sending " + deployedTroops.Count + " troops to battle");
+                    print("Sending " + deployedTroops.Count + " troops to battle");
 
-                _planet.result = new MiniGameResult(deployedTroops);
+                    _planet.result = new MiniGameResult(deployedTroops);
 
-                StartCoroutine(FadeOutAndSwitch());
+                    StartCoroutine(FadeOutAndSwitch());
+                }
             }
             else
             {
