@@ -4836,7 +4836,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f692edcebf455b44a6de4bd52161bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambientMusic: {fileID: 657961596}
 --- !u!20 &657961592
 Camera:
   m_ObjectHideFlags: 0
@@ -4910,6 +4909,7 @@ MonoBehaviour:
   zoomSpeed: 5
   rotationSpeed: 80
   distance: 17
+  ambientMusic: {fileID: 657961596}
 --- !u!81 &657961595
 AudioListener:
   m_ObjectHideFlags: 0
