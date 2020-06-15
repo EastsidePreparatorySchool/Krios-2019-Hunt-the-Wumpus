@@ -332,10 +332,10 @@ namespace CommandView
             if (!discovered)
             {
                 Debug.Log("This tile is not yet discovered");
-                GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
                 if (troopSelector != null)
                 {
-                    troopSelector.SetActive(false);
+                    troopSelector.ActivateTroopSelector(0, true);
                 }
 
                 return;
