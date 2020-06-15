@@ -20,11 +20,16 @@ namespace CommandView
 
         private float _verticalTilt; //I don't want to deal with transform.eulerAngles so I made my own variable - Taras
 
+        public AudioSource ambientMusic;
+        
         // Start is called before the first frame update
         void Start()
         {
             distance = beginningDistance;
             transform.position = new Vector3(0, 0, -distance);
+
+            AudioListener.volume = 1f;
+            ambientMusic.Play();
         }
 
         // Update is called once per frame
@@ -42,7 +47,7 @@ namespace CommandView
                 // Orbit around planet based on input
                 transform.Translate(Vector3.forward * distance);
                 //transform.Rotate(Vector3.up, Time.deltaTime * rotationSpeed * _horizontalInput * -1, Space.World);
-                if ((_verticalInput > 0 && _verticalTilt < 50.0) || (_verticalInput < 0 && _verticalTilt > -50.0))
+                if (_verticalInput > 0 && _verticalTilt < 50.0 || (_verticalInput < 0 && _verticalTilt > -50.0))
                 {
                     transform.Rotate(Vector3.right, Time.deltaTime * rotationSpeed * _verticalInput);
                     _verticalTilt += Time.deltaTime * rotationSpeed * _verticalInput;
