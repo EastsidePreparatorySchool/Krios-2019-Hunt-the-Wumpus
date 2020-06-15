@@ -42,8 +42,6 @@ namespace CommandView
             _planetHandler = GetComponent<Planet>();
             totalFaces = _planetHandler.faces.Length;
 
-            nukes = 3;
-
             _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
             for (int i = 0; i < _planetHandler.faces.Length; i++)
             {
