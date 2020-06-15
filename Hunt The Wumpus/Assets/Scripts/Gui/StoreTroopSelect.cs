@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
@@ -8,10 +9,12 @@ using Text = UnityEngine.UI.Text;
 
 namespace Gui
 {
-    public class StoreTroopSelection : MonoBehaviour
+    public class StoreTroopSelect : MonoBehaviour
     {
-        public GameObject troopSelector;
+        public GameObject troopSelector; // The menu
+
         public GameObject troopToggleBlueprint;
+
         public GameObject scrollViewContent;
 
         private GameObject _planet;
@@ -33,29 +36,16 @@ namespace Gui
         {
         }
 
-        public void ActivateTroopSelector(bool resetClose = false)
+        public void ActivateStoreTroopSelector()
         {
-            if (troopSelector.activeSelf && !resetClose)
-            {
-                // print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
-                if (_toggles.Count == 0)
-                {
-                    foreach (var troop in _gameMeta.availableTroops)
-                    {
-                        _toggles.Add(CreateNewToggle(troop));
-                    }
-                }
-            }
-            else
-            {
-                foreach (var toggle in _toggles)
-                {
-                    Destroy(toggle);
-                }
-
-                _toggles.Clear();
-            }
+            foreach (var troop in _gameMeta.availableTroops)
+                _toggles.Add(CreateNewToggle(troop));
         }
+
+        
+        // Turn on toggle
+        // Create new Toggle for each soldier in 
+
         private GameObject CreateNewToggle(TroopMeta troop)
         {
             GameObject newTroopToggle =
@@ -78,9 +68,16 @@ namespace Gui
 
         private void ToggleValueChanged(Toggle toggle, TroopMeta troop)
         {
-            //print(("TOGGLE WORKS! isOn: " + toggle.isOn));
-            troop.sendToBattle = toggle.isOn;
-            //print(troop.sendToBattle + " should be the same as above");
+            if (toggle.isOn)
+            {
+                foreach (GameObject t in _toggles)
+                {
+                    if (t.GetComponent<Toggle>().isOn)
+                        t.GetComponent<Toggle>().isOn = false;
+                }
+                toggle.isOn = true;
+            //troop.sendToBattle = toggle.isOn;
+            }
         }
     }
 }
