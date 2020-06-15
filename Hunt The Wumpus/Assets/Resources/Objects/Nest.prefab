@@ -240,6 +240,7 @@ MonoBehaviour:
   attackDamage: 0
   attackRange: 0
   isEnemy: 1
+  lowPriorityTarget: 0
   target: {fileID: 0}
   doesAttack: 0
   isMoving: 0
