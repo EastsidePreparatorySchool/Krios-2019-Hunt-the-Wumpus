@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 namespace MiniGame.Creatures
@@ -31,7 +33,7 @@ namespace MiniGame.Creatures
         // Update is called once per frame
         void Update()
         {
-            target = GetNearestEnemy();
+            RefreshTarget();
             if (CanAttackNow())
             {
                 if (target != null)
@@ -81,17 +83,38 @@ namespace MiniGame.Creatures
         
         private void RefreshTarget()
         {
-            target = GetNearestEnemy();
+            List<CombatController> enemies = GetNearestEnemies();
+            if (enemies.Count == 0)
+            {
+                target = null;
+                return;
+            }
+            enemies.Sort((a,b) =>
+            {
+                if (a.doesAttack != b.doesAttack)
+                {
+                    //if a attacks and b doesn't, return -1
+                    //if b attacks and a doesn't, return 1
+                    return (a.doesAttack ? -1 : 1); 
+                }
+                //if they both attack or neither attack, closer one goes first
+                float aDist = (a.gameObject.transform.position - transform.position).sqrMagnitude;
+                float bDist = (b.gameObject.transform.position - transform.position).sqrMagnitude;
+                return ((aDist - bDist) < 0 ? -1 : 1);
+            });
+
+            target = enemies[0];
         }
         
-        public CombatController GetNearestEnemy()
+        public List<CombatController> GetNearestEnemies()
         {
-            float nearestDistanceSqr = int.MaxValue;
+            //float nearestDistanceSqr = int.MaxValue;
             Vector3 myPos = transform.position;
             Vector3 lowerMyPos = new Vector3(myPos.x, 0.25f, myPos.z);
-            CombatController nearestTarget = null;
+            //CombatController nearestTarget = null;
 
             Collider[] nearbyThings = new Collider[10];
+            List<CombatController> output = new List<CombatController>();
             String typeLayerMask = isEnemy ? "Troop" : "MiniGameEnemy";
             LayerMask combinedMask = LayerMask.GetMask("MiniGameObstacle", typeLayerMask);
             
@@ -109,12 +132,13 @@ namespace MiniGame.Creatures
                         Debug.DrawRay(lowerMyPos, enemyDir * hit.distance, isEnemy ? Color.red : Color.cyan, 1f);
                         if (hit.collider.Equals(nearbyThings[i]))
                         {
-                            float distSqr = enemyDir.sqrMagnitude;
+                            output.Add(nearbyThings[i].gameObject.GetComponent<CombatController>());
+                            /*float distSqr = enemyDir.sqrMagnitude;
                             if (distSqr < nearestDistanceSqr)
                             {
                                 nearestDistanceSqr = distSqr;
                                 nearestTarget = nearbyThings[i].gameObject.GetComponent<CombatController>();
-                            }
+                            }*/
                         }
                     }
                 }
@@ -123,8 +147,9 @@ namespace MiniGame.Creatures
             //print(typeLayerMask+" Size: " + size);
             //print("Nearest Target: " + nearestTarget);
 
-            target = nearestTarget;
-            return nearestTarget;
+            //target = nearestTarget;
+            //return nearestTarget;
+            return output;
         }
     }
 }
