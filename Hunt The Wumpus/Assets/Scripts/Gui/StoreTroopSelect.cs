@@ -17,11 +17,13 @@ namespace Gui
 
         public GameObject scrollViewContent;
 
+        public Toggle oldValue;
+
         private GameObject _planet;
         private Planet _planetHandler;
         private GameMeta _gameMeta;
 
-        private List<GameObject> _toggles = new List<GameObject>();
+        public List<GameObject> toggles = new List<GameObject>();
 
         // Start is called before the first frame update
         private void Start()
@@ -39,7 +41,7 @@ namespace Gui
         public void ActivateStoreTroopSelector()
         {
             foreach (var troop in _gameMeta.availableTroops)
-                _toggles.Add(CreateNewToggle(troop));
+                toggles.Add(CreateNewToggle(troop));
         }
 
         
@@ -70,13 +72,31 @@ namespace Gui
         {
             if (toggle.isOn)
             {
-                foreach (GameObject t in _toggles)
+                if (oldValue == null)
                 {
-                    if (t.GetComponent<Toggle>().isOn)
-                        t.GetComponent<Toggle>().isOn = false;
+                    oldValue = toggle;
+                    return;
                 }
-                toggle.isOn = true;
-            //troop.sendToBattle = toggle.isOn;
+                else
+                {
+                    oldValue.isOn = false;
+                    oldValue.troop.
+                    oldValue = toggle;
+                }
+                troop
+            }
+
+        }
+
+        public void UpgradeTroop()
+        {
+            foreach (GameObject toggleGO in toggles)
+            {
+                Toggle toggle = toggleGO.GetComponent<Toggle>();
+                if (toggle.isOn)
+                {
+                    GameObject.Find("Canvas").GetComponent<Store>.UpgradeTroop(toggle);
+                }
             }
         }
     }

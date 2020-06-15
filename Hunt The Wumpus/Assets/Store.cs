@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using CommandView;
 using TMPro;
+using System.Collections.Generic;
+using UnityEngine.Experimental.UIElements;
+using Gui;
 
 namespace Gui
 {
@@ -78,6 +81,11 @@ namespace Gui
         public void OpenUpgradePanel()
         {
             setUpTroopView();
+        }
+
+        public void UpgradeTroop(TroopMeta troop)
+        {
+           
         }
 
         private void setUpTroopView()
