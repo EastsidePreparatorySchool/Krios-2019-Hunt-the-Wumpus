@@ -152,14 +152,8 @@ namespace Gui
         // Work in progress
         public void BuySensorTower()
         {
-            if (_gameMeta.money >= SensorTowerCost)
-            {
-                print("Buying Sensor Tower");
-                //_gameMeta.money -= SensorTowerCost;
-                //_gameMeta.sensor....++;
-            }
-            else
-                print("Not enough money");
+            if (useMoney(SensorTowerCost))
+                _gameMeta.sensorTowers++;
         }
     }
 }

@@ -73,6 +73,7 @@ namespace CommandView
         private GameMeta _ingameStat;
         public bool[] lastHintGiven;
         public int turnsSinceLastHint;
+        public bool showHintOnTile;
 
         private HazardTypes _hazardObject = HazardTypes.None;
         private int _faceNumber;
@@ -198,7 +199,7 @@ namespace CommandView
                 _firstTimeRun = true;
             }
 
-            if (colonized)
+            if (colonized && showHintOnTile)
             {
                 if (_planet.displayHints && (!faceDataShowing || faceDataShowing && _hintsGo[0] == null))
                 {
@@ -320,7 +321,7 @@ namespace CommandView
         }
 
         // Private functions
-        public void ActionOnFace(bool arrivedViaBat = false)
+        public void ActionOnFace()
         {
             // print("PlayMinigame: " + playMiniGame);
             // print("Picked face: " + _faceNumber + " which has " +
@@ -335,7 +336,7 @@ namespace CommandView
                 TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
                 if (troopSelector != null)
                 {
-                    troopSelector.ActivateTroopSelector(0, true);
+                    troopSelector.ActivateTroopSelector(_faceNumber, true);
                 }
 
                 return;
@@ -344,16 +345,10 @@ namespace CommandView
             if (colonized)
             {
                 Debug.Log("This tile is already colonized");
+                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+                troopSelector.ActivateTroopSelector(_faceNumber);
+                troopSelector.ShowOnlyBuildSensorBtn();
                 return;
-            }
-
-            if (!arrivedViaBat)
-            {
-                _ingameStat.turnsElapsed++;
-                foreach (FaceHandler face in _planet.faceHandlers)
-                {
-                    face.turnsSinceLastHint++; // TODO: Consider optimizing by storing FaceHandler[]
-                }
             }
 
             //if discovered but not yet colonized, play game to try to colonize
@@ -499,7 +494,7 @@ namespace CommandView
                     for (int i = 0; i < 2; i++)
                     {
                         List<FaceHandler> validFaces = new List<FaceHandler>();
-                        
+
                         foreach (FaceHandler openAdjacentFace in randomFace.GetOpenAdjacentFaces())
                         {
                             if (borderFaces.Contains(openAdjacentFace) || validFaces.Contains(openAdjacentFace) ||
@@ -518,6 +513,7 @@ namespace CommandView
                         {
                             break;
                         }
+
                         randomFace = validFaces[Random.Range(0, validFaces.Count)];
                     }
 
@@ -611,6 +607,15 @@ namespace CommandView
             else
             {
                 print("Not enough nukes");
+            }
+        }
+
+        public void AddSensorOnTile()
+        {
+            if (meta.sensorTowers > 0 && colonized)
+            {
+                showHintOnTile = true;
+                meta.sensorTowers--;
             }
         }
 
