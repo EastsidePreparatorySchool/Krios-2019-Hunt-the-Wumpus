@@ -4387,6 +4387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c683822ffb400546999e86eac217854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ambientMusic: {fileID: 657961596}
 --- !u!20 &657961592
 Camera:
   m_ObjectHideFlags: 0
