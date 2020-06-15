@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75252d7f680704b55845238101574bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeed: 10
+  flySpeed: 15
   minX: -10
   maxX: 10
   minZ: -35
@@ -395,6 +395,7 @@ MonoBehaviour:
   canvas: {fileID: 849438018}
   selectionBox: {fileID: 1911523615}
   minigameCamera: {fileID: 1212444793}
+  cameraObject: {fileID: 0}
 --- !u!114 &1212444797
 MonoBehaviour:
   m_ObjectHideFlags: 0
