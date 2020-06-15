@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -433,6 +433,7 @@ MonoBehaviour:
   - {fileID: 1480566152}
   - {fileID: 930464255}
   - {fileID: 1547546933}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -1771,6 +1772,7 @@ MonoBehaviour:
   - {fileID: 1476745948}
   - {fileID: 1010497500}
   - {fileID: 519159995}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -2024,6 +2026,7 @@ MonoBehaviour:
   - {fileID: 1219734993}
   - {fileID: 2015295518}
   - {fileID: 1926142138}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -2335,6 +2338,7 @@ MonoBehaviour:
   - {fileID: 1981068889}
   - {fileID: 1010497500}
   - {fileID: 897113460}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -2861,6 +2865,7 @@ MonoBehaviour:
   - {fileID: 679834725}
   - {fileID: 1476745948}
   - {fileID: 1245853689}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -2911,6 +2916,7 @@ MonoBehaviour:
   - {fileID: 908993631}
   - {fileID: 1010497500}
   - {fileID: 1544512854}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -3716,7 +3722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c683822ffb400546999e86eac217854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ambientMusic: {fileID: 657961596}
 --- !u!20 &657961592
 Camera:
   m_ObjectHideFlags: 0
@@ -3921,6 +3926,7 @@ MonoBehaviour:
   - {fileID: 1151715723}
   - {fileID: 507746989}
   - {fileID: 722211301}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -4042,6 +4048,7 @@ MonoBehaviour:
   - {fileID: 1151715723}
   - {fileID: 1265968091}
   - {fileID: 1323274185}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -4564,6 +4571,7 @@ MonoBehaviour:
   - {fileID: 1981068889}
   - {fileID: 482096400}
   - {fileID: 1544512854}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -4614,6 +4622,7 @@ MonoBehaviour:
   - {fileID: 1265968091}
   - {fileID: 519159995}
   - {fileID: 1544512854}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -4664,6 +4673,7 @@ MonoBehaviour:
   - {fileID: 1232942825}
   - {fileID: 52494925}
   - {fileID: 1547546933}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -5246,6 +5256,7 @@ MonoBehaviour:
   - {fileID: 388149493}
   - {fileID: 482096400}
   - {fileID: 519159995}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -6295,6 +6306,7 @@ MonoBehaviour:
   - {fileID: 1480566152}
   - {fileID: 722211301}
   - {fileID: 52494925}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -6732,6 +6744,7 @@ MonoBehaviour:
   - {fileID: 2015295518}
   - {fileID: 482096400}
   - {fileID: 1010497500}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -6782,6 +6795,7 @@ MonoBehaviour:
   - {fileID: 930464255}
   - {fileID: 1544512854}
   - {fileID: 897113460}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -6957,6 +6971,7 @@ MonoBehaviour:
   - {fileID: 507746989}
   - {fileID: 908993631}
   - {fileID: 1265968091}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -7162,6 +7177,7 @@ MonoBehaviour:
   - {fileID: 908993631}
   - {fileID: 722211301}
   - {fileID: 1323274185}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -7367,6 +7383,7 @@ MonoBehaviour:
   - {fileID: 722211301}
   - {fileID: 1232942825}
   - {fileID: 930464255}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -7488,6 +7505,7 @@ MonoBehaviour:
   - {fileID: 1350880567}
   - {fileID: 388149493}
   - {fileID: 1476745948}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -7538,6 +7556,7 @@ MonoBehaviour:
   - {fileID: 1619252883}
   - {fileID: 2015295518}
   - {fileID: 1341166148}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -8106,6 +8125,7 @@ MonoBehaviour:
   - {fileID: 388149493}
   - {fileID: 507746989}
   - {fileID: 1245853689}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -8156,6 +8176,7 @@ MonoBehaviour:
   - {fileID: 1151715723}
   - {fileID: 1537926622}
   - {fileID: 52494925}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -8574,6 +8595,7 @@ MonoBehaviour:
   - {fileID: 1480566152}
   - {fileID: 422161219}
   - {fileID: 1926142138}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -8624,6 +8646,7 @@ MonoBehaviour:
   - {fileID: 1232942825}
   - {fileID: 519159995}
   - {fileID: 897113460}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -8674,6 +8697,7 @@ MonoBehaviour:
   - {fileID: 52494925}
   - {fileID: 1926142138}
   - {fileID: 1981068889}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -8986,6 +9010,7 @@ MonoBehaviour:
   - {fileID: 679834725}
   - {fileID: 1350880567}
   - {fileID: 507746989}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -10590,6 +10615,7 @@ MonoBehaviour:
   - {fileID: 1480566152}
   - {fileID: 1537926622}
   - {fileID: 1350880567}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -10640,6 +10666,7 @@ MonoBehaviour:
   - {fileID: 422161219}
   - {fileID: 1547546933}
   - {fileID: 1981068889}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -10847,6 +10874,7 @@ MonoBehaviour:
   - {fileID: 1926142138}
   - {fileID: 482096400}
   - {fileID: 897113460}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -11178,6 +11206,7 @@ MonoBehaviour:
   - {fileID: 1219734993}
   - {fileID: 1350880567}
   - {fileID: 1341166148}
+  adjacentFaceHandlers: []
   discovered: 0
   colonized: 0
   lastSeenTurnsAgo: 0
@@ -11751,6 +11780,7 @@ MonoBehaviour:
   - {fileID: 519159995}
   - {fileID: 1544512854}
   - {fileID: 897113460}
+  faceHandlers: []
   lineEventSystem: {fileID: 1006137553}
   displayHints: 0
   borderAroundTerritory: 1
@@ -11770,9 +11800,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetGameObject: {fileID: 2076108095}
-  location: 0
+  location: {fileID: 0}
   status: 0
-  playerLocation: 0
 --- !u!114 &2076108099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11788,7 +11817,6 @@ MonoBehaviour:
   turnsElapsed: 0
   money: 0
   nukes: 0
-  infiniteNukes: 0
   firstNames:
   - James
   - Michael

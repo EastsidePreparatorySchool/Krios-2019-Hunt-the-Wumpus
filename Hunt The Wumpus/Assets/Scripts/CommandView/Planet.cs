@@ -39,6 +39,8 @@ namespace CommandView
         // UI global variables
         private List<MeshVertex> _vertices = new List<MeshVertex>();
         private GameObject _colonizedLine;
+        private Material _altLineMaterial;
+        public const float territoryLineWidth = 0.15f;
         private List<GameObject> _lines = new List<GameObject>();
         public bool borderAroundTerritory;
 
@@ -75,6 +77,7 @@ namespace CommandView
             // Populate UI variables
             _colonizedLine = GameObject.Find("ColonizedLine");
             _colonizedLine.SetActive(false);
+            _altLineMaterial = (Material) Resources.Load("Materials/DiscoveredLineEmission");
             CreateMeshVertices();
 
             faceHandlers = new FaceHandler[faces.Length];
@@ -509,12 +512,16 @@ namespace CommandView
             DestroyVertexLines();
 
             List<MeshVertex> edgeVertices = new List<MeshVertex>();
+            List<MeshVertex> discoveredEdgeVertices = new List<MeshVertex>();
             List<int> edgePairs = new List<int>();
             foreach (MeshVertex vertex in _vertices)
             {
                 if (MeshVertex.IsOnColonizedEdge(vertex))
                 {
                     edgeVertices.Add(vertex);
+                } else if (MeshVertex.IsOnDiscoveredEdge(vertex))
+                {
+                    discoveredEdgeVertices.Add(vertex);
                 }
             }
             // Debug.Log("Vertices on edge: " + edgeVertices.Count);
@@ -560,9 +567,50 @@ namespace CommandView
                     }
                 }
             }
+
+            foreach (var discoveredEdgeVertex in discoveredEdgeVertices)
+            {
+                foreach (MeshVertex neighbor in discoveredEdgeVertex.VertexNeighbors)
+                {
+                    int sharedFaces = 0;
+                    foreach (var faceHandler1 in neighbor.ParentFaces)
+                    {
+                        foreach (var faceHandler2 in discoveredEdgeVertex.ParentFaces)
+                        {
+                            if (!faceHandler2.Equals(faceHandler1))
+                            {
+                                continue;
+                            }
+
+                            if (!(faceHandler1.discovered && faceHandler2.discovered))
+                            {
+                                continue;
+                            }
+
+                            sharedFaces++;
+                        }
+                    }
+
+                    if (sharedFaces == 2 || sharedFaces == 0)
+                    {
+                        continue;
+                    }
+
+                    if (discoveredEdgeVertices.Contains(neighbor))
+                    {
+                        if (!edgePairs.Contains(discoveredEdgeVertex.Id * neighbor.Id)
+                        ) // Just going to hope that the products between vertex IDs are unique
+                        {
+                            edgePairs.Add(discoveredEdgeVertex.Id * neighbor.Id);
+                            DrawVertexLine(discoveredEdgeVertex, neighbor, territoryLineWidth / 1.5f);
+                            // There might be more to add here
+                        }
+                    }
+                }
+            }
         }
 
-        private void DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex)
+        private void DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, float width = territoryLineWidth)
         {
             // Debug.Log("Making Line...");
             GameObject line =
@@ -573,6 +621,12 @@ namespace CommandView
             line.transform.localScale = Vector3.one;
             _lines.Add(line);
             LineRenderer lr = line.GetComponent<LineRenderer>();
+            lr.startWidth = width;
+            lr.endWidth = width;
+            if (width < territoryLineWidth)
+            {
+                lr.material = _altLineMaterial;
+            }
             lr.SetPositions(new[] {fromVertex.Coords, toVertex.Coords});
         }
 
