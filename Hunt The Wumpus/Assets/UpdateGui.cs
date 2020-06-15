@@ -42,7 +42,7 @@ public class UpdateGui : MonoBehaviour
     private TextMeshProUGUI[] _faceDataHolderText;
     private TextMeshProUGUI[] _compArr;
 
-    private CameraOrbit _orbit;
+    private PlanetSpin _orbit;
 
     // private int _default = 0;
 
@@ -62,7 +62,7 @@ public class UpdateGui : MonoBehaviour
         _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
 
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
-        _orbit = FindObjectOfType<CameraOrbit>();
+        _orbit = FindObjectOfType<PlanetSpin>();
 
 
         // Sync UI appearance with camera entry spin
