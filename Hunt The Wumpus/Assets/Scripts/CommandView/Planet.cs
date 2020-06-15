@@ -601,16 +601,10 @@ namespace CommandView
                         continue;
                     }
 
-                    if (discoveredEdgeVertices.Contains(neighbor))
-                    {
-                        if (!edgePairs.Contains(discoveredEdgeVertex.Id * neighbor.Id)
-                        ) // Just going to hope that the products between vertex IDs are unique
-                        {
-                            edgePairs.Add(discoveredEdgeVertex.Id * neighbor.Id);
-                            DrawVertexLine(discoveredEdgeVertex, neighbor, territoryLineWidth / 1.5f);
-                            // There might be more to add here
-                        }
-                    }
+                    if (edgePairs.Contains(discoveredEdgeVertex.Id * neighbor.Id)) continue;
+                    edgePairs.Add(discoveredEdgeVertex.Id * neighbor.Id);
+                    DrawVertexLine(discoveredEdgeVertex, neighbor, territoryLineWidth / 1.5f);
+                    // There might be more to add here
                 }
             }
         }
