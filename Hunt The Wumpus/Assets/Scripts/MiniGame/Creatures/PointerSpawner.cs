@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MiniGame.Creatures;
+using UnityEngine;
 
 namespace MiniGame
 {
