@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommandView;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
@@ -7,11 +8,13 @@ namespace MiniGame.Creatures
 {
     public class CombatController : MonoBehaviour
     {
+        public TroopMeta troopMeta;
+
         public HealthManager healthmgr;
 
         private float _timeDiffCounter;
         public float attackInterval = 3.0f;
-        public int attackDamage = 20;
+        public int attackDamage;
         public float attackRange = 2.0f;
         
         private int particleTimeout = 1;
@@ -28,6 +31,8 @@ namespace MiniGame.Creatures
         // Start is called before the first frame update
         void Start()
         {
+            if (troopMeta != null)
+                attackDamage = troopMeta.damage;
         }
 
         // Update is called once per frame

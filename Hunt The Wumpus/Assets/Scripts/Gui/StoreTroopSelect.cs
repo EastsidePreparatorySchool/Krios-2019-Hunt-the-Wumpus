@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
@@ -8,17 +9,22 @@ using Text = UnityEngine.UI.Text;
 
 namespace Gui
 {
-    public class StoreTroopSelection : MonoBehaviour
+    public class StoreTroopSelect : MonoBehaviour
     {
-        public GameObject troopSelector;
+        public GameObject troopSelector; // The menu
+
         public GameObject troopToggleBlueprint;
+
         public GameObject scrollViewContent;
+
+        public Toggle oldValue;
+        public TroopMeta checkedTroop;
 
         private GameObject _planet;
         private Planet _planetHandler;
         private GameMeta _gameMeta;
 
-        private List<GameObject> _toggles = new List<GameObject>();
+        public List<GameObject> toggles = new List<GameObject>();
 
         // Start is called before the first frame update
         private void Start()
@@ -33,29 +39,16 @@ namespace Gui
         {
         }
 
-        public void ActivateTroopSelector(bool resetClose = false)
+        public void ActivateStoreTroopSelector()
         {
-            if (troopSelector.activeSelf && !resetClose)
-            {
-                // print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
-                if (_toggles.Count == 0)
-                {
-                    foreach (var troop in _gameMeta.availableTroops)
-                    {
-                        _toggles.Add(CreateNewToggle(troop));
-                    }
-                }
-            }
-            else
-            {
-                foreach (var toggle in _toggles)
-                {
-                    Destroy(toggle);
-                }
-
-                _toggles.Clear();
-            }
+            foreach (var troop in _gameMeta.availableTroops)
+                toggles.Add(CreateNewToggle(troop));
         }
+
+        
+        // Turn on toggle
+        // Create new Toggle for each soldier in 
+
         private GameObject CreateNewToggle(TroopMeta troop)
         {
             GameObject newTroopToggle =
@@ -78,9 +71,22 @@ namespace Gui
 
         private void ToggleValueChanged(Toggle toggle, TroopMeta troop)
         {
-            //print(("TOGGLE WORKS! isOn: " + toggle.isOn));
-            troop.sendToBattle = toggle.isOn;
-            //print(troop.sendToBattle + " should be the same as above");
+            if (toggle.isOn)
+            {
+                if (oldValue == null)
+                {
+                    checkedTroop = troop;
+                    oldValue = toggle;
+                    return;
+                }
+                else
+                {
+                    oldValue.isOn = false;
+                    checkedTroop = troop;
+                    oldValue = toggle;
+                }
+            }
+
         }
     }
 }

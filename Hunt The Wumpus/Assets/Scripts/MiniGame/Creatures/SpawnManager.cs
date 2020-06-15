@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using CommandView;
+using MiniGame.Creatures;
 using MiniGame.Creatures.DeathHandlers;
 using MiniGame.Terrain;
 using UnityEngine;
@@ -117,6 +118,7 @@ namespace MiniGame
             {
                 GameObject soldier = (GameObject) Instantiate(Resources.Load(troop.resourceString), _mapGen.GetRandomPositionInNodeFromNode(node), Quaternion.identity);
                 soldier.GetComponent<SoldierDeathHandler>().troopMeta = troop;
+                soldier.GetComponent<CombatController>().troopMeta = troop;
             }
         }
 
