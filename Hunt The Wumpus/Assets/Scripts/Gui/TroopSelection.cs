@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
@@ -19,6 +20,8 @@ namespace Gui
         public GameObject sendAllButton;
 
         public GameObject sendNoneButton;
+
+        public GameObject BatEncounterAlertText;
 
         private GameObject _planet;
         private Planet _planetHandler;
@@ -113,6 +116,14 @@ namespace Gui
         {
             print("Nuking Tile!");
             _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile();
+        }
+
+        public IEnumerator FlashBatsEncounterAlert()
+        {
+            BatEncounterAlertText.SetActive(true);
+            float nextTime = Time.time + 5f;
+            yield return new WaitUntil(() => Time.time > nextTime);
+            BatEncounterAlertText.SetActive(false);
         }
 
         // Turn on toggle
