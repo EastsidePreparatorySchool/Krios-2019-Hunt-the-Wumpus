@@ -58,7 +58,7 @@ namespace Gui
 
             if (troopSelector.activeSelf)
             {
-                print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
+               // print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
                 if (_toggles.Count == 0)
                 {
                     foreach (var troop in _gameMeta.availableTroops)

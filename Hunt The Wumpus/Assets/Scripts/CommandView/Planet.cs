@@ -26,6 +26,7 @@ namespace CommandView
 
         // Hold ref to all of the faces
         public GameObject[] faces;
+        public FaceHandler[] faceHandlers;
 
         public EventSystem lineEventSystem;
 
@@ -43,7 +44,6 @@ namespace CommandView
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
-        private readonly bool[] _faceConquestStatuses = new bool[30];
         private bool[] _hintsToGive = new bool[3]; //index 0=Wumpus, 1=pit, 2=bat
         public int[] wumplingWaves;
         public int soldiers;
@@ -77,10 +77,15 @@ namespace CommandView
             _colonizedLine.SetActive(false);
             CreateMeshVertices();
 
-            // Populate biomes
-            foreach (GameObject face in faces)
+            faceHandlers = new FaceHandler[faces.Length];
+            for (int i = 0; i < faces.Length; i++)
             {
-                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                faceHandlers[i] = faces[i].GetComponent<FaceHandler>();
+            }
+
+            // Populate biomes
+            foreach (FaceHandler faceHandler in faceHandlers)
+            {
                 if (faceHandler.biomeType != BiomeType.None)
                 {
                     continue;
@@ -89,11 +94,10 @@ namespace CommandView
                 faceHandler.biomeType = biomeNum == 0 ? BiomeType.Planes :
                     biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
                 
-                print(biomeNum);
+                //print(biomeNum);
 
-                foreach (GameObject openAdjacentFace in faceHandler.GetOpenAdjacentFaces())
+                foreach (FaceHandler adjacentHandler in faceHandler.GetOpenAdjacentFaces())
                 {
-                    FaceHandler adjacentHandler = openAdjacentFace.GetComponent<FaceHandler>();
                     if (adjacentHandler.biomeType == BiomeType.None)
                     {
                         adjacentHandler.biomeType = faceHandler.biomeType;
@@ -102,16 +106,15 @@ namespace CommandView
             }
             
             // Reset planet to undiscovered
-            foreach (GameObject face in faces)
+            foreach (FaceHandler faceHandler in faceHandlers)
             {
-                face.GetComponent<FaceHandler>().UpdateFaceColors();
+                faceHandler.UpdateFaceColors();
             }
 
             // Set player start location to a random face, make it colonized (safe)
             // _playerLoc = Mathf.RoundToInt(_random.Next(0, 29));
             int splashSpot = Random.Range(0, 30);
-            faces[splashSpot].GetComponent<FaceHandler>().SetColonized();
-            _faceConquestStatuses[splashSpot] = true;
+            faceHandlers[splashSpot].SetColonized();
             print("Player starting at " + splashSpot);
 
             // TODO: either use the code below or something else to init wumpus with correct location
@@ -170,9 +173,9 @@ namespace CommandView
             List<int> usedFaces = new List<int> {safeSpot};
 
             // Making sure no hazards get added to the initial face and it's adjacent faces
-            foreach (GameObject face in faces[safeSpot].GetComponent<FaceHandler>().GetOpenAdjacentFaces())
+            foreach (FaceHandler face in faceHandlers[safeSpot].GetOpenAdjacentFaces())
             {
-                int adjFace = face.GetComponent<FaceHandler>().GetTileNumber();
+                int adjFace = face.GetTileNumber();
                 usedFaces.Add(adjFace);
             }
 
@@ -595,10 +598,6 @@ namespace CommandView
         }
 
         //Public Get functions
-        public bool[] GetFaceConquestStatus()
-        {
-            return _faceConquestStatuses;
-        }
 
         public bool[] GetHintsToGive()
         {
@@ -611,10 +610,6 @@ namespace CommandView
         }
 
         // Public Set functions
-        public void SetFaceConquestStatus(int face, bool stat = true)
-        {
-            _faceConquestStatuses[face] = stat;
-        }
 
         public void SetHintsToGive(bool[] hints)
         {
@@ -637,7 +632,7 @@ namespace CommandView
 
         public List<int> FindAdjacentFaces(int inputLocation)
         {
-            print("called");
+            //print("called");
             // int[] adjFaces = new int[4];
 
             // for(int i = 0; i < 4; i++) {
@@ -647,9 +642,9 @@ namespace CommandView
 
             List<int> adjFaces = new List<int>();
 
-            foreach (GameObject face in faces[inputLocation].GetComponent<FaceHandler>().adjacentFaces)
+            foreach (FaceHandler face in faceHandlers[inputLocation].adjacentFaceHandlers)
             {
-                int adjFace = face.GetComponent<FaceHandler>().GetTileNumber();
+                int adjFace = face.GetTileNumber();
                 adjFaces.Add(adjFace);
             }
 
@@ -699,5 +694,56 @@ namespace CommandView
         {
             return wumplingWaves;
         }
+
+        public void Savefunc()
+        {
+            DoSaving.DoTheSaving(this);
+        }
+
+        public void Loadfunc()
+        {
+            /*Scene currentScene = SceneManager.GetActiveScene();
+            string sceneName = currentScene.name;
+            if (sceneName == "MVPMiniGame")
+            {
+                GameObject canvas = GameObject.Find("PauseCanvas");
+                PauseMenu menu = canvas.GetComponent<PauseMenu>();
+                menu.Resume();
+                SceneManager.LoadScene("CommandView");
+            }*/
+            
+            SaveData data = DoSaving.LoadTheData();
+
+            meta.turnsElapsed = data.turnsElapsed;
+            meta.money = data.money;
+            meta.nukes = data.nukes;
+
+            wumpus.location = faces[data.wumpusLocation].GetComponent<FaceHandler>();
+
+            int i = 0;
+            foreach (GameObject face in faces)
+            {
+                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                faceHandler.biomeType = (BiomeType)data.biomeNum[i];
+                faceHandler.colonized = data.isColonized[i];
+                faceHandler.SetHazard((HazardTypes)data.hazardType[i]);
+            }
+
+            meta.availableTroops.Clear();
+            meta.exhaustedTroops.Clear();
+
+            for (i = 0; i < data.troopType.Count(); i++)
+            {
+                if (data.isEhausted[i])
+                {
+                    meta.exhaustedTroops.Add(new TroopMeta((TroopType)data.troopType[i],data.troopName[i]));
+                }
+                else
+                {
+                    meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
+                }
+            }
+        }
+
     }
 }
