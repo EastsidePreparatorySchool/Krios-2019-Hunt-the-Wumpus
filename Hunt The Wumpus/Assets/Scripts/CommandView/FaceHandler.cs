@@ -322,20 +322,20 @@ namespace CommandView
         // Private functions
         public void ActionOnFace(bool arrivedViaBat = false)
         {
-            print("PlayMinigame: " + playMiniGame);
-            print("Picked face: " + _faceNumber + " which has " +
-                  adjacentFaceHandlers[0].GetTileNumber() + ", " +
-                  adjacentFaceHandlers[1].GetTileNumber() + ", " +
-                  adjacentFaceHandlers[2].GetTileNumber() + ", " +
-                  adjacentFaceHandlers[3].GetTileNumber() + " adjacent");
+            // print("PlayMinigame: " + playMiniGame);
+            // print("Picked face: " + _faceNumber + " which has " +
+            //       adjacentFaceHandlers[0].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[1].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[2].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[3].GetTileNumber() + " adjacent");
             // Check if actionable
             if (!discovered)
             {
                 Debug.Log("This tile is not yet discovered");
-                GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
                 if (troopSelector != null)
                 {
-                    troopSelector.SetActive(false);
+                    troopSelector.ActivateTroopSelector(0, true);
                 }
 
                 return;
@@ -467,27 +467,43 @@ namespace CommandView
                             continue;
                         }
 
+                        bool useCurFace = true;
                         foreach (FaceHandler openAdjacentFace in curFaceHandler.GetOpenAdjacentFaces())
                         {
                             if (!openAdjacentFace.colonized)
                             {
                                 borderFaces.Add(curFaceHandler);
+                                useCurFace = false;
                                 break;
                             }
+                        }
+
+                        if (useCurFace)
+                        {
+                            borderFaces.Add(curFaceHandler);
                         }
                     }
 
                     // pick one randomly
-                    FaceHandler randomFace = borderFaces[Random.Range(0, borderFaces.Count)];
+                    FaceHandler randomFace;
+                    if (borderFaces.Count == 0)
+                    {
+                        randomFace = this;
+                    }
+                    else
+                    {
+                        randomFace = borderFaces[Random.Range(0, borderFaces.Count)];
+                    }
 
                     // Move two faces out
                     for (int i = 0; i < 2; i++)
                     {
                         List<FaceHandler> validFaces = new List<FaceHandler>();
-
+                        
                         foreach (FaceHandler openAdjacentFace in randomFace.GetOpenAdjacentFaces())
                         {
-                            if (borderFaces.Contains(openAdjacentFace) || validFaces.Contains(openAdjacentFace) || openAdjacentFace.Equals(randomFace) || openAdjacentFace.Equals(this))
+                            if (borderFaces.Contains(openAdjacentFace) || validFaces.Contains(openAdjacentFace) ||
+                                openAdjacentFace.Equals(randomFace) || openAdjacentFace.Equals(this))
                             {
                                 continue;
                             }
@@ -498,6 +514,10 @@ namespace CommandView
                             }
                         }
 
+                        if (validFaces.Count == 0)
+                        {
+                            break;
+                        }
                         randomFace = validFaces[Random.Range(0, validFaces.Count)];
                     }
 
@@ -508,9 +528,11 @@ namespace CommandView
                         meta.availableTroops.Remove(deployedTroop);
                         deployedTroop.sendToBattle = false;
                     }
-                    
+
                     randomFace.GetComponent<Renderer>().material.color = Color.yellow;
-                    GameObject.Find("Canvas").GetComponent<TurnEnder>().EndTurn();
+                    GameObject canvasObject = GameObject.Find("Canvas");
+                    canvasObject.GetComponent<TurnEnder>().EndTurn();
+                    StartCoroutine(canvasObject.GetComponent<TroopSelection>().FlashBatsEncounterAlert());
                 }
                 else
                 {
@@ -640,7 +662,7 @@ namespace CommandView
                 faceHandler.SetDiscovered();
             }
 
-            print("Colonized Here");
+            // print("Colonized Here");
             _planet.ColonizedLineUpdate();
         }
 

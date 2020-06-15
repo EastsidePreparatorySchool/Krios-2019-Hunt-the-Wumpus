@@ -37,17 +37,17 @@ namespace TileBattle
             int faceInBattle = planet.GetFaceInBattle();
             if (_inBattle && transform.position.x > 10)
             {
-                print("1");
+                // print("1");
                 // Mark face as colonized
-                print("2");
+                // print("2");
                 // planet.ColonizeFace(faceInBattle);
-                print("Face number: " + faceInBattle);
+                // print("Face number: " + faceInBattle);
                 GameObject inBattleFace = planet.faces[faceInBattle];
 
                 FaceHandler inBattleFaceHandler = inBattleFace.GetComponent<FaceHandler>();
-                print("3");
+                // print("3");
                 inBattleFaceHandler.SetColonized();
-                print("4");
+                // print("4");
                 _inBattle = false;
                 print("Battle Over, You Won! Showing hints");
 
