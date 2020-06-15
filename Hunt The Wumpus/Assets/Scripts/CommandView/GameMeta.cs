@@ -12,6 +12,7 @@ namespace CommandView
         public int turnsElapsed;
         public int money;
         public int nukes;
+        public int sensorTowers;
 
         public String[] firstNames = new[]
         {
