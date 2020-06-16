@@ -66,6 +66,11 @@ namespace CommandView
             {
                 Destroy(gameObject);
             }
+
+            foreach (var line in _lines)
+            {
+                line.SetActive(true);
+            }
         }
 
         // Start is called before the first frame update
@@ -141,7 +146,7 @@ namespace CommandView
             // wumpus.location = wumpLoc;
 
 
-            print("Planet Started");
+            //print("Planet Started");
 
             // Initialize hazards
             MakeHazardObjects(splashSpot);
@@ -507,7 +512,7 @@ namespace CommandView
             UpdateVertexNeighbors();
         }
 
-        public void ColonizedLineUpdate()
+        public void ColonizedLineUpdate(bool setActive = true)
         {
             if (!borderAroundTerritory)
             {
@@ -566,7 +571,7 @@ namespace CommandView
                         ) // Just going to hope that the products between vertex IDs are unique
                         {
                             edgePairs.Add(vertex.Id * neighbor.Id);
-                            DrawVertexLine(vertex, neighbor);
+                            DrawVertexLine(vertex, neighbor, setActive);
                             // There might be more to add here
                         }
                     }
@@ -603,21 +608,21 @@ namespace CommandView
 
                     if (edgePairs.Contains(discoveredEdgeVertex.Id * neighbor.Id)) continue;
                     edgePairs.Add(discoveredEdgeVertex.Id * neighbor.Id);
-                    DrawVertexLine(discoveredEdgeVertex, neighbor, territoryLineWidth / 2f);
+                    DrawVertexLine(discoveredEdgeVertex, neighbor, setActive, territoryLineWidth / 2f);
                     // There might be more to add here
                 }
             }
         }
 
-        private void DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, float width = territoryLineWidth)
+        private void DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, bool setActive, float width = territoryLineWidth)
         {
             // Debug.Log("Making Line...");
             GameObject line =
                 Instantiate(_colonizedLine, GameObject.Find("EventSystem").transform);
-
-            line.SetActive(true);
+            
             line.transform.position = Vector3.zero;
             line.transform.localScale = Vector3.one;
+            line.SetActive(setActive);
             _lines.Add(line);
             LineRenderer lr = line.GetComponent<LineRenderer>();
             lr.startWidth = width;
