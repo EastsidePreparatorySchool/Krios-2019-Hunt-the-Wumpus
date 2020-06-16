@@ -376,7 +376,7 @@ namespace CommandView
                         break;
                     case HazardTypes.Pit:
                         print("YOU'VE FALLEN INTO A WUMPUS NEST (PIT)");
-                        // TODO: Run pit mini game
+                        SetupMiniGame();
                         break;
                     case HazardTypes.Bat:
                         //TODO: re-implement for split army sit.

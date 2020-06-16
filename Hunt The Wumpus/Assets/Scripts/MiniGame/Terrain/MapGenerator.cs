@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using CommandView;
+using MiniGame.Creatures;
 using MiniGame.Creatures.DeathHandlers;
 using UnityEngine;
 using UnityEngine.AI;
@@ -83,6 +84,7 @@ namespace MiniGame.Terrain
 
 
         public GameObject[] biomeFloors;
+        public HazardTypes hazardOnTile;
 
 
         private GameObject[,] iTilePrefabs;
@@ -109,8 +111,9 @@ namespace MiniGame.Terrain
         {
         }
 
-        public void GenerateMaze()
+        public void GenerateMaze(HazardTypes hazard)
         {
+            hazardOnTile = hazard;
             randomMaze();
             GenerateInteriorTilePrefabs();
             GenerateInteriorTileObjects();
@@ -433,23 +436,32 @@ namespace MiniGame.Terrain
                     Node n = _nodes[nodeI, nodeJ];
                     if (n.connections == 1 && !isStartNode(n))
                     {
-                        Vector3 centerOfTileOffset = new Vector3((float) 5.5, 0, (float) 5.5);
-                        float i = nodeI * (tilesPerInterior + 1);
-                        float j = nodeJ * (tilesPerInterior + 1);
-                        GameObject nest = Instantiate(nestPrefab,
-                            new Vector3(i * interiorTileSize,
-                                0,
-                                j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset,
-                            new Quaternion());
-                        if (isEndNode(n))
-                        {
-                            nest.GetComponent<NestDeathHandler>().OnDeathEndMiniGame();
-                        }
-
-                        nests.Add(nest);
+                        CreateNest(n, nodeI, nodeJ, 10);
+                    } else if (hazardOnTile == HazardTypes.Pit && !isStartNode(n))
+                    {
+                        CreateNest(n, nodeI, nodeJ, 3);
                     }
                 }
             }
+        }
+
+        private void CreateNest(Node n, int nodeI, int nodeJ, float spawnTime)
+        {
+            Vector3 centerOfTileOffset = new Vector3((float) 5.5, 0, (float) 5.5);
+            float i = nodeI * (tilesPerInterior + 1);
+            float j = nodeJ * (tilesPerInterior + 1);
+            GameObject nest = Instantiate(nestPrefab,
+                new Vector3(i * interiorTileSize,
+                    0,
+                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset,
+                new Quaternion());
+            nest.GetComponent<NestController>().timeBetweenSpawns = spawnTime;
+            if (isEndNode(n))
+            {
+                nest.GetComponent<NestDeathHandler>().OnDeathEndMiniGame();
+            }
+            
+            nests.Add(nest);
         }
 
         public Vector3 GetRandomPositionInNodeFromNode(Node node)

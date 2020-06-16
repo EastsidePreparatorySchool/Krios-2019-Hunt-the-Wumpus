@@ -42,7 +42,7 @@ namespace MiniGame
             _troops = _planet.result.inGameTroops;
 
             _mapGen = GameObject.Find("Minigame Main Camera").GetComponent<MapGenerator>();
-            _mapGen.GenerateMaze();
+            _mapGen.GenerateMaze(_planet.faceHandlers[_planet.GetFaceInBattle()].GetHazardObject());
 
             // _currentWave = 0;
             // if (spawnsWumplings)
