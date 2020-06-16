@@ -55,11 +55,8 @@ namespace MiniGame
         {
             _planet.GetComponent<MusicController>().FadeOut();
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
-            //SceneManager.LoadScene(0);
-            AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(0, LoadSceneMode.Single);
-            while (!asyncLoadLevel.isDone){
-                yield return null;
-            }
+            SceneManager.LoadScene(0);
+            
             _meta.UpdateGameStateWithResult();
         }
     }
