@@ -83,7 +83,7 @@ namespace CommandView
             // Populate UI variables
             _colonizedLine = GameObject.Find("ColonizedLine");
             _colonizedLine.SetActive(false);
-            _altLineMaterial = (Material) Resources.Load("Materials/DiscoveredLineEmission");
+            _altLineMaterial = Resources.Load<Material>("Materials/DiscoveredLineEmission");
             CreateMeshVertices();
 
             faceHandlers = new FaceHandler[faces.Length];
