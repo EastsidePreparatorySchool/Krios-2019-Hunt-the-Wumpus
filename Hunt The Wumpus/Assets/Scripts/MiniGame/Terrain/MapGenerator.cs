@@ -102,7 +102,6 @@ namespace MiniGame.Terrain
             // print("started");
 
             //NodeInterior.PopulateTileMap(_maze, rows, cols);      
-            
         }
 
         // Update is called once per frame
@@ -402,8 +401,9 @@ namespace MiniGame.Terrain
         {
             Planet planet = GameObject.Find("Planet").GetComponent<Planet>();
 
-            biomeFloors[(int) planet.faces[planet.GetFaceInBattle()].GetComponent<FaceHandler>().biomeType - 1].SetActive(true);
-            
+            biomeFloors[(int) planet.faces[planet.GetFaceInBattle()].GetComponent<FaceHandler>().biomeType - 1]
+                .SetActive(true);
+
             spawnPrefabs();
             spawnNests();
 
@@ -419,7 +419,7 @@ namespace MiniGame.Terrain
                 {
                     iTiles[i, j] = Instantiate(iTilePrefabs[i, j],
                         new Vector3(i * interiorTileSize, 0, j * interiorTileSize) + mazeLocationOffset,
-                        new Quaternion());
+                        Quaternion.Euler(-90, 90, 0));
                 }
             }
         }
