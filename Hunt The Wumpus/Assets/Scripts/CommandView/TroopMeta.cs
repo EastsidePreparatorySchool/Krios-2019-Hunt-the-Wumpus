@@ -1,6 +1,4 @@
 ﻿using System;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CommandView
 {
@@ -18,6 +16,8 @@ namespace CommandView
         public TroopType type = TroopType.Marine;
         public String name;
 
+        public int damage;
+
         public bool sendToBattle = false;
         
         public int battlesFought;
@@ -26,6 +26,8 @@ namespace CommandView
         {
             this.type = type;
             this.name = name;
+            damage = 10;
+            
 
             switch (type)
             {

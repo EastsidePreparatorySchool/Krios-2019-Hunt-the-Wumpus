@@ -6,6 +6,9 @@ using Gui;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
+
+// using Random = System.Random;
 
 //using Random = System.Random;
 
@@ -35,12 +38,19 @@ namespace CommandView
     public class FaceHandler : MonoBehaviour
     {
         //Public variables
-        public static readonly Color UndiscoveredColor = new Color(.1f, .1f, .1f);
+        public static readonly Color UndiscoveredColor = new Color(.1f, .1f, .2f);
 
         public static readonly Color[] DiscoveredColor =
-            {new Color(.25f, .25f, .25f), new Color(.5f, .5f, 0f), new Color(0f, .5f, 0f)};
+        {
+            new Color(.25f, .25f, .25f), new Color(168f / 255f, 117f / 255f, 50f / 255f),
+            new Color(66f / 255f, 92f / 255f, 49f / 255f)
+        };
 
-        public static readonly Color[] ColonizedColor = {Color.gray, Color.yellow, Color.green};
+        public static readonly Color[] ColonizedColor =
+        {
+            Color.gray, new Color(227f / 255f, 156f / 255f, 64f / 255f), new Color(90f / 255f, 140f / 255f, 47f / 255f),
+        };
+        // new Color(173f/255f, 144f/255f, 106f/255f)
 
         //individual variables
         private Planet _planet; // store reference back to planet
@@ -48,6 +58,7 @@ namespace CommandView
 
         // Face Properties
         public GameObject[] adjacentFaces;
+        public FaceHandler[] adjacentFaceHandlers;
         public bool discovered;
         public bool colonized;
         public int lastSeenTurnsAgo;
@@ -62,6 +73,7 @@ namespace CommandView
         private GameMeta _ingameStat;
         public bool[] lastHintGiven;
         public int turnsSinceLastHint;
+        public bool showHintOnTile;
 
         private HazardTypes _hazardObject = HazardTypes.None;
         private int _faceNumber;
@@ -70,14 +82,16 @@ namespace CommandView
         private bool playMiniGame = true; // you can turn this off if you just want to mess with the map
 
         private GameMeta meta;
+        public List<TroopMeta> heldTroops = new List<TroopMeta>();
 
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
+        public MeshFilter faceMeshFilter;
         public bool faceDataShowing;
         public Vector3 faceCenter;
         public Vector3 faceNormal;
         private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
-        private Vector3 _majorAxisA = new Vector3();
-        private Vector3 _majorAxisB = new Vector3();
+        private Vector3 _majorAxisA;
+        private Vector3 _majorAxisB;
 
         private void Awake()
         {
@@ -94,7 +108,20 @@ namespace CommandView
         // Start is called before the first frame update
         private void Start()
         {
-            MeshFilter faceMeshFilter = GetComponent<MeshFilter>();
+            faceMeshFilter = GetComponent<MeshFilter>();
+            CalculateFaceGeometry();
+
+            adjacentFaceHandlers = new FaceHandler[adjacentFaces.Length];
+            for (int i = 0; i < adjacentFaces.Length; i++)
+            {
+                adjacentFaceHandlers[i] = adjacentFaces[i].GetComponent<FaceHandler>();
+            }
+
+            RegenerateHintGOs();
+        }
+
+        private void CalculateFaceGeometry()
+        {
             Mesh faceMesh = faceMeshFilter.mesh;
             List<Vector3> transformedVerts = new List<Vector3>();
             faceCenter = new Vector3();
@@ -111,7 +138,7 @@ namespace CommandView
 
             // Calculate face normal
             faceNormal = transform.TransformPoint(faceMesh.normals[0]);
-            Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
+            // Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
 
             // Calculate major axis and standard direction
             float furthestDistance = 0f;
@@ -137,14 +164,13 @@ namespace CommandView
                 }
             }
 
-            Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
-
-
-            RegenerateHintGOs();
+            // Debug.DrawLine(_majorAxisB, _majorAxisA, Color.red, Mathf.Infinity);
         }
 
         private void RegenerateHintGOs()
         {
+            CalculateFaceGeometry();
+
             _hintsGo = new List<GameObject>();
             String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
             foreach (string hazardName in hintGoResourcePathStrings)
@@ -156,8 +182,10 @@ namespace CommandView
                 hintObject.transform.rotation =
                     Quaternion.LookRotation(_majorAxisA - hintObject.transform.position, faceNormal);
 
-                Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
-                    Mathf.Infinity);
+                hintObject.transform.parent = gameObject.transform;
+
+                // Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
+                    // Mathf.Infinity);
 
                 hintObject.SetActive(false);
 
@@ -168,6 +196,7 @@ namespace CommandView
         // Update is called once per frame
         private void Update()
         {
+            // CalculateFaceGeometry();
             if (!_firstTimeRun)
             {
                 string temp = "Face " + _faceNumber + " has states: ";
@@ -176,19 +205,19 @@ namespace CommandView
                     temp += i + ", ";
                 }
 
-                print(temp);
+                //print(temp);
                 _firstTimeRun = true;
             }
 
-            if (colonized)
+            if (colonized && showHintOnTile)
             {
                 if (_planet.displayHints && (!faceDataShowing || faceDataShowing && _hintsGo[0] == null))
                 {
                     UpdateHintData();
                     bool checkUncolonized = false;
-                    foreach (GameObject adjacentFace in GetOpenAdjacentFaces())
+                    foreach (FaceHandler adjacentFace in GetOpenAdjacentFaces())
                     {
-                        if (!adjacentFace.GetComponent<FaceHandler>().colonized)
+                        if (!adjacentFace.colonized)
                         {
                             checkUncolonized = true;
                             break;
@@ -254,10 +283,8 @@ namespace CommandView
                 // lastHintGiven[1] = true;
                 print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
                 List<GameObject> activeGOs = new List<GameObject>();
-                if (_hintsGo[0] == null)
-                {
-                    RegenerateHintGOs();
-                }
+                
+                RegenerateHintGOs();
 
                 // Show relevant info
                 for (int i = 0; i < lastHintGiven.Length; i++)
@@ -287,10 +314,8 @@ namespace CommandView
             else
             {
                 print("Hiding info");
-                if (_hintsGo[0] == null)
-                {
-                    RegenerateHintGOs();
-                }
+                
+                RegenerateHintGOs();
 
                 foreach (GameObject o in _hintsGo)
                 {
@@ -302,39 +327,38 @@ namespace CommandView
         }
 
         // Private functions
-        public void ActionOnFace(bool arrivedViaBat = false)
+        public void ActionOnFace()
         {
-            print("PlayMinigame: " + playMiniGame);
-            print("Picked face: " + _faceNumber + " which has " +
-                  adjacentFaces[0].GetComponent<FaceHandler>().GetTileNumber() + ", " +
-                  adjacentFaces[1].GetComponent<FaceHandler>().GetTileNumber() + ", " +
-                  adjacentFaces[2].GetComponent<FaceHandler>().GetTileNumber() + ", " +
-                  adjacentFaces[3].GetComponent<FaceHandler>().GetTileNumber() + " adjacent");
+            // print("PlayMinigame: " + playMiniGame);
+            // print("Picked face: " + _faceNumber + " which has " +
+            //       adjacentFaceHandlers[0].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[1].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[2].GetTileNumber() + ", " +
+            //       adjacentFaceHandlers[3].GetTileNumber() + " adjacent");
             // Check if actionable
             if (!discovered)
             {
                 Debug.Log("This tile is not yet discovered");
+                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+                if (troopSelector != null)
+                {
+                    troopSelector.ActivateTroopSelector(_faceNumber, true);
+                }
+
                 return;
             }
 
             if (colonized)
             {
                 Debug.Log("This tile is already colonized");
+                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+                troopSelector.ActivateTroopSelector(_faceNumber);
+                troopSelector.ShowOnlyBuildSensorBtn();
                 return;
             }
 
-            if (!arrivedViaBat)
-            {
-                _ingameStat.turnsElapsed++;
-                foreach (GameObject face in _planet.faces)
-                {
-                    face.GetComponent<FaceHandler>()
-                        .turnsSinceLastHint++; // TODO: Consider optimizing by storing FaceHandler[]
-                }
-            }
-
             //if discovered but not yet colonized, play game to try to colonize
-            if (_planet.GetComponent<Wumpus.Wumpus>().location != _faceNumber)
+            if (_planet.wumpus.location != this)
             {
                 switch (_hazardObject)
                 {
@@ -349,40 +373,9 @@ namespace CommandView
                     case HazardTypes.Bat:
                         //TODO: re-implement for split army sit.
                         print("YOU'VE ENCOUNTERED THE SUPER-BATS!");
-                        SetColonized();
-                        SetHazard(HazardTypes.None);
-                        // Random random = new Random();
-                        //
-                        // // Generate new location for player
-                        // int newPlayerLoc;
-                        // do
-                        // {
-                        //     newPlayerLoc = Random.Range(0, 29);
-                        // } while (newPlayerLoc == _faceNumber);
-                        //
-                        // // Generate new location for bat
-                        // int newBatLoc;
-                        // do
-                        // {
-                        //     newBatLoc = Random.Range(0, 29);
-                        // } while (newBatLoc == newPlayerLoc);
-                        //
-                        // _planet.faces[newBatLoc].GetComponent<FaceHandler>().SetHazard(HazardTypes.Bat);
-                        //
-                        // print("Player will now be located at " + newPlayerLoc);
-                        //
-                        // // Do action on the face (like colonize)
-                        // FaceHandler newPlayerFaceHandler = _planet.faces[newPlayerLoc].GetComponent<FaceHandler>();
-                        // if (!newPlayerFaceHandler.colonized)
-                        // {
-                        //     newPlayerFaceHandler.SetDiscovered();
-                        //     newPlayerFaceHandler.ActionOnFace(true);
-                        // }
-                        //
-                        // // Clean up current face
-                        // SetHazard(HazardTypes.None);
+                        SetupMiniGame();
                         // SetColonized();
-                        // print("Super bats from " + _faceNumber + " are now at " + newBatLoc);
+                        // SetHazard(HazardTypes.None);
                         break;
                 }
             }
@@ -410,9 +403,8 @@ namespace CommandView
         {
             bool[] hintsToGive = new bool[3];
 
-            foreach (GameObject face in GetOpenAdjacentFaces())
+            foreach (FaceHandler adjFace in GetOpenAdjacentFaces())
             {
-                FaceHandler adjFace = face.GetComponent<FaceHandler>();
                 HazardTypes haz = adjFace.GetHazardObject();
                 if (haz == HazardTypes.Pit)
                 {
@@ -424,7 +416,7 @@ namespace CommandView
                 }
                 else
                 {
-                    if (adjFace.GetTileNumber() == _planet.GetComponent<Wumpus.Wumpus>().location)
+                    if (adjFace == _planet.wumpus.location)
                     {
                         hintsToGive[0] = true;
                     }
@@ -459,17 +451,105 @@ namespace CommandView
 
             if (deployedTroops.Count != 0)
             {
-                foreach (var troop in deployedTroops)
+                if (GetHazardObject().Equals(HazardTypes.Bat))
                 {
-                    meta.availableTroops.Remove(troop);
-                    troop.sendToBattle = false;
+                    SetHazard(HazardTypes.None);
+                    SetColonized();
+
+                    //// Pick two faces out
+                    // Get Face with border
+                    List<FaceHandler> borderFaces = new List<FaceHandler>();
+                    foreach (GameObject planetFace in _planet.faces)
+                    {
+                        FaceHandler curFaceHandler = planetFace.GetComponent<FaceHandler>();
+
+                        if (!curFaceHandler.colonized)
+                        {
+                            continue;
+                        }
+
+                        bool useCurFace = true;
+                        foreach (FaceHandler openAdjacentFace in curFaceHandler.GetOpenAdjacentFaces())
+                        {
+                            if (!openAdjacentFace.colonized)
+                            {
+                                borderFaces.Add(curFaceHandler);
+                                useCurFace = false;
+                                break;
+                            }
+                        }
+
+                        if (useCurFace)
+                        {
+                            borderFaces.Add(curFaceHandler);
+                        }
+                    }
+
+                    // pick one randomly
+                    FaceHandler randomFace;
+                    if (borderFaces.Count == 0)
+                    {
+                        randomFace = this;
+                    }
+                    else
+                    {
+                        randomFace = borderFaces[Random.Range(0, borderFaces.Count)];
+                    }
+
+                    // Move two faces out
+                    for (int i = 0; i < 2; i++)
+                    {
+                        List<FaceHandler> validFaces = new List<FaceHandler>();
+
+                        foreach (FaceHandler openAdjacentFace in randomFace.GetOpenAdjacentFaces())
+                        {
+                            if (borderFaces.Contains(openAdjacentFace) || validFaces.Contains(openAdjacentFace) ||
+                                openAdjacentFace.Equals(randomFace) || openAdjacentFace.Equals(this))
+                            {
+                                continue;
+                            }
+
+                            if (!openAdjacentFace.colonized)
+                            {
+                                validFaces.Add(openAdjacentFace);
+                            }
+                        }
+
+                        if (validFaces.Count == 0)
+                        {
+                            break;
+                        }
+
+                        randomFace = validFaces[Random.Range(0, validFaces.Count)];
+                    }
+
+                    // Set heldTroops to deployedTroops
+                    randomFace.heldTroops = deployedTroops;
+                    foreach (TroopMeta deployedTroop in deployedTroops)
+                    {
+                        meta.availableTroops.Remove(deployedTroop);
+                        deployedTroop.sendToBattle = false;
+                    }
+
+                    randomFace.GetComponent<Renderer>().material.color = Color.yellow;
+                    GameObject canvasObject = GameObject.Find("Canvas");
+                    canvasObject.GetComponent<TurnEnder>().EndTurn();
+                    StartCoroutine(canvasObject.GetComponent<TroopSelection>().FlashBatsEncounterAlert());
                 }
+                else
+                {
+                    foreach (var troop in deployedTroops)
+                    {
+                        meta.availableTroops.Remove(troop);
+                        troop.sendToBattle = false;
+                    }
 
-                print("Sending " + deployedTroops.Count + " troops to battle");
+                    print("Sending " + deployedTroops.Count + " troops to battle");
 
-                _planet.result = new MiniGameResult(deployedTroops);
+                    _planet.result = new MiniGameResult(deployedTroops);
 
-                StartCoroutine(FadeOutAndSwitch());
+                    StartCoroutine(FadeOutAndSwitch());
+                }
             }
             else
             {
@@ -500,10 +580,10 @@ namespace CommandView
             print("Nukes: " + meta.nukes);
             if (meta.nukes != 0)
             {
-                Wumpus.Wumpus wumpus = _planet.GetComponent<Wumpus.Wumpus>();
+                Wumpus.Wumpus wumpus = _planet.wumpus;
                 meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
                 SetColonized();
-                if (wumpus.location == _faceNumber)
+                if (wumpus.location == this)
                 {
                     print("Hit the Wumpus! You win!");
                     // TODO: end the game
@@ -514,13 +594,11 @@ namespace CommandView
 
                     bool wumpusAdjacent = false;
 
-                    foreach (GameObject adjacentFace in adjacentFaces)
+                    foreach (FaceHandler adjacentFaceHandler in adjacentFaceHandlers)
                     {
-                        FaceHandler adjacentFaceHandler = adjacentFace.GetComponent<FaceHandler>();
-
                         adjacentFaceHandler.noMoney = true;
 
-                        if (wumpus.location == adjacentFaceHandler._faceNumber)
+                        if (wumpus.location == adjacentFaceHandler)
                         {
                             wumpusAdjacent = true;
                         }
@@ -528,13 +606,22 @@ namespace CommandView
 
                     if (wumpusAdjacent)
                     {
-                        wumpus.Move();
+                        wumpus.Move(30);
                     }
                 }
             }
             else
             {
                 print("Not enough nukes");
+            }
+        }
+
+        public void AddSensorOnTile()
+        {
+            if (meta.sensorTowers > 0 && colonized && !showHintOnTile)
+            {
+                showHintOnTile = true;
+                meta.sensorTowers--;
             }
         }
 
@@ -576,9 +663,8 @@ namespace CommandView
             UpdateFaceColors();
 
             // Identify adjacent faces as discovered
-            foreach (GameObject face in GetOpenAdjacentFaces())
+            foreach (FaceHandler faceHandler in GetOpenAdjacentFaces())
             {
-                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
                 if (faceHandler.colonized)
                 {
                     continue;
@@ -587,7 +673,7 @@ namespace CommandView
                 faceHandler.SetDiscovered();
             }
 
-            print("Colonized Here");
+            // print("Colonized Here");
             _planet.ColonizedLineUpdate();
         }
 
@@ -603,14 +689,14 @@ namespace CommandView
             return _faceNumber;
         }
 
-        public List<GameObject> GetOpenAdjacentFaces()
+        public List<FaceHandler> GetOpenAdjacentFaces()
         {
-            List<GameObject> openAdjacent = new List<GameObject>();
+            List<FaceHandler> openAdjacent = new List<FaceHandler>();
             for (int i = 0; i < adjacentFaces.Length; i++)
             {
                 if (state[i])
                 {
-                    openAdjacent.Add(adjacentFaces[i]);
+                    openAdjacent.Add(adjacentFaceHandlers[i]);
                 }
             }
 
@@ -634,6 +720,11 @@ namespace CommandView
             }
 
             return n;
+        }
+
+        public bool HadWumpus()
+        {
+            return _planet.wumpus.location == this;
         }
     }
 }

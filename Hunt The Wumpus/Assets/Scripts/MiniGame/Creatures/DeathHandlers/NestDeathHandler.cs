@@ -35,7 +35,7 @@ namespace MiniGame.Creatures.DeathHandlers
 
         public void OnDeathEndMiniGame()
         {
-            print("unity suxxx");
+            // print("unity suxxx");
             endMinigame = true;
         }
     }

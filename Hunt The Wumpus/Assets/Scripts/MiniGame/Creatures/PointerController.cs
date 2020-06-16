@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class PointerController : MonoBehaviour
     {
         public int followers;
         public bool attackMove;
-        
+
         // Start is called before the first frame update
         void Start()
         {
-            
         }
 
         // Update is called once per frame
@@ -18,13 +17,14 @@ namespace MiniGame
         {
             if (followers <= 0)
             {
-                Object.Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
-        
+
         public Vector3 GetPosition()
         {
-            return transform.position;
+            Vector3 position = transform.position;
+            return new Vector3(position.x, 0f, position.z);
         }
     }
 }

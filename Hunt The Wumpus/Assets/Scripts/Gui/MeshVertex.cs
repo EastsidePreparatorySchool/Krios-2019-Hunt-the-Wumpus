@@ -104,5 +104,23 @@ namespace Gui
             
             return true;
         }
+
+        public static bool IsOnDiscoveredEdge(MeshVertex mv)
+        {
+            bool isOnEdge = false;
+            foreach (FaceHandler face in mv.ParentFaces)
+            {
+                if (face.colonized)
+                {
+                    return false;
+                }
+                if (face.discovered)
+                {
+                    isOnEdge = true;
+                }
+            }
+
+            return isOnEdge;
+        }
     }
 }

@@ -12,8 +12,7 @@ namespace CommandView
         public int turnsElapsed;
         public int money;
         public int nukes;
-
-        public bool infiniteNukes;
+        public int sensorTowers;
 
         public String[] firstNames = new[]
         {
@@ -43,12 +42,6 @@ namespace CommandView
             turnsElapsed = 1;
             _planetHandler = GetComponent<Planet>();
             totalFaces = _planetHandler.faces.Length;
-
-            nukes = 3;
-            if (infiniteNukes)
-            {
-                nukes = 10000;
-            }
 
             _faceHandlers = new FaceHandler[_planetHandler.faces.Length];
             for (int i = 0; i < _planetHandler.faces.Length; i++)
@@ -112,6 +105,12 @@ namespace CommandView
 
             FaceHandler inBattleFaceHandler =
                 _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>();
+
+            foreach (TroopMeta heldTroop in inBattleFaceHandler.heldTroops)
+            {
+                exhaustedTroops.Add(heldTroop);
+            }
+            inBattleFaceHandler.heldTroops = new List<TroopMeta>();
 
             money += result.moneyCollected;
 

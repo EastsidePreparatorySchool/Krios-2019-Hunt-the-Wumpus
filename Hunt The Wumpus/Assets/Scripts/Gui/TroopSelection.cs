@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
@@ -19,6 +20,13 @@ namespace Gui
         public GameObject sendAllButton;
 
         public GameObject sendNoneButton;
+
+        public GameObject troopSelectScrollObject;
+        public GameObject sendToBattleBtn;
+        public GameObject nukeBtn;
+        public GameObject buildSensorBtn;
+
+        public GameObject BatEncounterAlertText;
 
         private GameObject _planet;
         private Planet _planetHandler;
@@ -41,24 +49,32 @@ namespace Gui
         {
         }
 
-        public void ActivateTroopSelector(int faceNum)
+        public void ActivateTroopSelector(int faceNum, bool resetClose = false)
         {
-            bool activate = true;
-            if (_prevFaceNum == faceNum)
+            if (!resetClose)
             {
-                activate = !troopSelector.activeSelf;
+                bool activate = true;
+                if (_prevFaceNum == faceNum)
+                {
+                    activate = !troopSelector.activeSelf;
+                }
+                else
+                {
+                    _prevFaceNum = faceNum;
+                }
+
+                troopSelector.SetActive(activate);
+                ShowOnlyBuildSensorBtn(!activate);
             }
             else
             {
-                _prevFaceNum = faceNum;
+                troopSelector.SetActive(false);
             }
 
-            troopSelector.SetActive(activate);
 
-
-            if (troopSelector.activeSelf)
+            if (troopSelector.activeSelf && !resetClose)
             {
-                print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
+                // print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
                 if (_toggles.Count == 0)
                 {
                     foreach (var troop in _gameMeta.availableTroops)
@@ -69,6 +85,7 @@ namespace Gui
             }
             else
             {
+                ShowOnlyBuildSensorBtn(false);
                 foreach (var toggle in _toggles)
                 {
                     Destroy(toggle);
@@ -106,6 +123,29 @@ namespace Gui
         {
             print("Nuking Tile!");
             _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile();
+        }
+
+        public void AddSensorOnTile()
+        {
+            _planetHandler.faces[_prevFaceNum].GetComponent<FaceHandler>().AddSensorOnTile();
+        }
+
+        public void ShowOnlyBuildSensorBtn(bool show=true)
+        {
+            sendAllButton.SetActive(!show);
+            sendNoneButton.SetActive(!show);
+            troopSelectScrollObject.SetActive(!show);
+            sendToBattleBtn.SetActive(!show);
+            nukeBtn.SetActive(!show);
+            buildSensorBtn.SetActive(show);
+        }
+
+        public IEnumerator FlashBatsEncounterAlert()
+        {
+            BatEncounterAlertText.SetActive(true);
+            float nextTime = Time.time + 5f;
+            yield return new WaitUntil(() => Time.time > nextTime);
+            BatEncounterAlertText.SetActive(false);
         }
 
         // Turn on toggle
