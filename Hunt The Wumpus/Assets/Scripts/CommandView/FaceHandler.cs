@@ -663,7 +663,7 @@ namespace CommandView
             _hazardObject = haz;
         }
 
-        public void SetColonized()
+        public void SetColonized(bool setTerritoryLinesActive = true)
         {
             discovered = true;
             colonized = true;
@@ -682,7 +682,7 @@ namespace CommandView
             }
 
             // print("Colonized Here");
-            _planet.ColonizedLineUpdate();
+            _planet.ColonizedLineUpdate(setTerritoryLinesActive);
         }
 
         public void SetDiscovered()
