@@ -141,7 +141,7 @@ namespace CommandView
             // wumpus.location = wumpLoc;
 
 
-            print("Planet Started");
+            //print("Planet Started");
 
             // Initialize hazards
             MakeHazardObjects(splashSpot);
