@@ -822,7 +822,7 @@ MonoBehaviour:
   surface: {fileID: 1177298052}
   pathTilePrefab: {fileID: 8212447233471728451, guid: 58b20eb1aecb7414399f310eb63d02fc,
     type: 3}
-  wallTilePrefab: {fileID: 2859927330754130589, guid: 06e270f36d2dffe47ac173dff72627ca,
+  wallTilePrefab: {fileID: 4201969133690276613, guid: eff5ab80d1a917043a2386859d78dd09,
     type: 3}
   coverTilePrefab: {fileID: 2195268581956725556, guid: 61975e9ef733e8441bd247836b0e44fa,
     type: 3}
