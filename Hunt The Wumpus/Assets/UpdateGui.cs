@@ -28,8 +28,8 @@ public class UpdateGui : MonoBehaviour
     private Button _endTurnBtn;
     private Graphic _endTurnBtnTargetGraphic;
     private TextMeshProUGUI _endTurnBtnText;
-    
-    
+
+
     private Button _openStoreBtn;
     private Graphic _openStoreBtnTargetGraphic;
     private TextMeshProUGUI _openStoreBtnText;
@@ -44,6 +44,8 @@ public class UpdateGui : MonoBehaviour
 
     private PlanetSpin _orbit;
 
+    private int _lastDisplayedTurnsNum = 0;
+
     // private int _default = 0;
 
     // Start is called before the first frame update
@@ -56,7 +58,7 @@ public class UpdateGui : MonoBehaviour
         _openStoreBtn = GameObject.Find("OpenStoreBtn").GetComponent<Button>();
         _openStoreBtnTargetGraphic = _openStoreBtn.targetGraphic;
         _openStoreBtnText = _openStoreBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
-        
+
         _endTurnBtn = GameObject.Find("EndTurnBtn").GetComponent<Button>();
         _endTurnBtnTargetGraphic = _endTurnBtn.targetGraphic;
         _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
@@ -99,7 +101,7 @@ public class UpdateGui : MonoBehaviour
         _openStoreBtnText.alpha = 0f;
         storeBtnAlpha.a = 0f;
         _openStoreBtnTargetGraphic.color = storeBtnAlpha;
-        
+
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
         _endTurnBtnText.alpha = 0f;
         endTurnBtnAlpha.a = 0f;
@@ -109,7 +111,7 @@ public class UpdateGui : MonoBehaviour
 
         StartCoroutine(WaitUntilGameBegins());
 
-        StartCoroutine(TurnDisplayAnimation());
+        // StartCoroutine(TurnDisplayAnimation());
     }
 
     // Update is called once per frame
@@ -123,14 +125,20 @@ public class UpdateGui : MonoBehaviour
 
         //print("Stats: " + _inGameMeta);
         // print("Troops: " + _inGameMeta.troops);
-        int[] curCounterValue = {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
+        int[] curCounterValue =
+            {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
         if (!_counterValues.Equals(curCounterValue))
         {
-            _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/" 
+            _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/"
                                  + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
+        }
+
+        if (_inGameMeta.turnsElapsed != _lastDisplayedTurnsNum)
+        {
+            StartCoroutine(TurnDisplayAnimation());
         }
     }
 
@@ -150,7 +158,7 @@ public class UpdateGui : MonoBehaviour
             _openStoreBtnText.alpha += 0.1f;
             openStoreBtnAlpha.a += 0.1f;
             _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
-            
+
             _endTurnBtnText.alpha += 0.1f;
             endTurnBtnAlpha.a += 0.1f;
             _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
@@ -183,5 +191,7 @@ public class UpdateGui : MonoBehaviour
         }
 
         _turnDisplay.gameObject.SetActive(false);
+
+        _lastDisplayedTurnsNum = _inGameMeta.turnsElapsed;
     }
 }
