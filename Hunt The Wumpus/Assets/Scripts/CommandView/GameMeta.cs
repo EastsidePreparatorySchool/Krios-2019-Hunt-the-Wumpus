@@ -126,6 +126,7 @@ namespace CommandView
         public void EndTurn()
          {
              print("end turn");
+             turnsElapsed++;
              foreach (TroopMeta troop in exhaustedTroops)
              {
                  availableTroops.Add(troop);

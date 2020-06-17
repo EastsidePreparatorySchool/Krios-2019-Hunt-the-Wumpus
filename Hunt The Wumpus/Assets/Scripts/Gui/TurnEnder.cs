@@ -19,7 +19,8 @@ public class TurnEnder : MonoBehaviour
     }
     public void EndTurn()
     {
-        TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+        GameObject CanvasGO = GameObject.Find("Canvas");
+        TroopSelection troopSelector = CanvasGO.GetComponent<TroopSelection>();
         if (troopSelector != null)
         {
             troopSelector.ActivateTroopSelector(0, true);

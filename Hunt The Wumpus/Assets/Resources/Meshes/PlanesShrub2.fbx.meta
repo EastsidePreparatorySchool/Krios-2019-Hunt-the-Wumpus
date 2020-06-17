@@ -1,0 +1,205 @@
+fileFormatVersion: 2
+guid: 3165105b5d8116e4bb84ec8f58ed562a
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Stick.001
+    100004: Stick.002
+    100006: Stick.003
+    100008: Stick.004
+    100010: Stick.005
+    100012: Stick.006
+    100014: Stick.007
+    100016: Stick.008
+    100018: Stick.009
+    100020: Stick.010
+    100022: Stick.011
+    100024: Stick.012
+    100026: Stick.013
+    100028: Stick.014
+    100030: Stick.015
+    100032: Stick.016
+    100034: Stick.017
+    100036: Stick.018
+    100038: Stick.019
+    100040: Stick.020
+    100042: Stick.021
+    100044: Stick.022
+    100046: Stick.023
+    100048: Stick.024
+    100050: Stick.025
+    100052: Stick.026
+    100054: Stick.027
+    400000: //RootNode
+    400002: Stick.001
+    400004: Stick.002
+    400006: Stick.003
+    400008: Stick.004
+    400010: Stick.005
+    400012: Stick.006
+    400014: Stick.007
+    400016: Stick.008
+    400018: Stick.009
+    400020: Stick.010
+    400022: Stick.011
+    400024: Stick.012
+    400026: Stick.013
+    400028: Stick.014
+    400030: Stick.015
+    400032: Stick.016
+    400034: Stick.017
+    400036: Stick.018
+    400038: Stick.019
+    400040: Stick.020
+    400042: Stick.021
+    400044: Stick.022
+    400046: Stick.023
+    400048: Stick.024
+    400050: Stick.025
+    400052: Stick.026
+    400054: Stick.027
+    2100000: Top
+    2100002: Low
+    2100004: Mid
+    2300000: Stick.001
+    2300002: Stick.002
+    2300004: Stick.003
+    2300006: Stick.004
+    2300008: Stick.005
+    2300010: Stick.006
+    2300012: Stick.007
+    2300014: Stick.008
+    2300016: Stick.009
+    2300018: Stick.010
+    2300020: Stick.011
+    2300022: Stick.012
+    2300024: Stick.013
+    2300026: Stick.014
+    2300028: Stick.015
+    2300030: Stick.016
+    2300032: Stick.017
+    2300034: Stick.018
+    2300036: Stick.019
+    2300038: Stick.020
+    2300040: Stick.021
+    2300042: Stick.022
+    2300044: Stick.023
+    2300046: Stick.024
+    2300048: Stick.025
+    2300050: Stick.026
+    2300052: Stick.027
+    3300000: Stick.001
+    3300002: Stick.002
+    3300004: Stick.003
+    3300006: Stick.004
+    3300008: Stick.005
+    3300010: Stick.006
+    3300012: Stick.007
+    3300014: Stick.008
+    3300016: Stick.009
+    3300018: Stick.010
+    3300020: Stick.011
+    3300022: Stick.012
+    3300024: Stick.013
+    3300026: Stick.014
+    3300028: Stick.015
+    3300030: Stick.016
+    3300032: Stick.017
+    3300034: Stick.018
+    3300036: Stick.019
+    3300038: Stick.020
+    3300040: Stick.021
+    3300042: Stick.022
+    3300044: Stick.023
+    3300046: Stick.024
+    3300048: Stick.025
+    3300050: Stick.026
+    3300052: Stick.027
+    4300000: Stick.001
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
