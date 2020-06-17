@@ -1,14 +1,16 @@
 fileFormatVersion: 2
-guid: b322f6ab37fa9d74a96b18fc7cd53131
+guid: 55cde71438e5853428de79bcc82865c8
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: No Name
+    2100000: Material.001
+    2100002: Material.002
+    2100004: Material.003
     2300000: //RootNode
     3300000: //RootNode
-    4300000: TroopTempMesh
+    4300000: Icosphere
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -40,7 +42,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 5
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1

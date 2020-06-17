@@ -824,6 +824,15 @@ MonoBehaviour:
     type: 3}
   wallTilePrefab: {fileID: 4201969133690276613, guid: eff5ab80d1a917043a2386859d78dd09,
     type: 3}
+  wallTilePrefabs:
+  - {fileID: 7652268644828821368, guid: e00dff33c3c382f40a8bdbae6c2e7059, type: 3}
+  - {fileID: 4888058525992655405, guid: a68fdedeabf005e48a75344c74c9850d, type: 3}
+  - {fileID: 2738520276048571151, guid: 9113ec313c4b6f74885dbb833aff0d03, type: 3}
+  - {fileID: 5596220753290609700, guid: 10e3371b3b06fdb44aaae9f82f696ec6, type: 3}
+  wallTilePrefabSeconds:
+  - {fileID: 3493388639983906655, guid: 94fdced3685ba544f82c5316b14afb75, type: 3}
+  - {fileID: 4422197902195533535, guid: 05b7849a874ecce429b62e549d437e31, type: 3}
+  - {fileID: 936145716539584611, guid: 3b12f8106c1eb7942a60d58bdb462c9e, type: 3}
   coverTilePrefab: {fileID: 2195268581956725556, guid: 61975e9ef733e8441bd247836b0e44fa,
     type: 3}
   nestPrefab: {fileID: 2973662379733780852, guid: 474210afd8e59944bb55660ad5f10153,
@@ -832,6 +841,8 @@ MonoBehaviour:
   - {fileID: 1709676454}
   - {fileID: 1526295119}
   - {fileID: 753420455}
+  hazardOnTile: 0
+  biomeType: 0
 --- !u!114 &1212444799
 MonoBehaviour:
   m_ObjectHideFlags: 0
