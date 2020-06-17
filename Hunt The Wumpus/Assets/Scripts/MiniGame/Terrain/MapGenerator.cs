@@ -361,6 +361,7 @@ namespace MiniGame.Terrain
                     {
                         wallTilePrefab = wallTilePrefabs[(int) biomeType];
                     }
+
                     iTilePrefabs[i, j] = wallTilePrefab; //fills the whole thing with walls
                 }
             }
@@ -432,9 +433,12 @@ namespace MiniGame.Terrain
             {
                 for (int j = 0; j < interiorCols; j++)
                 {
+                    int rotation = 90 * Random.Range(0, 4);
+                    Quaternion appliedRotation = Quaternion.Euler(0,rotation,0);
+                    
                     iTiles[i, j] = Instantiate(iTilePrefabs[i, j],
                         new Vector3(i * interiorTileSize, 0, j * interiorTileSize) + mazeLocationOffset,
-                        Quaternion.identity);
+                        appliedRotation);
                 }
             }
         }
@@ -449,7 +453,8 @@ namespace MiniGame.Terrain
                     if (n.connections == 1 && !isStartNode(n))
                     {
                         CreateNest(n, nodeI, nodeJ, 10);
-                    } else if (hazardOnTile == HazardTypes.Pit && !isStartNode(n))
+                    }
+                    else if (hazardOnTile == HazardTypes.Pit && !isStartNode(n))
                     {
                         CreateNest(n, nodeI, nodeJ, 3);
                     }
@@ -465,14 +470,13 @@ namespace MiniGame.Terrain
             GameObject nest = Instantiate(nestPrefab,
                 new Vector3(i * interiorTileSize,
                     1,
-                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset,
-                new Quaternion());
+                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset, Quaternion.identity);
             nest.GetComponent<NestController>().timeBetweenSpawns = spawnTime;
             if (isEndNode(n))
             {
                 nest.GetComponent<NestDeathHandler>().OnDeathEndMiniGame();
             }
-            
+
             nests.Add(nest);
         }
 
