@@ -706,11 +706,12 @@ namespace CommandView
                         Mountain mountain = new Mountain(mv1, mv2);
                         DrawVertexLine(mountain.meshVertex1, mountain.meshVertex2, true, 0.3f);
                         Vector3 mvAverage = (mountain.meshVertex1.Coords + mountain.meshVertex2.Coords) / 2;
-                        //mountain.mountain = Instantiate(Resources.Load<GameObject>("Meshes/BorderLines"), GameObject.Find("EventSystem").transform);
-                        mountain.mountain = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                        mountain.mountain.transform.parent = GameObject.Find("EventSystem").transform;
+                        mountain.mountain = Instantiate(Resources.Load<GameObject>("Objects/BorderLine"), GameObject.Find("EventSystem").transform);
+                        // mountain.mountain = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+                        // mountain.mountain.transform.parent = GameObject.Find("EventSystem").transform;
                         mountain.mountain.transform.position = mvAverage;
-                        mountain.mountain.transform.rotation = Quaternion.FromToRotation(mountain.mountain.transform.right, mountain.meshVertex1.Coords - mountain.mountain.transform.position);
+                        mountain.mountain.transform.rotation = Quaternion.FromToRotation(mountain.mountain.transform.up, mountain.meshVertex1.Coords - mountain.mountain.transform.position);
+                        // mountain.mountain.transform.rotation = Quaternion.FromToRotation(mountain.mountain.transform.right, mountain.meshVertex1.Coords - mountain.mountain.transform.position);
                         //mountain.mountain.transform.rotation = Quaternion.LookRotation(mountain.mountain.transform.position, Vector3.Cross(mountain.meshVertex1.Coords, mvAverage));
                         //mountain.mountain.transform.rotation = Quaternion.LookRotation(mountain.mountain.transform.position, mountain.meshVertex1.Coords);
                         mountains.Add(mountain);
