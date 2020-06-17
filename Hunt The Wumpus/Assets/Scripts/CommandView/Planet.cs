@@ -546,17 +546,10 @@ namespace CommandView
                     {
                         foreach (var faceHandler2 in vertex.ParentFaces)
                         {
-                            if (!faceHandler2.Equals(faceHandler1))
+                            if (faceHandler2.Equals(faceHandler1) && faceHandler1.colonized)
                             {
-                                continue;
+                                colonizedSharedFaces++;
                             }
-
-                            if (!(faceHandler1.colonized && faceHandler2.colonized))
-                            {
-                                continue;
-                            }
-
-                            colonizedSharedFaces++;
                         }
                     }
 
@@ -587,17 +580,10 @@ namespace CommandView
                     {
                         foreach (var faceHandler2 in discoveredEdgeVertex.ParentFaces)
                         {
-                            if (!faceHandler2.Equals(faceHandler1))
+                            if (faceHandler2.Equals(faceHandler1) && faceHandler1.discovered)
                             {
-                                continue;
+                                sharedFaces++;
                             }
-
-                            if (!(faceHandler1.discovered && faceHandler2.discovered))
-                            {
-                                continue;
-                            }
-
-                            sharedFaces++;
                         }
                     }
 
