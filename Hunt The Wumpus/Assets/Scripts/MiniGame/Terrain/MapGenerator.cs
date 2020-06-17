@@ -433,7 +433,7 @@ namespace MiniGame.Terrain
                 for (int j = 0; j < interiorCols; j++)
                 {
                     iTiles[i, j] = Instantiate(iTilePrefabs[i, j],
-                        new Vector3(i * interiorTileSize, -2, j * interiorTileSize) + mazeLocationOffset,
+                        new Vector3(i * interiorTileSize, 0, j * interiorTileSize) + mazeLocationOffset,
                         Quaternion.identity);
                 }
             }
@@ -464,7 +464,7 @@ namespace MiniGame.Terrain
             float j = nodeJ * (tilesPerInterior + 1);
             GameObject nest = Instantiate(nestPrefab,
                 new Vector3(i * interiorTileSize,
-                    0,
+                    1,
                     j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset,
                 new Quaternion());
             nest.GetComponent<NestController>().timeBetweenSpawns = spawnTime;
