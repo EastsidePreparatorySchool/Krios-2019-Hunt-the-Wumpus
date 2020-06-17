@@ -71,11 +71,15 @@ namespace MiniGame.Creatures
         //Attacks the thing if it's not on this thing's side (Wumpling or Soldier)
         public void Attack(CombatController target)
         {
-            if (target.isEnemy == isEnemy)
+            transform.LookAt(target.gameObject.transform);
+            transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            //print(transform.eulerAngles.x + " " + transform.eulerAngles.y + " " + transform.eulerAngles.z);
+            
+            /*if (target.isEnemy == isEnemy)
             {
                 //Debug.Log("You can't attack someone on your own side!");
-            }
-            else if (attackDamage > 0)
+            }*/
+            if (attackDamage > 0)
             {
                 isAttacking = true;
 
