@@ -433,7 +433,7 @@ namespace MiniGame.Terrain
                 for (int j = 0; j < interiorCols; j++)
                 {
                     iTiles[i, j] = Instantiate(iTilePrefabs[i, j],
-                        new Vector3(i * interiorTileSize, -3, j * interiorTileSize) + mazeLocationOffset,
+                        new Vector3(i * interiorTileSize, -2, j * interiorTileSize) + mazeLocationOffset,
                         Quaternion.identity);
                 }
             }
