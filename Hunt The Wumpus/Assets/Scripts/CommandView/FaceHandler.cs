@@ -683,6 +683,7 @@ namespace CommandView
 
             // print("Colonized Here");
             _planet.ColonizedLineUpdate(setTerritoryLinesActive);
+            // _planet.CreateMountains();
         }
 
         public void SetDiscovered()

@@ -167,7 +167,7 @@ namespace CommandView
             // Initialize hazards
             MakeHazardObjects(splashSpot);
 
-            CreateMountains();
+            // CreateMountains();
         }
 
         // Update is called once per frame
@@ -662,64 +662,71 @@ namespace CommandView
             _lines = new List<GameObject>();
         }
 
-        private void CreateMountains()
-        {
-            // go through each face
-            // if face had a false adjacent face
-            // get adjacent face
-            // find the meshes that both of the faces share
-            // create new Mountain and attach the mv's to it
-            // draw line between the mountain ftm
-
-            foreach (var faceHandler in faceHandlers)
-            {
-                for (int i = 0; i < faceHandler.state.Length; i++)
-                {
-                    if (!faceHandler.state[i])
-                    {
-                        MeshVertex mv1 = null;
-                        MeshVertex mv2 = null;
-                        foreach (var vertex1 in faceHandler.adjacentFaceHandlers[i].meshVertices)
-                        {
-                            foreach (var vertex2 in faceHandler.meshVertices.Where(vertex2 => vertex1 == vertex2))
-                            {
-                                if (mv1 == null)
-                                {
-                                    mv1 = vertex2;
-                                }else if(mv2 == null)
-                                {
-                                    mv2 = vertex2;
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-
-                        bool skip = mountains.Any(mt => mt.meshVertex1 == mv1 || mt.meshVertex1 == mv2 || mt.meshVertex2 == mv1 || mt.meshVertex2 == mv2);
-                        if (skip)
-                        {
-                            continue;
-                        }
-                        
-                        Mountain mountain = new Mountain(mv1, mv2);
-                        DrawVertexLine(mountain.meshVertex1, mountain.meshVertex2, true, 0.3f);
-                        Vector3 mvAverage = (mountain.meshVertex1.Coords + mountain.meshVertex2.Coords) / 2;
-                        mountain.mountain = Instantiate(Resources.Load<GameObject>("Objects/BorderLine"), GameObject.Find("EventSystem").transform);
-                        // mountain.mountain = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                        // mountain.mountain.transform.parent = GameObject.Find("EventSystem").transform;
-                        mountain.mountain.transform.position = mvAverage;
-                        mountain.mountain.transform.rotation = Quaternion.FromToRotation(mountain.mountain.transform.up, mountain.meshVertex1.Coords - mountain.mountain.transform.position);
-                        // mountain.mountain.transform.rotation = Quaternion.FromToRotation(mountain.mountain.transform.right, mountain.meshVertex1.Coords - mountain.mountain.transform.position);
-                        //mountain.mountain.transform.rotation = Quaternion.LookRotation(mountain.mountain.transform.position, Vector3.Cross(mountain.meshVertex1.Coords, mvAverage));
-                        //mountain.mountain.transform.rotation = Quaternion.LookRotation(mountain.mountain.transform.position, mountain.meshVertex1.Coords);
-                        mountains.Add(mountain);
-                    }
-                }
-            }
-            
-        }
+        // public void CreateMountains()
+        // {
+        //     // go through each face
+        //     // if face is not discovered yet, skip
+        //     // if face had a false adjacent face
+        //     // get adjacent face
+        //     // find the meshes that both of the faces share
+        //     // create new Mountain and attach the mv's to it
+        //     // draw line between the mountain ftm
+        //
+        //     mountains.Clear();
+        //     
+        //     foreach (var faceHandler in faceHandlers)
+        //     {
+        //         if (!faceHandler.discovered)
+        //         {
+        //             continue;
+        //         }
+        //         for (int i = 0; i < faceHandler.state.Length; i++)
+        //         {
+        //             if (!faceHandler.state[i])
+        //             {
+        //                 MeshVertex mv1 = null;
+        //                 MeshVertex mv2 = null;
+        //                 foreach (var vertex1 in faceHandler.adjacentFaceHandlers[i].meshVertices)
+        //                 {
+        //                     foreach (var vertex2 in faceHandler.meshVertices.Where(vertex2 => vertex1 == vertex2))
+        //                     {
+        //                         if (mv1 == null)
+        //                         {
+        //                             mv1 = vertex2;
+        //                         }else if(mv2 == null)
+        //                         {
+        //                             mv2 = vertex2;
+        //                         }
+        //                         else
+        //                         {
+        //                             break;
+        //                         }
+        //                     }
+        //                 }
+        //
+        //                 bool skip = mountains.Any(mt => mt.meshVertex1 == mv1 || mt.meshVertex1 == mv2 || mt.meshVertex2 == mv1 || mt.meshVertex2 == mv2);
+        //                 if (skip)
+        //                 {
+        //                     continue;
+        //                 }
+        //                 
+        //                 Mountain mountain = new Mountain(mv1, mv2);
+        //                 // DrawVertexLine(mountain.meshVertex1, mountain.meshVertex2, true, 0.3f);
+        //                 Vector3 mvAverage = (mountain.meshVertex1.Coords + mountain.meshVertex2.Coords) / 2;
+        //                 mountain.mountain = Instantiate(Resources.Load<GameObject>("Objects/BorderLine"), GameObject.Find("EventSystem").transform);
+        //                 // mountain.mountain = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        //                 // mountain.mountain.transform.parent = GameObject.Find("EventSystem").transform;
+        //                 mountain.mountain.transform.position = mvAverage;
+        //                 mountain.mountain.transform.rotation = Quaternion.FromToRotation(mountain.mountain.transform.up, mountain.meshVertex1.Coords - mountain.mountain.transform.position);
+        //                 // mountain.mountain.transform.rotation = Quaternion.FromToRotation(mountain.mountain.transform.right, mountain.meshVertex1.Coords - mountain.mountain.transform.position);
+        //                 //mountain.mountain.transform.rotation = Quaternion.LookRotation(mountain.mountain.transform.position, Vector3.Cross(mountain.meshVertex1.Coords, mvAverage));
+        //                 //mountain.mountain.transform.rotation = Quaternion.LookRotation(mountain.mountain.transform.position, mountain.meshVertex1.Coords);
+        //                 mountains.Add(mountain);
+        //             }
+        //         }
+        //     }
+        //     
+        // }
         
         private string OutputList(List<int> l)
         {
