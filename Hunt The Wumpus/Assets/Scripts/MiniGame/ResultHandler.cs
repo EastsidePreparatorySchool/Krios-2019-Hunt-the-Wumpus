@@ -56,6 +56,7 @@ namespace MiniGame
             _planet.GetComponent<MusicController>().FadeOut();
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
             SceneManager.LoadScene(0);
+            
             _meta.UpdateGameStateWithResult();
         }
     }

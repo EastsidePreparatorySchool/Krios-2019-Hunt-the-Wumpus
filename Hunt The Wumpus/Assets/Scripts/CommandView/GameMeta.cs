@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -102,9 +103,9 @@ namespace CommandView
             {
                 exhaustedTroops.Add(t);
             }
-
+            
             FaceHandler inBattleFaceHandler =
-                _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>();
+                _planetHandler.faceHandlers[_planetHandler.GetFaceInBattle()];
 
             foreach (TroopMeta heldTroop in inBattleFaceHandler.heldTroops)
             {
@@ -118,7 +119,7 @@ namespace CommandView
 
             if (result.didWin)
             {
-                inBattleFaceHandler.SetColonized();
+                inBattleFaceHandler.SetColonized(false);
             }
         }
 

@@ -251,6 +251,14 @@ namespace CommandView
             eventData.position = Input.mousePosition;
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
+            foreach (var hit in results)
+            {
+                switch (hit.gameObject.name)
+                {
+                    case "TurnNumDisplay":
+                        return false;
+                }
+            }
             return results.Count > 0;
         }
 
@@ -368,7 +376,7 @@ namespace CommandView
                         break;
                     case HazardTypes.Pit:
                         print("YOU'VE FALLEN INTO A WUMPUS NEST (PIT)");
-                        // TODO: Run pit mini game
+                        SetupMiniGame();
                         break;
                     case HazardTypes.Bat:
                         //TODO: re-implement for split army sit.
@@ -655,7 +663,7 @@ namespace CommandView
             _hazardObject = haz;
         }
 
-        public void SetColonized()
+        public void SetColonized(bool setTerritoryLinesActive = true)
         {
             discovered = true;
             colonized = true;
@@ -674,7 +682,7 @@ namespace CommandView
             }
 
             // print("Colonized Here");
-            _planet.ColonizedLineUpdate();
+            _planet.ColonizedLineUpdate(setTerritoryLinesActive);
         }
 
         public void SetDiscovered()
