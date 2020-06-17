@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using UnityEngine;
 
 namespace MiniGame.Creatures
@@ -99,22 +100,35 @@ namespace MiniGame.Creatures
                 return;
             }
 
-            enemies.Sort((a, b) =>
+            IOrderedEnumerable<CombatController> combatControllers = enemies.OrderBy(enemy =>
+                (enemy.gameObject.transform.position - transform.position).sqrMagnitude);
+            foreach (CombatController combatController in combatControllers)
             {
-                if (a.doesAttack != b.doesAttack)
+                if (combatController.doesAttack)
                 {
-                    //if a attacks and b doesn't, return -1
-                    //if b attacks and a doesn't, return 1
-                    return (a.doesAttack ? -1 : 1);
+                    target = combatController;
+                    break;
                 }
 
-                //if they both attack or neither attack, closer one goes first
-                float aDist = (a.gameObject.transform.position - transform.position).sqrMagnitude;
-                float bDist = (b.gameObject.transform.position - transform.position).sqrMagnitude;
-                return ((aDist - bDist) < 0 ? -1 : 1);
-            });
+                target = combatController;
+            }
 
-            target = enemies[0];
+            // enemies.Sort((a, b) =>
+            // {
+            //     if (a.doesAttack != b.doesAttack)
+            //     {
+            //         //if a attacks and b doesn't, return -1
+            //         //if b attacks and a doesn't, return 1
+            //         return (a.doesAttack ? -1 : 1);
+            //     }
+            //
+            //     //if they both attack or neither attack, closer one goes first
+            //     float aDist = (a.gameObject.transform.position - transform.position).sqrMagnitude;
+            //     float bDist = (b.gameObject.transform.position - transform.position).sqrMagnitude;
+            //     return ((aDist - bDist) < 0 ? -1 : 1);
+            // });
+            //
+            // target = enemies[0];
         }
 
         public List<CombatController> GetNearestEnemies()
@@ -140,7 +154,7 @@ namespace MiniGame.Creatures
                     if (Physics.Raycast(adjustedMyPos, enemyDir, out RaycastHit hit,
                         attackRange, combinedMask))
                     {
-                        Debug.DrawRay(adjustedMyPos, enemyDir * hit.distance / 2f, isEnemy ? Color.red : Color.cyan,
+                        Debug.DrawRay(adjustedMyPos, enemyDir * hit.distance, isEnemy ? Color.red : Color.cyan,
                             1f);
                         if (hit.collider.Equals(nearbyThings[i]))
                         {
@@ -152,6 +166,10 @@ namespace MiniGame.Creatures
                                 nearestTarget = nearbyThings[i].gameObject.GetComponent<CombatController>();
                             }*/
                         }
+                        // else
+                        // {
+                        //     print(isEnemy ? "Wumpling" : "Troop" + " : " + hit.collider + " != " + nearbyThings[i]);
+                        // }
                     }
                 }
             }

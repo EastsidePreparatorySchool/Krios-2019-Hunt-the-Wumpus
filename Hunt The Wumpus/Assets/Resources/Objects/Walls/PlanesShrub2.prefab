@@ -484,6 +484,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4888058525992551949}
   - component: {fileID: 1664600143906870142}
+  - component: {fileID: 5255536509021052210}
   m_Layer: 9
   m_Name: PlanesShrub2
   m_TagString: Untagged
@@ -545,6 +546,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 6, z: 2}
   m_Center: {x: 0, y: 3, z: 0}
+--- !u!114 &5255536509021052210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4888058525992655405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &4888058525992655407
 GameObject:
   m_ObjectHideFlags: 0
