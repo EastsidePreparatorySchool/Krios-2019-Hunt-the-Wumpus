@@ -827,7 +827,7 @@ MonoBehaviour:
   wallTilePrefabs:
   - {fileID: 7652268644828821368, guid: e00dff33c3c382f40a8bdbae6c2e7059, type: 3}
   - {fileID: 4888058525992655405, guid: a68fdedeabf005e48a75344c74c9850d, type: 3}
-  - {fileID: 2738520276048571151, guid: 9113ec313c4b6f74885dbb833aff0d03, type: 3}
+  - {fileID: 4434916523961420995, guid: 9113ec313c4b6f74885dbb833aff0d03, type: 3}
   - {fileID: 5596220753290609700, guid: 10e3371b3b06fdb44aaae9f82f696ec6, type: 3}
   wallTilePrefabSeconds:
   - {fileID: 3493388639983906655, guid: 94fdced3685ba544f82c5316b14afb75, type: 3}
