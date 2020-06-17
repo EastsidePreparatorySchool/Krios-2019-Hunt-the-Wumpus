@@ -478,8 +478,8 @@ namespace MiniGame.Terrain
 
         public Vector3 GetRandomPositionInNodeFromNode(Node node)
         {
-            int row = Random.Range(node.row * interiorRows + 1, node.row * interiorRows + tilesPerInterior + 2);
-            int col = Random.Range(node.col * interiorCols + 1, node.col * interiorCols + tilesPerInterior + 2);
+            int row = Random.Range(node.row * interiorRows + 3, node.row * interiorRows + tilesPerInterior);
+            int col = Random.Range(node.col * interiorCols + 3, node.col * interiorCols + tilesPerInterior);
 
             return iTiles[row, col].transform.position;
         }
