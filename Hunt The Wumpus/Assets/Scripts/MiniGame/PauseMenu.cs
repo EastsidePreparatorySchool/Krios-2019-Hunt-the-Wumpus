@@ -51,6 +51,6 @@ public class PauseMenu : MonoBehaviour
         GameObject resultParent = GameObject.Find("Minigame Main Camera");
         ResultHandler rehandle = resultParent.GetComponent<ResultHandler>();
         Resume();
-        rehandle.EndMiniGame();
+        rehandle.EndMiniGame(false);
     }
 }
