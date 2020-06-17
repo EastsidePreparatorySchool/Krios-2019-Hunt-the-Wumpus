@@ -14,6 +14,21 @@ public enum HazardTypes
     Bat
 }
 
+public class Mountain
+{
+    public GameObject mountain;
+    public MeshVertex meshVertex1;
+    public MeshVertex meshVertex2;
+    public bool discovered; // Could potentially be removed
+    public bool colonized; // Could potentially be removed
+
+    public Mountain(MeshVertex mv1, MeshVertex mv2)
+    {
+        meshVertex1 = mv1;
+        meshVertex2 = mv2;
+    }
+}
+
 namespace CommandView
 {
     // Planet will be the Global (constant) data holder
@@ -44,6 +59,7 @@ namespace CommandView
         public const float territoryLineWidth = 0.15f;
         private List<GameObject> _lines = new List<GameObject>();
         public bool borderAroundTerritory;
+        public List<Mountain> mountains = new List<Mountain>();
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
@@ -151,9 +167,7 @@ namespace CommandView
             // Initialize hazards
             MakeHazardObjects(splashSpot);
 
-
-
-            // print("Open faces for face 3: " + OutputList(FindOpenAdjacentFaces(2)));
+            CreateMountains();
         }
 
         // Update is called once per frame
@@ -571,7 +585,7 @@ namespace CommandView
                         ) // Just going to hope that the products between vertex IDs are unique
                         {
                             edgePairs.Add(vertex.Id * neighbor.Id);
-                            DrawVertexLine(vertex, neighbor, setActive);
+                            _lines.Add(DrawVertexLine(vertex, neighbor, setActive));
                             // There might be more to add here
                         }
                     }
@@ -608,13 +622,13 @@ namespace CommandView
 
                     if (edgePairs.Contains(discoveredEdgeVertex.Id * neighbor.Id)) continue;
                     edgePairs.Add(discoveredEdgeVertex.Id * neighbor.Id);
-                    DrawVertexLine(discoveredEdgeVertex, neighbor, setActive, territoryLineWidth / 2f);
+                    _lines.Add(DrawVertexLine(discoveredEdgeVertex, neighbor, setActive, territoryLineWidth / 2f));
                     // There might be more to add here
                 }
             }
         }
 
-        private void DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, bool setActive, float width = territoryLineWidth)
+        private GameObject DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, bool setActive, float width = territoryLineWidth)
         {
             // Debug.Log("Making Line...");
             GameObject line =
@@ -623,15 +637,19 @@ namespace CommandView
             line.transform.position = Vector3.zero;
             line.transform.localScale = Vector3.one;
             line.SetActive(setActive);
-            _lines.Add(line);
+            
             LineRenderer lr = line.GetComponent<LineRenderer>();
+            if (!lr) return line; // Return immediately if not a Line GameObject
+            
             lr.startWidth = width;
             lr.endWidth = width;
             if (width < territoryLineWidth)
             {
                 lr.material = _altLineMaterial;
             }
+
             lr.SetPositions(new[] {fromVertex.Coords, toVertex.Coords});
+            return line;
         }
 
         private void DestroyVertexLines()
@@ -644,6 +662,60 @@ namespace CommandView
             _lines = new List<GameObject>();
         }
 
+        private void CreateMountains()
+        {
+            // go through each face
+            // if face had a false adjacent face
+            // get adjacent face
+            // find the meshes that both of the faces share
+            // create new Mountain and attach the mv's to it
+            // draw line between the mountain ftm
+
+            foreach (var faceHandler in faceHandlers)
+            {
+                for (int i = 0; i < faceHandler.state.Length; i++)
+                {
+                    if (!faceHandler.state[i])
+                    {
+                        MeshVertex mv1 = null;
+                        MeshVertex mv2 = null;
+                        foreach (var vertex1 in faceHandler.adjacentFaceHandlers[i].meshVertices)
+                        {
+                            foreach (var vertex2 in faceHandler.meshVertices.Where(vertex2 => vertex1 == vertex2))
+                            {
+                                if (mv1 == null)
+                                {
+                                    mv1 = vertex2;
+                                }else if(mv2 == null)
+                                {
+                                    mv2 = vertex2;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }
+
+                        bool skip = mountains.Any(mt => mt.meshVertex1 == mv1 || mt.meshVertex1 == mv2 || mt.meshVertex2 == mv1 || mt.meshVertex2 == mv2);
+                        if (skip)
+                        {
+                            continue;
+                        }
+                        
+                        Mountain mountain = new Mountain(mv1, mv2);
+                        DrawVertexLine(mountain.meshVertex1, mountain.meshVertex2, true, 0.3f);
+                        Vector3 mvAverage = (mountain.meshVertex1.Coords + mountain.meshVertex2.Coords) / 2;
+                        mountain.mountain = Instantiate(Resources.Load<GameObject>("Meshes/BorderLines"), GameObject.Find("EventSystem").transform);
+                        mountain.mountain.transform.position = mvAverage;
+                        mountain.mountain.transform.rotation = Quaternion.LookRotation(mvAverage);
+                        mountains.Add(mountain);
+                    }
+                }
+            }
+            
+        }
+        
         private string OutputList(List<int> l)
         {
             string temp = "";

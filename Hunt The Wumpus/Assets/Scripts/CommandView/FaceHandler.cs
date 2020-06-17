@@ -700,7 +700,7 @@ namespace CommandView
         public List<FaceHandler> GetOpenAdjacentFaces()
         {
             List<FaceHandler> openAdjacent = new List<FaceHandler>();
-            for (int i = 0; i < adjacentFaces.Length; i++)
+            for (int i = 0; i < adjacentFaceHandlers.Length; i++)
             {
                 if (state[i])
                 {
