@@ -436,6 +436,7 @@ MonoBehaviour:
   attackRange: 10
   isEnemy: 0
   target: {fileID: 0}
+  rigidBody: {fileID: 2544031465486300990}
   doesAttack: 1
   isMoving: 0
   isAttacking: 0

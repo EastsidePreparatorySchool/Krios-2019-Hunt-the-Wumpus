@@ -11,6 +11,7 @@ namespace MiniGame
         //private HealthManager _healthmgr;
         private CombatController _combatController;
         public NavMeshAgent navMeshAgent;
+        public Rigidbody rigidBody;
 
         public Vector3 nearestTarget;
 
@@ -51,6 +52,22 @@ namespace MiniGame
             if ((myPos - nearestTarget).sqrMagnitude > _combatController.attackRange * _combatController.attackRange)
             {
                 navMeshAgent.SetDestination(nearestTarget);
+            }
+
+            if (navMeshAgent.hasPath)
+            {
+                if (rigidBody)
+                {
+                    rigidBody.constraints =
+                        RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                }
+            }
+            else
+            {
+                if (rigidBody)
+                {
+                    rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+                }
             }
 
             animator.speed = navMeshAgent.hasPath ? 1f : 0f;
