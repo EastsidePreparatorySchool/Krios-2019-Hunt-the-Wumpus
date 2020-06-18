@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using CommandView;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Experimental.UIElements;
 using Toggle = UnityEngine.UI.Toggle;
 using Text = UnityEngine.UI.Text;
 
@@ -18,8 +17,9 @@ namespace Gui
         public GameObject scrollViewContent;
 
         public GameObject sendAllButton;
-
-        public GameObject sendNoneButton;
+        private bool _sendAllButtonState = true; //true for send all, false for send none
+        
+        //public GameObject sendNoneButton; the sendAllButton is a toggle now
 
         public GameObject troopSelectScrollObject;
         public GameObject sendToBattleBtn;
@@ -95,22 +95,36 @@ namespace Gui
             }
         }
 
+        //Is actually the Select/Deselect button
         public void SelectAll()
         {
             foreach (var toggle in _toggles)
             {
                 Toggle toggle1 = toggle.gameObject.GetComponent<Toggle>();
-                toggle1.isOn = true;
+                toggle1.isOn = _sendAllButtonState;
             }
+
+            //I couldn't figure out how to set the name of the button as I was having issues with TextMeshPro kinda not existing.
+            switch (_sendAllButtonState)
+            {
+                case true:
+                    _sendAllButtonState = false;
+                    break;
+                case false:
+                    _sendAllButtonState = true;
+                    break;
+            }
+            
         }
 
         public void DeselectAll()
         {
-            foreach (var toggle in _toggles)
-            {
-                Toggle toggle1 = toggle.gameObject.GetComponent<Toggle>();
-                toggle1.isOn = false;
-            }
+            Debug.Log("we're not using this button.");
+            //foreach (var toggle in _toggles)
+            //{
+            //    Toggle toggle1 = toggle.gameObject.GetComponent<Toggle>();
+            //    toggle1.isOn = false;
+            //}
         }
 
         public void SendTroopsToBattle()
@@ -133,7 +147,7 @@ namespace Gui
         public void ShowOnlyBuildSensorBtn(bool show=true)
         {
             sendAllButton.SetActive(!show);
-            sendNoneButton.SetActive(!show);
+            //sendNoneButton.SetActive(!show);
             troopSelectScrollObject.SetActive(!show);
             sendToBattleBtn.SetActive(!show);
             nukeBtn.SetActive(!show);

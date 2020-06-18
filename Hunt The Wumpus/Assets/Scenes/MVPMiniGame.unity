@@ -833,6 +833,7 @@ MonoBehaviour:
   - {fileID: 3493388639983906655, guid: 94fdced3685ba544f82c5316b14afb75, type: 3}
   - {fileID: 4422197902195533535, guid: 05b7849a874ecce429b62e549d437e31, type: 3}
   - {fileID: 936145716539584611, guid: 3b12f8106c1eb7942a60d58bdb462c9e, type: 3}
+  - {fileID: 5596220753290609700, guid: 10e3371b3b06fdb44aaae9f82f696ec6, type: 3}
   coverTilePrefab: {fileID: 2195268581956725556, guid: 61975e9ef733e8441bd247836b0e44fa,
     type: 3}
   nestPrefab: {fileID: 2973662379733780852, guid: 474210afd8e59944bb55660ad5f10153,
