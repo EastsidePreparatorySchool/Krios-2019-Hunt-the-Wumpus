@@ -1951,6 +1951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 5664777907741045009}
   navMeshAgent: {fileID: 5664777907750454386}
+  rigidBody: {fileID: 5664777907750454390}
   nearestTarget: {x: 0, y: 0, z: 0}
   searchRange: 20
   speed: 3
@@ -1984,8 +1985,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthmgr: {fileID: 5664777907750454411}
   attackInterval: 0.5
-  attackDamage: 20
-  attackRange: 2
+  attackDamage: 10
+  attackRange: 3
   isEnemy: 1
   target: {fileID: 0}
   doesAttack: 1
