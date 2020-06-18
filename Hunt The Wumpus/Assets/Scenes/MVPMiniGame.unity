@@ -836,7 +836,7 @@ MonoBehaviour:
   - {fileID: 5596220753290609700, guid: 10e3371b3b06fdb44aaae9f82f696ec6, type: 3}
   coverTilePrefab: {fileID: 2195268581956725556, guid: 61975e9ef733e8441bd247836b0e44fa,
     type: 3}
-  nestPrefab: {fileID: 7405159740301429287, guid: 9c27c19d05887be449fc1c181dde9435,
+  nestPrefab: {fileID: 2973662379733780852, guid: 474210afd8e59944bb55660ad5f10153,
     type: 3}
   biomeFloors:
   - {fileID: 1709676454}
