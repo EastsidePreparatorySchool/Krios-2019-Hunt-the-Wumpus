@@ -44,12 +44,16 @@ public class UpdateGui : MonoBehaviour
 
     private PlanetSpin _orbit;
 
+    private MainMenuVars _menu;
+
+    private bool _ispaused;
+
     private int _lastDisplayedTurnsNum = 0;
 
     // private int _default = 0;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         // Fill Variables
         planet = GameObject.Find("Planet");
@@ -65,6 +69,8 @@ public class UpdateGui : MonoBehaviour
 
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         _orbit = FindObjectOfType<PlanetSpin>();
+
+        _menu = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
 
 
         // Sync UI appearance with camera entry spin
@@ -111,6 +117,7 @@ public class UpdateGui : MonoBehaviour
 
         StartCoroutine(WaitUntilGameBegins());
 
+
         // StartCoroutine(TurnDisplayAnimation());
     }
 
@@ -140,12 +147,29 @@ public class UpdateGui : MonoBehaviour
         {
             StartCoroutine(TurnDisplayAnimation());
         }
+
+        if (_menu.isPause == true)
+        {
+            if (_ispaused == false)
+            {
+                _ispaused = _menu.isPause;
+                StartCoroutine(FadeOut());
+            }
+        }
+        if (_menu.isPause == false)
+        {
+            if (_ispaused == true)
+            {
+                _ispaused = _menu.isPause;
+                StartCoroutine(WaitUntilGameBegins());
+            }
+        }
     }
 
     private IEnumerator WaitUntilGameBegins()
     {
-        yield return new WaitUntil(() => Math.Abs(_orbit.beginningSpin) < 0.1f);
-
+        yield return new WaitUntil(() => _menu.isPause == false);
+        yield return new WaitForSeconds(1.5F);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
         while (_troopCounter.alpha < 1)
@@ -163,13 +187,36 @@ public class UpdateGui : MonoBehaviour
             endTurnBtnAlpha.a += 0.1f;
             _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
 
-            yield return new WaitForSeconds(0.2F);
+            yield return new WaitForSeconds(0.1F);
+        }
+    }
+    private IEnumerator FadeOut()
+    {
+        yield return new WaitUntil(() => _menu.isPause == true);
+        Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
+        Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
+        while (_troopCounter.alpha > 0)
+        {
+            _troopCounter.alpha -= 0.1f;
+            _moneyCounter.alpha -= 0.1f;
+            _nukeCounter.alpha -= 0.1f;
+            _sensorCounter.alpha -= 0.1f;
+
+            _openStoreBtnText.alpha -= 0.1f;
+            openStoreBtnAlpha.a -= 0.1f;
+            _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
+
+            _endTurnBtnText.alpha -= 0.1f;
+            endTurnBtnAlpha.a -= 0.1f;
+            _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
+
+            yield return new WaitForSeconds(0.1F);
         }
     }
 
     private IEnumerator TurnDisplayAnimation()
     {
-        yield return new WaitUntil(() => Math.Abs(_orbit.beginningSpin) < 0.1f);
+        yield return new WaitUntil(() => _menu.isPause == false);
 
         if (_inGameMeta.turnsElapsed == 1)
         {

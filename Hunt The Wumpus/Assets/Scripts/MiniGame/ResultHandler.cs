@@ -14,6 +14,8 @@ namespace MiniGame
 
         private GameMeta _meta;
 
+        private MainMenuVars _menu;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -21,6 +23,7 @@ namespace MiniGame
             _planetHandler = _planet.GetComponent<Planet>();
             _meta = _planet.GetComponent<GameMeta>();
             _result = _planetHandler.result;
+            _menu = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
         }
 
         // Update is called once per frame
@@ -49,6 +52,8 @@ namespace MiniGame
             _result.didWin = didWin;
             
             StartCoroutine(FadeOutAndSwitch());
+
+            _menu.backFromMiniGame = true;
         }
 
         private IEnumerator FadeOutAndSwitch()
