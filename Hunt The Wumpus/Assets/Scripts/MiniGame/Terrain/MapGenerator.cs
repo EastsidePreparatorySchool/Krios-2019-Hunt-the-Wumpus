@@ -353,14 +353,7 @@ namespace MiniGame.Terrain
             {
                 for (int j = 0; j < interiorCols; j++)
                 {
-                    if (hazardOnTile.Equals(HazardTypes.Pit))
-                    {
-                        wallTilePrefab = wallTilePrefabs[0];
-                    }
-                    else
-                    {
-                        wallTilePrefab = wallTilePrefabs[(int) biomeType];
-                    }
+                    ReassignWallTilePrefab();
 
                     iTilePrefabs[i, j] = wallTilePrefab; //fills the whole thing with walls
                 }
@@ -386,6 +379,7 @@ namespace MiniGame.Terrain
 
                             if (tileI == tilesPerInterior) //the bottom wall
                             {
+                                ReassignWallTilePrefab();
                                 prefab = wallTilePrefab;
                                 if (_nodes[nodeI, nodeJ].connectedDown &&
                                     tileJ >= doorwayOffsetBottom &&
@@ -397,6 +391,7 @@ namespace MiniGame.Terrain
 
                             if (tileJ == tilesPerInterior) //the right wall
                             {
+                                ReassignWallTilePrefab();
                                 prefab = wallTilePrefab;
                                 if (_nodes[nodeI, nodeJ].connectedRight &&
                                     tileI >= doorwayOffsetRight &&
@@ -410,6 +405,22 @@ namespace MiniGame.Terrain
                         }
                     }
                 }
+            }
+        }
+
+        private void ReassignWallTilePrefab()
+        {
+            bool altChance = Random.Range(0, 100) < 95;
+            print(altChance);
+
+            if (hazardOnTile.Equals(HazardTypes.Pit))
+            {
+                wallTilePrefab = altChance ? wallTilePrefabs[0] : wallTilePrefabSeconds[0];
+            }
+            else
+            {
+                int biomeIndex = (int) biomeType;
+                wallTilePrefab = altChance ? wallTilePrefabs[biomeIndex] : wallTilePrefabSeconds[biomeIndex];
             }
         }
 
@@ -434,8 +445,8 @@ namespace MiniGame.Terrain
                 for (int j = 0; j < interiorCols; j++)
                 {
                     int rotation = 90 * Random.Range(0, 4);
-                    Quaternion appliedRotation = Quaternion.Euler(0,rotation,0);
-                    
+                    Quaternion appliedRotation = Quaternion.Euler(0, rotation, 0);
+
                     iTiles[i, j] = Instantiate(iTilePrefabs[i, j],
                         new Vector3(i * interiorTileSize, 0, j * interiorTileSize) + mazeLocationOffset,
                         appliedRotation);
