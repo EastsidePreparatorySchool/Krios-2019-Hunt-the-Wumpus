@@ -602,7 +602,7 @@ namespace CommandView
 
                     bool wumpusAdjacent = false;
 
-                    foreach (FaceHandler adjacentFaceHandler in adjacentFaceHandlers)
+                    foreach (FaceHandler adjacentFaceHandler in GetOpenAdjacentFaces())
                     {
                         adjacentFaceHandler.noMoney = true;
 
@@ -617,6 +617,7 @@ namespace CommandView
                         wumpus.Move(30);
                     }
                 }
+                meta.EndTurn();
             }
             else
             {
@@ -683,6 +684,7 @@ namespace CommandView
 
             // print("Colonized Here");
             _planet.ColonizedLineUpdate(setTerritoryLinesActive);
+            // _planet.CreateMountains();
         }
 
         public void SetDiscovered()
@@ -700,7 +702,7 @@ namespace CommandView
         public List<FaceHandler> GetOpenAdjacentFaces()
         {
             List<FaceHandler> openAdjacent = new List<FaceHandler>();
-            for (int i = 0; i < adjacentFaces.Length; i++)
+            for (int i = 0; i < adjacentFaceHandlers.Length; i++)
             {
                 if (state[i])
                 {

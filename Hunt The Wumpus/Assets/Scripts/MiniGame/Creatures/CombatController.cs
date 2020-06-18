@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using UnityEngine;
 
 namespace MiniGame.Creatures
@@ -16,10 +17,10 @@ namespace MiniGame.Creatures
         public float attackInterval = 3.0f;
         public int attackDamage;
         public float attackRange = 2.0f;
-        
+
         private int particleTimeout = 1;
         private float _particleTimeoutTime;
-        
+
         public bool isEnemy; //Wumpling or Soldier
         public CombatController target; //Target object.
 
@@ -47,7 +48,9 @@ namespace MiniGame.Creatures
                     _timeDiffCounter = 0f;
                 }
                 else
+                {
                     isAttacking = false;
+                }
             }
         }
 
@@ -67,15 +70,19 @@ namespace MiniGame.Creatures
 
             return true;
         }
-        
+
         //Attacks the thing if it's not on this thing's side (Wumpling or Soldier)
         public void Attack(CombatController target)
         {
-            if (target.isEnemy == isEnemy)
+            transform.LookAt(target.gameObject.transform);
+            transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            //print(transform.eulerAngles.x + " " + transform.eulerAngles.y + " " + transform.eulerAngles.z);
+
+            /*if (target.isEnemy == isEnemy)
             {
                 //Debug.Log("You can't attack someone on your own side!");
-            }
-            else if (attackDamage > 0)
+            }*/
+            if (attackDamage > 0)
             {
                 isAttacking = true;
 
@@ -85,7 +92,7 @@ namespace MiniGame.Creatures
                 target.healthmgr.TakeDamage(attackDamage);
             }
         }
-        
+
         private void RefreshTarget()
         {
             List<CombatController> enemies = GetNearestEnemies();
@@ -94,35 +101,50 @@ namespace MiniGame.Creatures
                 target = null;
                 return;
             }
-            enemies.Sort((a,b) =>
+
+            // IOrderedEnumerable<CombatController> combatControllers = enemies.OrderBy(enemy =>
+            //     (enemy.gameObject.transform.position - transform.position).sqrMagnitude);
+            // foreach (CombatController combatController in combatControllers)
+            // {
+            //     if (combatController.doesAttack)
+            //     {
+            //         target = combatController;
+            //         break;
+            //     }
+            //
+            //     target = combatController;
+            // }
+
+            enemies.Sort((a, b) =>
             {
                 if (a.doesAttack != b.doesAttack)
                 {
                     //if a attacks and b doesn't, return -1
                     //if b attacks and a doesn't, return 1
-                    return (a.doesAttack ? -1 : 1); 
+                    return (a.doesAttack ? -1 : 1);
                 }
+            
                 //if they both attack or neither attack, closer one goes first
                 float aDist = (a.gameObject.transform.position - transform.position).sqrMagnitude;
                 float bDist = (b.gameObject.transform.position - transform.position).sqrMagnitude;
                 return ((aDist - bDist) < 0 ? -1 : 1);
             });
-
+            
             target = enemies[0];
         }
-        
+
         public List<CombatController> GetNearestEnemies()
         {
             //float nearestDistanceSqr = int.MaxValue;
             Vector3 myPos = transform.position;
-            Vector3 lowerMyPos = new Vector3(myPos.x, 0.25f, myPos.z);
+            Vector3 adjustedMyPos = new Vector3(myPos.x, myPos.y + 0.25f, myPos.z);
             //CombatController nearestTarget = null;
 
             Collider[] nearbyThings = new Collider[10];
             List<CombatController> output = new List<CombatController>();
             String typeLayerMask = isEnemy ? "Troop" : "MiniGameEnemy";
             LayerMask combinedMask = LayerMask.GetMask("MiniGameObstacle", typeLayerMask);
-            
+
             int size = Physics.OverlapSphereNonAlloc(myPos, attackRange, nearbyThings,
                 LayerMask.GetMask(typeLayerMask));
 
@@ -130,11 +152,12 @@ namespace MiniGame.Creatures
             {
                 for (int i = 0; i < size; i++)
                 {
-                    Vector3 enemyDir = nearbyThings[i].gameObject.transform.position - lowerMyPos;
-                    if (Physics.Raycast(lowerMyPos, enemyDir, out RaycastHit hit,
+                    Vector3 enemyDir = nearbyThings[i].gameObject.transform.position - adjustedMyPos;
+                    if (Physics.Raycast(adjustedMyPos, enemyDir, out RaycastHit hit,
                         attackRange, combinedMask))
                     {
-                        Debug.DrawRay(lowerMyPos, enemyDir * hit.distance, isEnemy ? Color.red : Color.cyan, 1f);
+                        Debug.DrawRay(adjustedMyPos, enemyDir * hit.distance, isEnemy ? Color.red : Color.cyan,
+                            1f);
                         if (hit.collider.Equals(nearbyThings[i]))
                         {
                             output.Add(nearbyThings[i].gameObject.GetComponent<CombatController>());
@@ -145,6 +168,11 @@ namespace MiniGame.Creatures
                                 nearestTarget = nearbyThings[i].gameObject.GetComponent<CombatController>();
                             }*/
                         }
+
+                        // else
+                        // {
+                        //     print(isEnemy ? "Wumpling" : "Troop" + " : " + hit.collider + " != " + nearbyThings[i]);
+                        // }
                     }
                 }
             }

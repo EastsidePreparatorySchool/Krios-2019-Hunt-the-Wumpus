@@ -1951,6 +1951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 5664777907741045009}
   navMeshAgent: {fileID: 5664777907750454386}
+  rigidBody: {fileID: 5664777907750454390}
   nearestTarget: {x: 0, y: 0, z: 0}
   searchRange: 20
   speed: 3
@@ -1984,8 +1985,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthmgr: {fileID: 5664777907750454411}
   attackInterval: 0.5
-  attackDamage: 20
-  attackRange: 2
+  attackDamage: 10
+  attackRange: 3
   isEnemy: 1
   target: {fileID: 0}
   doesAttack: 1
@@ -6709,7 +6710,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5664777907750552445}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.5
   m_Speed: 12
   m_Acceleration: 100
   avoidancePriority: 50
@@ -6718,8 +6719,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1.8731748
-  m_BaseOffset: 0
+  m_Height: 1.63
+  m_BaseOffset: -0.02
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1 &5664777907763685566

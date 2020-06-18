@@ -79,12 +79,15 @@ namespace MiniGame.Terrain
 
         public GameObject pathTilePrefab;
         public GameObject wallTilePrefab;
+        public GameObject[] wallTilePrefabs;
+        public GameObject[] wallTilePrefabSeconds;
         public GameObject coverTilePrefab;
         public GameObject nestPrefab;
 
 
         public GameObject[] biomeFloors;
         public HazardTypes hazardOnTile;
+        public BiomeType biomeType;
 
 
         private GameObject[,] iTilePrefabs;
@@ -111,9 +114,10 @@ namespace MiniGame.Terrain
         {
         }
 
-        public void GenerateMaze(HazardTypes hazard)
+        public void GenerateMaze(HazardTypes hazard, BiomeType type)
         {
             hazardOnTile = hazard;
+            biomeType = type;
             randomMaze();
             GenerateInteriorTilePrefabs();
             GenerateInteriorTileObjects();
@@ -349,6 +353,8 @@ namespace MiniGame.Terrain
             {
                 for (int j = 0; j < interiorCols; j++)
                 {
+                    ReassignWallTilePrefab();
+
                     iTilePrefabs[i, j] = wallTilePrefab; //fills the whole thing with walls
                 }
             }
@@ -373,6 +379,7 @@ namespace MiniGame.Terrain
 
                             if (tileI == tilesPerInterior) //the bottom wall
                             {
+                                ReassignWallTilePrefab();
                                 prefab = wallTilePrefab;
                                 if (_nodes[nodeI, nodeJ].connectedDown &&
                                     tileJ >= doorwayOffsetBottom &&
@@ -384,6 +391,7 @@ namespace MiniGame.Terrain
 
                             if (tileJ == tilesPerInterior) //the right wall
                             {
+                                ReassignWallTilePrefab();
                                 prefab = wallTilePrefab;
                                 if (_nodes[nodeI, nodeJ].connectedRight &&
                                     tileI >= doorwayOffsetRight &&
@@ -400,6 +408,22 @@ namespace MiniGame.Terrain
             }
         }
 
+        private void ReassignWallTilePrefab()
+        {
+            bool altChance = Random.Range(0, 100) < 95;
+            print(altChance);
+
+            if (hazardOnTile.Equals(HazardTypes.Pit))
+            {
+                wallTilePrefab = altChance ? wallTilePrefabs[0] : wallTilePrefabSeconds[0];
+            }
+            else
+            {
+                int biomeIndex = (int) biomeType;
+                wallTilePrefab = altChance ? wallTilePrefabs[biomeIndex] : wallTilePrefabSeconds[biomeIndex];
+            }
+        }
+
         private void GenerateInteriorTileObjects()
         {
             Planet planet = GameObject.Find("Planet").GetComponent<Planet>();
@@ -407,22 +431,25 @@ namespace MiniGame.Terrain
             biomeFloors[(int) planet.faces[planet.GetFaceInBattle()].GetComponent<FaceHandler>().biomeType - 1]
                 .SetActive(true);
 
-            spawnPrefabs();
+            SpawnPrefabs();
             spawnNests();
 
             surface.BuildNavMesh();
         }
 
-        private void spawnPrefabs()
+        private void SpawnPrefabs()
         {
             iTiles = new GameObject[interiorRows, interiorCols];
             for (int i = 0; i < interiorRows; i++)
             {
                 for (int j = 0; j < interiorCols; j++)
                 {
+                    int rotation = 90 * Random.Range(0, 4);
+                    Quaternion appliedRotation = Quaternion.Euler(0, rotation, 0);
+
                     iTiles[i, j] = Instantiate(iTilePrefabs[i, j],
                         new Vector3(i * interiorTileSize, 0, j * interiorTileSize) + mazeLocationOffset,
-                        Quaternion.Euler(-90, 90, 0));
+                        appliedRotation);
                 }
             }
         }
@@ -437,7 +464,8 @@ namespace MiniGame.Terrain
                     if (n.connections == 1 && !isStartNode(n))
                     {
                         CreateNest(n, nodeI, nodeJ, 10);
-                    } else if (hazardOnTile == HazardTypes.Pit && !isStartNode(n))
+                    }
+                    else if (hazardOnTile == HazardTypes.Pit && !isStartNode(n))
                     {
                         CreateNest(n, nodeI, nodeJ, 3);
                     }
@@ -452,22 +480,21 @@ namespace MiniGame.Terrain
             float j = nodeJ * (tilesPerInterior + 1);
             GameObject nest = Instantiate(nestPrefab,
                 new Vector3(i * interiorTileSize,
-                    0,
-                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset,
-                new Quaternion());
+                    1,
+                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset, Quaternion.identity);
             nest.GetComponent<NestController>().timeBetweenSpawns = spawnTime;
             if (isEndNode(n))
             {
                 nest.GetComponent<NestDeathHandler>().OnDeathEndMiniGame();
             }
-            
+
             nests.Add(nest);
         }
 
         public Vector3 GetRandomPositionInNodeFromNode(Node node)
         {
-            int row = Random.Range(node.row * interiorRows + 1, node.row * interiorRows + tilesPerInterior + 2);
-            int col = Random.Range(node.col * interiorCols + 1, node.col * interiorCols + tilesPerInterior + 2);
+            int row = Random.Range(node.row * interiorRows + 2, node.row * interiorRows + tilesPerInterior);
+            int col = Random.Range(node.col * interiorCols + 2, node.col * interiorCols + tilesPerInterior);
 
             return iTiles[row, col].transform.position;
         }
