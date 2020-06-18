@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using CommandView;
 
 public class MainMenu : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class MainMenu : MonoBehaviour
     Animator lettersAnimator;
 
     MainMenuVars vars;
+    Planet planet;
 
     void Start()
     {
@@ -17,16 +19,14 @@ public class MainMenu : MonoBehaviour
         lettersAnimator = GameObject.Find("Letters").GetComponent<Animator>();
 
         vars = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
-
-        if (vars.backFromMiniGame == true)
-        {
-            backFromMiniGame();
-            vars.backFromMiniGame = false;
-        }
+        planet = GameObject.Find("Planet").GetComponent<Planet>();
     }
 
     void Update()
     {
+        if (planet.backFromMiniGame == true)
+            backFromMiniGame();
+
         if (Input.GetKeyDown(KeyCode.Escape))
             Pause();
     }
@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour
 
     }
 
-    public void Credits()
+    public void Save()
     {
 
     }
@@ -62,9 +62,12 @@ public class MainMenu : MonoBehaviour
 
     public void backFromMiniGame()
     {
+        HideMainMenu();
         vars.firstLaunch = false;
+        vars.isPause = false;
         animBackFromMiniGame();
-        
+        planet.backFromMiniGame = false;
+
     }
     void Pause()
     {

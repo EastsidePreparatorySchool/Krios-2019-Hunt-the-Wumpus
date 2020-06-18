@@ -169,10 +169,10 @@ public class UpdateGui : MonoBehaviour
     private IEnumerator WaitUntilGameBegins()
     {
         yield return new WaitUntil(() => _menu.isPause == false);
-        yield return new WaitForSeconds(1.5F);
+        yield return new WaitForSeconds(2F);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
-        while (_troopCounter.alpha < 1)
+        while (openStoreBtnAlpha.a < 1)
         {
             _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
@@ -187,7 +187,7 @@ public class UpdateGui : MonoBehaviour
             endTurnBtnAlpha.a += 0.1f;
             _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
 
-            yield return new WaitForSeconds(0.1F);
+            yield return new WaitForSeconds(0.025F);
         }
     }
     private IEnumerator FadeOut()
@@ -210,7 +210,7 @@ public class UpdateGui : MonoBehaviour
             endTurnBtnAlpha.a -= 0.1f;
             _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
 
-            yield return new WaitForSeconds(0.1F);
+            yield return new WaitForSeconds(0.025F);
         }
     }
 
