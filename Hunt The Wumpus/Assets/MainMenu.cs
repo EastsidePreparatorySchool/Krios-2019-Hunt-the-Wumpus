@@ -73,10 +73,26 @@ public class MainMenu : MonoBehaviour
     {
         ZoomOut();
         ShowMainMenu();
+        HideStoreTroopSelect();
         vars.isPause = true;
         if (vars.firstLaunch == false)
         {
             GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Resume";
+        }
+    }
+
+    void HideStoreTroopSelect()
+    {
+        GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
+        if (TroopSelector != null)
+            TroopSelector.SetActive(false);
+
+        GameObject store = GameObject.Find("StoreUI");
+        for (int i = 0; i < store.transform.childCount; i++)
+        {
+            var child = store.transform.GetChild(i).gameObject;
+            if (child != null)
+                child.SetActive(false);
         }
     }
 
