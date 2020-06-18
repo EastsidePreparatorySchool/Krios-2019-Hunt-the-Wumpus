@@ -59,14 +59,14 @@ namespace MiniGame
                 if (rigidBody)
                 {
                     rigidBody.constraints =
-                        RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+                        RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
                 }
             }
             else
             {
                 if (rigidBody)
                 {
-                    rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+                    rigidBody.constraints = RigidbodyConstraints.FreezeAll;
                 }
             }
 
