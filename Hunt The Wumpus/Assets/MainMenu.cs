@@ -76,7 +76,7 @@ public class MainMenu : MonoBehaviour
         vars.isPause = true;
         if (vars.firstLaunch == false)
         {
-            GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
+            GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Resume";
         }
     }
 
