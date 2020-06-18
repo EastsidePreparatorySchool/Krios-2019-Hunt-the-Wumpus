@@ -28,8 +28,8 @@ public class UpdateGui : MonoBehaviour
     private Button _endTurnBtn;
     private Graphic _endTurnBtnTargetGraphic;
     private TextMeshProUGUI _endTurnBtnText;
-    
-    
+
+
     private Button _openStoreBtn;
     private Graphic _openStoreBtnTargetGraphic;
     private TextMeshProUGUI _openStoreBtnText;
@@ -44,10 +44,16 @@ public class UpdateGui : MonoBehaviour
 
     private PlanetSpin _orbit;
 
+    private MainMenuVars _menu;
+
+    private bool _ispaused;
+
+    private int _lastDisplayedTurnsNum = 0;
+
     // private int _default = 0;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         // Fill Variables
         planet = GameObject.Find("Planet");
@@ -56,13 +62,15 @@ public class UpdateGui : MonoBehaviour
         _openStoreBtn = GameObject.Find("OpenStoreBtn").GetComponent<Button>();
         _openStoreBtnTargetGraphic = _openStoreBtn.targetGraphic;
         _openStoreBtnText = _openStoreBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
-        
+
         _endTurnBtn = GameObject.Find("EndTurnBtn").GetComponent<Button>();
         _endTurnBtnTargetGraphic = _endTurnBtn.targetGraphic;
         _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
 
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         _orbit = FindObjectOfType<PlanetSpin>();
+
+        _menu = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
 
 
         // Sync UI appearance with camera entry spin
@@ -99,7 +107,7 @@ public class UpdateGui : MonoBehaviour
         _openStoreBtnText.alpha = 0f;
         storeBtnAlpha.a = 0f;
         _openStoreBtnTargetGraphic.color = storeBtnAlpha;
-        
+
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
         _endTurnBtnText.alpha = 0f;
         endTurnBtnAlpha.a = 0f;
@@ -109,7 +117,8 @@ public class UpdateGui : MonoBehaviour
 
         StartCoroutine(WaitUntilGameBegins());
 
-        StartCoroutine(TurnDisplayAnimation());
+
+        // StartCoroutine(TurnDisplayAnimation());
     }
 
     // Update is called once per frame
@@ -123,24 +132,47 @@ public class UpdateGui : MonoBehaviour
 
         //print("Stats: " + _inGameMeta);
         // print("Troops: " + _inGameMeta.troops);
-        int[] curCounterValue = {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
+        int[] curCounterValue =
+            {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
         if (!_counterValues.Equals(curCounterValue))
         {
-            _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/" 
+            _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/"
                                  + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
         }
+
+        if (_inGameMeta.turnsElapsed != _lastDisplayedTurnsNum)
+        {
+            StartCoroutine(TurnDisplayAnimation());
+        }
+
+        if (_menu.isPause == true)
+        {
+            if (_ispaused == false)
+            {
+                _ispaused = _menu.isPause;
+                StartCoroutine(FadeOut());
+            }
+        }
+        if (_menu.isPause == false)
+        {
+            if (_ispaused == true)
+            {
+                _ispaused = _menu.isPause;
+                StartCoroutine(WaitUntilGameBegins());
+            }
+        }
     }
 
     private IEnumerator WaitUntilGameBegins()
     {
-        yield return new WaitUntil(() => Math.Abs(_orbit.beginningSpin) < 0.1f);
-
+        yield return new WaitUntil(() => _menu.isPause == false);
+        yield return new WaitForSeconds(2F);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
-        while (_troopCounter.alpha < 1)
+        while (openStoreBtnAlpha.a < 1)
         {
             _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
@@ -150,18 +182,41 @@ public class UpdateGui : MonoBehaviour
             _openStoreBtnText.alpha += 0.1f;
             openStoreBtnAlpha.a += 0.1f;
             _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
-            
+
             _endTurnBtnText.alpha += 0.1f;
             endTurnBtnAlpha.a += 0.1f;
             _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
 
-            yield return new WaitForSeconds(0.2F);
+            yield return new WaitForSeconds(0.025F);
+        }
+    }
+    private IEnumerator FadeOut()
+    {
+        yield return new WaitUntil(() => _menu.isPause == true);
+        Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
+        Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
+        while (_troopCounter.alpha > 0)
+        {
+            _troopCounter.alpha -= 0.1f;
+            _moneyCounter.alpha -= 0.1f;
+            _nukeCounter.alpha -= 0.1f;
+            _sensorCounter.alpha -= 0.1f;
+
+            _openStoreBtnText.alpha -= 0.1f;
+            openStoreBtnAlpha.a -= 0.1f;
+            _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
+
+            _endTurnBtnText.alpha -= 0.1f;
+            endTurnBtnAlpha.a -= 0.1f;
+            _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
+
+            yield return new WaitForSeconds(0.025F);
         }
     }
 
     private IEnumerator TurnDisplayAnimation()
     {
-        yield return new WaitUntil(() => Math.Abs(_orbit.beginningSpin) < 0.1f);
+        yield return new WaitUntil(() => _menu.isPause == false);
 
         if (_inGameMeta.turnsElapsed == 1)
         {
@@ -183,5 +238,7 @@ public class UpdateGui : MonoBehaviour
         }
 
         _turnDisplay.gameObject.SetActive(false);
+
+        _lastDisplayedTurnsNum = _inGameMeta.turnsElapsed;
     }
 }

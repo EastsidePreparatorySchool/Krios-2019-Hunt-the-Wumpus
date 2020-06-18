@@ -7,12 +7,13 @@ namespace MiniGame
     public class WumplingController : MonoBehaviour
     {
         public Animator animator;
-        
+
         //private HealthManager _healthmgr;
         private CombatController _combatController;
         public NavMeshAgent navMeshAgent;
+        public Rigidbody rigidBody;
 
-        public Vector3 nearestTarget; 
+        public Vector3 nearestTarget;
 
         public float searchRange = 20;
         public float speed = 3;
@@ -36,6 +37,7 @@ namespace MiniGame
 
             if (size != 0)
             {
+                // print("Wumpling found troops");
                 for (int i = 0; i < size; i++)
                 {
                     float distSqr = (nearbyThings[i].gameObject.transform.position - myPos).sqrMagnitude;
@@ -47,19 +49,28 @@ namespace MiniGame
                 }
             }
 
-            if ((myPos -nearestTarget).sqrMagnitude > _combatController.attackRange * _combatController.attackRange)
+            if ((myPos - nearestTarget).sqrMagnitude > _combatController.attackRange * _combatController.attackRange)
             {
                 navMeshAgent.SetDestination(nearestTarget);
             }
 
-            if (!navMeshAgent.hasPath)
+            if (navMeshAgent.hasPath)
             {
-                animator.speed = 0f;
+                if (rigidBody)
+                {
+                    rigidBody.constraints =
+                        RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+                }
             }
             else
             {
-                animator.speed = 1f;
+                if (rigidBody)
+                {
+                    rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+                }
             }
+
+            animator.speed = navMeshAgent.hasPath ? 1f : 0f;
         }
     }
 }

@@ -43,9 +43,7 @@ public class Store : MonoBehaviour
         // Closes TroopSelector if open
         GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
         if(TroopSelector != null)
-        {
             TroopSelector.SetActive(false);
-        }
 
         // Activates all children of the StoreUI object
         GameObject store = GameObject.Find("StoreUI");
