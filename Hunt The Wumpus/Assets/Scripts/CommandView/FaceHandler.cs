@@ -602,7 +602,7 @@ namespace CommandView
 
                     bool wumpusAdjacent = false;
 
-                    foreach (FaceHandler adjacentFaceHandler in adjacentFaceHandlers)
+                    foreach (FaceHandler adjacentFaceHandler in GetOpenAdjacentFaces())
                     {
                         adjacentFaceHandler.noMoney = true;
 
@@ -617,6 +617,7 @@ namespace CommandView
                         wumpus.Move(30);
                     }
                 }
+                meta.EndTurn();
             }
             else
             {
