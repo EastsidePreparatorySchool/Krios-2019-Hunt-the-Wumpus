@@ -27,8 +27,8 @@ public class Mountain
     public GameObject mountain;
     public MeshVertex meshVertex1;
     public MeshVertex meshVertex2;
-    public bool discovered; // Could potentially be removed
-    public bool colonized; // Could potentially be removed
+    public bool discovered;
+    public bool colonized;
 
     public Mountain(MeshVertex mv1, MeshVertex mv2)
     {
@@ -43,6 +43,8 @@ namespace CommandView
     public class Planet : MonoBehaviour
     {
         public bool backFromMiniGame = false;
+
+        public int maxUpgrades;
 
         // Hold an instance of the Planet
         public static Planet Instance;
@@ -79,6 +81,7 @@ namespace CommandView
         public int[] wumplingWaves;
         public int soldiers;
 
+        // Some of the save/load variables
         private bool[,] States = new bool[4, 30];
         private int[] BiomeNum = new int[30];
         private bool[] IsColonized = new bool[30];

@@ -40,6 +40,8 @@ namespace Gui
 
         private float _alpha;
 
+        public bool needsRefresh;
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -51,6 +53,15 @@ namespace Gui
         // Update is called once per frame
         void Update()
         {
+            if (needsRefresh)
+            {
+                foreach (GameObject toggle in _toggles)
+                    Destroy(toggle);
+                foreach (var troop in _gameMeta.availableTroops)
+                    _toggles.Add(CreateNewToggle(troop));
+                needsRefresh = false;
+            }
+
         }
 
         public void ActivateTroopSelector(int faceNum, bool resetClose = false)
@@ -181,6 +192,8 @@ namespace Gui
             Text label = labelGameObject.GetComponent<Text>();
             label.text = troop.type + ": " + troop.name;
 
+            GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
+            UpgradeBar.GetComponent<RectTransform>().offsetMax = new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
             return newTroopToggle;
         }
 
