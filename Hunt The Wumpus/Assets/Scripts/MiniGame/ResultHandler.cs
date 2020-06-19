@@ -46,9 +46,12 @@ namespace MiniGame
 
         public void EndMiniGame(bool didWin = true)
         {
+            _planetHandler.didSomething = true;
             _result.didWin = didWin;
             
             StartCoroutine(FadeOutAndSwitch());
+
+            _planetHandler.backFromMiniGame = true;
         }
 
         private IEnumerator FadeOutAndSwitch()
