@@ -6,15 +6,19 @@ namespace MiniGame
     public class CameraController : MonoBehaviour
     {
         public float flySpeed = 15;
-        public float minX = -5;
-        public float maxX = 5;
-        public float minZ = -27;
-        public float maxZ = 17;
-        public float zoom = 1;
+        public float minX = -2;
+        public float maxX = 2;
+        public float minZ = -1;
+        public float maxZ = 3;
+        public float minY = 6;
+        public float maxY = 25;
+        private float zoom = 1;
+        private float originalY;
 
         // Start is called before the first frame update
         void Start()
         {
+            originalY = transform.position.y;
         }
 
         // Update is called once per frame
@@ -25,17 +29,65 @@ namespace MiniGame
 
             float deltaX = horizontalInput * flySpeed * Time.deltaTime;
             float deltaZ = verticalInput * flySpeed * Time.deltaTime;
+            
+            float scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
 
             Transform myTrans;
             (myTrans = transform).Translate(new Vector3(deltaX, 0, deltaZ), Space.World);
-            float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
-            myTrans.position = myTrans.forward * ScrollWheelChange;
-
+            var position = myTrans.position;
+            var posY = position.y + myTrans.forward.y * (scrollWheelChange * 15);
+            if (posY < maxY && posY > minY)
+            {
+                position += myTrans.forward * (scrollWheelChange * 15);
+                zoom = 1 / (position.y / originalY);
+            }
+            myTrans.position = position;
+            
             Vector3 pos = myTrans.position;
             float curX = pos.x;
             float curY = pos.y;
             float curZ = pos.z;
 
+            float adjMaxX = maxX + (maxX - minX) * zoom / 4;
+            float adjMinX = minX - (maxX - minX) * zoom / 4;
+            if (curX > adjMaxX)
+            {
+                curX = adjMaxX;
+            } else if (curX < adjMinX)
+            {
+                curX = adjMinX;
+            }
+            if (curY > maxY)
+            {
+                curY = maxY;
+            } else if (curY < minY)
+            {
+                curY = minY;
+            }
+            
+            float adjMaxZ = maxZ + (maxZ - minZ) * zoom / 10;
+            float adjMinZ = minZ - (maxZ - minZ) * zoom / 40;
+            if (curZ > adjMaxZ)
+            {
+                curZ = adjMaxZ;
+            } else if (curZ < adjMinZ)
+            {
+                curZ = adjMinZ;
+            }
+            
+
+            /*
+            if (curZ > maxZ)
+            {
+                curZ = maxZ;
+            } else if (curZ < minZ)
+            {
+                curZ = minZ;
+            }
+            */
+            myTrans.position= new Vector3(curX, curY, curZ);
+
+            /*
             if (curX > maxX)
             {
                 myTrans.position = new Vector3(maxX, curY, curZ);
@@ -56,6 +108,20 @@ namespace MiniGame
             {
                 myTrans.position = new Vector3(curX, curY, minZ);
             }
+            
+            curX = transform.position.x; // in case it changed
+            curZ = transform.position.z;
+            curY = transform.position.y;
+            if (curY > maxY)
+            {
+                myTrans.position = new Vector3(curX, maxY, curZ);
+            }
+
+            if (curY < minY)
+            {
+                myTrans.position = new Vector3(curX, minY, curZ);
+            }
+            */
         }
 
         public void goTo(float x, float z)
