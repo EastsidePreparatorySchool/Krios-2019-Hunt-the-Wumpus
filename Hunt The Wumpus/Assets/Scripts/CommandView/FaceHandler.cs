@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Gui;
 //using NUnit.Framework;
 using UnityEngine;
@@ -390,7 +391,6 @@ namespace CommandView
             else
             {
                 print("YOU'VE ENCOUNTERED THE WUMPUS");
-                // TODO: handle wumpus encounter
             }
         }
 
@@ -459,7 +459,23 @@ namespace CommandView
 
             if (deployedTroops.Count != 0)
             {
-                if (GetHazardObject().Equals(HazardTypes.Bat))
+                bool continueFlag = true;
+                if (_planet.wumpus.location.GetTileNumber() == GetTileNumber())
+                {
+                    foreach (TroopMeta deployedTroop in deployedTroops)
+                        deployedTroops.Remove(deployedTroop);
+                    if (meta.availableTroops.Count() == 0 && meta.exhaustedTroops.Count() == 0 && meta.nukes == 0 && meta.money < 5 && _planet.didSomething == true) 
+                    {
+                        _planet.GameStatus = 2;
+                        continueFlag = false;
+                    }
+                    else
+                    {
+                        _planet.GameStatus = 3;
+                        continueFlag = false;
+                    }
+                }
+                else if (GetHazardObject().Equals(HazardTypes.Bat))
                 {
                     SetHazard(HazardTypes.None);
                     SetColonized();
@@ -544,7 +560,7 @@ namespace CommandView
                     canvasObject.GetComponent<TurnEnder>().EndTurn();
                     StartCoroutine(canvasObject.GetComponent<TroopSelection>().FlashBatsEncounterAlert());
                 }
-                else
+                else if (continueFlag == true)
                 {
                     foreach (var troop in deployedTroops)
                     {
@@ -595,7 +611,7 @@ namespace CommandView
                 if (wumpus.location == this)
                 {
                     print("Hit the Wumpus! You win!");
-                    // TODO: end the game
+                    _planet.GameStatus = 1;
                 }
                 else
                 {
