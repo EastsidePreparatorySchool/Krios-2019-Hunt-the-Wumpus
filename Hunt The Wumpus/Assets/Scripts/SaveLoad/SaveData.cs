@@ -15,6 +15,7 @@ namespace SaveLoad
 
         public int wumpusLocation;
 
+        public bool[,] state = new bool[4, 30];
         public int[] biomeNum = new int[30];
         public bool[] isColonized = new bool[30];
         public int[] hazardType = new int[30];
@@ -23,7 +24,7 @@ namespace SaveLoad
         public string[] troopName;
         public bool[] isExausted;
 
-        public SaveData(Planet planet, int[] BiomeNum, bool[] IsColonized, int[] HazardType, int[] TroopType, string[] TroopName, bool[] IsExausted, int NumOfTroops)
+        public SaveData(Planet planet, bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, int[] TroopType, string[] TroopName, bool[] IsExausted, int NumOfTroops)
         {
             turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
             money = planet.GetComponent<GameMeta>().money;
@@ -33,6 +34,11 @@ namespace SaveLoad
             wumpusLocation = planet.wumpus.location.GetTileNumber();
 
             int i = 0;
+            for (i = 0; i < 30; i++)
+                for (int j = 0; j < 4; j++)
+                    state[j, i] = States[j, i];
+
+            i = 0;
             foreach (int BN in BiomeNum)
             {
                 biomeNum[i] = BN;

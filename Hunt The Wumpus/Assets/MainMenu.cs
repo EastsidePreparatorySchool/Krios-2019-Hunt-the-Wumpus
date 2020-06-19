@@ -10,17 +10,21 @@ public class MainMenu : MonoBehaviour
     Animator cameraAnimator;
     Animator lettersAnimator;
 
+    Planet planet;
     MainMenuVars vars;
 
     void Start()
     {
         cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
         lettersAnimator = GameObject.Find("Letters").GetComponent<Animator>();
+        planet = GameObject.Find("Planet").GetComponent<Planet>();
         vars = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
     }
 
     void Update()
     {
+        if (planet.backFromMiniGame == true)
+            backFromMiniGame();
         if (Input.GetKeyDown(KeyCode.Escape))
             Pause();
     }
@@ -60,7 +64,10 @@ public class MainMenu : MonoBehaviour
     public void backFromMiniGame()
     {
         vars.firstLaunch = false;
+        vars.isPause = false;
         animBackFromMiniGame();
+        HideMainMenu();
+        planet.backFromMiniGame = false;
     }
     void Pause()
     {

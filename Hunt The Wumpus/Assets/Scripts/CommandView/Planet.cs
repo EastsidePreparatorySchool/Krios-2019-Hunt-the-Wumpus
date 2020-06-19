@@ -69,6 +69,7 @@ namespace CommandView
         public int[] wumplingWaves;
         public int soldiers;
 
+        private bool[,] States = new bool[4, 30];
         private int[] BiomeNum = new int[30];
         private bool[] IsColonized = new bool[30];
         private int[] HazardType = new int[30];
@@ -839,6 +840,8 @@ namespace CommandView
             foreach (GameObject face in faces)
             {
                 FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                for (int j = 0; j < 4; j++)
+                    States[j, i] = faceHandler.state[j];
                 BiomeNum[i] = (int)faceHandler.biomeType;
                 IsColonized[i] = faceHandler.colonized;
                 HazardType[i] = (int)faceHandler.GetHazardObject();
@@ -866,7 +869,7 @@ namespace CommandView
                 i++;
             }
 
-            DoSaving.DoTheSaving(this, BiomeNum, IsColonized, HazardType, troopType, TroopName, IsExausted, TotalTroops);
+            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, troopType, TroopName, IsExausted, TotalTroops);
         }
 
         public void Loadfunc()
@@ -890,8 +893,9 @@ namespace CommandView
             foreach (GameObject face in faces)
             {
                 FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                for (int j = 0; j < 4; j++)
+                    faceHandler.state[j] = data.state[j, i];
                 faceHandler.biomeType = (BiomeType)data.biomeNum[i];
-                //faceHandler.colonized = data.isColonized[i];
                 faceHandler.SetHazard((HazardTypes)data.hazardType[i]);
                 if (data.isColonized[i])
                 {
