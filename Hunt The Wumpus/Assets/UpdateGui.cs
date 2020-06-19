@@ -136,8 +136,8 @@ public class UpdateGui : MonoBehaviour
             {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
         if (!_counterValues.Equals(curCounterValue))
         {
-            _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/"
-                                 + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
+            _troopCounter.text = "Troops: " + _inGameMeta.availableTroops.Count + "/" +
+                                      (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
@@ -156,6 +156,7 @@ public class UpdateGui : MonoBehaviour
                 StartCoroutine(FadeOut());
             }
         }
+
         if (_menu.isPause == false)
         {
             if (_ispaused == true)
@@ -190,6 +191,7 @@ public class UpdateGui : MonoBehaviour
             yield return new WaitForSeconds(0.025F);
         }
     }
+
     private IEnumerator FadeOut()
     {
         yield return new WaitUntil(() => _menu.isPause == true);

@@ -14,6 +14,14 @@ public enum HazardTypes
     Bat
 }
 
+public enum GameStatus
+{
+    InPlay,
+    Win,
+    RanOutOfResources,
+    LostSentTroopToWumpling
+}
+
 public class Mountain
 {
     public GameObject mountain;
@@ -54,6 +62,8 @@ namespace CommandView
         public bool displayHints;
         private bool _lastPressed;
 
+        public GameStatus curGameStatus = GameStatus.InPlay;
+
         // UI global variables
         private List<MeshVertex> _vertices = new List<MeshVertex>();
         private GameObject _colonizedLine;
@@ -69,8 +79,19 @@ namespace CommandView
         public int[] wumplingWaves;
         public int soldiers;
 
+        private bool[,] States = new bool[4, 30];
+        private int[] BiomeNum = new int[30];
+        private bool[] IsColonized = new bool[30];
+        private int[] HazardType = new int[30];
+        private int[] troopType;
+        private string[] TroopName;
+        private bool[] IsExausted;
+        private int TotalTroops;
+
         public GameMeta meta;
         public MiniGameResult result;
+
+        public bool didSomething;
 
         private void Awake()
         {
@@ -827,44 +848,86 @@ namespace CommandView
 
         public void Savefunc()
         {
-            DoSaving.DoTheSaving(this);
+            int i = 0;
+            foreach (GameObject face in faces)
+            {
+                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                for (int j = 0; j < 4; j++)
+                    States[j, i] = faceHandler.state[j];
+                BiomeNum[i] = (int)faceHandler.biomeType;
+                IsColonized[i] = faceHandler.colonized;
+                HazardType[i] = (int)faceHandler.GetHazardObject();
+                i++;
+            }
+
+            TotalTroops = GetComponent<GameMeta>().availableTroops.Count() + GetComponent<GameMeta>().exhaustedTroops.Count();
+            troopType = new int[TotalTroops];
+            TroopName = new string[TotalTroops];
+            IsExausted = new bool[TotalTroops];
+
+            i = 0;
+            foreach (TroopMeta troop in GetComponent<GameMeta>().availableTroops)
+            {
+                troopType[i] = (int)troop.type;
+                TroopName[i] = troop.name;
+                IsExausted[i] = false;
+                i++;
+            }
+            foreach (TroopMeta troop in GetComponent<GameMeta>().exhaustedTroops)
+            {
+                troopType[i] = (int)troop.type;
+                TroopName[i] = troop.name;
+                IsExausted[i] = true;
+                i++;
+            }
+
+            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, troopType, TroopName, IsExausted, TotalTroops);
         }
 
         public void Loadfunc()
         {
-            /*Scene currentScene = SceneManager.GetActiveScene();
-            string sceneName = currentScene.name;
-            if (sceneName == "MVPMiniGame")
-            {
-                GameObject canvas = GameObject.Find("PauseCanvas");
-                PauseMenu menu = canvas.GetComponent<PauseMenu>();
-                menu.Resume();
-                SceneManager.LoadScene("CommandView");
-            }*/
-            
             SaveData data = DoSaving.LoadTheData();
 
             meta.turnsElapsed = data.turnsElapsed;
             meta.money = data.money;
             meta.nukes = data.nukes;
+            meta.sensorTowers = data.sensors;
 
             wumpus.location = faces[data.wumpusLocation].GetComponent<FaceHandler>();
 
-            int i = 0;
+            foreach (GameObject face in faces)
+            {
+                face.GetComponent<FaceHandler>().colonized = false;
+                face.GetComponent<FaceHandler>().discovered = false;
+            }
+
+                int i = 0;
             foreach (GameObject face in faces)
             {
                 FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                for (int j = 0; j < 4; j++)
+                    faceHandler.state[j] = data.state[j, i];
                 faceHandler.biomeType = (BiomeType)data.biomeNum[i];
-                faceHandler.colonized = data.isColonized[i];
                 faceHandler.SetHazard((HazardTypes)data.hazardType[i]);
+                if (data.isColonized[i])
+                {
+                    print("is colonized");
+                    faceHandler.SetColonized();
+                }
+                else
+                    print("not colonized");
+                ColonizedLineUpdate();
+                faceHandler.UpdateFaceColors();
+                i++;
             }
+
 
             meta.availableTroops.Clear();
             meta.exhaustedTroops.Clear();
 
             for (i = 0; i < data.troopType.Count(); i++)
             {
-                if (data.isEhausted[i])
+                if (data.isExausted[i])
                 {
                     meta.exhaustedTroops.Add(new TroopMeta((TroopType)data.troopType[i],data.troopName[i]));
                 }

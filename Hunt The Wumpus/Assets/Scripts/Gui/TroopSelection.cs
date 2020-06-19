@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 using Toggle = UnityEngine.UI.Toggle;
 using Text = UnityEngine.UI.Text;
+using System.Linq;
 
 namespace Gui
 {
@@ -13,6 +14,7 @@ namespace Gui
         public GameObject troopSelector; // The menu
 
         public GameObject troopToggleBlueprint;
+        public GameObject troopLabelBlueprint;
 
         public GameObject scrollViewContent;
 
@@ -35,6 +37,8 @@ namespace Gui
         private List<GameObject> _toggles = new List<GameObject>();
 
         private int _prevFaceNum;
+
+        private float _alpha;
 
         // Start is called before the first frame update
         private void Start()
@@ -78,9 +82,14 @@ namespace Gui
                 if (_toggles.Count == 0)
                 {
                     foreach (var troop in _gameMeta.availableTroops)
-                    {
                         _toggles.Add(CreateNewToggle(troop));
-                    }
+                }
+                if (_gameMeta.availableTroops.Count() == 0)
+                {
+                    if (_gameMeta.exhaustedTroops.Count() > 0)
+                        CreateLabel(_gameMeta.exhaustedTroops.Count() + " Exhausted Troops");
+                    else
+                        CreateLabel("All your troops have died");
                 }
             }
             else
@@ -115,16 +124,6 @@ namespace Gui
                     break;
             }
             
-        }
-
-        public void DeselectAll()
-        {
-            Debug.Log("we're not using this button.");
-            //foreach (var toggle in _toggles)
-            //{
-            //    Toggle toggle1 = toggle.gameObject.GetComponent<Toggle>();
-            //    toggle1.isOn = false;
-            //}
         }
 
         public void SendTroopsToBattle()
@@ -183,6 +182,20 @@ namespace Gui
             label.text = troop.type + ": " + troop.name;
 
             return newTroopToggle;
+        }
+
+        private GameObject CreateLabel(string str)
+        {
+            GameObject Label =
+                Instantiate(troopLabelBlueprint,
+                    scrollViewContent.transform);
+
+            Text label = Label.GetComponent<Text>();
+            RectTransform transform = Label.GetComponent<RectTransform>();
+            label.text = str;
+            transform.Translate(-10000, 0, 0);
+
+            return Label;
         }
 
         private void ToggleValueChanged(Toggle toggle, TroopMeta troop)
