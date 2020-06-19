@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class MainMenu : MonoBehaviour
             Pause();
     }
 
-    public void NewGame()
+    public void Resume()
     {
         ZoomIn();
         HideMainMenu();
@@ -37,11 +38,16 @@ public class MainMenu : MonoBehaviour
         vars.firstLaunch = false;
     }
 
+    public void NewGame()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void LoadGame()
     {
         GameObject.Find("Planet").GetComponent<Planet>().Loadfunc();
         print("loaded");
-        NewGame();
+        Resume();
     }
 
     public void Options()
