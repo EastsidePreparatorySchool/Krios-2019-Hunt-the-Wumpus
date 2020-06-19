@@ -58,8 +58,8 @@ LightmapSettings:
     m_Resolution: 2
     m_BakeResolution: 40
     m_AtlasSize: 1024
-    m_AO: 0
-    m_AOMaxDistance: 1
+    m_AO: 1
+    m_AOMaxDistance: 3
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
     m_Padding: 2
@@ -5471,7 +5471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37f2c494f144c774d8e931a64dd507da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPause: 0
 --- !u!114 &657961598
 MonoBehaviour:
   m_ObjectHideFlags: 0

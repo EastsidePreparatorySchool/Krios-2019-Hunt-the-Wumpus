@@ -81,6 +81,8 @@ namespace CommandView
         public GameMeta meta;
         public MiniGameResult result;
 
+        public bool didSomething;
+
         private void Awake()
         {
             // make sure there is only one instance of the Planet and make it persistent
