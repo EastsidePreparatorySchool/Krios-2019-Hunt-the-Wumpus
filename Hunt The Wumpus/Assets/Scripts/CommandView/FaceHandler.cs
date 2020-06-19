@@ -591,6 +591,7 @@ namespace CommandView
                 Wumpus.Wumpus wumpus = _planet.wumpus;
                 meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
                 SetColonized();
+                _planet.didSomething = true;
                 if (wumpus.location == this)
                 {
                     print("Hit the Wumpus! You win!");
@@ -668,6 +669,8 @@ namespace CommandView
         {
             discovered = true;
             colonized = true;
+            
+            SetHazard(HazardTypes.None);
 
             UpdateFaceColors();
 
