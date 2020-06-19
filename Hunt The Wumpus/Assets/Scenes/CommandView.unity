@@ -1511,13 +1511,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 162072945}
-    characterCount: 14
+    characterCount: 0
     spriteCount: 0
-    spaceCount: 2
-    wordCount: 3
+    spaceCount: 0
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -6868,7 +6868,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 162072945}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 988745742}
+        m_MethodName: Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &799564013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7492,6 +7503,7 @@ GameObject:
   - component: {fileID: 988745740}
   - component: {fileID: 988745739}
   - component: {fileID: 988745738}
+  - component: {fileID: 988745742}
   m_Layer: 5
   m_Name: WinLoseCanvas
   m_TagString: Untagged
@@ -7579,6 +7591,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &988745742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988745737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31d6cfeb27588d34397fe0bd277953ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endText: {fileID: 310049508}
+  turnsText: {fileID: 92659959}
+  button: {fileID: 162072945}
 --- !u!1001 &989390302
 PrefabInstance:
   m_ObjectHideFlags: 0

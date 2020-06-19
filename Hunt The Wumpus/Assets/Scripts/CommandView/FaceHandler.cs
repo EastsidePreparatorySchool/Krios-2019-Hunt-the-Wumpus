@@ -459,17 +459,20 @@ namespace CommandView
 
             if (deployedTroops.Count != 0)
             {
-                if (GetHazardObject().Equals(HazardTypes.Bat))
+                bool continueFlag = true;
+                if (_planet.wumpus.location.GetTileNumber() == GetTileNumber())
                 {
                     foreach (TroopMeta deployedTroop in deployedTroops)
                         deployedTroops.Remove(deployedTroop);
                     if (meta.availableTroops.Count() == 0 && meta.exhaustedTroops.Count() == 0 && meta.nukes == 0 && meta.money < 5 && _planet.didSomething == true) 
                     {
                         _planet.GameStatus = 2;
+                        continueFlag = false;
                     }
                     else
                     {
                         _planet.GameStatus = 3;
+                        continueFlag = false;
                     }
                 }
                 else if (GetHazardObject().Equals(HazardTypes.Bat))
@@ -557,7 +560,7 @@ namespace CommandView
                     canvasObject.GetComponent<TurnEnder>().EndTurn();
                     StartCoroutine(canvasObject.GetComponent<TroopSelection>().FlashBatsEncounterAlert());
                 }
-                else
+                else if (continueFlag == true)
                 {
                     foreach (var troop in deployedTroops)
                     {
