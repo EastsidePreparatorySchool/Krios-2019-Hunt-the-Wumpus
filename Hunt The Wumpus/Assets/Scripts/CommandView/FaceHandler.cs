@@ -186,7 +186,7 @@ namespace CommandView
                 hintObject.transform.parent = gameObject.transform;
 
                 // Debug.DrawRay(hintObject.transform.position, hintObject.transform.right * 2, Color.yellow,
-                    // Mathf.Infinity);
+                // Mathf.Infinity);
 
                 hintObject.SetActive(false);
 
@@ -260,6 +260,7 @@ namespace CommandView
                         return false;
                 }
             }
+
             return results.Count > 0;
         }
 
@@ -292,7 +293,7 @@ namespace CommandView
                 // lastHintGiven[1] = true;
                 print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
                 List<GameObject> activeGOs = new List<GameObject>();
-                
+
                 RegenerateHintGOs();
 
                 // Show relevant info
@@ -323,7 +324,7 @@ namespace CommandView
             else
             {
                 print("Hiding info");
-                
+
                 RegenerateHintGOs();
 
                 foreach (GameObject o in _hintsGo)
@@ -391,6 +392,7 @@ namespace CommandView
             else
             {
                 print("YOU'VE ENCOUNTERED THE WUMPUS");
+                SetupMiniGame();
             }
         }
 
@@ -459,30 +461,31 @@ namespace CommandView
 
             if (deployedTroops.Count != 0)
             {
-                bool continueFlag = true;
-                if (_planet.wumpus.location.GetTileNumber() == GetTileNumber())
+                foreach (var troop in deployedTroops)
                 {
-                    foreach (TroopMeta deployedTroop in deployedTroops)
-                        deployedTroops.Remove(deployedTroop);
-                    if (meta.availableTroops.Count() == 0 && meta.exhaustedTroops.Count() == 0 && meta.nukes == 0 && meta.money < 5 && _planet.didSomething == true) 
+                    meta.availableTroops.Remove(troop);
+                    troop.sendToBattle = false;
+                }
+
+                if (_planet.wumpus.location.Equals(this))
+                {
+                    if (meta.availableTroops.Count == 0 && meta.exhaustedTroops.Count == 0 && meta.nukes == 0 &&
+                        meta.money < 5 && _planet.didSomething)
                     {
-                        _planet.GameStatus = 2;
-                        continueFlag = false;
+                        _planet.curGameStatus = GameStatus.RanOutOfResources;
                     }
                     else
                     {
-                        _planet.GameStatus = 3;
-                        continueFlag = false;
+                        _planet.curGameStatus = GameStatus.LostSentTroopToWumpling;
                     }
                 }
                 else if (GetHazardObject().Equals(HazardTypes.Bat))
                 {
                     SetHazard(HazardTypes.None);
-                    SetColonized();
 
                     //// Pick two faces out
                     // Get Face with border
-                    List<FaceHandler> borderFaces = new List<FaceHandler>();
+                    /*List<FaceHandler> borderFaces = new List<FaceHandler>();
                     foreach (GameObject planetFace in _planet.faces)
                     {
                         FaceHandler curFaceHandler = planetFace.GetComponent<FaceHandler>();
@@ -556,18 +559,43 @@ namespace CommandView
                     }
 
                     randomFace.GetComponent<Renderer>().material.color = Color.yellow;
+                    */
+                    List<FaceHandler> undiscoveredFaces = new List<FaceHandler>();
+                    List<FaceHandler> discoveredFaces = new List<FaceHandler>();
+                    foreach (GameObject planetFace in _planet.faces)
+                    {
+                        FaceHandler curFaceHandler = planetFace.GetComponent<FaceHandler>();
+                        if (!curFaceHandler.discovered)
+                        {
+                            undiscoveredFaces.Add(curFaceHandler);
+                        }
+                        else if (!curFaceHandler.colonized)
+                        {
+                            discoveredFaces.Add(curFaceHandler);
+                        }
+                    }
+
+                    FaceHandler finalFace;
+                    if (undiscoveredFaces.Count == 0)
+                    {
+                        finalFace = undiscoveredFaces[Random.Range(0, undiscoveredFaces.Count)];
+                    }
+                    else
+                    {
+                        finalFace = discoveredFaces[Random.Range(0, discoveredFaces.Count)];
+                    }
+
+                    finalFace.heldTroops = deployedTroops;
+                    // TODO: fix with actual asset
+                    finalFace.GetComponent<Renderer>().material.color = Color.yellow;
+
+                    SetColonized();
                     GameObject canvasObject = GameObject.Find("Canvas");
                     canvasObject.GetComponent<TurnEnder>().EndTurn();
                     StartCoroutine(canvasObject.GetComponent<TroopSelection>().FlashBatsEncounterAlert());
                 }
-                else if (continueFlag == true)
+                else
                 {
-                    foreach (var troop in deployedTroops)
-                    {
-                        meta.availableTroops.Remove(troop);
-                        troop.sendToBattle = false;
-                    }
-
                     print("Sending " + deployedTroops.Count + " troops to battle");
 
                     _planet.result = new MiniGameResult(deployedTroops);
@@ -608,10 +636,10 @@ namespace CommandView
                 meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
                 SetColonized();
                 _planet.didSomething = true;
-                if (wumpus.location == this)
+                if (wumpus.location.Equals(this))
                 {
                     print("Hit the Wumpus! You win!");
-                    _planet.GameStatus = 1;
+                    _planet.curGameStatus = GameStatus.Win;
                 }
                 else
                 {
@@ -634,6 +662,7 @@ namespace CommandView
                         wumpus.Move(30);
                     }
                 }
+
                 meta.EndTurn();
             }
             else
@@ -685,7 +714,7 @@ namespace CommandView
         {
             discovered = true;
             colonized = true;
-            
+
             SetHazard(HazardTypes.None);
 
             UpdateFaceColors();

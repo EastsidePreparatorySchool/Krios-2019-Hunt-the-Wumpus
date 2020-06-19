@@ -16055,7 +16055,7 @@ MonoBehaviour:
   faceHandlers: []
   lineEventSystem: {fileID: 1006137553}
   displayHints: 0
-  GameStatus: 0
+  curGameStatus: 0
   borderAroundTerritory: 1
   wumplingWaves: 03000000050000000a000000
   soldiers: 20
@@ -16090,7 +16090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnsElapsed: 0
   money: 0
-  nukes: 5
+  nukes: 30
   sensorTowers: 5
   firstNames:
   - James

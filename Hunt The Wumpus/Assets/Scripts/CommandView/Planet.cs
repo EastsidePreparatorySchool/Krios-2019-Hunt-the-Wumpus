@@ -14,6 +14,14 @@ public enum HazardTypes
     Bat
 }
 
+public enum GameStatus
+{
+    InPlay,
+    Win,
+    RanOutOfResources,
+    LostSentTroopToWumpling
+}
+
 public class Mountain
 {
     public GameObject mountain;
@@ -54,7 +62,7 @@ namespace CommandView
         public bool displayHints;
         private bool _lastPressed;
 
-        public int GameStatus = 0;
+        public GameStatus curGameStatus = GameStatus.InPlay;
 
         // UI global variables
         private List<MeshVertex> _vertices = new List<MeshVertex>();
