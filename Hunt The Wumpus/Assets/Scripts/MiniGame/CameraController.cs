@@ -10,6 +10,7 @@ namespace MiniGame
         public float maxX = 5;
         public float minZ = -27;
         public float maxZ = 17;
+        public float zoom = 1;
 
         // Start is called before the first frame update
         void Start()
@@ -24,8 +25,11 @@ namespace MiniGame
 
             float deltaX = horizontalInput * flySpeed * Time.deltaTime;
             float deltaZ = verticalInput * flySpeed * Time.deltaTime;
+
             Transform myTrans;
             (myTrans = transform).Translate(new Vector3(deltaX, 0, deltaZ), Space.World);
+            float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
+            myTrans.position = myTrans.forward * ScrollWheelChange;
 
             Vector3 pos = myTrans.position;
             float curX = pos.x;
