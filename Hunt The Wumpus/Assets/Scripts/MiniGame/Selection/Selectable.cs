@@ -29,7 +29,7 @@ namespace MiniGame
                 //GameObject matParent = GameObject.Find("Soldier/Cube");
                 Renderer r = GetComponentInChildren<SkinnedMeshRenderer>();
                 if (r != null)
-                    r.material.color = value ? new Color(.5f, .5f, .7f) : new Color(.8f, .8f, .8f);
+                    r.material.color = value ? Color.HSVToRGB(230f/360, .3f, .6f) : new Color(.8f, .8f, .8f);
             }
         }
  
