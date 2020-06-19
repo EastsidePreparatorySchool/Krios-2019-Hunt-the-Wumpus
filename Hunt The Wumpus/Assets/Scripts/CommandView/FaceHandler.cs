@@ -664,11 +664,15 @@ namespace CommandView
                 }
 
                 meta.EndTurn();
+
             }
             else
             {
                 print("Not enough nukes");
             }
+            GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
+            if (TroopSelector != null)
+                TroopSelector.SetActive(false);
         }
 
         public void AddSensorOnTile()
