@@ -6,56 +6,62 @@ namespace SaveLoad
     [System.Serializable]
     public class SaveData
     {
-        private GameObject _planet;
-        private Planet _planetHandler;
-        private GameMeta _gameMeta;
-
         public GameObject[] faces;
 
         public int turnsElapsed;
         public int money;
         public int nukes;
+        public int sensors;
 
         public int wumpusLocation;
 
-        public int[] biomeNum;
-        public bool[] isColonized;
-        public int[] hazardType;
+        public int[] biomeNum = new int[30];
+        public bool[] isColonized = new bool[30];
+        public int[] hazardType = new int[30];
 
         public int[] troopType;
         public string[] troopName;
-        public bool[] isEhausted;
+        public bool[] isExausted;
 
-        public SaveData(Planet planet)
+        public SaveData(Planet planet, int[] BiomeNum, bool[] IsColonized, int[] HazardType, int[] TroopType, string[] TroopName, bool[] IsExausted, int NumOfTroops)
         {
-            turnsElapsed = _gameMeta.turnsElapsed;
-            money = _gameMeta.money;
-            nukes = _gameMeta.nukes;
+            turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
+            money = planet.GetComponent<GameMeta>().money;
+            nukes = planet.GetComponent<GameMeta>().nukes;
+            sensors = planet.GetComponent<GameMeta>().sensorTowers;
 
             wumpusLocation = planet.wumpus.location.GetTileNumber();
 
             int i = 0;
-            foreach (GameObject face in planet.faces)
+            foreach (int BN in BiomeNum)
             {
-                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
-                biomeNum[i] = (int)faceHandler.biomeType;
-                isColonized[i] = faceHandler.colonized;
-                hazardType[i] = (int)faceHandler.GetHazardObject();
+                biomeNum[i] = BN;
                 i++;
             }
 
             i = 0;
-            foreach (TroopMeta troop in _gameMeta.availableTroops)
+            foreach (bool IC in IsColonized)
             {
-                troopType[i] = (int)troop.type;
-                troopName[i] = troop.name;
-                isEhausted[i] = false;
+                isColonized[i] = IC;
+                i++;
             }
-            foreach (TroopMeta troop in _gameMeta.availableTroops)
+
+            i = 0;
+            foreach (int HT in HazardType)
             {
-                troopType[i] = (int)troop.type;
-                troopName[i] = troop.name;
-                isEhausted[i] = true;
+                hazardType[i] = HT;
+                i++;
+            }
+
+            troopType = new int[NumOfTroops];
+            troopName = new string[NumOfTroops];
+            isExausted = new bool[NumOfTroops];
+
+            for (i = 0; i < NumOfTroops; i++)
+            {
+                troopType[i] = TroopType[i];
+                troopName[i] = TroopName[i];
+                isExausted[i] = IsExausted[i];
             }
         }
     }
