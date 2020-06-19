@@ -19,7 +19,8 @@ public class UpdateGui : MonoBehaviour
 
     private GameObject _faceInfoBox; // Blueprint for the UI elements that will be spawned
 
-    private TextMeshProUGUI _troopCounter;
+    private TextMeshProUGUI _totalTroopCounter;
+    private TextMeshProUGUI _availableTroopCounter;
     private TextMeshProUGUI _moneyCounter;
     private TextMeshProUGUI _nukeCounter;
     private TextMeshProUGUI _sensorCounter;
@@ -78,9 +79,13 @@ public class UpdateGui : MonoBehaviour
         {
             switch (i.name)
             {
-                case "TroopCounter":
-                    _troopCounter = i;
-                    _troopCounter.alpha = 0f;
+                case "TotalTroopCounter":
+                    _totalTroopCounter = i;
+                    _totalTroopCounter.alpha = 0f;
+                    break;
+                case "AvailableTroopCounter":
+                    _availableTroopCounter = i;
+                    _availableTroopCounter.alpha = 0f;
                     break;
                 case "MoneyCounter":
                     _moneyCounter = i;
@@ -136,8 +141,8 @@ public class UpdateGui : MonoBehaviour
             {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
         if (!_counterValues.Equals(curCounterValue))
         {
-            _troopCounter.text = "Available Troops: " + _inGameMeta.availableTroops.Count + "/"
-                                 + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
+            _totalTroopCounter.text = "Total Troops: " + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
+            _availableTroopCounter.text = "Deployable Troops: " + _inGameMeta.availableTroops.Count;
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
@@ -174,7 +179,8 @@ public class UpdateGui : MonoBehaviour
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
         while (openStoreBtnAlpha.a < 1)
         {
-            _troopCounter.alpha += 0.1f;
+            _totalTroopCounter.alpha += 0.1f;
+            _availableTroopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
             _nukeCounter.alpha += 0.1f;
             _sensorCounter.alpha += 0.1f;
@@ -195,9 +201,10 @@ public class UpdateGui : MonoBehaviour
         yield return new WaitUntil(() => _menu.isPause == true);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
-        while (_troopCounter.alpha > 0)
+        while (_totalTroopCounter.alpha > 0)
         {
-            _troopCounter.alpha -= 0.1f;
+            _totalTroopCounter.alpha -= 0.1f;
+            _availableTroopCounter.alpha -= 0.1f;
             _moneyCounter.alpha -= 0.1f;
             _nukeCounter.alpha -= 0.1f;
             _sensorCounter.alpha -= 0.1f;
