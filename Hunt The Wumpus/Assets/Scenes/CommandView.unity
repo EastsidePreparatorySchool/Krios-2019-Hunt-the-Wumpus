@@ -6022,7 +6022,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &696549408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12343,7 +12343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1565771154
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16028,10 +16028,12 @@ MonoBehaviour:
   faceHandlers: []
   lineEventSystem: {fileID: 1006137553}
   displayHints: 0
+  GameStatus: 0
   borderAroundTerritory: 1
   wumplingWaves: 03000000050000000a000000
   soldiers: 20
   meta: {fileID: 2076108099}
+  didSomething: 0
 --- !u!114 &2076108098
 MonoBehaviour:
   m_ObjectHideFlags: 0
