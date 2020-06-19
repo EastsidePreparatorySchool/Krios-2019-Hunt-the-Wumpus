@@ -54,6 +54,8 @@ namespace CommandView
         public bool displayHints;
         private bool _lastPressed;
 
+        public int GameStatus = 0;
+
         // UI global variables
         private List<MeshVertex> _vertices = new List<MeshVertex>();
         private GameObject _colonizedLine;
