@@ -637,7 +637,7 @@ GameObject:
   - component: {fileID: 92659960}
   - component: {fileID: 92659959}
   m_Layer: 5
-  m_Name: EndGameText (1)
+  m_Name: Turns
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12552,7 +12552,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 657961597}
-        m_MethodName: NewGame
+        m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
