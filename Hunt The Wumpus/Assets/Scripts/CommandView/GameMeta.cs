@@ -87,7 +87,7 @@ namespace CommandView
 
         public void SetupForDebug()
         {
-            for (int i = 0; i < firstNames.Length; i++)
+            for (int i = 0; i < 10; i++)
             {
                 availableTroops.Add(new TroopMeta(TroopType.Marine, firstNames[i] + " " + lastNames[i]));
             }
