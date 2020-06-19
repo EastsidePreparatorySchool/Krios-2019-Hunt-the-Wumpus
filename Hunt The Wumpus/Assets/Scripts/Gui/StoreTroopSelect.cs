@@ -26,6 +26,8 @@ namespace Gui
 
         public List<GameObject> toggles = new List<GameObject>();
 
+        public bool needsRefresh = false;
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -37,10 +39,20 @@ namespace Gui
         // Update is called once per frame
         void Update()
         {
+            if (needsRefresh)
+            {
+                foreach (GameObject toggle in toggles)
+                    Destroy(toggle);
+                foreach (var troop in _gameMeta.availableTroops)
+                    toggles.Add(CreateNewToggle(troop));
+                needsRefresh = false;
+            }
         }
 
         public void ActivateStoreTroopSelector()
         {
+            foreach (GameObject toggle in toggles)
+                Destroy(toggle);
             foreach (var troop in _gameMeta.availableTroops)
                 toggles.Add(CreateNewToggle(troop));
         }
@@ -65,6 +77,9 @@ namespace Gui
             GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
             Text label = labelGameObject.GetComponent<Text>();
             label.text = troop.type + ": " + troop.name;
+
+            GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
+            UpgradeBar.GetComponent<RectTransform>().offsetMax = new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
 
             return newTroopToggle;
         }

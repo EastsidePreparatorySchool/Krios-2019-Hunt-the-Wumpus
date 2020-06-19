@@ -61,7 +61,6 @@ namespace Gui
                     _toggles.Add(CreateNewToggle(troop));
                 needsRefresh = false;
             }
-
         }
 
         public void ActivateTroopSelector(int faceNum, bool resetClose = false)
@@ -194,6 +193,7 @@ namespace Gui
 
             GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
             UpgradeBar.GetComponent<RectTransform>().offsetMax = new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
+
             return newTroopToggle;
         }
 

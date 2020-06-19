@@ -108,6 +108,7 @@ public class Store : MonoBehaviour
                     checkedTroop.UpgradeLvl += 1;
                     print("upgraed by " + troopDamagIncrease + ", now up to " + checkedTroop.damage  + ", lvl: " + checkedTroop.UpgradeLvl);
                     GetComponent<TroopSelection>().needsRefresh = true;
+                    GetComponent<StoreTroopSelect>().needsRefresh = true;
                 }
             }
             else
