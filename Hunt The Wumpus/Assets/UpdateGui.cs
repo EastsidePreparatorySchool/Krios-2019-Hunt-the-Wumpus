@@ -19,8 +19,7 @@ public class UpdateGui : MonoBehaviour
 
     private GameObject _faceInfoBox; // Blueprint for the UI elements that will be spawned
 
-    private TextMeshProUGUI _totalTroopCounter;
-    private TextMeshProUGUI _availableTroopCounter;
+    private TextMeshProUGUI _troopCounter;
     private TextMeshProUGUI _moneyCounter;
     private TextMeshProUGUI _nukeCounter;
     private TextMeshProUGUI _sensorCounter;
@@ -79,13 +78,9 @@ public class UpdateGui : MonoBehaviour
         {
             switch (i.name)
             {
-                case "TotalTroopCounter":
-                    _totalTroopCounter = i;
-                    _totalTroopCounter.alpha = 0f;
-                    break;
-                case "AvailableTroopCounter":
-                    _availableTroopCounter = i;
-                    _availableTroopCounter.alpha = 0f;
+                case "TroopCounter":
+                    _troopCounter = i;
+                    _troopCounter.alpha = 0f;
                     break;
                 case "MoneyCounter":
                     _moneyCounter = i;
@@ -141,8 +136,8 @@ public class UpdateGui : MonoBehaviour
             {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
         if (!_counterValues.Equals(curCounterValue))
         {
-            _totalTroopCounter.text = "Total Troops: " + (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
-            _availableTroopCounter.text = "Deployable Troops: " + _inGameMeta.availableTroops.Count;
+            _troopCounter.text = "Troops: " + _inGameMeta.availableTroops.Count + "/" +
+                                      (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
@@ -161,6 +156,7 @@ public class UpdateGui : MonoBehaviour
                 StartCoroutine(FadeOut());
             }
         }
+
         if (_menu.isPause == false)
         {
             if (_ispaused == true)
@@ -179,8 +175,7 @@ public class UpdateGui : MonoBehaviour
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
         while (openStoreBtnAlpha.a < 1)
         {
-            _totalTroopCounter.alpha += 0.1f;
-            _availableTroopCounter.alpha += 0.1f;
+            _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
             _nukeCounter.alpha += 0.1f;
             _sensorCounter.alpha += 0.1f;
@@ -196,15 +191,15 @@ public class UpdateGui : MonoBehaviour
             yield return new WaitForSeconds(0.025F);
         }
     }
+
     private IEnumerator FadeOut()
     {
         yield return new WaitUntil(() => _menu.isPause == true);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
-        while (_totalTroopCounter.alpha > 0)
+        while (_troopCounter.alpha > 0)
         {
-            _totalTroopCounter.alpha -= 0.1f;
-            _availableTroopCounter.alpha -= 0.1f;
+            _troopCounter.alpha -= 0.1f;
             _moneyCounter.alpha -= 0.1f;
             _nukeCounter.alpha -= 0.1f;
             _sensorCounter.alpha -= 0.1f;
