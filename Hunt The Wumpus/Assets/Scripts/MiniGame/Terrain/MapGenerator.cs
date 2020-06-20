@@ -411,7 +411,7 @@ namespace MiniGame.Terrain
         private void ReassignWallTilePrefab()
         {
             bool altChance = Random.Range(0, 100) < 95;
-            print(altChance);
+            //print(altChance);
 
             if (hazardOnTile.Equals(HazardTypes.Pit))
             {
