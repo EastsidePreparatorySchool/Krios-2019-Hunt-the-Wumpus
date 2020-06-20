@@ -140,7 +140,7 @@ namespace CommandView
 
             // Calculate face normal
             faceNormal = transform.TransformPoint(faceMesh.normals[0]);
-            // Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan);
+            // Debug.DrawRay(faceCenter, faceNormal / 10f, Color.cyan, Mathf.Infinity);
 
             // Calculate major axis and standard direction
             float furthestDistance = 0f;
@@ -203,8 +203,8 @@ namespace CommandView
             _sensorTowerIcon.transform.parent = gameObject.transform;
 
             // TODO: position the tower better
-            // _sensorTowerIcon.transform.position += 1.5f * Vector3.right;
-            
+            _sensorTowerIcon.transform.position += 1.5f * _sensorTowerIcon.transform.right;
+
             _sensorTowerIcon.SetActive(false);
         }
 
@@ -300,6 +300,7 @@ namespace CommandView
                     activeGOs.Add(_hintsGo[i]);
                 }
             }
+
             _sensorTowerIcon.SetActive(true);
 
             // hintObject.transform.position += 1.5f * hintObject.transform.forward;
