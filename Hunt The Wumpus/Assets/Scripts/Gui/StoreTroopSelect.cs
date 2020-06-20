@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Toggle = UnityEngine.UI.Toggle;
 using Text = UnityEngine.UI.Text;
+using System.Linq;
 
 namespace Gui
 {
@@ -25,6 +26,9 @@ namespace Gui
         private GameMeta _gameMeta;
 
         public List<GameObject> toggles = new List<GameObject>();
+        public List<GameObject> tmpToggles = new List<GameObject>();
+
+        public bool needsRefresh = false;
 
         // Start is called before the first frame update
         private void Start()
@@ -37,19 +41,30 @@ namespace Gui
         // Update is called once per frame
         void Update()
         {
-        }
+            if (needsRefresh)
+            {
+                foreach (GameObject t in toggles)
+                    Destroy(t);
 
-        public void ActivateStoreTroopSelector()
-        {
-            foreach (var troop in _gameMeta.availableTroops)
-                toggles.Add(CreateNewToggle(troop));
+                oldValue = null;
+
+                foreach (TroopMeta troop in _gameMeta.availableTroops)
+                {
+                    if (troop == checkedTroop)
+                        tmpToggles.Add(CreateNewToggle(troop, true));
+                    else
+                        tmpToggles.Add(CreateNewToggle(troop, false));
+                }
+                toggles = tmpToggles;
+                needsRefresh = false;
+            }
         }
 
         
         // Turn on toggle
         // Create new Toggle for each soldier in 
 
-        private GameObject CreateNewToggle(TroopMeta troop)
+        private GameObject CreateNewToggle(TroopMeta troop, bool check)
         {
             GameObject newTroopToggle =
                 Instantiate(troopToggleBlueprint,
@@ -57,14 +72,19 @@ namespace Gui
             // newTroopToggle.transform.parent = scrollViewContent.transform;
 
             Toggle toggle = newTroopToggle.gameObject.GetComponent<Toggle>();
-            toggle.isOn = troop.sendToBattle;
-
+            toggle.isOn = false;
             toggle.onValueChanged.AddListener(delegate { ToggleValueChanged(toggle, troop); });
 
             // Code for naming troops
             GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
             Text label = labelGameObject.GetComponent<Text>();
             label.text = troop.type + ": " + troop.name;
+
+            GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
+            UpgradeBar.GetComponent<RectTransform>().offsetMax = new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
+
+            toggle.isOn = check;
+            //roop.sendToBattle = check;
 
             return newTroopToggle;
         }
@@ -86,7 +106,6 @@ namespace Gui
                     oldValue = toggle;
                 }
             }
-
         }
     }
 }

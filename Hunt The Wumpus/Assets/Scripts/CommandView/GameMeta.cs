@@ -91,8 +91,6 @@ namespace CommandView
             {
                 availableTroops.Add(new TroopMeta(TroopType.Marine, firstNames[i] + " " + lastNames[i]));
             }
-
-            print("We have " + availableTroops.Count + " Troops!");
         }
 
         public void UpdateGameStateWithResult()
