@@ -22,6 +22,8 @@ namespace CommandView
         
         public int battlesFought;
 
+        public int UpgradeLvl;
+
         public TroopMeta(TroopType type, String name)
         {
             this.type = type;
