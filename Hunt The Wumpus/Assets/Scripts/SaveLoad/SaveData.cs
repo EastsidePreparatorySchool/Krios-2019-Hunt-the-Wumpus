@@ -19,12 +19,15 @@ namespace SaveLoad
         public int[] biomeNum = new int[30];
         public bool[] isColonized = new bool[30];
         public int[] hazardType = new int[30];
+        public bool[] showHint = new bool[30];
 
         public int[] troopType;
         public string[] troopName;
         public bool[] isExausted;
+        public bool[] isHeld;
+        public int[] heldLoc;
 
-        public SaveData(Planet planet, bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, int[] TroopType, string[] TroopName, bool[] IsExausted, int NumOfTroops)
+        public SaveData(Planet planet, bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, bool[] ShowHint, int[] TroopType, string[] TroopName, bool[] IsExausted, bool[] IsHeld, int[] HeldLoc, int NumOfTroops)
         {
             turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
             money = planet.GetComponent<GameMeta>().money;
@@ -59,15 +62,26 @@ namespace SaveLoad
                 i++;
             }
 
+            i = 0;
+            foreach (bool SH in ShowHint)
+            {
+                showHint[i] = SH;
+                i++;
+            }
+
             troopType = new int[NumOfTroops];
             troopName = new string[NumOfTroops];
             isExausted = new bool[NumOfTroops];
+            isHeld = new bool[NumOfTroops];
+            heldLoc = new int[NumOfTroops];
 
             for (i = 0; i < NumOfTroops; i++)
             {
                 troopType[i] = TroopType[i];
                 troopName[i] = TroopName[i];
                 isExausted[i] = IsExausted[i];
+                isHeld[i] = IsHeld[i];
+                heldLoc[i] = HeldLoc[i];
             }
         }
     }
