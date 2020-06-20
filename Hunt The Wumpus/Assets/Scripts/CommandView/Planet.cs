@@ -951,6 +951,7 @@ namespace CommandView
                 if (data.isHeld[i])
                 {
                     faceHandlers[data.heldLoc[i]].heldTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
+                    faceHandlers[data.heldLoc[i]].UpdateFaceColors();
                 }
                 if (!data.isExausted[i] && !data.isHeld[i])
                     meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
