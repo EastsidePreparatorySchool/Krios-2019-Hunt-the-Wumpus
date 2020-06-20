@@ -15976,7 +15976,6 @@ MonoBehaviour:
   - {fileID: 897113460}
   faceHandlers: []
   lineEventSystem: {fileID: 1006137553}
-  displayHints: 0
   curGameStatus: 0
   borderAroundTerritory: 1
   wumplingWaves: 03000000050000000a000000
