@@ -91,7 +91,7 @@ public class Store : MonoBehaviour
                 if (child != null)
                     child.SetActive(true);
             }
-            GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().ActivateStoreTroopSelector();
+            GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().needsRefresh = true;
         }
     }
 
@@ -100,11 +100,23 @@ public class Store : MonoBehaviour
         TroopMeta checkedTroop = GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().checkedTroop;
         if (checkedTroop != null)
         {
-            if (useMoney(troopDamagCost))
+            if (checkedTroop.UpgradeLvl < _planetHandler.maxUpgrades)
             {
-                checkedTroop.damage += troopDamagIncrease;
-                print("upgraed by " + troopDamagIncrease + ", now up to " + checkedTroop.damage);
+                if (useMoney(troopDamagCost))
+                {
+                    checkedTroop.damage += troopDamagIncrease;
+                    checkedTroop.UpgradeLvl += 1;
+                    print("upgraed by " + troopDamagIncrease + ", now up to " + checkedTroop.damage  + ", lvl: " + checkedTroop.UpgradeLvl);
+                    GetComponent<StoreTroopSelect>().needsRefresh = true;
+                    GetComponent<TroopSelection>().needsRefresh = true;
+                }
             }
+            else
+            {
+                print("troop fully upgraded");
+                //make thi more apparent
+            }
+
         }
     }
 

@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;
 
 public static class DoSaving
 {
-    public static void DoTheSaving (Planet planet,bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, int[] TroopType, string[] TroopName, bool[] IsExausted, int NumOfTroops)
+    public static void DoTheSaving(Planet planet, bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, bool[] ShowHint, int[] TroopType, string[] TroopName, bool[] IsExausted, bool[] IsHeld, int[] HeldLoc, int NumOfTroops)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        SaveData data = new SaveData(planet, States, BiomeNum, IsColonized, HazardType, TroopType, TroopName, IsExausted, NumOfTroops);
+        SaveData data = new SaveData(planet, States, BiomeNum, IsColonized, HazardType, ShowHint, TroopType, TroopName, IsExausted, IsHeld, HeldLoc, NumOfTroops);
 
         formatter.Serialize(stream, data);
         stream.Close();

@@ -27,8 +27,8 @@ public class Mountain
     public GameObject mountain;
     public MeshVertex meshVertex1;
     public MeshVertex meshVertex2;
-    public bool discovered; // Could potentially be removed
-    public bool colonized; // Could potentially be removed
+    public bool discovered;
+    public bool colonized;
 
     public Mountain(MeshVertex mv1, MeshVertex mv2)
     {
@@ -43,6 +43,8 @@ namespace CommandView
     public class Planet : MonoBehaviour
     {
         public bool backFromMiniGame = false;
+
+        public int maxUpgrades;
 
         // Hold an instance of the Planet
         public static Planet Instance;
@@ -59,8 +61,6 @@ namespace CommandView
         // Planet properties and class-wide variables
         //private readonly Random _random = new Random();
         private bool _isHidden;
-        public bool displayHints;
-        private bool _lastPressed;
 
         public GameStatus curGameStatus = GameStatus.InPlay;
 
@@ -79,13 +79,17 @@ namespace CommandView
         public int[] wumplingWaves;
         public int soldiers;
 
+        // Some of the save/load variables
         private bool[,] States = new bool[4, 30];
         private int[] BiomeNum = new int[30];
         private bool[] IsColonized = new bool[30];
         private int[] HazardType = new int[30];
+        private bool[] ShowHint = new bool[30];
         private int[] troopType;
         private string[] TroopName;
         private bool[] IsExausted;
+        private bool[] IsHeld;
+        private int[] HeldLoc;
         private int TotalTroops;
 
         public GameMeta meta;
@@ -202,19 +206,6 @@ namespace CommandView
             {
                 ShowPlanet(_isHidden);
             }
-
-            if (Input.GetButtonDown("ShowAllHints"))
-            {
-                displayHints = !displayHints;
-            }
-
-            // else
-            // {
-            //     if (Input.GetButtonUp("ShowAllHints"))
-            //     {
-            //         _lastPressed = false;
-            //     }
-            // }
         }
 
         private void MakeHazardObjects(int safeSpot)
@@ -857,13 +848,20 @@ namespace CommandView
                 BiomeNum[i] = (int)faceHandler.biomeType;
                 IsColonized[i] = faceHandler.colonized;
                 HazardType[i] = (int)faceHandler.GetHazardObject();
+                ShowHint[i] = faceHandler.showHintOnTile;
                 i++;
             }
 
             TotalTroops = GetComponent<GameMeta>().availableTroops.Count() + GetComponent<GameMeta>().exhaustedTroops.Count();
+
+            foreach (FaceHandler face in faceHandlers)
+                TotalTroops += face.heldTroops.Count();
+
             troopType = new int[TotalTroops];
             TroopName = new string[TotalTroops];
             IsExausted = new bool[TotalTroops];
+            IsHeld = new bool[TotalTroops];
+            HeldLoc = new int[TotalTroops];
 
             i = 0;
             foreach (TroopMeta troop in GetComponent<GameMeta>().availableTroops)
@@ -871,6 +869,7 @@ namespace CommandView
                 troopType[i] = (int)troop.type;
                 TroopName[i] = troop.name;
                 IsExausted[i] = false;
+                IsHeld[i] = false;
                 i++;
             }
             foreach (TroopMeta troop in GetComponent<GameMeta>().exhaustedTroops)
@@ -878,10 +877,30 @@ namespace CommandView
                 troopType[i] = (int)troop.type;
                 TroopName[i] = troop.name;
                 IsExausted[i] = true;
+                IsHeld[i] = false;
                 i++;
             }
+            for (int j = 0; j < faceHandlers.Count(); j++)
+            {
+                FaceHandler face = faceHandlers[j];
+                print(face.heldTroops.Count());
+                if (face.heldTroops.Count() > 0)
+                {
+                    foreach (TroopMeta troop in face.heldTroops)
+                    {
+                        troopType[i] = (int)troop.type;
+                        TroopName[i] = troop.name;
+                        IsExausted[i] = true;
+                        IsHeld[i] = true;
+                        HeldLoc[i] = j;
+                        i++;
+                    }
+                }
 
-            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, troopType, TroopName, IsExausted, TotalTroops);
+            }
+
+
+            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, troopType, TroopName, IsExausted, IsHeld, HeldLoc, TotalTroops);
         }
 
         public void Loadfunc()
@@ -909,6 +928,7 @@ namespace CommandView
                     faceHandler.state[j] = data.state[j, i];
                 faceHandler.biomeType = (BiomeType)data.biomeNum[i];
                 faceHandler.SetHazard((HazardTypes)data.hazardType[i]);
+                faceHandler.showHintOnTile = data.showHint[i];
                 if (data.isColonized[i])
                 {
                     print("is colonized");
@@ -927,14 +947,15 @@ namespace CommandView
 
             for (i = 0; i < data.troopType.Count(); i++)
             {
-                if (data.isExausted[i])
+                if (data.isHeld[i])
                 {
+                    faceHandlers[data.heldLoc[i]].heldTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
+                    faceHandlers[data.heldLoc[i]].UpdateFaceColors();
+                }
+                else if (data.isExausted[i])
                     meta.exhaustedTroops.Add(new TroopMeta((TroopType)data.troopType[i],data.troopName[i]));
-                }
-                else
-                {
+                if (!data.isExausted[i] && !data.isHeld[i])
                     meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
-                }
             }
         }
 
