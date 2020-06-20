@@ -883,13 +883,14 @@ namespace CommandView
             for (int j = 0; j < faceHandlers.Count(); j++)
             {
                 FaceHandler face = faceHandlers[j];
+                print(face.heldTroops.Count());
                 if (face.heldTroops.Count() > 0)
                 {
                     foreach (TroopMeta troop in face.heldTroops)
                     {
                         troopType[i] = (int)troop.type;
                         TroopName[i] = troop.name;
-                        IsExausted[i] = false;
+                        IsExausted[i] = true;
                         IsHeld[i] = true;
                         HeldLoc[i] = j;
                         i++;
@@ -946,13 +947,13 @@ namespace CommandView
 
             for (i = 0; i < data.troopType.Count(); i++)
             {
-                if (data.isExausted[i])
-                    meta.exhaustedTroops.Add(new TroopMeta((TroopType)data.troopType[i],data.troopName[i]));
                 if (data.isHeld[i])
                 {
                     faceHandlers[data.heldLoc[i]].heldTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
                     faceHandlers[data.heldLoc[i]].UpdateFaceColors();
                 }
+                else if (data.isExausted[i])
+                    meta.exhaustedTroops.Add(new TroopMeta((TroopType)data.troopType[i],data.troopName[i]));
                 if (!data.isExausted[i] && !data.isHeld[i])
                     meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
             }

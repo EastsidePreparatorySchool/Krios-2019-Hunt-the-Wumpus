@@ -679,17 +679,13 @@ namespace CommandView
         public void UpdateFaceColors()
         {
             if (colonized)
-            {
                 GetComponent<Renderer>().material.color = ColonizedColor[(int) biomeType - 1];
-            }
             else if (discovered)
-            {
                 GetComponent<Renderer>().material.color = DiscoveredColor[(int) biomeType - 1];
-            }
             else
-            {
                 GetComponent<Renderer>().material.color = UndiscoveredColor;
-            }
+            if (heldTroops.Count() > 0)
+                GetComponent<Renderer>().material.color = Color.yellow;
         }
 
         public void SetHazard(HazardTypes haz)
