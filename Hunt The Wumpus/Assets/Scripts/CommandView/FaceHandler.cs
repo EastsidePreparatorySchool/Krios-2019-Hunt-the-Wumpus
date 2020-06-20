@@ -177,7 +177,7 @@ namespace CommandView
             foreach (string hazardName in hintGoResourcePathStrings)
             {
                 GameObject hintObject =
-                    Instantiate(Resources.Load<GameObject>("Objects/" + hazardName + "Hint"),
+                    Instantiate(Resources.Load<GameObject>("Objects/HintTiles/" + hazardName + "Hint"),
                         faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
 
                 hintObject.transform.rotation =
@@ -212,26 +212,10 @@ namespace CommandView
 
             if (colonized && showHintOnTile)
             {
-                if (_planet.displayHints && (!faceDataShowing || faceDataShowing && _hintsGo[0] == null))
+                if (!faceDataShowing || faceDataShowing && _hintsGo[0] == null)
                 {
                     UpdateHintData();
-                    bool checkUncolonized = false;
-                    foreach (FaceHandler adjacentFace in GetOpenAdjacentFaces())
-                    {
-                        if (!adjacentFace.colonized)
-                        {
-                            checkUncolonized = true;
-                            break;
-                        }
-                    }
 
-                    if (checkUncolonized)
-                    {
-                        DisplayHintsOnFace();
-                    }
-                }
-                else if (!_planet.displayHints && faceDataShowing)
-                {
                     DisplayHintsOnFace();
                 }
             }
@@ -286,54 +270,38 @@ namespace CommandView
 
         private void DisplayHintsOnFace()
         {
-            if (_planet.displayHints)
+            print("Showing info");
+            // lastHintGiven[0] = true;
+            // lastHintGiven[1] = true;
+            print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
+            List<GameObject> activeGOs = new List<GameObject>();
+
+            RegenerateHintGOs();
+
+            // Show relevant info
+            for (int i = 0; i < lastHintGiven.Length; i++)
             {
-                print("Showing info");
-                // lastHintGiven[0] = true;
-                // lastHintGiven[1] = true;
-                print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
-                List<GameObject> activeGOs = new List<GameObject>();
-
-                RegenerateHintGOs();
-
-                // Show relevant info
-                for (int i = 0; i < lastHintGiven.Length; i++)
+                _hintsGo[i].SetActive(lastHintGiven[i]);
+                if (lastHintGiven[i])
                 {
-                    _hintsGo[i].SetActive(lastHintGiven[i]);
-                    if (lastHintGiven[i])
-                    {
-                        activeGOs.Add(_hintsGo[i]);
-                    }
+                    activeGOs.Add(_hintsGo[i]);
                 }
-
-                // hintObject.transform.position += 1.5f * hintObject.transform.forward;
-
-                float distanceInterval = Vector3.Distance(_majorAxisA, _majorAxisB) / (activeGOs.Count + 1);
-                float distanceStep = 1;
-
-                foreach (GameObject activeGo in activeGOs)
-                {
-                    activeGo.transform.position =
-                        _majorAxisB + distanceInterval * distanceStep * activeGo.transform.forward;
-                    distanceStep++;
-                }
-
-
-                faceDataShowing = true;
             }
-            else
+
+            // hintObject.transform.position += 1.5f * hintObject.transform.forward;
+
+            float distanceInterval = Vector3.Distance(_majorAxisA, _majorAxisB) / (activeGOs.Count + 1);
+            float distanceStep = 1;
+
+            foreach (GameObject activeGo in activeGOs)
             {
-                print("Hiding info");
-
-                RegenerateHintGOs();
-
-                foreach (GameObject o in _hintsGo)
-                {
-                    o.SetActive(false);
-                }
-
-                faceDataShowing = false;
+                activeGo.transform.position =
+                    _majorAxisB + distanceInterval * distanceStep * activeGo.transform.forward;
+                distanceStep++;
             }
+
+
+            faceDataShowing = true;
         }
 
         // Private functions
@@ -664,15 +632,15 @@ namespace CommandView
                 }
 
                 meta.EndTurn();
-
             }
             else
             {
                 print("Not enough nukes");
             }
-            GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
-            if (TroopSelector != null)
-                TroopSelector.SetActive(false);
+
+            GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+            if (troopSelector != null)
+                troopSelector.SetActive(false);
         }
 
         public void AddSensorOnTile()

@@ -59,8 +59,6 @@ namespace CommandView
         // Planet properties and class-wide variables
         //private readonly Random _random = new Random();
         private bool _isHidden;
-        public bool displayHints;
-        private bool _lastPressed;
 
         public GameStatus curGameStatus = GameStatus.InPlay;
 
@@ -202,19 +200,6 @@ namespace CommandView
             {
                 ShowPlanet(_isHidden);
             }
-
-            if (Input.GetButtonDown("ShowAllHints"))
-            {
-                displayHints = !displayHints;
-            }
-
-            // else
-            // {
-            //     if (Input.GetButtonUp("ShowAllHints"))
-            //     {
-            //         _lastPressed = false;
-            //     }
-            // }
         }
 
         private void MakeHazardObjects(int safeSpot)
