@@ -139,7 +139,7 @@ public class UpdateGui : MonoBehaviour
             _troopCounter.text = "Troops: " + _inGameMeta.availableTroops.Count + "/" +
                                       (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
-            _nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
+            _nukeCounter.text = "A.R.R.O.Ws: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
         }
 

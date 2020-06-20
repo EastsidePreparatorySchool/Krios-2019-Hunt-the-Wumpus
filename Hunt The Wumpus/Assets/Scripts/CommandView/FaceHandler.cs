@@ -91,6 +91,7 @@ namespace CommandView
         public Vector3 faceCenter;
         public Vector3 faceNormal;
         private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
+        private GameObject _sensorTowerIcon;
         private Vector3 _majorAxisA;
         private Vector3 _majorAxisB;
 
@@ -192,6 +193,19 @@ namespace CommandView
 
                 _hintsGo.Add(hintObject);
             }
+
+            _sensorTowerIcon = Instantiate(Resources.Load<GameObject>("Objects/HintTiles/SensorTower"),
+                faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
+
+            _sensorTowerIcon.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - _sensorTowerIcon.transform.position, faceNormal);
+
+            _sensorTowerIcon.transform.parent = gameObject.transform;
+
+            // TODO: position the tower better
+            // _sensorTowerIcon.transform.position += 1.5f * Vector3.right;
+            
+            _sensorTowerIcon.SetActive(false);
         }
 
         // Update is called once per frame
@@ -232,8 +246,7 @@ namespace CommandView
         // ActionOnFace() will not be fired if there is a UI element over the face
         private static bool IsPointerOverUiElement()
         {
-            PointerEventData eventData = new PointerEventData(EventSystem.current);
-            eventData.position = Input.mousePosition;
+            PointerEventData eventData = new PointerEventData(EventSystem.current) {position = Input.mousePosition};
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
             foreach (var hit in results)
@@ -287,6 +300,7 @@ namespace CommandView
                     activeGOs.Add(_hintsGo[i]);
                 }
             }
+            _sensorTowerIcon.SetActive(true);
 
             // hintObject.transform.position += 1.5f * hintObject.transform.forward;
 
@@ -381,7 +395,7 @@ namespace CommandView
         {
             bool[] hintsToGive = new bool[3];
 
-            foreach (FaceHandler adjFace in GetOpenAdjacentFaces())
+            foreach (FaceHandler adjFace in adjacentFaceHandlers)
             {
                 HazardTypes haz = adjFace.GetHazardObject();
                 if (haz == HazardTypes.Pit)
