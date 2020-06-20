@@ -91,7 +91,7 @@ public class Store : MonoBehaviour
                 if (child != null)
                     child.SetActive(true);
             }
-            GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().ActivateStoreTroopSelector();
+            GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().needsRefresh = true;
         }
     }
 
@@ -107,8 +107,8 @@ public class Store : MonoBehaviour
                     checkedTroop.damage += troopDamagIncrease;
                     checkedTroop.UpgradeLvl += 1;
                     print("upgraed by " + troopDamagIncrease + ", now up to " + checkedTroop.damage  + ", lvl: " + checkedTroop.UpgradeLvl);
-                    GetComponent<TroopSelection>().needsRefresh = true;
                     GetComponent<StoreTroopSelect>().needsRefresh = true;
+                    GetComponent<TroopSelection>().needsRefresh = true;
                 }
             }
             else

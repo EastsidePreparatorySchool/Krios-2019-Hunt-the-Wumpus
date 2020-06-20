@@ -57,6 +57,7 @@ namespace Gui
             {
                 foreach (GameObject toggle in _toggles)
                     Destroy(toggle);
+                
                 foreach (var troop in _gameMeta.availableTroops)
                     _toggles.Add(CreateNewToggle(troop));
                 needsRefresh = false;
