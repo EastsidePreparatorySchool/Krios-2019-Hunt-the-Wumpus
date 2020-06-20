@@ -91,6 +91,7 @@ namespace CommandView
         public Vector3 faceCenter;
         public Vector3 faceNormal;
         private List<GameObject> _hintsGo; // 0 = Wumpus, 1 = Pit, 2 = Bats
+        private GameObject _sensorTowerIcon;
         private Vector3 _majorAxisA;
         private Vector3 _majorAxisB;
 
@@ -177,7 +178,7 @@ namespace CommandView
             foreach (string hazardName in hintGoResourcePathStrings)
             {
                 GameObject hintObject =
-                    Instantiate(Resources.Load<GameObject>("Objects/" + hazardName + "Hint"),
+                    Instantiate(Resources.Load<GameObject>("Objects/HintTiles/" + hazardName + "Hint"),
                         faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
 
                 hintObject.transform.rotation =
@@ -192,6 +193,19 @@ namespace CommandView
 
                 _hintsGo.Add(hintObject);
             }
+
+            _sensorTowerIcon = Instantiate(Resources.Load<GameObject>("Objects/HintTiles/SensorTower"),
+                faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
+
+            _sensorTowerIcon.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - _sensorTowerIcon.transform.position, faceNormal);
+
+            _sensorTowerIcon.transform.parent = gameObject.transform;
+
+            // TODO: position the tower better
+            // _sensorTowerIcon.transform.position += 1.5f * Vector3.right;
+            
+            _sensorTowerIcon.SetActive(false);
         }
 
         // Update is called once per frame
@@ -212,26 +226,10 @@ namespace CommandView
 
             if (colonized && showHintOnTile)
             {
-                if (_planet.displayHints && (!faceDataShowing || faceDataShowing && _hintsGo[0] == null))
+                if (!faceDataShowing || faceDataShowing && _hintsGo[0] == null)
                 {
                     UpdateHintData();
-                    bool checkUncolonized = false;
-                    foreach (FaceHandler adjacentFace in GetOpenAdjacentFaces())
-                    {
-                        if (!adjacentFace.colonized)
-                        {
-                            checkUncolonized = true;
-                            break;
-                        }
-                    }
 
-                    if (checkUncolonized)
-                    {
-                        DisplayHintsOnFace();
-                    }
-                }
-                else if (!_planet.displayHints && faceDataShowing)
-                {
                     DisplayHintsOnFace();
                 }
             }
@@ -248,8 +246,7 @@ namespace CommandView
         // ActionOnFace() will not be fired if there is a UI element over the face
         private static bool IsPointerOverUiElement()
         {
-            PointerEventData eventData = new PointerEventData(EventSystem.current);
-            eventData.position = Input.mousePosition;
+            PointerEventData eventData = new PointerEventData(EventSystem.current) {position = Input.mousePosition};
             var results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(eventData, results);
             foreach (var hit in results)
@@ -286,54 +283,39 @@ namespace CommandView
 
         private void DisplayHintsOnFace()
         {
-            if (_planet.displayHints)
+            print("Showing info");
+            // lastHintGiven[0] = true;
+            // lastHintGiven[1] = true;
+            print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
+            List<GameObject> activeGOs = new List<GameObject>();
+
+            RegenerateHintGOs();
+
+            // Show relevant info
+            for (int i = 0; i < lastHintGiven.Length; i++)
             {
-                print("Showing info");
-                // lastHintGiven[0] = true;
-                // lastHintGiven[1] = true;
-                print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
-                List<GameObject> activeGOs = new List<GameObject>();
-
-                RegenerateHintGOs();
-
-                // Show relevant info
-                for (int i = 0; i < lastHintGiven.Length; i++)
+                _hintsGo[i].SetActive(lastHintGiven[i]);
+                if (lastHintGiven[i])
                 {
-                    _hintsGo[i].SetActive(lastHintGiven[i]);
-                    if (lastHintGiven[i])
-                    {
-                        activeGOs.Add(_hintsGo[i]);
-                    }
+                    activeGOs.Add(_hintsGo[i]);
                 }
-
-                // hintObject.transform.position += 1.5f * hintObject.transform.forward;
-
-                float distanceInterval = Vector3.Distance(_majorAxisA, _majorAxisB) / (activeGOs.Count + 1);
-                float distanceStep = 1;
-
-                foreach (GameObject activeGo in activeGOs)
-                {
-                    activeGo.transform.position =
-                        _majorAxisB + distanceInterval * distanceStep * activeGo.transform.forward;
-                    distanceStep++;
-                }
-
-
-                faceDataShowing = true;
             }
-            else
+            _sensorTowerIcon.SetActive(true);
+
+            // hintObject.transform.position += 1.5f * hintObject.transform.forward;
+
+            float distanceInterval = Vector3.Distance(_majorAxisA, _majorAxisB) / (activeGOs.Count + 1);
+            float distanceStep = 1;
+
+            foreach (GameObject activeGo in activeGOs)
             {
-                print("Hiding info");
-
-                RegenerateHintGOs();
-
-                foreach (GameObject o in _hintsGo)
-                {
-                    o.SetActive(false);
-                }
-
-                faceDataShowing = false;
+                activeGo.transform.position =
+                    _majorAxisB + distanceInterval * distanceStep * activeGo.transform.forward;
+                distanceStep++;
             }
+
+
+            faceDataShowing = true;
         }
 
         // Private functions
@@ -413,7 +395,7 @@ namespace CommandView
         {
             bool[] hintsToGive = new bool[3];
 
-            foreach (FaceHandler adjFace in GetOpenAdjacentFaces())
+            foreach (FaceHandler adjFace in adjacentFaceHandlers)
             {
                 HazardTypes haz = adjFace.GetHazardObject();
                 if (haz == HazardTypes.Pit)
@@ -664,15 +646,15 @@ namespace CommandView
                 }
 
                 meta.EndTurn();
-
             }
             else
             {
                 print("Not enough nukes");
             }
-            GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
-            if (TroopSelector != null)
-                TroopSelector.SetActive(false);
+
+            GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+            if (troopSelector != null)
+                troopSelector.SetActive(false);
         }
 
         public void AddSensorOnTile()
