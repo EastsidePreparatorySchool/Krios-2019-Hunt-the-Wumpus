@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
+  m_AmbientSkyColor: {r: 1.0592737, g: 1.0592737, b: 1.0592737, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 3
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -564,6 +564,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -1034,7 +1035,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -1068,13 +1069,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123977473}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.16042997, y: 0.37686962, z: -0.066452265, w: 0.9098438}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 45, z: 0}
 --- !u!1 &154748433
 GameObject:
   m_ObjectHideFlags: 0
@@ -3127,6 +3128,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -3544,6 +3546,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -4138,6 +4141,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -4614,6 +4618,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -4740,6 +4745,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -6041,6 +6047,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -6389,6 +6396,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7112,6 +7120,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7165,6 +7174,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7218,6 +7228,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -7836,6 +7847,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -9365,6 +9377,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -9805,6 +9818,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -9858,6 +9872,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10036,6 +10051,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10245,6 +10261,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10655,6 +10672,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10779,6 +10797,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -10832,6 +10851,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -11404,6 +11424,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -11457,6 +11478,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -12003,6 +12025,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -12056,6 +12079,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -12109,6 +12133,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -12630,6 +12655,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -14685,6 +14711,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -14738,6 +14765,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -15010,6 +15038,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -15347,6 +15376,7 @@ MonoBehaviour:
   colonized: 0
   lastSeenTurnsAgo: 0
   biomeType: 0
+  faceMaterial: {fileID: 0}
   lastRightClickPos: {x: 0, y: 0, z: 0}
   noMoney: 0
   lastHintGiven: 
@@ -16104,6 +16134,7 @@ MonoBehaviour:
   wumplingWaves: 03000000050000000a000000
   soldiers: 20
   meta: {fileID: 2076108099}
+  selectedFace: -1
   didSomething: 0
 --- !u!114 &2076108098
 MonoBehaviour:

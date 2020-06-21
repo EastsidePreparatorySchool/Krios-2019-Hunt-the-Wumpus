@@ -248,10 +248,10 @@ namespace CommandView
                 {
                     _ogColor = faceMaterial.color;
                     Color.RGBToHSV(_ogColor, out float ogH, out float ogS, out float ogV);
-                    float delta = 0.2f;
-                    if (1f - (ogV + 0.2) < 0)
+                    float delta = 0.5f;
+                    if (1f - (ogV + delta) < 0)
                     {
-                        delta = -0.2f;
+                        delta = -delta;
                     }
 
                     _targetColor = Color.HSVToRGB(ogH, ogS, ogV + delta);
@@ -738,9 +738,14 @@ namespace CommandView
                 print("Not enough nukes");
             }
 
-            GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+            // GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+            // if (troopSelector != null)
+            //     troopSelector.SetActive(false);
+            TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
             if (troopSelector != null)
-                troopSelector.SetActive(false);
+            {
+                troopSelector.ActivateTroopSelector(_faceNumber, true);
+            }
         }
 
         public void AddSensorOnTile()
