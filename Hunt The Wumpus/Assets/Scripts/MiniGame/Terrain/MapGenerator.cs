@@ -481,7 +481,7 @@ namespace MiniGame.Terrain
             GameObject nest = Instantiate(nestPrefab,
                 new Vector3(i * interiorTileSize,
                     1,
-                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset, Quaternion.identity);
+                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset, Quaternion.Euler(180, 0, 0));
             nest.GetComponent<NestController>().timeBetweenSpawns = spawnTime;
             if (isEndNode(n))
             {
