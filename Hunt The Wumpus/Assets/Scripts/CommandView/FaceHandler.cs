@@ -397,11 +397,7 @@ namespace CommandView
             if (!discovered)
             {
                 Debug.Log("This tile is not yet discovered");
-                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
-                if (troopSelector != null)
-                {
-                    troopSelector.ActivateTroopSelector(_faceNumber, true);
-                }
+                CloseTroopSelector();
 
                 _planet.selectedFace = -1;
 
@@ -700,6 +696,7 @@ namespace CommandView
             if (playMiniGame)
             {
                 print("Going to Battle");
+                CloseTroopSelector();
                 SceneManager.LoadScene(2);
             }
             else
@@ -755,11 +752,7 @@ namespace CommandView
             // GameObject troopSelector = GameObject.Find("TroopSelectorUI");
             // if (troopSelector != null)
             //     troopSelector.SetActive(false);
-            TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
-            if (troopSelector != null)
-            {
-                troopSelector.ActivateTroopSelector(_faceNumber, true);
-            }
+            CloseTroopSelector();
         }
 
         public void AddSensorOnTile()
@@ -768,6 +761,18 @@ namespace CommandView
             {
                 showHintOnTile = true;
                 meta.sensorTowers--;
+                
+                CloseTroopSelector();
+            }
+        }
+
+        private void CloseTroopSelector()
+        {
+            TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+            if (troopSelector != null)
+            {
+                print("Closing the selector");
+                troopSelector.ActivateTroopSelector(_faceNumber, true);
             }
         }
 
