@@ -95,6 +95,8 @@ namespace CommandView
         public GameMeta meta;
         public MiniGameResult result;
 
+        public int selectedFace = -1;
+
         public bool didSomething;
 
         private void Awake()
