@@ -91,6 +91,7 @@ namespace CommandView
 
         private GameMeta meta;
         public List<TroopMeta> heldTroops = new List<TroopMeta>();
+        private GameObject _batDestinationIndicator;
 
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public MeshFilter faceMeshFilter;
@@ -242,6 +243,11 @@ namespace CommandView
                 }
             }
 
+            if (heldTroops.Any() && _batDestinationIndicator == null)
+            {
+                GenerateBatNet();
+            }
+
             if (_planet.selectedFace == _faceNumber)
             {
                 if (!_pulsingColor)
@@ -282,6 +288,16 @@ namespace CommandView
                     _pulsingColor = false;
                 }
             }
+        }
+
+        public void GenerateBatNet()
+        {
+            CalculateFaceGeometry();
+            _batDestinationIndicator = Instantiate(Resources.Load<GameObject>("Objects/BatNet"), faceCenter,
+                Quaternion.FromToRotation(Vector3.up, faceNormal));
+            _batDestinationIndicator.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - _batDestinationIndicator.transform.position, faceNormal);
+            _batDestinationIndicator.transform.parent = gameObject.transform;
         }
 
         // When a face gets clicked
@@ -654,8 +670,6 @@ namespace CommandView
                     }
 
                     finalFace.heldTroops = deployedTroops;
-                    // TODO: fix with actual asset
-                    finalFace.GetComponent<Renderer>().material.color = Color.yellow;
 
                     SetColonized();
                     GameObject canvasObject = GameObject.Find("Canvas");
@@ -774,8 +788,8 @@ namespace CommandView
                 faceMaterial.color = DiscoveredColor[(int) biomeType - 1];
             else
                 faceMaterial.color = UndiscoveredColor;
-            if (heldTroops.Count > 0)
-                faceMaterial.color = Color.yellow;
+            // if (heldTroops.Count > 0)
+            //     faceMaterial.color = Color.yellow;
 
             _ogColor = faceMaterial.color;
         }
