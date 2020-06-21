@@ -246,6 +246,9 @@ namespace CommandView
             if (heldTroops.Any() && _batDestinationIndicator == null)
             {
                 GenerateBatNet();
+            } else if (!heldTroops.Any() && _batDestinationIndicator != null)
+            {
+                Destroy(_batDestinationIndicator);
             }
 
             if (_planet.selectedFace == _faceNumber)
@@ -640,6 +643,8 @@ namespace CommandView
 
                     randomFace.GetComponent<Renderer>().material.color = Color.yellow;
                     */
+                    SetColonized();
+                    
                     List<FaceHandler> undiscoveredFaces = new List<FaceHandler>();
                     List<FaceHandler> discoveredFaces = new List<FaceHandler>();
                     foreach (GameObject planetFace in _planet.faces)
@@ -647,27 +652,20 @@ namespace CommandView
                         FaceHandler curFaceHandler = planetFace.GetComponent<FaceHandler>();
                         if (!curFaceHandler.discovered)
                         {
+                            print("Added undiscovered");
                             undiscoveredFaces.Add(curFaceHandler);
                         }
                         else if (!curFaceHandler.colonized)
                         {
+                            print("added uncolonized");
                             discoveredFaces.Add(curFaceHandler);
                         }
                     }
 
-                    FaceHandler finalFace;
-                    if (undiscoveredFaces.Count == 0)
-                    {
-                        finalFace = undiscoveredFaces[Random.Range(0, undiscoveredFaces.Count)];
-                    }
-                    else
-                    {
-                        finalFace = discoveredFaces[Random.Range(0, discoveredFaces.Count)];
-                    }
+                    FaceHandler finalFace = undiscoveredFaces.Any() ? undiscoveredFaces[Random.Range(0, undiscoveredFaces.Count)] : discoveredFaces[Random.Range(0, discoveredFaces.Count)];
 
                     finalFace.heldTroops = deployedTroops;
 
-                    SetColonized();
                     GameObject canvasObject = GameObject.Find("Canvas");
                     canvasObject.GetComponent<TurnEnder>().EndTurn();
                     StartCoroutine(canvasObject.GetComponent<TroopSelection>().FlashBatsEncounterAlert());
