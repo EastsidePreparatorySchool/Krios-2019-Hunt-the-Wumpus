@@ -95,6 +95,8 @@ namespace CommandView
         public GameMeta meta;
         public MiniGameResult result;
 
+        public int selectedFace = -1;
+
         public bool didSomething;
 
         private void Awake()
@@ -557,7 +559,8 @@ namespace CommandView
                 if (MeshVertex.IsOnColonizedEdge(vertex))
                 {
                     edgeVertices.Add(vertex);
-                } else if (MeshVertex.IsOnDiscoveredEdge(vertex))
+                } 
+                if (MeshVertex.IsOnDiscoveredEdge(vertex))
                 {
                     discoveredEdgeVertices.Add(vertex);
                 }
@@ -570,20 +573,35 @@ namespace CommandView
                 foreach (MeshVertex neighbor in vertex.VertexNeighbors)
                 {
                     int colonizedSharedFaces = 0;
+                    int discoveredSharedFaces = 0;
+                    int undiscoveredSharedFaces = 0;
                     foreach (var faceHandler1 in neighbor.ParentFaces)
                     {
                         foreach (var faceHandler2 in vertex.ParentFaces)
                         {
-                            if (faceHandler2.Equals(faceHandler1) && faceHandler1.colonized)
+                            if (faceHandler2.Equals(faceHandler1))
                             {
-                                colonizedSharedFaces++;
+                                if (faceHandler1.colonized)
+                                {
+                                    colonizedSharedFaces++;
+                                }
+                                else if (faceHandler1.discovered && !faceHandler1.colonized)
+                                {
+                                    discoveredSharedFaces++;
+                                } else if (!faceHandler1.discovered)
+                                {
+                                    undiscoveredSharedFaces++;
+                                }
                             }
                         }
                     }
 
                     if (colonizedSharedFaces == 2 || colonizedSharedFaces == 0)
                     {
-                        continue;
+                        if (discoveredSharedFaces != 1 || undiscoveredSharedFaces != 1)
+                        {
+                            continue;
+                        }
                     }
 
                     if (edgeVertices.Contains(neighbor))
@@ -592,6 +610,11 @@ namespace CommandView
                         ) // Just going to hope that the products between vertex IDs are unique
                         {
                             edgePairs.Add(vertex.Id * neighbor.Id);
+                            if (discoveredSharedFaces == 1 && undiscoveredSharedFaces == 1)
+                            {
+                                _lines.Add(DrawVertexLine(vertex, neighbor, setActive, territoryLineWidth / 2f));
+                                continue;
+                            }
                             _lines.Add(DrawVertexLine(vertex, neighbor, setActive));
                             // There might be more to add here
                         }
@@ -920,7 +943,7 @@ namespace CommandView
                 face.GetComponent<FaceHandler>().discovered = false;
             }
 
-                int i = 0;
+            int i = 0;
             foreach (GameObject face in faces)
             {
                 FaceHandler faceHandler = face.GetComponent<FaceHandler>();
