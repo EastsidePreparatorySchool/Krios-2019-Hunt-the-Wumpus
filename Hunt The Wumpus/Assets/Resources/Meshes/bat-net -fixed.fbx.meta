@@ -1,22 +1,36 @@
 fileFormatVersion: 2
-guid: 3a8e62861ec3ddf4cbbd423500393e0b
+guid: 5a74ed2080cc0e84d9b8a4b8f34c39b5
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Cube.001
+    100004: Solid
     400000: //RootNode
-    2100000: Body
-    2100002: Top
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Cone
-    2186277476908879412: ImportLogs
+    400002: Cube.001
+    400004: Solid
+    2100000: Material.001
+    2100002: Material.002
+    2100004: Base
+    2100006: KneePad
+    2100008: Belt
+    2100010: Boots
+    2100012: KneePadAccent
+    2100014: Gloves
+    2100016: Mask
+    2100018: Accent
+    2300000: Cube.001
+    2300002: Solid
+    3300000: Cube.001
+    3300002: Solid
+    4300000: Solid
+    4300002: Cube.001
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Top
-    second: {fileID: 2100000, guid: fbb83699fbed8224e82c4878e97f8755, type: 2}
+      name: Material.002
+    second: {fileID: 2100000, guid: 8c9a4fcfac7fc8e4e96da52b14fece32, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

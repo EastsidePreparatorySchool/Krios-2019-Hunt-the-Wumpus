@@ -14,19 +14,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: MoveOut
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: BackFromMiniGame
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -347,7 +347,7 @@ AnimatorStateMachine:
     m_Position: {x: 432, y: 252, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102639996614015588}
-    m_Position: {x: 420, y: 120, z: 0}
+    m_Position: {x: 384, y: 372, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102486310775302964}
     m_Position: {x: 144, y: 168, z: 0}
