@@ -20,7 +20,8 @@ namespace CommandView
             distance = beginningDistance;
             transform.position = new Vector3(0, 0, -distance);
 
-            AudioListener.volume = 1f;
+            AudioListener.volume = GameObject.Find("Planet").GetComponent<Planet>().volume;
+            print("a"+GameObject.Find("Planet").GetComponent<Planet>().volume);
             ambientMusic.Play();
         }
 

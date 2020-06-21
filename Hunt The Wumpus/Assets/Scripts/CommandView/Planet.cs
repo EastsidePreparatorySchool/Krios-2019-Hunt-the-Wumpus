@@ -42,6 +42,8 @@ namespace CommandView
     // Planet will be the Global (constant) data holder
     public class Planet : MonoBehaviour
     {
+        public float volume = 0.5f;
+
         public bool backFromMiniGame = false;
 
         public int maxUpgrades;
@@ -99,6 +101,7 @@ namespace CommandView
 
         private void Awake()
         {
+            volume = .5f;
             // make sure there is only one instance of the Planet and make it persistent
             if (Instance == null)
             {
