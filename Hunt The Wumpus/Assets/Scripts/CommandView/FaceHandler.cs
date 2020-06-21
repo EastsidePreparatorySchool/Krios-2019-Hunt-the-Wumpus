@@ -91,6 +91,7 @@ namespace CommandView
 
         private GameMeta meta;
         public List<TroopMeta> heldTroops = new List<TroopMeta>();
+        private GameObject _batDestinationIndicator;
 
         public GameObject faceDataHolder; // assigned in this class's methods, used in the UpdateGui script
         public MeshFilter faceMeshFilter;
@@ -242,6 +243,14 @@ namespace CommandView
                 }
             }
 
+            if (heldTroops.Any() && _batDestinationIndicator == null)
+            {
+                GenerateBatNet();
+            } else if (!heldTroops.Any() && _batDestinationIndicator != null)
+            {
+                Destroy(_batDestinationIndicator);
+            }
+
             if (_planet.selectedFace == _faceNumber)
             {
                 if (!_pulsingColor)
@@ -282,6 +291,16 @@ namespace CommandView
                     _pulsingColor = false;
                 }
             }
+        }
+
+        public void GenerateBatNet()
+        {
+            CalculateFaceGeometry();
+            _batDestinationIndicator = Instantiate(Resources.Load<GameObject>("Objects/BatNet"), faceCenter,
+                Quaternion.FromToRotation(Vector3.up, faceNormal));
+            _batDestinationIndicator.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - _batDestinationIndicator.transform.position, faceNormal);
+            _batDestinationIndicator.transform.parent = gameObject.transform;
         }
 
         // When a face gets clicked
@@ -381,11 +400,7 @@ namespace CommandView
             if (!discovered)
             {
                 Debug.Log("This tile is not yet discovered");
-                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
-                if (troopSelector != null)
-                {
-                    troopSelector.ActivateTroopSelector(_faceNumber, true);
-                }
+                CloseTroopSelector();
 
                 _planet.selectedFace = -1;
 
@@ -628,6 +643,8 @@ namespace CommandView
 
                     randomFace.GetComponent<Renderer>().material.color = Color.yellow;
                     */
+                    SetColonized();
+                    
                     List<FaceHandler> undiscoveredFaces = new List<FaceHandler>();
                     List<FaceHandler> discoveredFaces = new List<FaceHandler>();
                     foreach (GameObject planetFace in _planet.faces)
@@ -635,29 +652,20 @@ namespace CommandView
                         FaceHandler curFaceHandler = planetFace.GetComponent<FaceHandler>();
                         if (!curFaceHandler.discovered)
                         {
+                            print("Added undiscovered");
                             undiscoveredFaces.Add(curFaceHandler);
                         }
                         else if (!curFaceHandler.colonized)
                         {
+                            print("added uncolonized");
                             discoveredFaces.Add(curFaceHandler);
                         }
                     }
 
-                    FaceHandler finalFace;
-                    if (undiscoveredFaces.Count == 0)
-                    {
-                        finalFace = undiscoveredFaces[Random.Range(0, undiscoveredFaces.Count)];
-                    }
-                    else
-                    {
-                        finalFace = discoveredFaces[Random.Range(0, discoveredFaces.Count)];
-                    }
+                    FaceHandler finalFace = undiscoveredFaces.Any() ? undiscoveredFaces[Random.Range(0, undiscoveredFaces.Count)] : discoveredFaces[Random.Range(0, discoveredFaces.Count)];
 
                     finalFace.heldTroops = deployedTroops;
-                    // TODO: fix with actual asset
-                    finalFace.GetComponent<Renderer>().material.color = Color.yellow;
 
-                    SetColonized();
                     GameObject canvasObject = GameObject.Find("Canvas");
                     canvasObject.GetComponent<TurnEnder>().EndTurn();
                     StartCoroutine(canvasObject.GetComponent<TroopSelection>().FlashBatsEncounterAlert());
@@ -686,6 +694,7 @@ namespace CommandView
             if (playMiniGame)
             {
                 print("Going to Battle");
+                CloseTroopSelector();
                 SceneManager.LoadScene(2);
             }
             else
@@ -741,11 +750,7 @@ namespace CommandView
             // GameObject troopSelector = GameObject.Find("TroopSelectorUI");
             // if (troopSelector != null)
             //     troopSelector.SetActive(false);
-            TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
-            if (troopSelector != null)
-            {
-                troopSelector.ActivateTroopSelector(_faceNumber, true);
-            }
+            CloseTroopSelector();
         }
 
         public void AddSensorOnTile()
@@ -754,6 +759,18 @@ namespace CommandView
             {
                 showHintOnTile = true;
                 meta.sensorTowers--;
+                
+                CloseTroopSelector();
+            }
+        }
+
+        private void CloseTroopSelector()
+        {
+            TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+            if (troopSelector != null)
+            {
+                print("Closing the selector");
+                troopSelector.ActivateTroopSelector(_faceNumber, true);
             }
         }
 
@@ -774,8 +791,8 @@ namespace CommandView
                 faceMaterial.color = DiscoveredColor[(int) biomeType - 1];
             else
                 faceMaterial.color = UndiscoveredColor;
-            if (heldTroops.Count > 0)
-                faceMaterial.color = Color.yellow;
+            // if (heldTroops.Count > 0)
+            //     faceMaterial.color = Color.yellow;
 
             _ogColor = faceMaterial.color;
         }

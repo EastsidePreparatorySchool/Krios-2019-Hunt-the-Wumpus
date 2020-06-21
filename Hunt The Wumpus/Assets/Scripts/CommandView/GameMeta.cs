@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace CommandView
@@ -105,11 +106,15 @@ namespace CommandView
             FaceHandler inBattleFaceHandler =
                 _planetHandler.faceHandlers[_planetHandler.GetFaceInBattle()];
 
-            foreach (TroopMeta heldTroop in inBattleFaceHandler.heldTroops)
+            if (inBattleFaceHandler.heldTroops.Any() && result.didWin)
             {
-                exhaustedTroops.Add(heldTroop);
+                foreach (TroopMeta heldTroop in inBattleFaceHandler.heldTroops)
+                {
+                    exhaustedTroops.Add(heldTroop);
+                }
+                inBattleFaceHandler.heldTroops = new List<TroopMeta>();
+                
             }
-            inBattleFaceHandler.heldTroops = new List<TroopMeta>();
 
             money += result.moneyCollected;
 
