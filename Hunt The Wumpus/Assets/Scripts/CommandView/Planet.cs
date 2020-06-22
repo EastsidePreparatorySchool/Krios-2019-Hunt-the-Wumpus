@@ -145,7 +145,7 @@ namespace CommandView
                     continue;
                 }
                 int biomeNum = Random.Range(0, 3);
-                faceHandler.biomeType = biomeNum == 0 ? BiomeType.Planes :
+                faceHandler.biomeType = biomeNum == 0 ? BiomeType.Plains :
                     biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
                 
                 //print(biomeNum);
