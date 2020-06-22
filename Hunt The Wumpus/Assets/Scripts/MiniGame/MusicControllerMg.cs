@@ -26,7 +26,7 @@ namespace MiniGame
             FaceHandler battleFaceHandler = _planet.faces[_planet.GetFaceInBattle()].GetComponent<FaceHandler>();
             
             // Load audio clips
-            String[] names = {"Caves", "Planes", "Desert", "Jungle"};
+            String[] names = {"Caves", "Plains", "Desert", "Jungle"};
 
             int biomeIndex = (int) battleFaceHandler.biomeType;
             if (battleFaceHandler.GetHazardObject().Equals(HazardTypes.Pit))

@@ -30,7 +30,7 @@ namespace CommandView
     public enum BiomeType
     {
         None,
-        Planes,
+        Plains,
         Desert,
         Jungle,
     }
