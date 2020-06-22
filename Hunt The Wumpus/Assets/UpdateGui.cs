@@ -19,6 +19,7 @@ public class UpdateGui : MonoBehaviour
 
     private GameObject _faceInfoBox; // Blueprint for the UI elements that will be spawned
 
+    private Image _textCover;
     private TextMeshProUGUI _troopCounter;
     private TextMeshProUGUI _moneyCounter;
     private TextMeshProUGUI _nukeCounter;
@@ -67,6 +68,7 @@ public class UpdateGui : MonoBehaviour
         _endTurnBtnTargetGraphic = _endTurnBtn.targetGraphic;
         _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
 
+        _textCover = GameObject.Find("TextCover").GetComponent<Image>();
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         _orbit = FindObjectOfType<PlanetSpin>();
 
@@ -102,6 +104,9 @@ public class UpdateGui : MonoBehaviour
             }
         }
 
+        Color coverColor = _textCover.color;
+        coverColor.a = 0f;
+        _textCover.color = coverColor;
 
         Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
         _openStoreBtnText.alpha = 0f;
@@ -137,7 +142,7 @@ public class UpdateGui : MonoBehaviour
         if (!_counterValues.Equals(curCounterValue))
         {
             _troopCounter.text = "Troops: " + _inGameMeta.availableTroops.Count + "/" +
-                                      (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
+                                 (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "A.R.R.O.Ws: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
@@ -173,8 +178,12 @@ public class UpdateGui : MonoBehaviour
         yield return new WaitForSeconds(2F);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
+        Color coverColor = _textCover.color;
         while (openStoreBtnAlpha.a < 1)
         {
+            coverColor.a += 0.1f;
+            _textCover.color = coverColor;
+
             _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
             _nukeCounter.alpha += 0.1f;
@@ -197,8 +206,12 @@ public class UpdateGui : MonoBehaviour
         yield return new WaitUntil(() => _menu.isPause == true);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
+        Color coverColor = _textCover.color;
         while (_troopCounter.alpha > 0)
         {
+            coverColor.a -= 0.1f;
+            _textCover.color = coverColor;
+
             _troopCounter.alpha -= 0.1f;
             _moneyCounter.alpha -= 0.1f;
             _nukeCounter.alpha -= 0.1f;
