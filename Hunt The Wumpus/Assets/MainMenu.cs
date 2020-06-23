@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public MusicController musicController;
     Animator cameraAnimator;
     Animator lettersAnimator;
 
@@ -33,7 +34,12 @@ public class MainMenu : MonoBehaviour
 
     public void Resume()
     {
-        planet.startGame = true;
+        if (!planet.startGame)
+        {
+            planet.startGame = true;
+            musicController.FadeOut();
+        }
+
         ZoomIn();
         HideMainMenu();
         vars.isPause = false;
@@ -54,7 +60,6 @@ public class MainMenu : MonoBehaviour
 
     public void Options()
     {
-
     }
 
     public void Save()
@@ -77,6 +82,7 @@ public class MainMenu : MonoBehaviour
         HideMainMenu();
         planet.backFromMiniGame = false;
     }
+
     void Pause()
     {
         ZoomOut();
@@ -92,24 +98,26 @@ public class MainMenu : MonoBehaviour
         print("Hiding main menu");
         GameObject.Find("MainMenuCanvas").transform.GetChild(0).gameObject.SetActive(false);
     }
+
     void ShowMainMenu()
     {
         GameObject.Find("MainMenuCanvas").transform.GetChild(0).gameObject.SetActive(true);
     }
-      void HideStoreTroopSelect()
-      {
-          GameObject troopSelector = GameObject.Find("TroopSelectorUI");
-          if (troopSelector != null)
-              GameObject.Find("Canvas").GetComponent<TroopSelection>().ActivateTroopSelector(0,true);
-  
-          GameObject store = GameObject.Find("StoreUI");
-          for (int i = 0; i<store.transform.childCount; i++)
-          {
-              var child = store.transform.GetChild(i).gameObject;
-              if (child != null)
-                  child.SetActive(false);
-          }
-      }
+
+    void HideStoreTroopSelect()
+    {
+        GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+        if (troopSelector != null)
+            GameObject.Find("Canvas").GetComponent<TroopSelection>().ActivateTroopSelector(0, true);
+
+        GameObject store = GameObject.Find("StoreUI");
+        for (int i = 0; i < store.transform.childCount; i++)
+        {
+            var child = store.transform.GetChild(i).gameObject;
+            if (child != null)
+                child.SetActive(false);
+        }
+    }
 
     void animBackFromMiniGame()
     {
@@ -128,6 +136,7 @@ public class MainMenu : MonoBehaviour
         lettersAnimator.SetBool("MoveOut", true);
         lettersAnimator.SetBool("MoveIn", false);
     }
+
     void ZoomOut()
     {
         cameraAnimator.SetBool("MoveIn", false);
