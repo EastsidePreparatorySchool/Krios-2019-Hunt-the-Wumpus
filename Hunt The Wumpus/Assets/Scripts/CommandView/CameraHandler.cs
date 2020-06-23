@@ -28,10 +28,11 @@ namespace CommandView
         void Update()
         {
             print(planetHandler.GetStartGame()+", "+planetHandler.isFadingMusic);
-            if (!ambientMusic.isPlaying && planetHandler.GetStartGame() && !planetHandler.isFadingMusic)
+            if (!ambientMusic.isPlaying && !planetHandler.isFadingMusic)
             {
                 print("Playing ambient");
                 ambientMusic.Play();
+                /*
                 if (gameStarter.introMusicStart.isPlaying)
                 {
                     gameStarter.introMusicStart.Stop();
@@ -41,9 +42,15 @@ namespace CommandView
                 {
                     gameStarter.introMusicLoop.Stop();
                 }
+                */
                 
                 AudioListener.volume = planetHandler.volume;
                 print(AudioListener.volume);
+            }
+
+            if (ambientMusic.isPlaying && Math.Abs(AudioListener.volume) < 0.01f && !planetHandler.isFadingMusic)
+            {
+                AudioListener.volume = planetHandler.volume;
             }
 
             // if (!planetHandler.isFadingMusic)
