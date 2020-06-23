@@ -72,6 +72,7 @@ namespace CommandView
         private List<GameObject> _lines = new List<GameObject>();
         public bool borderAroundTerritory;
         public List<Mountain> mountains = new List<Mountain>();
+        public int lastDisplayedTurn = 0;
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
