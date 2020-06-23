@@ -8,9 +8,11 @@ namespace CommandView
 {
     public class GameStarter : MonoBehaviour
     {
+        public bool skip;
         public Planet planetHandler;
         public GameObject[] sceneObjects;
         public GameObject letters;
+        public GameObject mainMenuPanel;
         public CanvasGroup mainMenu;
 
         public GameObject introVideo;
@@ -27,7 +29,7 @@ namespace CommandView
 
         private readonly List<Vector3> _ogScales = new List<Vector3>();
 
-        private bool _postVideo;
+        public bool postVideo;
         private static readonly int IntroVideoFinished = Animator.StringToHash("IntroVideoComplete");
 
         private void Awake()
@@ -54,9 +56,13 @@ namespace CommandView
             }
 
             mainMenu.alpha = 0f;
+            mainMenuPanel.SetActive(false);
 
-            introVideoPlayer.Play();
-            introMusicLoop.PlayDelayed(introMusicStart.clip.length);
+            if (!skip)
+            {
+                introVideoPlayer.Play();
+                introMusicLoop.PlayDelayed(introMusicStart.clip.length);
+            }
         }
 
         // Start is called before the first frame update
@@ -67,7 +73,7 @@ namespace CommandView
         // Update is called once per frame
         void Update()
         {
-            if (!introVideoPlayer.isPlaying && !_postVideo)
+            if (!introVideoPlayer.isPlaying && !postVideo)
             {
                 for (int i = 0; i < sceneObjects.Length; i++)
                 {
@@ -76,23 +82,34 @@ namespace CommandView
 
                 introVideo.SetActive(false);
                 postVideoCameraWhip.SetBool(IntroVideoFinished, true);
-                _postVideo = true;
+                postVideo = true;
             }
 
-            if (_postVideo && !_letterRenderers[0].material.color.Equals(_opaqueColor))
+            if (postVideo && _letterRenderers[0].material.color.a < 0.99f && Time.time > 36.963)
             {
                 foreach (Renderer letterRenderer in _letterRenderers)
                 {
                     letterRenderer.material.color =
-                        Color.Lerp(letterRenderer.material.color, _opaqueColor, Time.deltaTime * 2);
+                        Color.Lerp(letterRenderer.material.color, _opaqueColor, Time.deltaTime * 3);
                 }
             }
-            else if (_letterRenderers[0].material.color.Equals(_opaqueColor))
+            else if (postVideo && _letterRenderers[0].material.color.a > 0.99f && mainMenu.alpha < 0.99f)
             {
                 foreach (Renderer letterRenderer in _letterRenderers)
                 {
                     letterRenderer.material = titleTextOpaque;
                 }
+
+                if (!mainMenuPanel.activeSelf)
+                {
+                    mainMenuPanel.SetActive(true);
+                }
+
+                mainMenu.alpha = Mathf.Lerp(mainMenu.alpha, 1, Time.deltaTime * 3);
+            }
+            else if (mainMenu.alpha > 0.99f)
+            {
+                mainMenu.alpha = 1;
             }
         }
     }

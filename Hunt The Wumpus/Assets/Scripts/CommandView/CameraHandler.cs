@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CommandView
@@ -25,7 +26,7 @@ namespace CommandView
         // Update is called once per frame
         void Update()
         {
-            if (!ambientMusic.isPlaying && planetHandler.startGame)
+            if (!ambientMusic.isPlaying && planetHandler.startGame && Math.Abs(AudioListener.volume) < 0.001)
             {
                 AudioListener.volume = 1f;
                 ambientMusic.Play();

@@ -3602,19 +3602,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9528b8c9a342e70459c34e2b174974e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skip: 0
   planetHandler: {fileID: 2076108097}
   sceneObjects:
   - {fileID: 894919570}
   - {fileID: 430528901}
   letters: {fileID: 1027875045}
+  mainMenuPanel: {fileID: 1666786910}
   mainMenu: {fileID: 696549412}
   introVideo: {fileID: 851820985}
   introVideoPlayer: {fileID: 851820986}
   introMusicStart: {fileID: 422821110}
   introMusicLoop: {fileID: 422821109}
-  postVideoCameraWhip: {fileID: 0}
+  postVideoCameraWhip: {fileID: 657961591}
   titleTextOpaque: {fileID: 2100000, guid: 7210daf93e14b724dad299519f311333, type: 2}
   titleTextFade: {fileID: 2100000, guid: 7a14f64c1717b4d4fa498e20dffcc06c, type: 2}
+  postVideo: 0
 --- !u!4 &422821108
 Transform:
   m_ObjectHideFlags: 0
@@ -16662,6 +16665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cade481669c114d9066616e69814cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  starterHandler: {fileID: 422821107}
   beginningSpin: 75
   spinSlowFactor: 0.99
   minSpinSpeedBeforeZero: 10

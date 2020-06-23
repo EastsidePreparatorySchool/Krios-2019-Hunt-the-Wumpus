@@ -1,6 +1,7 @@
 ﻿using CommandView;
 using System.Collections;
 using System.Collections.Generic;
+using Gui;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -24,7 +25,7 @@ public class MainMenu : MonoBehaviour
 
     void Update()
     {
-        if (planet.backFromMiniGame == true)
+        if (planet.backFromMiniGame)
             backFromMiniGame();
         if (Input.GetKeyDown(KeyCode.Escape))
             Pause();
@@ -32,6 +33,7 @@ public class MainMenu : MonoBehaviour
 
     public void Resume()
     {
+        planet.startGame = true;
         ZoomIn();
         HideMainMenu();
         vars.isPause = false;
@@ -45,7 +47,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGame()
     {
-        GameObject.Find("Planet").GetComponent<Planet>().Loadfunc();
+        planet.Loadfunc();
         print("loaded");
         Resume();
     }
@@ -87,6 +89,7 @@ public class MainMenu : MonoBehaviour
 
     void HideMainMenu()
     {
+        print("Hiding main menu");
         GameObject.Find("MainMenuCanvas").transform.GetChild(0).gameObject.SetActive(false);
     }
     void ShowMainMenu()
@@ -95,9 +98,9 @@ public class MainMenu : MonoBehaviour
     }
       void HideStoreTroopSelect()
       {
-          GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
-          if (TroopSelector != null)
-              TroopSelector.SetActive(false);
+          GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+          if (troopSelector != null)
+              GameObject.Find("Canvas").GetComponent<TroopSelection>().ActivateTroopSelector(0,true);
   
           GameObject store = GameObject.Find("StoreUI");
           for (int i = 0; i<store.transform.childCount; i++)

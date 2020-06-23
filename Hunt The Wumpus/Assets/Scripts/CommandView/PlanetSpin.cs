@@ -5,6 +5,7 @@ namespace CommandView
 {
     public class PlanetSpin : MonoBehaviour
     {
+        public GameStarter starterHandler;
         public float beginningSpin = 0; //500.0f;
         public float spinSlowFactor = 0.99f; //beginningSpin is multiplied by this every frame to slow it down
 
@@ -35,12 +36,14 @@ namespace CommandView
             _horizontalInput = Input.GetAxis("Horizontal");
             _verticalInput = Input.GetAxis("Vertical");
 
-            UpdateSpin(); //for the fun animation at the beginning
+            if (starterHandler.postVideo)
+            {
+                UpdateSpin(); //for the fun animation at the beginning
+            }
 
 
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
-
                 // float vertDelta = Time.deltaTime * rotationSpeed * -_verticalInput;
                 // if (_verticalTilt > 50)
                 // {
@@ -58,7 +61,6 @@ namespace CommandView
 
 
                 // print(vertDelta + ", " + _verticalTilt);
-
             }
         }
 
