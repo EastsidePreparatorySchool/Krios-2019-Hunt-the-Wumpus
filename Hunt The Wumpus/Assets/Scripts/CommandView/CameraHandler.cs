@@ -7,6 +7,7 @@ namespace CommandView
     public class CameraHandler : MonoBehaviour
     {
         public Planet planetHandler;
+        public GameStarter gameStarter;
         public float beginningDistance = 30.0f;
         public float targetDistance = 17.0f; //will be at this most of the game
         public float zoomSpeed = 5.0f; //how fast it zooms in at the beginning of the game
@@ -28,8 +29,18 @@ namespace CommandView
         {
             if (!ambientMusic.isPlaying && planetHandler.startGame && Math.Abs(AudioListener.volume) < 0.001)
             {
-                AudioListener.volume = 1f;
                 ambientMusic.Play();
+                if (gameStarter.introMusicStart.isPlaying)
+                {
+                    gameStarter.introMusicStart.Stop();
+                }
+
+                if (gameStarter.introMusicLoop.isPlaying)
+                {
+                    gameStarter.introMusicLoop.Stop();
+                }
+                
+                AudioListener.volume = 1f; //planetHandler.volume
             }
 
             PushInAnim();
