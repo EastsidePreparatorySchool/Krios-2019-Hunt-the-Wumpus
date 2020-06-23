@@ -42,7 +42,8 @@ namespace CommandView
     // Planet will be the Global (constant) data holder
     public class Planet : MonoBehaviour
     {
-        public bool backFromMiniGame = false;
+        public bool backFromMiniGame;
+        public bool startGame;
 
         public int maxUpgrades;
 

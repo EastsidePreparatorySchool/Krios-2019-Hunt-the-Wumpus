@@ -221,17 +221,17 @@ namespace CommandView
         private void Update()
         {
             // CalculateFaceGeometry();
-            if (!_firstTimeRun)
-            {
-                string temp = "Face " + _faceNumber + " has states: ";
-                foreach (bool i in state)
-                {
-                    temp += i + ", ";
-                }
-
-                //print(temp);
-                _firstTimeRun = true;
-            }
+            // if (!_firstTimeRun)
+            // {
+            //     string temp = "Face " + _faceNumber + " has states: ";
+            //     foreach (bool i in state)
+            //     {
+            //         temp += i + ", ";
+            //     }
+            //
+            //     //print(temp);
+            //     _firstTimeRun = true;
+            // }
 
             if (colonized && showHintOnTile)
             {
