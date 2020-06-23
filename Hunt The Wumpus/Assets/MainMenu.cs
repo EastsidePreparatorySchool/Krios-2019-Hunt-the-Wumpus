@@ -38,10 +38,16 @@ public class MainMenu : MonoBehaviour
         {
             if (optionsPanel.activeSelf)
                 optionsPanel.SetActive(false);
-            else if (MainMenuPanel.activeSelf)
+            else if (MainMenuPanel.activeSelf && planet.readyToPlay)
+            {
+                planet.readyToPlay = false;
                 Resume();
-            else if (!MainMenuPanel.activeSelf)
+            }
+            else if (!MainMenuPanel.activeSelf && planet.readyToPause)
+            {
+                planet.readyToPause = false;
                 Pause();
+            }
         }
     }
 

@@ -6,6 +6,7 @@ using SaveLoad;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
 
 public enum HazardTypes
 {
@@ -46,6 +47,10 @@ namespace CommandView
         public bool ambientOcclusion = true;
 
         public float volume = 0.5f;
+
+        public bool readyToPause = false;
+        public bool readyToPlay = true;
+        
 
         public bool backFromMiniGame = false;
 
