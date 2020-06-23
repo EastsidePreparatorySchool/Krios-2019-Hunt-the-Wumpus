@@ -12,7 +12,6 @@ public class CursorController : MonoBehaviour
     {
         //Cursor.visible = false;
         //img = GetComponent<Image>();
-        Cursor.visible = false;
 
     }
 
