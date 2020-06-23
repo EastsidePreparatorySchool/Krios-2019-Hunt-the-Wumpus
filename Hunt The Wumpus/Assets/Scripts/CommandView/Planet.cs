@@ -42,6 +42,9 @@ namespace CommandView
     // Planet will be the Global (constant) data holder
     public class Planet : MonoBehaviour
     {
+        public bool bloom = true;
+        public bool ambientOcclusion = true;
+
         public float volume = 0.5f;
 
         public bool backFromMiniGame = false;

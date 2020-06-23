@@ -7,7 +7,10 @@ using UnityEngine.UI;
 public class SettingsMenu : MonoBehaviour
 {
     public GameObject volumePercent;
-    public GameObject planet;
+    public Planet planet;
+    public GameObject AOVolume;
+
+   
 
     public int[,] Resolutions = new int[3,2];
 
@@ -37,9 +40,19 @@ public class SettingsMenu : MonoBehaviour
         QualitySettings.SetQualityLevel(qualityInex);
     }
 
+    public void SetBloom(bool bloomOn)
+    {
+        planet.bloom = bloomOn;
+    }
+
+    public void SetAO(bool AOOn)
+    {
+        planet.ambientOcclusion = AOOn;
+    }
+
     public void SetVolume (float volume)
     {
-        planet.GetComponent<Planet>().volume = volume;
+        planet.volume = volume;
         print(volume);
         AudioListener.volume = volume;
         volumePercent.GetComponent<Text>().text = "Volume: " + Mathf.Round(volume * 100).ToString() + "%";

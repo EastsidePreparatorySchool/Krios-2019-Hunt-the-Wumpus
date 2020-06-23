@@ -11,6 +11,12 @@ public class MainMenu : MonoBehaviour
     Animator cameraAnimator;
     Animator lettersAnimator;
 
+    public GameObject OptionsMenu;
+    GameObject optionsPanel;
+
+    public GameObject MainMenuCanvas;
+    GameObject MainMenuPanel;
+
     Planet planet;
     MainMenuVars vars;
 
@@ -20,6 +26,8 @@ public class MainMenu : MonoBehaviour
         lettersAnimator = GameObject.Find("Letters").GetComponent<Animator>();
         planet = GameObject.Find("Planet").GetComponent<Planet>();
         vars = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
+        optionsPanel = OptionsMenu.transform.Find("Panel").gameObject;
+        MainMenuPanel = MainMenuCanvas.transform.Find("MenuPanel").gameObject;
     }
 
     void Update()
@@ -27,7 +35,14 @@ public class MainMenu : MonoBehaviour
         if (planet.backFromMiniGame == true)
             backFromMiniGame();
         if (Input.GetKeyDown(KeyCode.Escape))
-            Pause();
+        {
+            if (optionsPanel.activeSelf)
+                optionsPanel.SetActive(false);
+            else if (MainMenuPanel.activeSelf)
+                Resume();
+            else if (!MainMenuPanel.activeSelf)
+                Pause();
+        }
     }
 
     public void Resume()
@@ -52,7 +67,7 @@ public class MainMenu : MonoBehaviour
 
     public void Options()
     {
-
+        optionsPanel.SetActive(!optionsPanel.activeSelf);
     }
 
     public void Save()
