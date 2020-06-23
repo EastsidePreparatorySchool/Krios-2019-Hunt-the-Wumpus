@@ -1,11 +1,10 @@
-﻿using System.Collections;
+﻿using CommandView;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public void FadeOut()
     {
         StartCoroutine(FaderOut());
@@ -24,10 +23,8 @@ public class MusicController : MonoBehaviour
             yield return null;
         }       
     }
-
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

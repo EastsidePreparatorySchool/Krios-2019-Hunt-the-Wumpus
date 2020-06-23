@@ -6,6 +6,7 @@ using SaveLoad;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
 
 public enum HazardTypes
 {
@@ -42,6 +43,15 @@ namespace CommandView
     // Planet will be the Global (constant) data holder
     public class Planet : MonoBehaviour
     {
+        public bool bloom = true;
+        public bool ambientOcclusion = true;
+
+        public float volume = 0.5f;
+
+        public bool readyToPause = false;
+        public bool readyToPlay = true;
+        
+
         public bool backFromMiniGame = false;
 
         public int maxUpgrades;
@@ -96,10 +106,13 @@ namespace CommandView
         public GameMeta meta;
         public MiniGameResult result;
 
+        public int selectedFace = -1;
+
         public bool didSomething;
 
         private void Awake()
         {
+            volume = .5f;
             // make sure there is only one instance of the Planet and make it persistent
             if (Instance == null)
             {
@@ -144,7 +157,7 @@ namespace CommandView
                     continue;
                 }
                 int biomeNum = Random.Range(0, 3);
-                faceHandler.biomeType = biomeNum == 0 ? BiomeType.Planes :
+                faceHandler.biomeType = biomeNum == 0 ? BiomeType.Plains :
                     biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
                 
                 //print(biomeNum);

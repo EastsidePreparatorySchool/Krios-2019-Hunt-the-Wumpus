@@ -53,10 +53,17 @@ namespace Gui
         // Update is called once per frame
         void Update()
         {
+
             if (needsRefresh)
             {
-                foreach (GameObject toggle in _toggles)
-                    Destroy(toggle);
+                for (int i = 0; i < scrollViewContent.transform.childCount; i++)
+                {
+                    var child = scrollViewContent.transform.GetChild(i).gameObject;
+                    if (child != null)
+                        Destroy(child);
+                }
+                //foreach (GameObject toggle in _toggles)
+                //    Destroy(toggle);
                 
                 foreach (var troop in _gameMeta.availableTroops)
                     _toggles.Add(CreateNewToggle(troop));
@@ -95,10 +102,10 @@ namespace Gui
                     foreach (var troop in _gameMeta.availableTroops)
                         _toggles.Add(CreateNewToggle(troop));
                 }
-                if (_gameMeta.availableTroops.Count() == 0)
+                if (!_gameMeta.availableTroops.Any())
                 {
-                    if (_gameMeta.exhaustedTroops.Count() > 0)
-                        CreateLabel(_gameMeta.exhaustedTroops.Count() + " Exhausted Troops");
+                    if (_gameMeta.exhaustedTroops.Any())
+                        CreateLabel(_gameMeta.exhaustedTroops.Count + " Exhausted Troops");
                     else
                         CreateLabel("All your troops have died");
                 }
@@ -112,6 +119,7 @@ namespace Gui
                 }
 
                 _toggles.Clear();
+                _planetHandler.selectedFace = -1;
             }
         }
 

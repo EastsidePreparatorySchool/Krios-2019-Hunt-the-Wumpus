@@ -218,6 +218,7 @@ public class UpdateGui : MonoBehaviour
                 _endTurnBtnTargetGraphic.color = endTurnBtnAlpha;
             }, 0, 1, fade));
         }
+        _planetHandler.readyToPause = true;
     }
 
     private IEnumerator FadeOut()
@@ -266,6 +267,7 @@ public class UpdateGui : MonoBehaviour
                 _endTurnBtnTargetGraphic.color = endTurnBtnAlpha;
             }, 1, 0, fade));
         }
+        _planetHandler.readyToPlay = true;
     }
 
     private IEnumerator TurnDisplayAnimation(int turnToDisplay)

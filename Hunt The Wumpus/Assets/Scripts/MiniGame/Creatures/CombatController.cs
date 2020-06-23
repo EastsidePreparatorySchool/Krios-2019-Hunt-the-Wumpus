@@ -86,8 +86,11 @@ namespace MiniGame.Creatures
             {
                 isAttacking = true;
 
-                GetComponent<ParticleSystem>().Play();
-                _particleTimeoutTime = Time.deltaTime + particleTimeout;
+                if (!isEnemy)
+                {
+                    GetComponent<ParticleSystem>().Play();
+                    _particleTimeoutTime = Time.deltaTime + particleTimeout;
+                }
 
                 target.healthmgr.TakeDamage(attackDamage);
             }
@@ -123,13 +126,13 @@ namespace MiniGame.Creatures
                     //if b attacks and a doesn't, return 1
                     return (a.doesAttack ? -1 : 1);
                 }
-            
+
                 //if they both attack or neither attack, closer one goes first
                 float aDist = (a.gameObject.transform.position - transform.position).sqrMagnitude;
                 float bDist = (b.gameObject.transform.position - transform.position).sqrMagnitude;
                 return ((aDist - bDist) < 0 ? -1 : 1);
             });
-            
+
             target = enemies[0];
         }
 

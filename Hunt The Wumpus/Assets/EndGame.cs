@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class EndGame : MonoBehaviour
 {
+    private GameObject _actualPlanet;
     private Planet _planet;
     private MainMenu _mainMenu;
     public TextMeshProUGUI endText;
@@ -18,6 +19,7 @@ public class EndGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _actualPlanet = GameObject.Find("Planet");
         _planet = GameObject.Find("Planet").GetComponent<Planet>();
         _mainMenu = GameObject.Find("Main Camera").GetComponent<MainMenu>();
     }
@@ -67,6 +69,7 @@ public class EndGame : MonoBehaviour
         else
         {
             _planet.curGameStatus = 0;
+            Destroy(_actualPlanet);
             _mainMenu.NewGame();
         }
     }
