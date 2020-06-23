@@ -34,33 +34,43 @@ namespace CommandView
 
         private void Awake()
         {
-            foreach (GameObject sceneObject in sceneObjects)
+            // DontDestroyOnLoad(gameObject);
+            if (!skip && Time.time < 1f)
             {
-                _ogScales.Add(sceneObject.transform.localScale);
-                sceneObject.transform.localScale = Vector3.zero;
-            }
+                foreach (GameObject sceneObject in sceneObjects)
+                {
+                    _ogScales.Add(sceneObject.transform.localScale);
+                    sceneObject.transform.localScale = Vector3.zero;
+                }
 
-            for (int i = 0; i < letters.transform.childCount; i++)
-            {
-                GameObject letter = letters.transform.GetChild(i).gameObject;
-                Renderer letterRenderer = letter.GetComponent<Renderer>();
-                _letterRenderers[i] = letterRenderer;
-                letterRenderer.material = titleTextFade;
-                Material letterMaterial = letterRenderer.material;
+                for (int i = 0; i < letters.transform.childCount; i++)
+                {
+                    GameObject letter = letters.transform.GetChild(i).gameObject;
+                    Renderer letterRenderer = letter.GetComponent<Renderer>();
+                    _letterRenderers[i] = letterRenderer;
+                    letterRenderer.material = titleTextFade;
+                    Material letterMaterial = letterRenderer.material;
 
-                Color letterColor = letterMaterial.color;
-                _opaqueColor = letterColor;
-                letterColor.a = 0f;
-                _transparentColor = letterColor;
-                letterMaterial.color = letterColor;
-            }
+                    Color letterColor = letterMaterial.color;
+                    _opaqueColor = letterColor;
+                    letterColor.a = 0f;
+                    _transparentColor = letterColor;
+                    letterMaterial.color = letterColor;
+                }
 
-            mainMenu.alpha = 0f;
-            mainMenuPanel.SetActive(false);
+                mainMenu.alpha = 0f;
+                mainMenuPanel.SetActive(false);
 
-            if (!skip)
-            {
+                if (!introVideo.activeSelf)
+                {
+                    introVideo.SetActive(true);
+                }
+
+                AudioListener.volume = planetHandler.volume;
+                
+                introMusicStart.Play();
                 introVideoPlayer.Play();
+                print("Playing Video");
                 introMusicLoop.PlayDelayed(introMusicStart.clip.length);
             }
         }
@@ -73,43 +83,52 @@ namespace CommandView
         // Update is called once per frame
         void Update()
         {
-            if (!introVideoPlayer.isPlaying && !postVideo)
+            if (!skip && !planetHandler.GetStartGame())
             {
-                for (int i = 0; i < sceneObjects.Length; i++)
+                if (!introVideoPlayer.isPlaying && !postVideo)
                 {
-                    sceneObjects[i].transform.localScale = _ogScales[i];
+                    for (int i = 0; i < sceneObjects.Length; i++)
+                    {
+                        sceneObjects[i].transform.localScale = _ogScales[i];
+                    }
+
+                    introVideo.SetActive(false);
+                    postVideoCameraWhip.SetBool(IntroVideoFinished, true);
+                    postVideo = true;
                 }
 
-                introVideo.SetActive(false);
+                if (postVideo && _letterRenderers[0].material.color.a < 0.99f && Time.time > 36.963)
+                {
+                    foreach (Renderer letterRenderer in _letterRenderers)
+                    {
+                        letterRenderer.material.color =
+                            Color.Lerp(letterRenderer.material.color, _opaqueColor, Time.deltaTime * 3);
+                    }
+                }
+                else if (postVideo && _letterRenderers[0].material.color.a > 0.99f && mainMenu.alpha < 0.99f)
+                {
+                    foreach (Renderer letterRenderer in _letterRenderers)
+                    {
+                        letterRenderer.material = titleTextOpaque;
+                    }
+
+                    if (!mainMenuPanel.activeSelf)
+                    {
+                        mainMenuPanel.SetActive(true);
+                    }
+
+                    mainMenu.alpha = Mathf.Lerp(mainMenu.alpha, 1, Time.deltaTime * 3);
+                }
+                else if (mainMenu.alpha > 0.99f)
+                {
+                    mainMenu.alpha = 1;
+                }
+            }
+            else if (!planetHandler.GetStartGame())
+            {
                 postVideoCameraWhip.SetBool(IntroVideoFinished, true);
                 postVideo = true;
-            }
-
-            if (postVideo && _letterRenderers[0].material.color.a < 0.99f && Time.time > 36.963)
-            {
-                foreach (Renderer letterRenderer in _letterRenderers)
-                {
-                    letterRenderer.material.color =
-                        Color.Lerp(letterRenderer.material.color, _opaqueColor, Time.deltaTime * 3);
-                }
-            }
-            else if (postVideo && _letterRenderers[0].material.color.a > 0.99f && mainMenu.alpha < 0.99f)
-            {
-                foreach (Renderer letterRenderer in _letterRenderers)
-                {
-                    letterRenderer.material = titleTextOpaque;
-                }
-
-                if (!mainMenuPanel.activeSelf)
-                {
-                    mainMenuPanel.SetActive(true);
-                }
-
-                mainMenu.alpha = Mathf.Lerp(mainMenu.alpha, 1, Time.deltaTime * 3);
-            }
-            else if (mainMenu.alpha > 0.99f)
-            {
-                mainMenu.alpha = 1;
+                planetHandler.SetStartGame();
             }
         }
     }

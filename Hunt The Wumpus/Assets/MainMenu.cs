@@ -55,9 +55,9 @@ public class MainMenu : MonoBehaviour
 
     public void Resume()
     {
-        if (!planet.startGame)
+        if (!planet.GetStartGame())
         {
-            planet.startGame = true;
+            planet.SetStartGame();
             musicController.FadeOut();
         }
 

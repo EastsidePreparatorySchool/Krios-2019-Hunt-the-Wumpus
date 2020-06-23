@@ -27,8 +27,10 @@ namespace CommandView
         // Update is called once per frame
         void Update()
         {
-            if (!ambientMusic.isPlaying && planetHandler.startGame && Math.Abs(AudioListener.volume) < 0.001)
+            print(planetHandler.GetStartGame()+", "+planetHandler.isFadingMusic);
+            if (!ambientMusic.isPlaying && planetHandler.GetStartGame() && !planetHandler.isFadingMusic)
             {
+                print("Playing ambient");
                 ambientMusic.Play();
                 if (gameStarter.introMusicStart.isPlaying)
                 {
@@ -41,7 +43,15 @@ namespace CommandView
                 }
                 
                 AudioListener.volume = planetHandler.volume;
+                print(AudioListener.volume);
             }
+
+            // if (!planetHandler.isFadingMusic)
+            // {
+            //     // ambientMusic.Play();
+            //     AudioListener.volume = planetHandler.volume;
+            // }
+            print(ambientMusic.isPlaying+", "+AudioListener.volume);
 
             PushInAnim();
         }

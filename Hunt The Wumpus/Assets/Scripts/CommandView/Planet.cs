@@ -44,7 +44,8 @@ namespace CommandView
     public class Planet : MonoBehaviour
     {
         public bool backFromMiniGame;
-        public bool startGame;
+        private bool _startGame;
+        public bool isFadingMusic;
         public bool bloom = true;
         public bool ambientOcclusion = true;
 
@@ -991,6 +992,16 @@ namespace CommandView
                 if (!data.isExausted[i] && !data.isHeld[i])
                     meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
             }
+        }
+
+        public void SetStartGame(bool to = true)
+        {
+            _startGame = to;
+        }
+
+        public bool GetStartGame()
+        {
+            return _startGame;
         }
 
     }

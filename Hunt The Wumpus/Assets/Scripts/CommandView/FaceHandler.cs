@@ -690,6 +690,11 @@ namespace CommandView
             _planet.GetComponent<MusicController>().FadeOut();
 
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
+            
+            // print("Stopping ambient");
+            // CameraHandler cameraHandler = GameObject.Find("Main Camera").GetComponent<CameraHandler>();
+            // cameraHandler.ambientMusic.Stop();
+            // print(cameraHandler.ambientMusic.isPlaying);
 
             if (playMiniGame)
             {
