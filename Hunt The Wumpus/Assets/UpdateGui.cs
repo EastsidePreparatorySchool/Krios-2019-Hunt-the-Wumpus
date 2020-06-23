@@ -190,6 +190,7 @@ public class UpdateGui : MonoBehaviour
 
             yield return new WaitForSeconds(0.025F);
         }
+        _planetHandler.readyToPause = true;
     }
 
     private IEnumerator FadeOut()
@@ -214,6 +215,7 @@ public class UpdateGui : MonoBehaviour
 
             yield return new WaitForSeconds(0.025F);
         }
+        _planetHandler.readyToPlay = true;
     }
 
     private IEnumerator TurnDisplayAnimation()
