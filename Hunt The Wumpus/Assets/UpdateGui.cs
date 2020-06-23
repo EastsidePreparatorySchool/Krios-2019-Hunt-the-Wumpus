@@ -23,7 +23,6 @@ public class UpdateGui : MonoBehaviour
 
     private GameObject _faceInfoBox; // Blueprint for the UI elements that will be spawned
 
-    private Image _textCover;
     private TextMeshProUGUI _troopCounter;
     private TextMeshProUGUI _moneyCounter;
     private TextMeshProUGUI _nukeCounter;
@@ -71,7 +70,6 @@ public class UpdateGui : MonoBehaviour
         _endTurnBtnTargetGraphic = _endTurnBtn.targetGraphic;
         _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
 
-        _textCover = GameObject.Find("TextCover").GetComponent<Image>();
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         _orbit = FindObjectOfType<PlanetSpin>();
 
@@ -106,10 +104,6 @@ public class UpdateGui : MonoBehaviour
                     break;
             }
         }
-
-        Color coverColor = _textCover.color;
-        coverColor.a = 0f;
-        _textCover.color = coverColor;
 
         Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
         _openStoreBtnText.alpha = 0f;

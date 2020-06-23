@@ -40,7 +40,7 @@ namespace CommandView
                     gameStarter.introMusicLoop.Stop();
                 }
                 
-                AudioListener.volume = 1f; //planetHandler.volume
+                AudioListener.volume = planetHandler.volume;
             }
 
             PushInAnim();
