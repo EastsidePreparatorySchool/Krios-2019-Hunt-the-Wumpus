@@ -6,6 +6,7 @@ using SaveLoad;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
 
 public enum HazardTypes
 {
@@ -44,6 +45,13 @@ namespace CommandView
     {
         public bool backFromMiniGame;
         public bool startGame;
+        public bool bloom = true;
+        public bool ambientOcclusion = true;
+
+        public float volume = 0.5f;
+
+        public bool readyToPause = false;
+        public bool readyToPlay = true;
 
         public int maxUpgrades;
 
@@ -73,6 +81,7 @@ namespace CommandView
         private List<GameObject> _lines = new List<GameObject>();
         public bool borderAroundTerritory;
         public List<Mountain> mountains = new List<Mountain>();
+        public int lastDisplayedTurn = 0;
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
@@ -102,6 +111,7 @@ namespace CommandView
 
         private void Awake()
         {
+            volume = .5f;
             // make sure there is only one instance of the Planet and make it persistent
             if (Instance == null)
             {

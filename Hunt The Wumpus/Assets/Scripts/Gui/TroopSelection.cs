@@ -53,10 +53,17 @@ namespace Gui
         // Update is called once per frame
         void Update()
         {
+
             if (needsRefresh)
             {
-                foreach (GameObject toggle in _toggles)
-                    Destroy(toggle);
+                for (int i = 0; i < scrollViewContent.transform.childCount; i++)
+                {
+                    var child = scrollViewContent.transform.GetChild(i).gameObject;
+                    if (child != null)
+                        Destroy(child);
+                }
+                //foreach (GameObject toggle in _toggles)
+                //    Destroy(toggle);
                 
                 foreach (var troop in _gameMeta.availableTroops)
                     _toggles.Add(CreateNewToggle(troop));

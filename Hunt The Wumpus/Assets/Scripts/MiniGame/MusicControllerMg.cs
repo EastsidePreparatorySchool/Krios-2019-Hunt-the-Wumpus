@@ -39,7 +39,7 @@ namespace MiniGame
             startAudioSource.clip = _startClip;
             loopAudioSource.clip = _loopClip;
 
-            AudioListener.volume = 1;
+            AudioListener.volume = _planet.volume;
             startAudioSource.Play();
             loopAudioSource.PlayDelayed(_startClip.length);
         }

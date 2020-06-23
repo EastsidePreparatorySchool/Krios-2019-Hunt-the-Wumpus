@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gui;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,6 +144,8 @@ namespace CommandView
                      money++;
                  }
              }
+
+            GameObject.Find("Canvas").GetComponent<TroopSelection>().needsRefresh = true;
          }
      }
  }
