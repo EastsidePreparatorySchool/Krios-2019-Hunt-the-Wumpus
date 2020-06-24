@@ -45,7 +45,7 @@ namespace CommandView
                 */
                 
                 AudioListener.volume = planetHandler.volume;
-                print(AudioListener.volume);
+                // print(AudioListener.volume);
             }
 
             if (ambientMusic.isPlaying && Math.Abs(AudioListener.volume) < 0.01f && !planetHandler.isFadingMusic)
@@ -58,7 +58,7 @@ namespace CommandView
             //     // ambientMusic.Play();
             //     AudioListener.volume = planetHandler.volume;
             // }
-            print(ambientMusic.isPlaying+", "+AudioListener.volume);
+            // print(ambientMusic.isPlaying+", "+AudioListener.volume);
 
             PushInAnim();
         }
