@@ -555,6 +555,9 @@ namespace CommandView
 
             if (deployedTroops.Count != 0)
             {
+                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+                troopSelector.ActivateTroopSelector(_faceNumber, true);
+                
                 foreach (var troop in deployedTroops)
                 {
                     meta.availableTroops.Remove(troop);
@@ -564,7 +567,7 @@ namespace CommandView
                 if (_planet.wumpus.location.Equals(this))
                 {
                     if (meta.availableTroops.Count == 0 && meta.exhaustedTroops.Count == 0 && meta.nukes == 0 &&
-                        meta.money < 5 && _planet.didSomething)
+                        meta.money < 5 && !_planet.didSomething)
                     {
                         _planet.curGameStatus = GameStatus.RanOutOfResources;
                     }
