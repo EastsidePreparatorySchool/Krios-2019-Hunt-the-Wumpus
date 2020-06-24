@@ -19,6 +19,8 @@ public class MainMenu : MonoBehaviour
     public GameObject MainMenuCanvas;
     GameObject MainMenuPanel;
 
+    public SettingsMenu settings;
+
     Planet planet;
     MainMenuVars vars;
 
@@ -38,7 +40,9 @@ public class MainMenu : MonoBehaviour
             backFromMiniGame();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (optionsPanel.activeSelf)
+            if (settings.inCredits)
+                settings.Credits();
+            else if (optionsPanel.activeSelf)
                 optionsPanel.SetActive(false);
             else if (MainMenuPanel.activeSelf && planet.readyToPlay)
             {
