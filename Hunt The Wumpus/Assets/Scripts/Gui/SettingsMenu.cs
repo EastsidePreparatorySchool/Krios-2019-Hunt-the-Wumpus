@@ -9,10 +9,11 @@ public class SettingsMenu : MonoBehaviour
     public GameObject volumePercent;
     public Planet planet;
     public GameObject AOVolume;
+    public GameObject CreditsCanvas;
 
-   
+    public bool inCredits = false;
 
-    public int[,] Resolutions = new int[3,2];
+    private int[,] Resolutions = new int[3,2];
 
     void Start()
     {
@@ -24,6 +25,15 @@ public class SettingsMenu : MonoBehaviour
 
         Resolutions[2, 0] = 2560;
         Resolutions[2, 1] = 1440;
+    }
+
+    void Update()
+    {
+        if (transform.InverseTransformPoint(CreditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().position).y > 3400f)
+        {
+            CreditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().transform.Translate(0, -400, 0);
+            Credits();
+        }
     }
 
     public void SetResolution(int resolutionIndex)
@@ -56,5 +66,11 @@ public class SettingsMenu : MonoBehaviour
         print(volume);
         AudioListener.volume = volume;
         volumePercent.GetComponent<Text>().text = "Volume: " + Mathf.Round(volume * 100).ToString() + "%";
+    }
+
+    public void Credits()
+    {
+        inCredits = !inCredits;
+        CreditsCanvas.SetActive(!CreditsCanvas.activeSelf);
     }
 }
