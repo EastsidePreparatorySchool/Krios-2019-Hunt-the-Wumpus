@@ -175,7 +175,7 @@ namespace Gui
         public IEnumerator FlashBatsEncounterAlert()
         {
             BatEncounterAlertText.SetActive(true);
-            float nextTime = Time.time + 5f;
+            float nextTime = Time.time + 10f;
             yield return new WaitUntil(() => Time.time > nextTime);
             BatEncounterAlertText.SetActive(false);
         }
