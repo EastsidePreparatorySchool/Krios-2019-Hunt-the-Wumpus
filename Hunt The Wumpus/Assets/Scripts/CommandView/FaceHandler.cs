@@ -182,7 +182,17 @@ namespace CommandView
         {
             CalculateFaceGeometry();
 
+
+            if (_hintsGo != null)
+            {
+                foreach (GameObject o in _hintsGo)
+                {
+                    Destroy(o);
+                }
+            }
+
             _hintsGo = new List<GameObject>();
+
             String[] hintGoResourcePathStrings = {"Wumpus", "Pit", "Bat"};
             foreach (string hazardName in hintGoResourcePathStrings)
             {
@@ -203,18 +213,21 @@ namespace CommandView
                 _hintsGo.Add(hintObject);
             }
 
-            _sensorTowerIcon = Instantiate(Resources.Load<GameObject>("Objects/HintTiles/SensorTower"),
-                faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
+            if (_sensorTowerIcon == null)
+            {
+                _sensorTowerIcon = Instantiate(Resources.Load<GameObject>("Objects/HintTiles/SensorTower"),
+                    faceCenter, Quaternion.FromToRotation(Vector3.up, faceNormal));
 
-            _sensorTowerIcon.transform.rotation =
-                Quaternion.LookRotation(_majorAxisA - _sensorTowerIcon.transform.position, faceNormal);
+                _sensorTowerIcon.transform.rotation =
+                    Quaternion.LookRotation(_majorAxisA - _sensorTowerIcon.transform.position, faceNormal);
 
-            _sensorTowerIcon.transform.parent = gameObject.transform;
+                _sensorTowerIcon.transform.parent = gameObject.transform;
 
-            // TODO: position the tower better
-            _sensorTowerIcon.transform.position += 1.5f * _sensorTowerIcon.transform.right;
+                // TODO: position the tower better
+                _sensorTowerIcon.transform.position += 1.5f * _sensorTowerIcon.transform.right;
 
-            _sensorTowerIcon.SetActive(false);
+                _sensorTowerIcon.SetActive(false);
+            }
         }
 
         // Update is called once per frame
@@ -233,20 +246,18 @@ namespace CommandView
             //     _firstTimeRun = true;
             // }
 
+
             if (colonized && showHintOnTile)
             {
-                if (!faceDataShowing || faceDataShowing && _hintsGo[0] == null)
-                {
-                    UpdateHintData();
-
-                    DisplayHintsOnFace();
-                }
+                UpdateHintData();
+                DisplayHintsOnFace();
             }
 
             if (heldTroops.Any() && _batDestinationIndicator == null)
             {
                 GenerateBatNet();
-            } else if (!heldTroops.Any() && _batDestinationIndicator != null)
+            }
+            else if (!heldTroops.Any() && _batDestinationIndicator != null)
             {
                 Destroy(_batDestinationIndicator);
             }
@@ -351,10 +362,10 @@ namespace CommandView
 
         private void DisplayHintsOnFace()
         {
-            print("Showing info");
+            // print("Showing info");
             // lastHintGiven[0] = true;
             // lastHintGiven[1] = true;
-            print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
+            // print("Hints: [" + lastHintGiven[0] + ", " + lastHintGiven[1] + ", " + lastHintGiven[2] + "]");
             List<GameObject> activeGOs = new List<GameObject>();
 
             RegenerateHintGOs();
@@ -384,7 +395,7 @@ namespace CommandView
             }
 
 
-            faceDataShowing = true;
+            // faceDataShowing = true;
         }
 
         // Private functions
@@ -516,7 +527,7 @@ namespace CommandView
                 }
             }
 
-            _planet.SetHintsToGive(hintsToGive);
+            // _planet.SetHintsToGive(hintsToGive);
             UpdateLocalHintData(hintsToGive);
         }
 
@@ -644,7 +655,7 @@ namespace CommandView
                     randomFace.GetComponent<Renderer>().material.color = Color.yellow;
                     */
                     SetColonized();
-                    
+
                     List<FaceHandler> undiscoveredFaces = new List<FaceHandler>();
                     List<FaceHandler> discoveredFaces = new List<FaceHandler>();
                     foreach (GameObject planetFace in _planet.faces)
@@ -662,7 +673,9 @@ namespace CommandView
                         }
                     }
 
-                    FaceHandler finalFace = undiscoveredFaces.Any() ? undiscoveredFaces[Random.Range(0, undiscoveredFaces.Count)] : discoveredFaces[Random.Range(0, discoveredFaces.Count)];
+                    FaceHandler finalFace = undiscoveredFaces.Any()
+                        ? undiscoveredFaces[Random.Range(0, undiscoveredFaces.Count)]
+                        : discoveredFaces[Random.Range(0, discoveredFaces.Count)];
 
                     finalFace.heldTroops = deployedTroops;
 
@@ -690,7 +703,7 @@ namespace CommandView
             _planet.GetComponent<MusicController>().FadeOut();
 
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
-            
+
             // print("Stopping ambient");
             // CameraHandler cameraHandler = GameObject.Find("Main Camera").GetComponent<CameraHandler>();
             // cameraHandler.ambientMusic.Stop();
@@ -764,7 +777,7 @@ namespace CommandView
             {
                 showHintOnTile = true;
                 meta.sensorTowers--;
-                
+
                 CloseTroopSelector();
             }
         }
