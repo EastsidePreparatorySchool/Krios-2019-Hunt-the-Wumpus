@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CommandView
 {
     public class CameraHandler : MonoBehaviour
     {
+        public Planet planetHandler;
+        public GameStarter gameStarter;
         public float beginningDistance = 30.0f;
         public float targetDistance = 17.0f; //will be at this most of the game
         public float zoomSpeed = 5.0f; //how fast it zooms in at the beginning of the game
@@ -13,21 +16,50 @@ namespace CommandView
         public float distance = 17.0f;
 
         public AudioSource ambientMusic;
-        
+
         // Start is called before the first frame update
         void Start()
         {
             distance = beginningDistance;
             transform.position = new Vector3(0, 0, -distance);
-
-            AudioListener.volume = GameObject.Find("Planet").GetComponent<Planet>().volume;
-            print("a"+GameObject.Find("Planet").GetComponent<Planet>().volume);
-            ambientMusic.Play();
         }
 
         // Update is called once per frame
         void Update()
         {
+            print(planetHandler.GetStartGame()+", "+planetHandler.isFadingMusic);
+            if (!ambientMusic.isPlaying && !planetHandler.isFadingMusic)
+            {
+                print("Playing ambient");
+                ambientMusic.Play();
+                /*
+                if (gameStarter.introMusicStart.isPlaying)
+                {
+                    gameStarter.introMusicStart.Stop();
+                }
+
+                if (gameStarter.introMusicLoop.isPlaying)
+                {
+                    gameStarter.introMusicLoop.Stop();
+                }
+                */
+                
+                AudioListener.volume = planetHandler.volume;
+                // print(AudioListener.volume);
+            }
+
+            if (ambientMusic.isPlaying && Math.Abs(AudioListener.volume) < 0.01f && !planetHandler.isFadingMusic)
+            {
+                AudioListener.volume = planetHandler.volume;
+            }
+
+            // if (!planetHandler.isFadingMusic)
+            // {
+            //     // ambientMusic.Play();
+            //     AudioListener.volume = planetHandler.volume;
+            // }
+            // print(ambientMusic.isPlaying+", "+AudioListener.volume);
+
             PushInAnim();
         }
 

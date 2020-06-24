@@ -18,13 +18,13 @@ namespace MiniGame
         private AudioClip _startClip;
 
         private AudioClip _loopClip;
-        
+
         // Start is called before the first frame update
         void Awake()
         {
             _planet = GameObject.Find("Planet").GetComponent<Planet>();
             FaceHandler battleFaceHandler = _planet.faces[_planet.GetFaceInBattle()].GetComponent<FaceHandler>();
-            
+
             // Load audio clips
             String[] names = {"Caves", "Plains", "Desert", "Jungle"};
 
@@ -33,20 +33,25 @@ namespace MiniGame
             {
                 biomeIndex = 0;
             }
+
             _startClip = Resources.Load<AudioClip>("Music/" + names[biomeIndex] + "Start");
             _loopClip = Resources.Load<AudioClip>("Music/" + names[biomeIndex] + "Loop");
 
             startAudioSource.clip = _startClip;
             loopAudioSource.clip = _loopClip;
 
-            AudioListener.volume = _planet.volume;
             startAudioSource.Play();
             loopAudioSource.PlayDelayed(_startClip.length);
         }
+
         // Update is called once per frame
         void Update()
         {
-        
+            if (AudioListener.volume < _planet.volume)
+            {
+                AudioListener.volume = _planet.volume;
+            }
+            // print(AudioListener.volume+", "+_planet.volume);
         }
     }
 }

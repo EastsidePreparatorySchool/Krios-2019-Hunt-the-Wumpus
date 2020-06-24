@@ -43,6 +43,9 @@ namespace CommandView
     // Planet will be the Global (constant) data holder
     public class Planet : MonoBehaviour
     {
+        public bool backFromMiniGame;
+        private bool _startGame;
+        public bool isFadingMusic;
         public bool bloom = true;
         public bool ambientOcclusion = true;
 
@@ -50,9 +53,6 @@ namespace CommandView
 
         public bool readyToPause = false;
         public bool readyToPlay = true;
-        
-
-        public bool backFromMiniGame = false;
 
         public int maxUpgrades;
 
@@ -992,6 +992,16 @@ namespace CommandView
                 if (!data.isExausted[i] && !data.isHeld[i])
                     meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
             }
+        }
+
+        public void SetStartGame(bool to = true)
+        {
+            _startGame = to;
+        }
+
+        public bool GetStartGame()
+        {
+            return _startGame;
         }
 
     }
