@@ -27,7 +27,7 @@ namespace CommandView
         // Update is called once per frame
         void Update()
         {
-            print(planetHandler.GetStartGame()+", "+planetHandler.isFadingMusic);
+            // print(planetHandler.GetStartGame()+", "+planetHandler.isFadingMusic);
             if (!ambientMusic.isPlaying && !planetHandler.isFadingMusic)
             {
                 print("Playing ambient");
