@@ -41,13 +41,13 @@ public class EndGame : MonoBehaviour
         switch (status)
         {
             case GameStatus.Win:
-                endText.text = "You Have Killed The Wumpus";
+                endText.text = "Mission Accomplished\nYou Have Killed The Wumpus Queen";
                 break;
             case GameStatus.RanOutOfResources:
-                endText.text = "Out Of Moves";
+                endText.text = "Mission Failed\nOut Of Moves";
                 break;
             case GameStatus.LostSentTroopToWumpling:
-                endText.text = "The Troops You Sent Have Been Murdured By The Wumpus";
+                endText.text = "The Troops You Sent Have Been Murdered By The Wumpus";
                 button.text = "Continue";
                 break;
             default:
