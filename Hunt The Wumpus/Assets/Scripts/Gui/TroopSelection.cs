@@ -20,7 +20,7 @@ namespace Gui
 
         public GameObject sendAllButton;
         private bool _sendAllButtonState = true; //true for send all, false for send none
-        
+
         //public GameObject sendNoneButton; the sendAllButton is a toggle now
 
         public GameObject troopSelectScrollObject;
@@ -53,20 +53,20 @@ namespace Gui
         // Update is called once per frame
         void Update()
         {
-
             if (needsRefresh)
             {
-                for (int i = 0; i < scrollViewContent.transform.childCount; i++)
-                {
-                    var child = scrollViewContent.transform.GetChild(i).gameObject;
-                    if (child != null)
-                        Destroy(child);
-                }
-                //foreach (GameObject toggle in _toggles)
-                //    Destroy(toggle);
-                
-                foreach (var troop in _gameMeta.availableTroops)
-                    _toggles.Add(CreateNewToggle(troop));
+                // for (int i = 0; i < scrollViewContent.transform.childCount; i++)
+                // {
+                //     var child = scrollViewContent.transform.GetChild(i).gameObject;
+                //     if (child != null)
+                //         Destroy(child);
+                // }
+                // //foreach (GameObject toggle in _toggles)
+                // //    Destroy(toggle);
+                //
+                // foreach (var troop in _gameMeta.availableTroops)
+                //     _toggles.Add(CreateNewToggle(troop));
+                ActivateTroopSelector(0, true);
                 needsRefresh = false;
             }
         }
@@ -102,6 +102,7 @@ namespace Gui
                     foreach (var troop in _gameMeta.availableTroops)
                         _toggles.Add(CreateNewToggle(troop));
                 }
+
                 if (!_gameMeta.availableTroops.Any())
                 {
                     if (_gameMeta.exhaustedTroops.Any())
@@ -142,7 +143,6 @@ namespace Gui
                     _sendAllButtonState = true;
                     break;
             }
-            
         }
 
         public void SendTroopsToBattle()
@@ -162,7 +162,7 @@ namespace Gui
             _planetHandler.faces[_prevFaceNum].GetComponent<FaceHandler>().AddSensorOnTile();
         }
 
-        public void ShowOnlyBuildSensorBtn(bool show=true)
+        public void ShowOnlyBuildSensorBtn(bool show = true)
         {
             sendAllButton.SetActive(!show);
             //sendNoneButton.SetActive(!show);
@@ -175,7 +175,7 @@ namespace Gui
         public IEnumerator FlashBatsEncounterAlert()
         {
             BatEncounterAlertText.SetActive(true);
-            float nextTime = Time.time + 5f;
+            float nextTime = Time.time + 10f;
             yield return new WaitUntil(() => Time.time > nextTime);
             BatEncounterAlertText.SetActive(false);
         }
@@ -201,7 +201,8 @@ namespace Gui
             label.text = troop.type + ": " + troop.name;
 
             GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
-            UpgradeBar.GetComponent<RectTransform>().offsetMax = new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
+            UpgradeBar.GetComponent<RectTransform>().offsetMax =
+                new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
 
             return newTroopToggle;
         }

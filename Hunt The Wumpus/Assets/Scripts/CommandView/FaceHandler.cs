@@ -555,6 +555,9 @@ namespace CommandView
 
             if (deployedTroops.Count != 0)
             {
+                TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
+                troopSelector.ActivateTroopSelector(_faceNumber, true);
+                
                 foreach (var troop in deployedTroops)
                 {
                     meta.availableTroops.Remove(troop);
@@ -564,7 +567,7 @@ namespace CommandView
                 if (_planet.wumpus.location.Equals(this))
                 {
                     if (meta.availableTroops.Count == 0 && meta.exhaustedTroops.Count == 0 && meta.nukes == 0 &&
-                        meta.money < 5 && _planet.didSomething)
+                        meta.money < 5 && !_planet.didSomething)
                     {
                         _planet.curGameStatus = GameStatus.RanOutOfResources;
                     }
@@ -730,6 +733,7 @@ namespace CommandView
                 Wumpus.Wumpus wumpus = _planet.wumpus;
                 meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
                 SetColonized();
+                heldTroops.Clear();
                 _planet.didSomething = true;
                 if (wumpus.location.Equals(this))
                 {

@@ -42,7 +42,7 @@ public class Store : MonoBehaviour
     {
         // Closes TroopSelector if open
         GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
-        if(TroopSelector != null)
+        if (TroopSelector != null)
             TroopSelector.SetActive(false);
 
         // Activates all children of the StoreUI object
@@ -53,6 +53,7 @@ public class Store : MonoBehaviour
             if (child != null)
                 child.SetActive(true);
         }
+
         store.transform.Find("StoreTroopSelect").gameObject.SetActive(false);
 
         // Closes "Not Enough Coins" Text if still up
@@ -91,6 +92,7 @@ public class Store : MonoBehaviour
                 if (child != null)
                     child.SetActive(true);
             }
+
             GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().needsRefresh = true;
         }
     }
@@ -106,7 +108,8 @@ public class Store : MonoBehaviour
                 {
                     checkedTroop.damage += troopDamagIncrease;
                     checkedTroop.UpgradeLvl += 1;
-                    print("upgraed by " + troopDamagIncrease + ", now up to " + checkedTroop.damage  + ", lvl: " + checkedTroop.UpgradeLvl);
+                    print("upgraed by " + troopDamagIncrease + ", now up to " + checkedTroop.damage + ", lvl: " +
+                          checkedTroop.UpgradeLvl);
                     GetComponent<StoreTroopSelect>().needsRefresh = true;
                     GetComponent<TroopSelection>().needsRefresh = true;
                 }
@@ -116,7 +119,6 @@ public class Store : MonoBehaviour
                 print("troop fully upgraded");
                 //make thi more apparent
             }
-
         }
     }
 
@@ -162,7 +164,9 @@ public class Store : MonoBehaviour
         int totalCost = marineCost * int.Parse(troopNumberInput.text);
         if (useMoney(totalCost))
             for (int i = 0; i < int.Parse(troopNumberInput.text); i++)
-                _gameMeta.availableTroops.Add(new TroopMeta(TroopType.Marine, _gameMeta.firstNames[Random.Range(0, _gameMeta.firstNames.Length)]));
+                _gameMeta.availableTroops.Add(new TroopMeta(TroopType.Marine,
+                    _gameMeta.firstNames[Random.Range(0, _gameMeta.firstNames.Length)] + " " +
+                    _gameMeta.lastNames[Random.Range(0, _gameMeta.lastNames.Length)]));
     }
 
     // Work in progress
