@@ -105,7 +105,6 @@ public class UpdateGui : MonoBehaviour
             }
         }
 
-
         Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
         _openStoreBtnText.alpha = 0f;
         storeBtnAlpha.a = 0f;
@@ -140,7 +139,7 @@ public class UpdateGui : MonoBehaviour
         if (!_counterValues.Equals(curCounterValue))
         {
             _troopCounter.text = "Troops: " + _inGameMeta.availableTroops.Count + "/" +
-                                      (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
+                                 (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
             _moneyCounter.text = "Money: " + _inGameMeta.money;
             _nukeCounter.text = "A.R.R.O.Ws: " + _inGameMeta.nukes;
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
@@ -180,6 +179,9 @@ public class UpdateGui : MonoBehaviour
         
         /*while (openStoreBtnAlpha.a < 1)
         {
+            coverColor.a += 0.1f;
+            _textCover.color = coverColor;
+
             _troopCounter.alpha += 0.1f;
             _moneyCounter.alpha += 0.1f;
             _nukeCounter.alpha += 0.1f;
@@ -229,6 +231,9 @@ public class UpdateGui : MonoBehaviour
         
         /*while (_troopCounter.alpha > 0)
         {
+            coverColor.a -= 0.1f;
+            _textCover.color = coverColor;
+
             _troopCounter.alpha -= 0.1f;
             _moneyCounter.alpha -= 0.1f;
             _nukeCounter.alpha -= 0.1f;

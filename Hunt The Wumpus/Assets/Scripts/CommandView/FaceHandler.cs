@@ -221,17 +221,17 @@ namespace CommandView
         private void Update()
         {
             // CalculateFaceGeometry();
-            if (!_firstTimeRun)
-            {
-                string temp = "Face " + _faceNumber + " has states: ";
-                foreach (bool i in state)
-                {
-                    temp += i + ", ";
-                }
-
-                //print(temp);
-                _firstTimeRun = true;
-            }
+            // if (!_firstTimeRun)
+            // {
+            //     string temp = "Face " + _faceNumber + " has states: ";
+            //     foreach (bool i in state)
+            //     {
+            //         temp += i + ", ";
+            //     }
+            //
+            //     //print(temp);
+            //     _firstTimeRun = true;
+            // }
 
             if (colonized && showHintOnTile)
             {
@@ -690,6 +690,11 @@ namespace CommandView
             _planet.GetComponent<MusicController>().FadeOut();
 
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
+            
+            // print("Stopping ambient");
+            // CameraHandler cameraHandler = GameObject.Find("Main Camera").GetComponent<CameraHandler>();
+            // cameraHandler.ambientMusic.Stop();
+            // print(cameraHandler.ambientMusic.isPlaying);
 
             if (playMiniGame)
             {
