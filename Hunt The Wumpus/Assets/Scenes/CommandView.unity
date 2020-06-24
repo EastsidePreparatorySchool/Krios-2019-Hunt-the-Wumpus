@@ -26038,9 +26038,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnsElapsed: 0
-  money: 100
-  nukes: 30
-  sensorTowers: 5
+  money: 0
+  nukes: 1
+  sensorTowers: 3
   firstNames:
   - James
   - Michael
