@@ -9,6 +9,7 @@ namespace SaveLoad
         public GameObject[] faces;
 
         public int turnsElapsed;
+        public bool didSomething;
         public int money;
         public int nukes;
         public int sensors;
@@ -30,6 +31,7 @@ namespace SaveLoad
         public SaveData(Planet planet, bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, bool[] ShowHint, int[] TroopType, string[] TroopName, bool[] IsExausted, bool[] IsHeld, int[] HeldLoc, int NumOfTroops)
         {
             turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
+            didSomething = planet.GetComponent<Planet>().didSomething;
             money = planet.GetComponent<GameMeta>().money;
             nukes = planet.GetComponent<GameMeta>().nukes;
             sensors = planet.GetComponent<GameMeta>().sensorTowers;
