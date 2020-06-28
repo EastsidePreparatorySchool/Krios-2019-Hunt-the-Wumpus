@@ -35,7 +35,20 @@ public class SettingsMenu : MonoBehaviour
             Credits();
         }
     }
+    //Gameplay Tab
+    public void ConfirmTurn(bool ConfirmTurnBool)
+    {
+        planet.ConfirmTurn = ConfirmTurnBool;
+    }
 
+    public void Credits()
+    {
+        inCredits = !inCredits;
+        CreditsCanvas.SetActive(!CreditsCanvas.activeSelf);
+    }
+
+
+    //AV Tab
     public void SetResolution(int resolutionIndex)
     {
         Screen.SetResolution(Resolutions[resolutionIndex, 0], Resolutions[resolutionIndex, 1], Screen.fullScreen);
@@ -66,11 +79,5 @@ public class SettingsMenu : MonoBehaviour
         print(volume);
         AudioListener.volume = volume;
         volumePercent.GetComponent<Text>().text = "Volume: " + Mathf.Round(volume * 100).ToString() + "%";
-    }
-
-    public void Credits()
-    {
-        inCredits = !inCredits;
-        CreditsCanvas.SetActive(!CreditsCanvas.activeSelf);
     }
 }
