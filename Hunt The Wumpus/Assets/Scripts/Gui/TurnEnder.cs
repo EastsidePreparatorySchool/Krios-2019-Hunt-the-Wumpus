@@ -46,7 +46,10 @@ public class TurnEnder : MonoBehaviour, IDeselectHandler, IPointerEnterHandler, 
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseConfirm();
+        }
     }
 
     public void EndTurnButton()
