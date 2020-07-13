@@ -6,7 +6,7 @@ namespace CommandView
     public class PlanetSpin : MonoBehaviour
     {
         public GameStarter starterHandler;
-        public float beginningSpin = 0; //500.0f;
+        public float beginningSpin; //500.0f;
         public float spinSlowFactor = 0.99f; //beginningSpin is multiplied by this every frame to slow it down
 
         public float minSpinSpeedBeforeZero = 10.0f; //how slow it needs to be spinning before it stops itself

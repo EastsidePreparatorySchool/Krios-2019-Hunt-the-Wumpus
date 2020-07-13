@@ -47,7 +47,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Surrender()
     {
-        _planetHandler.result.inGameTroops.Clear();
+        _planetHandler.result.InGameTroops.Clear();
         GameObject resultParent = GameObject.Find("Minigame Main Camera");
         ResultHandler rehandle = resultParent.GetComponent<ResultHandler>();
         Resume();

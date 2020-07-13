@@ -39,7 +39,7 @@ namespace MiniGame
         {
         
             _planet = GameObject.Find("Planet").GetComponent<Planet>();
-            _troops = _planet.result.inGameTroops;
+            _troops = _planet.result.InGameTroops;
 
             _mapGen = GameObject.Find("Minigame Main Camera").GetComponent<MapGenerator>();
             FaceHandler faceHandler = _planet.faceHandlers[_planet.GetFaceInBattle()];
@@ -117,7 +117,7 @@ namespace MiniGame
         {
             foreach (var troop in _troops)
             {
-                GameObject soldier = (GameObject) Instantiate(Resources.Load(troop.resourceString), _mapGen.GetRandomPositionInNodeFromNode(node), Quaternion.identity);
+                GameObject soldier = (GameObject) Instantiate(Resources.Load(troop.ResourceString), _mapGen.GetRandomPositionInNodeFromNode(node), Quaternion.identity);
                 soldier.GetComponent<SoldierDeathHandler>().troopMeta = troop;
                 soldier.GetComponent<CombatController>().troopMeta = troop;
             }

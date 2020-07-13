@@ -38,7 +38,7 @@ public class SettingsMenu : MonoBehaviour
     //Gameplay Tab
     public void ConfirmTurn(bool ConfirmTurnBool)
     {
-        planet.ConfirmTurn = ConfirmTurnBool;
+        planet.confirmTurn = ConfirmTurnBool;
     }
 
     public void Credits()

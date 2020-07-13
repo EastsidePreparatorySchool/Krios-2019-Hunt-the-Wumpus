@@ -33,7 +33,7 @@ namespace MiniGame.Creatures
         void Start()
         {
             if (troopMeta != null)
-                attackDamage = troopMeta.damage;
+                attackDamage = troopMeta.Damage;
         }
 
         // Update is called once per frame

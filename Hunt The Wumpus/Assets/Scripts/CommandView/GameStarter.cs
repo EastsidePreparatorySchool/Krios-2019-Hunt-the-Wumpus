@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -25,7 +23,7 @@ namespace CommandView
         public Material titleTextFade;
         private Renderer[] _letterRenderers = new Renderer[4];
         private Color _opaqueColor;
-        private Color _transparentColor;
+        // private Color _transparentColor;
 
         private readonly List<Vector3> _ogScales = new List<Vector3>();
 
@@ -54,7 +52,7 @@ namespace CommandView
                     Color letterColor = letterMaterial.color;
                     _opaqueColor = letterColor;
                     letterColor.a = 0f;
-                    _transparentColor = letterColor;
+                    // _transparentColor = letterColor;
                     letterMaterial.color = letterColor;
                 }
 

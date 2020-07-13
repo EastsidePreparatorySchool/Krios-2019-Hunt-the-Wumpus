@@ -190,14 +190,14 @@ namespace Gui
             // newTroopToggle.transform.parent = scrollViewContent.transform;
 
             Toggle toggle = newTroopToggle.gameObject.GetComponent<Toggle>();
-            toggle.isOn = troop.sendToBattle;
+            toggle.isOn = troop.SendToBattle;
 
             toggle.onValueChanged.AddListener(delegate { ToggleValueChanged(toggle, troop); });
 
             // Code for naming troops
             GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
             Text label = labelGameObject.GetComponent<Text>();
-            label.text = troop.type + ": " + troop.name;
+            label.text = troop.Type + ": " + troop.Name;
 
             GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
             UpgradeBar.GetComponent<RectTransform>().offsetMax =
@@ -223,7 +223,7 @@ namespace Gui
         private void ToggleValueChanged(Toggle toggle, TroopMeta troop)
         {
             //print(("TOGGLE WORKS! isOn: " + toggle.isOn));
-            troop.sendToBattle = toggle.isOn;
+            troop.SendToBattle = toggle.isOn;
             //print(troop.sendToBattle + " should be the same as above");
         }
     }

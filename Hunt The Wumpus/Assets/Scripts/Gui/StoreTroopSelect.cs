@@ -78,7 +78,7 @@ namespace Gui
             // Code for naming troops
             GameObject labelGameObject = toggle.transform.Find("Label").gameObject;
             Text label = labelGameObject.GetComponent<Text>();
-            label.text = troop.type + ": " + troop.name;
+            label.text = troop.Type + ": " + troop.Name;
 
             GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
             UpgradeBar.GetComponent<RectTransform>().offsetMax = new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);

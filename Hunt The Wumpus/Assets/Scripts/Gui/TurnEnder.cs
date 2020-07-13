@@ -54,7 +54,7 @@ public class TurnEnder : MonoBehaviour, IDeselectHandler, IPointerEnterHandler, 
 
     public void EndTurnButton()
     {
-        if (!_planet.ConfirmTurn)
+        if (!_planet.confirmTurn)
             EndTurn();
         else
         {
