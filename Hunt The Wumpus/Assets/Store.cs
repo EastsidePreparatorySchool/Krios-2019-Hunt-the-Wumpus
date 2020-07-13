@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using CommandView;
 using TMPro;
-using System.Collections.Generic;
-using UnityEngine.Experimental.UIElements;
 using Gui;
 
 public class Store : MonoBehaviour
