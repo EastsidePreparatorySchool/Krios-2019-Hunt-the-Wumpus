@@ -11183,10 +11183,10 @@ MonoBehaviour:
   sniperCost: 0
   tankCost: 0
   defenderCost: 0
-  troopDamagIncrease: 0
-  troopDamagCost: 0
-  NukeCost: 1
-  SensorTowerCost: 1
+  troopDamageIncrease: 0
+  troopDamageCost: 0
+  nukeCost: 0
+  sensorTowerCost: 0
 --- !u!1 &768293518
 GameObject:
   m_ObjectHideFlags: 0
@@ -26944,10 +26944,10 @@ MonoBehaviour:
   sniperCost: 5
   tankCost: 5
   defenderCost: 5
-  troopDamagIncrease: 2
-  troopDamagCost: 2
-  NukeCost: 10
-  SensorTowerCost: 5
+  troopDamageIncrease: 2
+  troopDamageCost: 2
+  nukeCost: 10
+  sensorTowerCost: 5
 --- !u!114 &2055068146
 MonoBehaviour:
   m_ObjectHideFlags: 0

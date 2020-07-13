@@ -10,10 +10,10 @@ public class Store : MonoBehaviour
     public int tankCost;
     public int defenderCost;
 
-    public int troopDamagIncrease;
-    public int troopDamagCost;
-    public int NukeCost;
-    public int SensorTowerCost;
+    public int troopDamageIncrease;
+    public int troopDamageCost;
+    public int nukeCost;
+    public int sensorTowerCost;
 
     public TroopMeta checkedTroop;
 
@@ -39,9 +39,9 @@ public class Store : MonoBehaviour
     public void Open()
     {
         // Closes TroopSelector if open
-        GameObject TroopSelector = GameObject.Find("TroopSelectorUI");
-        if (TroopSelector != null)
-            TroopSelector.SetActive(false);
+        GameObject troopSelector = GameObject.Find("TroopSelectorUI");
+        if (troopSelector != null)
+            troopSelector.SetActive(false);
 
         // Activates all children of the StoreUI object
         GameObject store = GameObject.Find("StoreUI");
@@ -97,17 +97,17 @@ public class Store : MonoBehaviour
 
     public void UpgradeTroop()
     {
-        TroopMeta checkedTroop = GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().checkedTroop;
-        if (checkedTroop != null)
+        TroopMeta storeCheckedTroop = GameObject.Find("Canvas").GetComponent<StoreTroopSelect>().checkedTroop;
+        if (storeCheckedTroop != null)
         {
-            if (checkedTroop.UpgradeLvl < _planetHandler.maxUpgrades)
+            if (storeCheckedTroop.UpgradeLvl < _planetHandler.maxUpgrades)
             {
-                if (useMoney(troopDamagCost))
+                if (UseMoney(troopDamageCost))
                 {
-                    checkedTroop.damage += troopDamagIncrease;
-                    checkedTroop.UpgradeLvl += 1;
-                    print("upgraed by " + troopDamagIncrease + ", now up to " + checkedTroop.damage + ", lvl: " +
-                          checkedTroop.UpgradeLvl);
+                    storeCheckedTroop.damage += troopDamageIncrease;
+                    storeCheckedTroop.UpgradeLvl += 1;
+                    print("upgraed by " + troopDamageIncrease + ", now up to " + storeCheckedTroop.damage + ", lvl: " +
+                          storeCheckedTroop.UpgradeLvl);
                     GetComponent<StoreTroopSelect>().needsRefresh = true;
                     GetComponent<TroopSelection>().needsRefresh = true;
                 }
@@ -121,7 +121,7 @@ public class Store : MonoBehaviour
     }
 
     // This is used for managing money whenever something is bought
-    private bool useMoney(int amount)
+    private bool UseMoney(int amount)
     {
         if (_gameMeta.money >= amount)
         {
@@ -147,9 +147,9 @@ public class Store : MonoBehaviour
     //For buying troops (duh)
     public void BuyTroops()
     {
-        GameObject BuyPanel = GameObject.Find("BuyTroopsPanel");
-        GameObject inpparent = BuyPanel.transform.Find("InputField (TMP)").gameObject;
-        GameObject dropparent = BuyPanel.transform.Find("TroopTypeDropdown").gameObject;
+        GameObject buyPanel = GameObject.Find("BuyTroopsPanel");
+        GameObject inpparent = buyPanel.transform.Find("InputField (TMP)").gameObject;
+        GameObject dropparent = buyPanel.transform.Find("TroopTypeDropdown").gameObject;
 
         // Get TMPro components
         TMP_InputField troopNumberInput = inpparent.GetComponent<TMP_InputField>();
@@ -160,7 +160,7 @@ public class Store : MonoBehaviour
 
         //temp until new troops
         int totalCost = marineCost * int.Parse(troopNumberInput.text);
-        if (useMoney(totalCost))
+        if (UseMoney(totalCost))
             for (int i = 0; i < int.Parse(troopNumberInput.text); i++)
                 _gameMeta.availableTroops.Add(new TroopMeta(TroopType.Marine,
                     _gameMeta.firstNames[Random.Range(0, _gameMeta.firstNames.Length)] + " " +
@@ -170,7 +170,7 @@ public class Store : MonoBehaviour
     // Work in progress
     public void BuyTroopDmg()
     {
-        if (_gameMeta.money >= troopDamagCost)
+        if (_gameMeta.money >= troopDamageCost)
         {
             print("Buyng Damage Upgrade");
             //_gameMeta.money -= troopDamagCost;
@@ -183,14 +183,14 @@ public class Store : MonoBehaviour
     // Buy NUKES!!!
     public void BuyNuke()
     {
-        if (useMoney(NukeCost))
+        if (UseMoney(nukeCost))
             _gameMeta.nukes++;
     }
 
     // Work in progress
     public void BuySensorTower()
     {
-        if (useMoney(SensorTowerCost))
+        if (UseMoney(sensorTowerCost))
             _gameMeta.sensorTowers++;
     }
 }
