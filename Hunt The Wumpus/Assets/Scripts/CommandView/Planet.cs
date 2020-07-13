@@ -43,6 +43,10 @@ namespace CommandView
     // Planet will be the Global (constant) data holder
     public class Planet : MonoBehaviour
     {
+        //User Prefs
+        public bool ConfirmTurn;
+
+        //General
         public bool backFromMiniGame;
         private bool _startGame;
         public bool isFadingMusic;
