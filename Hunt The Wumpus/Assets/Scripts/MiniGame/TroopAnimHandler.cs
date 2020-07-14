@@ -1,34 +1,41 @@
 ﻿using MiniGame.Creatures;
 using UnityEngine;
 
-public class TroopAnimHandler : MonoBehaviour
+namespace MiniGame
 {
-    public CombatController combatCtr;
-    Animator anim;
-    void Start()
+    public class TroopAnimHandler : MonoBehaviour
     {
-        anim = this.GetComponent<Animator>();
-    }
-    void Update()
-    {
+        public CombatController combatCtr;
+        private Animator _anim;
+        private static readonly int IsShooting = Animator.StringToHash("isShooting");
+        private static readonly int IsRunning = Animator.StringToHash("isRunning");
+        private static readonly int IsIdle = Animator.StringToHash("isIdle");
 
-        if (combatCtr.isMoving == true)
+        void Start()
         {
-            anim.SetBool("isShooting", false);
-            anim.SetBool("isRunning", true);
-            anim.SetBool("isIdle", false);
+            _anim = this.GetComponent<Animator>();
         }
-        else if (combatCtr.isAttacking == true)
+        void Update()
         {
-            anim.SetBool("isShooting", true);
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isIdle", false);
-        }
-        else
-        {
-            anim.SetBool("isShooting", false);
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isIdle", true);
+
+            if (combatCtr.isMoving)
+            {
+                _anim.SetBool(IsShooting, false);
+                _anim.SetBool(IsRunning, true);
+                _anim.SetBool(IsIdle, false);
+            }
+            else if (combatCtr.isAttacking)
+            {
+                _anim.SetBool(IsShooting, true);
+                _anim.SetBool(IsRunning, false);
+                _anim.SetBool(IsIdle, false);
+            }
+            else
+            {
+                _anim.SetBool(IsShooting, false);
+                _anim.SetBool(IsRunning, false);
+                _anim.SetBool(IsIdle, true);
+            }
         }
     }
 }

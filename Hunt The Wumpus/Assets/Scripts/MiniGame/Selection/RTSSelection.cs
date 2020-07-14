@@ -9,9 +9,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MiniGame
+namespace MiniGame.Selection
 {
-    public class RTSSelection : MonoBehaviour
+    public class RtsSelection : MonoBehaviour
     {
         public static readonly List<Selectable> Selectables = new List<Selectable>();
  

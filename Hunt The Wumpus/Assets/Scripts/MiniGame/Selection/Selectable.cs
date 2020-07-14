@@ -4,10 +4,9 @@
  * Enjoy :)
  */
 
-using UnityEditor;
 using UnityEngine;
 
-namespace MiniGame
+namespace MiniGame.Selection
 {
     public class Selectable : MonoBehaviour
     {
@@ -37,12 +36,12 @@ namespace MiniGame
  
         void OnEnable()
         {
-            RTSSelection.Selectables.Add(this);
+            RtsSelection.Selectables.Add(this);
         }
  
         void OnDisable()
         {
-            RTSSelection.Selectables.Remove(this);
+            RtsSelection.Selectables.Remove(this);
         }
  
     }

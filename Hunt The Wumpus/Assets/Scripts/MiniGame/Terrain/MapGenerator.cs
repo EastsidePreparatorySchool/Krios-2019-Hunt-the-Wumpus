@@ -1,15 +1,8 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
-using CommandView;
+﻿using CommandView;
 using MiniGame.Creatures;
 using MiniGame.Creatures.DeathHandlers;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace MiniGame.Terrain
@@ -25,57 +18,57 @@ namespace MiniGame.Terrain
 
     public class Node
     {
-        public readonly int row;
-        public readonly int col;
-        public int distanceFromStart;
-        public int distanceFromPath;
+        public readonly int Row;
+        public readonly int Col;
+        public int DistanceFromStart;
+        public int DistanceFromPath;
 
-        public Node previousNode;
+        public Node PreviousNode;
         //public Direction previousDirection;
 
-        public int connections;
-        public bool connectedDown; //to node with larger row number
-        public bool connectedRight; //to node with larger column number
+        public int Connections;
+        public bool ConnectedDown; //to node with larger row number
+        public bool ConnectedRight; //to node with larger column number
 
-        public int iTileRow;
-        public int iTileCol;
+        // public int ITileRow;
+        // public int ITileCol;
 
         public Node(int row, int col)
         {
-            this.row = row;
-            this.col = col;
-            this.distanceFromStart = -1;
-            this.distanceFromPath = -1;
-            this.connectedDown = false;
-            this.connectedRight = false;
-            this.connections = 0;
+            Row = row;
+            Col = col;
+            DistanceFromStart = -1;
+            DistanceFromPath = -1;
+            ConnectedDown = false;
+            ConnectedRight = false;
+            Connections = 0;
         }
     }
 
     public class MapGenerator : MonoBehaviour
     {
-        public const int nodeRows = 4;
-        public const int nodeCols = 4;
+        public const int NodeRows = 4;
+        public const int NodeCols = 4;
 
-        public const int startNodeRow = 0; //TODO randomize start and end location
-        public const int startNodeCol = 0;
-        public const int endNodeRow = 3;
-        public const int endNodeCol = 3;
+        public const int StartNodeRow = 0; //TODO randomize start and end location
+        public const int StartNodeCol = 0;
+        public const int EndNodeRow = 3;
+        public const int EndNodeCol = 3;
 
-        public const int interiorTileSize = 1;
-        public const int tilesPerInterior = 15;
-        private const int interiorRows = (tilesPerInterior + 1) * nodeRows + 1;
-        private const int interiorCols = (tilesPerInterior + 1) * nodeCols + 1;
+        public const int InteriorTileSize = 1;
+        public const int TilesPerInterior = 15;
+        private const int InteriorRows = (TilesPerInterior + 1) * NodeRows + 1;
+        private const int InteriorCols = (TilesPerInterior + 1) * NodeCols + 1;
 
         public NavMeshSurface surface;
 
-        private const bool randomizeDoorLocations = true;
-        private const int doorwaySize = 6;
+        private const bool RandomizeDoorLocations = true;
+        private const int DoorwaySize = 6;
 
-        private static readonly Vector3 mazeLocationOffset = new Vector3(
-            -(nodeRows / 2) * tilesPerInterior * interiorTileSize,
+        private static readonly Vector3 MazeLocationOffset = new Vector3(
+            -(NodeRows / 2) * TilesPerInterior * InteriorTileSize,
             1,
-            -(nodeCols / 2) * tilesPerInterior * interiorTileSize);
+            -(NodeCols / 2) * TilesPerInterior * InteriorTileSize);
 
         public GameObject pathTilePrefab;
         public GameObject wallTilePrefab;
@@ -90,9 +83,9 @@ namespace MiniGame.Terrain
         public BiomeType biomeType;
 
 
-        private GameObject[,] iTilePrefabs;
-        private GameObject[,] iTiles;
-        private List<GameObject> nests = new List<GameObject>();
+        private GameObject[,] _iTilePrefabs;
+        private GameObject[,] _iTiles;
+        // private readonly List<GameObject> _nests = new List<GameObject>();
 
         private Node[,] _nodes;
 
@@ -118,17 +111,17 @@ namespace MiniGame.Terrain
         {
             hazardOnTile = hazard;
             biomeType = type;
-            randomMaze();
+            RandomMaze();
             GenerateInteriorTilePrefabs();
             GenerateInteriorTileObjects();
         }
 
-        public void randomMaze()
+        public void RandomMaze()
         {
-            this._nodes = new Node[nodeRows, nodeCols];
-            for (int i = 0; i < nodeRows; i++)
+            this._nodes = new Node[NodeRows, NodeCols];
+            for (int i = 0; i < NodeRows; i++)
             {
-                for (int j = 0; j < nodeCols; j++)
+                for (int j = 0; j < NodeCols; j++)
                 {
                     Node node = new Node(i, j);
                     _nodes[i, j] = node;
@@ -138,21 +131,21 @@ namespace MiniGame.Terrain
 
             //Random r = new Random();
             //TODO randomize start location
-            Node current = _nodes[startNodeRow, startNodeCol];
-            current.distanceFromStart = 0;
+            Node current = _nodes[StartNodeRow, StartNodeCol];
+            current.DistanceFromStart = 0;
             // <generate maze>
             while (!(
-                isCornered(_nodes, current, nodeRows, nodeCols)
+                isCornered(_nodes, current, NodeRows, NodeCols)
                 &&
-                current.distanceFromStart == 0
+                current.DistanceFromStart == 0
                 //continue until you are at the root and cornered
             ))
             {
-                if (isCornered(_nodes, current, nodeRows, nodeCols) ||
-                    forceDeadEnd(_nodes, current, nodeRows, nodeCols))
+                if (isCornered(_nodes, current, NodeRows, NodeCols) || ForceDeadEnd(current)
+                    /*ForceDeadEnd(_nodes, current, NodeRows, NodeCols)*/)
                 {
                     // if nowhere to go or forced, backtrack
-                    current = current.previousNode;
+                    current = current.PreviousNode;
                     continue;
                 }
 
@@ -164,59 +157,59 @@ namespace MiniGame.Terrain
                     switch (direction)
                     {
                         case (int) Direction.Right:
-                            if (current.col == nodeCols - 1 ||
-                                _nodes[current.row, current.col + 1].distanceFromStart != -1)
+                            if (current.Col == NodeCols - 1 ||
+                                _nodes[current.Row, current.Col + 1].DistanceFromStart != -1)
                             {
                                 //if can't go right, try left
                                 direction = (direction + 1) % 4; //technically not fair but idc;
                                 break;
                             }
 
-                            next = _nodes[current.row, current.col + 1];
-                            current.connectedRight = true;
+                            next = _nodes[current.Row, current.Col + 1];
+                            current.ConnectedRight = true;
                             break;
                         case (int) Direction.Left:
-                            if (current.col == 0 || _nodes[current.row, current.col - 1].distanceFromStart != -1)
+                            if (current.Col == 0 || _nodes[current.Row, current.Col - 1].DistanceFromStart != -1)
                             {
                                 //if can't go left, try up
                                 direction = (direction + 1) % 4; //technically not fair but idc;
                                 break;
                             }
 
-                            next = _nodes[current.row, current.col - 1];
-                            next.connectedRight = true;
+                            next = _nodes[current.Row, current.Col - 1];
+                            next.ConnectedRight = true;
                             break;
                         case (int) Direction.Up:
-                            if (current.row == nodeRows - 1 ||
-                                _nodes[current.row + 1, current.col].distanceFromStart != -1)
+                            if (current.Row == NodeRows - 1 ||
+                                _nodes[current.Row + 1, current.Col].DistanceFromStart != -1)
                             {
                                 //if can't go up, try down
                                 direction = (direction + 1) % 4; //technically not fair but idc;
                                 break;
                             }
 
-                            next = _nodes[current.row + 1, current.col];
-                            current.connectedDown = true;
+                            next = _nodes[current.Row + 1, current.Col];
+                            current.ConnectedDown = true;
                             break;
                         case (int) Direction.Down:
-                            if (current.row == 0 || _nodes[current.row - 1, current.col].distanceFromStart != -1)
+                            if (current.Row == 0 || _nodes[current.Row - 1, current.Col].DistanceFromStart != -1)
                             {
                                 //if can't go down, try right
                                 direction = (direction + 1) % 4; //technically not fair but idc;
                                 break;
                             }
 
-                            next = _nodes[current.row - 1, current.col];
-                            next.connectedDown = true;
+                            next = _nodes[current.Row - 1, current.Col];
+                            next.ConnectedDown = true;
                             break;
                     }
                 }
 
                 //when you've selected next,
-                next.distanceFromStart = current.distanceFromStart + 1;
-                next.previousNode = current;
-                next.connections++;
-                current.connections++;
+                next.DistanceFromStart = current.DistanceFromStart + 1;
+                next.PreviousNode = current;
+                next.Connections++;
+                current.Connections++;
 
                 current = next;
 
@@ -226,67 +219,76 @@ namespace MiniGame.Terrain
 
 
             //follow previousNode from end to find critical path Nodes
-            current = _nodes[endNodeRow, endNodeCol];
+            current = _nodes[EndNodeRow, EndNodeCol];
             while (current != null)
             {
-                current.distanceFromPath = 0;
-                current = current.previousNode;
+                current.DistanceFromPath = 0;
+                current = current.PreviousNode;
             }
 
-            for (int i = 0; i < nodeRows; i++)
+            for (int i = 0; i < NodeRows; i++)
             {
-                for (int j = 0; j < nodeCols; j++)
+                for (int j = 0; j < NodeCols; j++)
                 {
                     setDistanceFromPath(_nodes[i, j]);
                 }
             }
 
-            string debug = "";
-            for (int i = 0; i < nodeRows; i++)
-            {
-                for (int j = 0; j < nodeCols; j++)
-                {
-                    debug += _nodes[i, j].connections + " ";
-                }
-
-                debug += "\n";
-            }
-
-            // print(debug);
+            // string debug = "";
+            // for (int i = 0; i < NodeRows; i++)
+            // {
+            //     for (int j = 0; j < NodeCols; j++)
+            //     {
+            //         debug += _nodes[i, j].Connections + " ";
+            //     }
+            //
+            //     debug += "\n";
+            // }
+            //
+            // // print(debug);
         }
 
         private bool isCornered(Node[,] maze, Node current, int rows, int cols)
         {
             return (
-                (current.row == rows - 1 ||
-                 maze[current.row + 1, current.col].distanceFromStart != -1
+                (current.Row == rows - 1 ||
+                 maze[current.Row + 1, current.Col].DistanceFromStart != -1
                 ) //either at right edge or right neighbor is visited
                 &&
-                (current.row == 0 ||
-                 maze[current.row - 1, current.col].distanceFromStart != -1
+                (current.Row == 0 ||
+                 maze[current.Row - 1, current.Col].DistanceFromStart != -1
                 ) //either at left edge or left neighbor is visited
                 &&
-                (current.col == cols - 1 ||
-                 maze[current.row, current.col + 1].distanceFromStart != -1
+                (current.Col == cols - 1 ||
+                 maze[current.Row, current.Col + 1].DistanceFromStart != -1
                 ) //either at top edge or top neighbor is visited
                 &&
-                (current.col == 0 ||
-                 maze[current.row, current.col - 1].distanceFromStart != -1
+                (current.Col == 0 ||
+                 maze[current.Row, current.Col - 1].DistanceFromStart != -1
                 ) //either at bottom edge or bottom neighbor is visited
             );
         }
 
-        public bool isStartNode(Node current)
+        public static bool IsStartNode(Node current)
         {
-            return current.row == startNodeRow && current.col == startNodeCol;
+            return current.Row == StartNodeRow && current.Col == StartNodeCol;
         }
 
         private bool isEndNode(Node current)
         {
-            return current.row == endNodeRow && current.col == endNodeCol;
+            return current.Row == EndNodeRow && current.Col == EndNodeCol;
         }
 
-        private bool forceDeadEnd(Node[,] maze, Node current, int rows, int cols)
+        // private bool ForceDeadEnd(Node[,] maze, Node current, int rows, int cols)
+        // {
+        //     if (isEndNode(current)) //forces end if at end node TODO force dead ends elsewhere
+        //     {
+        //         return true;
+        //     }
+        //
+        //     return false;
+        // }
+        private bool ForceDeadEnd(Node current)
         {
             if (isEndNode(current)) //forces end if at end node TODO force dead ends elsewhere
             {
@@ -304,12 +306,12 @@ namespace MiniGame.Terrain
                 return;
             }
 
-            if (current.distanceFromPath == -1)
+            if (current.DistanceFromPath == -1)
             {
-                setDistanceFromPath(current.previousNode);
-                if (current.previousNode != null)
+                setDistanceFromPath(current.PreviousNode);
+                if (current.PreviousNode != null)
                 {
-                    current.distanceFromPath = current.previousNode.distanceFromPath + 1;
+                    current.DistanceFromPath = current.PreviousNode.DistanceFromPath + 1;
                 }
             }
         }
@@ -348,60 +350,60 @@ namespace MiniGame.Terrain
         private void GenerateInteriorTilePrefabs()
         {
             //print("trying to generate interior tiles");
-            iTilePrefabs = new GameObject[interiorRows, interiorCols];
-            for (int i = 0; i < interiorRows; i++)
+            _iTilePrefabs = new GameObject[InteriorRows, InteriorCols];
+            for (int i = 0; i < InteriorRows; i++)
             {
-                for (int j = 0; j < interiorCols; j++)
+                for (int j = 0; j < InteriorCols; j++)
                 {
                     ReassignWallTilePrefab();
 
-                    iTilePrefabs[i, j] = wallTilePrefab; //fills the whole thing with walls
+                    _iTilePrefabs[i, j] = wallTilePrefab; //fills the whole thing with walls
                 }
             }
 
-            for (int nodeI = 0; nodeI < nodeRows; nodeI++)
+            for (int nodeI = 0; nodeI < NodeRows; nodeI++)
             {
-                for (int nodeJ = 0; nodeJ < nodeCols; nodeJ++)
+                for (int nodeJ = 0; nodeJ < NodeCols; nodeJ++)
                 {
                     //for each "room"
                     int doorwayOffsetRight;
                     int doorwayOffsetBottom;
-                    doorwayOffsetRight = Random.Range(0, tilesPerInterior - doorwaySize + 1);
-                    doorwayOffsetBottom = Random.Range(0, tilesPerInterior - doorwaySize + 1);
+                    doorwayOffsetRight = Random.Range(0, TilesPerInterior - DoorwaySize + 1);
+                    doorwayOffsetBottom = Random.Range(0, TilesPerInterior - DoorwaySize + 1);
 
-                    for (int tileI = 0; tileI < tilesPerInterior + 1; tileI++)
+                    for (int tileI = 0; tileI < TilesPerInterior + 1; tileI++)
                     {
-                        for (int tileJ = 0; tileJ < tilesPerInterior + 1; tileJ++)
+                        for (int tileJ = 0; tileJ < TilesPerInterior + 1; tileJ++)
                         {
-                            int i = 1 + nodeI * (tilesPerInterior + 1) + tileI;
-                            int j = 1 + nodeJ * (tilesPerInterior + 1) + tileJ;
+                            int i = 1 + nodeI * (TilesPerInterior + 1) + tileI;
+                            int j = 1 + nodeJ * (TilesPerInterior + 1) + tileJ;
                             GameObject prefab = pathTilePrefab;
 
-                            if (tileI == tilesPerInterior) //the bottom wall
+                            if (tileI == TilesPerInterior) //the bottom wall
                             {
                                 ReassignWallTilePrefab();
                                 prefab = wallTilePrefab;
-                                if (_nodes[nodeI, nodeJ].connectedDown &&
+                                if (_nodes[nodeI, nodeJ].ConnectedDown &&
                                     tileJ >= doorwayOffsetBottom &&
-                                    tileJ < doorwayOffsetBottom + doorwaySize) //if it's a doorway
+                                    tileJ < doorwayOffsetBottom + DoorwaySize) //if it's a doorway
                                 {
                                     prefab = pathTilePrefab;
                                 }
                             }
 
-                            if (tileJ == tilesPerInterior) //the right wall
+                            if (tileJ == TilesPerInterior) //the right wall
                             {
                                 ReassignWallTilePrefab();
                                 prefab = wallTilePrefab;
-                                if (_nodes[nodeI, nodeJ].connectedRight &&
+                                if (_nodes[nodeI, nodeJ].ConnectedRight &&
                                     tileI >= doorwayOffsetRight &&
-                                    tileI < doorwayOffsetRight + doorwaySize) //if it's a doorway
+                                    tileI < doorwayOffsetRight + DoorwaySize) //if it's a doorway
                                 {
                                     prefab = pathTilePrefab;
                                 }
                             }
 
-                            iTilePrefabs[i, j] = prefab;
+                            _iTilePrefabs[i, j] = prefab;
                         }
                     }
                 }
@@ -432,40 +434,40 @@ namespace MiniGame.Terrain
                 .SetActive(true);
 
             SpawnPrefabs();
-            spawnNests();
+            SpawnNests();
 
             surface.BuildNavMesh();
         }
 
         private void SpawnPrefabs()
         {
-            iTiles = new GameObject[interiorRows, interiorCols];
-            for (int i = 0; i < interiorRows; i++)
+            _iTiles = new GameObject[InteriorRows, InteriorCols];
+            for (int i = 0; i < InteriorRows; i++)
             {
-                for (int j = 0; j < interiorCols; j++)
+                for (int j = 0; j < InteriorCols; j++)
                 {
                     int rotation = 90 * Random.Range(0, 4);
                     Quaternion appliedRotation = Quaternion.Euler(0, rotation, 0);
 
-                    iTiles[i, j] = Instantiate(iTilePrefabs[i, j],
-                        new Vector3(i * interiorTileSize, 0, j * interiorTileSize) + mazeLocationOffset,
+                    _iTiles[i, j] = Instantiate(_iTilePrefabs[i, j],
+                        new Vector3(i * InteriorTileSize, 0, j * InteriorTileSize) + MazeLocationOffset,
                         appliedRotation);
                 }
             }
         }
 
-        private void spawnNests()
+        private void SpawnNests()
         {
-            for (int nodeI = 0; nodeI < nodeRows; nodeI++)
+            for (int nodeI = 0; nodeI < NodeRows; nodeI++)
             {
-                for (int nodeJ = 0; nodeJ < nodeCols; nodeJ++)
+                for (int nodeJ = 0; nodeJ < NodeCols; nodeJ++)
                 {
                     Node n = _nodes[nodeI, nodeJ];
-                    if (n.connections == 1 && !isStartNode(n))
+                    if (n.Connections == 1 && !IsStartNode(n))
                     {
                         CreateNest(n, nodeI, nodeJ, 10);
                     }
-                    else if (hazardOnTile == HazardTypes.Pit && !isStartNode(n))
+                    else if (hazardOnTile == HazardTypes.Pit && !IsStartNode(n))
                     {
                         CreateNest(n, nodeI, nodeJ, 3);
                     }
@@ -476,27 +478,27 @@ namespace MiniGame.Terrain
         private void CreateNest(Node n, int nodeI, int nodeJ, float spawnTime)
         {
             Vector3 centerOfTileOffset = new Vector3((float) 5.5, 0, (float) 5.5);
-            float i = nodeI * (tilesPerInterior + 1);
-            float j = nodeJ * (tilesPerInterior + 1);
+            float i = nodeI * (TilesPerInterior + 1);
+            float j = nodeJ * (TilesPerInterior + 1);
             GameObject nest = Instantiate(nestPrefab,
-                new Vector3(i * interiorTileSize,
+                new Vector3(i * InteriorTileSize,
                     1,
-                    j * interiorTileSize) + centerOfTileOffset + mazeLocationOffset, Quaternion.Euler(180, 0, 0));
+                    j * InteriorTileSize) + centerOfTileOffset + MazeLocationOffset, Quaternion.Euler(180, 0, 0));
             nest.GetComponent<NestController>().timeBetweenSpawns = spawnTime;
             if (isEndNode(n))
             {
                 nest.GetComponent<NestDeathHandler>().OnDeathEndMiniGame();
             }
 
-            nests.Add(nest);
+            // _nests.Add(nest);
         }
 
         public Vector3 GetRandomPositionInNodeFromNode(Node node)
         {
-            int row = Random.Range(node.row * interiorRows + 2, node.row * interiorRows + tilesPerInterior);
-            int col = Random.Range(node.col * interiorCols + 2, node.col * interiorCols + tilesPerInterior);
+            int row = Random.Range(node.Row * InteriorRows + 2, node.Row * InteriorRows + TilesPerInterior);
+            int col = Random.Range(node.Col * InteriorCols + 2, node.Col * InteriorCols + TilesPerInterior);
 
-            return iTiles[row, col].transform.position;
+            return _iTiles[row, col].transform.position;
         }
     }
 }

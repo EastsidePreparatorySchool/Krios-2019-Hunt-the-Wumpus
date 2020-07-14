@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MiniGame.Selection;
+using UnityEngine;
 
 namespace MiniGame.Creatures
 {
@@ -37,7 +38,7 @@ namespace MiniGame.Creatures
                     bool makeWaypoint = Input.GetKey(WaypointKey);
                     
                     int followerCount = 0;
-                    foreach (Selectable selectable in RTSSelection.Selectables)
+                    foreach (Selectable selectable in RtsSelection.Selectables)
                     {
                         if (selectable.IsSelected)
                         {

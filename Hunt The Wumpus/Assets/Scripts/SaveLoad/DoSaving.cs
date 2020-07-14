@@ -1,41 +1,42 @@
-﻿using UnityEngine;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using CommandView;
-using SaveLoad;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
-public static class DoSaving
+namespace SaveLoad
 {
-    public static void DoTheSaving(Planet planet, bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, bool[] ShowHint, int[] TroopType, string[] TroopName, bool[] IsExausted, bool[] IsHeld, int[] HeldLoc, int NumOfTroops)
+    public static class DoSaving
     {
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
-        FileStream stream = new FileStream(path, FileMode.Create);
-
-        SaveData data = new SaveData(planet, States, BiomeNum, IsColonized, HazardType, ShowHint, TroopType, TroopName, IsExausted, IsHeld, HeldLoc, NumOfTroops);
-
-        formatter.Serialize(stream, data);
-        stream.Close();
-    }
-
-    public static SaveData LoadTheData ()
-    {
-        string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
-        if (File.Exists(path))
+        public static void DoTheSaving(Planet planet, bool[,] states, int[] biomeNum, bool[] isColonized, int[] hazardType, bool[] showHint, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld, int[] heldLoc, int numOfTroops)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
+            FileStream stream = new FileStream(path, FileMode.Create);
 
-            SaveData data = formatter.Deserialize(stream) as SaveData;
+            SaveData data = new SaveData(planet, states, biomeNum, isColonized, hazardType, showHint, troopType, troopName, isExausted, isHeld, heldLoc, numOfTroops);
+
+            formatter.Serialize(stream, data);
             stream.Close();
-
-            return data;
         }
-        else
+
+        public static SaveData LoadTheData ()
         {
-            Debug.LogError("Savegame not found");
-            return null;
+            string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
+            if (File.Exists(path))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
+
+                SaveData data = formatter.Deserialize(stream) as SaveData;
+                stream.Close();
+
+                return data;
+            }
+            else
+            {
+                Debug.LogError("Savegame not found");
+                return null;
+            }
         }
     }
 }

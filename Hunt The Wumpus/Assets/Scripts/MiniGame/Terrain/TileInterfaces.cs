@@ -1,4 +1,4 @@
-﻿namespace MiniGame
+﻿namespace MiniGame.Terrain
 {
     public interface ITile
     {

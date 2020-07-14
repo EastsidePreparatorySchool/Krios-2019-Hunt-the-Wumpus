@@ -22,7 +22,7 @@ namespace MiniGame.Selection
                 if (!mIgnoreRatio)
                     dir = GuiGradientTools.CompensateAspectRatio(rect, dir);
 
-                GuiGradientTools.Matrix2x3 localPositionMatrix = GuiGradientTools.LocalPositionMatrix(rect, dir);
+                GuiGradientTools.Matrix2X3 localPositionMatrix = GuiGradientTools.LocalPositionMatrix(rect, dir);
 
                 UIVertex vertex = default(UIVertex);
                 for (int i = 0; i < vh.currentVertCount; i++) {

@@ -67,12 +67,12 @@ namespace MiniGame.Creatures
 
         private void SpawnEntities()
         {
-            for (int i = 0; i < MapGenerator.nodeRows; i++)
+            for (int i = 0; i < MapGenerator.NodeRows; i++)
             {
-                for (int j = 0; j < MapGenerator.nodeCols; j++)
+                for (int j = 0; j < MapGenerator.NodeCols; j++)
                 {
                     Node node = _mapGen.GetNodeMap()[i, j];
-                    if (_mapGen.isStartNode(node))
+                    if (MapGenerator.IsStartNode(node))
                     {
                         SpawnTroops(node);
                     }
