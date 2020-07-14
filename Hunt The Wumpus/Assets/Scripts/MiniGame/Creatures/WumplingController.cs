@@ -1,8 +1,7 @@
-﻿using MiniGame.Creatures;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class WumplingController : MonoBehaviour
     {

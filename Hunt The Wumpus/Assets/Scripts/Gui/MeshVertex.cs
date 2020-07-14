@@ -16,7 +16,7 @@ namespace Gui
         public int Id;
         private static Random _random = new Random();
         
-        public static List<MeshVertex> vertices = new List<MeshVertex>();
+        public static List<MeshVertex> Vertices = new List<MeshVertex>();
 
         public MeshVertex(FaceHandler parent, Vector3 vertexCoords)
         {

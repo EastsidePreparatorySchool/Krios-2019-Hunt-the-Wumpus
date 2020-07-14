@@ -27,7 +27,7 @@ namespace SaveLoad
         public bool[] isHeld;
         public int[] heldLoc;
 
-        public SaveData(Planet planet, bool[,] States, int[] BiomeNum, bool[] IsColonized, int[] HazardType, bool[] ShowHint, int[] TroopType, string[] TroopName, bool[] IsExausted, bool[] IsHeld, int[] HeldLoc, int NumOfTroops)
+        public SaveData(Planet planet, bool[,] states, int[] biomeNum, bool[] isColonized, int[] hazardType, bool[] showHint, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld, int[] heldLoc, int numOfTroops)
         {
             turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
             money = planet.GetComponent<GameMeta>().money;
@@ -36,52 +36,52 @@ namespace SaveLoad
 
             wumpusLocation = planet.wumpus.location.GetTileNumber();
 
-            int i = 0;
+            int i;
             for (i = 0; i < 30; i++)
                 for (int j = 0; j < 4; j++)
-                    state[j, i] = States[j, i];
+                    state[j, i] = states[j, i];
 
             i = 0;
-            foreach (int BN in BiomeNum)
+            foreach (int bn in biomeNum)
             {
-                biomeNum[i] = BN;
+                this.biomeNum[i] = bn;
                 i++;
             }
 
             i = 0;
-            foreach (bool IC in IsColonized)
+            foreach (bool ic in isColonized)
             {
-                isColonized[i] = IC;
+                this.isColonized[i] = ic;
                 i++;
             }
 
             i = 0;
-            foreach (int HT in HazardType)
+            foreach (int ht in hazardType)
             {
-                hazardType[i] = HT;
+                this.hazardType[i] = ht;
                 i++;
             }
 
             i = 0;
-            foreach (bool SH in ShowHint)
+            foreach (bool sh in showHint)
             {
-                showHint[i] = SH;
+                this.showHint[i] = sh;
                 i++;
             }
 
-            troopType = new int[NumOfTroops];
-            troopName = new string[NumOfTroops];
-            isExausted = new bool[NumOfTroops];
-            isHeld = new bool[NumOfTroops];
-            heldLoc = new int[NumOfTroops];
+            this.troopType = new int[numOfTroops];
+            this.troopName = new string[numOfTroops];
+            this.isExausted = new bool[numOfTroops];
+            this.isHeld = new bool[numOfTroops];
+            this.heldLoc = new int[numOfTroops];
 
-            for (i = 0; i < NumOfTroops; i++)
+            for (i = 0; i < numOfTroops; i++)
             {
-                troopType[i] = TroopType[i];
-                troopName[i] = TroopName[i];
-                isExausted[i] = IsExausted[i];
-                isHeld[i] = IsHeld[i];
-                heldLoc[i] = HeldLoc[i];
+                this.troopType[i] = troopType[i];
+                this.troopName[i] = troopName[i];
+                this.isExausted[i] = isExausted[i];
+                this.isHeld[i] = isHeld[i];
+                this.heldLoc[i] = heldLoc[i];
             }
         }
     }

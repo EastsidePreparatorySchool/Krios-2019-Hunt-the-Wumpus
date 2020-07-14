@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MiniGame
+namespace MiniGame.Selection
 {
     public class SelectionBoxDisplay : MonoBehaviour
     {

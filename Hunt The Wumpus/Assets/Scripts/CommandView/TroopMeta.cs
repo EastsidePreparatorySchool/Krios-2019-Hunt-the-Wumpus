@@ -11,30 +11,30 @@ namespace CommandView
     }
     public class TroopMeta
     {
-        public String resourceString;
+        public readonly String ResourceString;
 
-        public TroopType type = TroopType.Marine;
-        public String name;
+        public readonly TroopType Type;
+        public readonly String Name;
 
-        public int damage;
+        public int Damage;
 
-        public bool sendToBattle = false;
+        public bool SendToBattle = false;
         
-        public int battlesFought;
+        public int BattlesFought;
 
         public int UpgradeLvl;
 
         public TroopMeta(TroopType type, String name)
         {
-            this.type = type;
-            this.name = name;
-            damage = 10;
+            this.Type = type;
+            this.Name = name;
+            Damage = 10;
             
 
             switch (type)
             {
                 case TroopType.Marine:
-                    resourceString = "Objects/Soldier";
+                    ResourceString = "Objects/Soldier";
                     //Debug.Log(resourceString);
                     break;
             }

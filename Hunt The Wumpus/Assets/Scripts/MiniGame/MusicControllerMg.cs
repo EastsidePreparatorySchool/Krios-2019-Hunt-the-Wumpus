@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design.Serialization;
 using CommandView;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MiniGame
 {

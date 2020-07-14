@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace MiniGame.Creatures.DeathHandlers
+﻿namespace MiniGame.Creatures.DeathHandlers
 {
-    public interface DeathHandler
+    public interface IDeathHandler
     {
         void Die();
     }

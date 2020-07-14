@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using CommandView;
 
@@ -11,33 +8,33 @@ public class PostProcessingController : MonoBehaviour
 
     public Planet planet;
 
-    Bloom bloomLayer = null;
-    AmbientOcclusion ambientOcclusionLayer = null;
+    private Bloom _bloomLayer;
+    private AmbientOcclusion _ambientOcclusionLayer;
 
-    private bool bloomWas;
-    private bool aowas;
+    private bool _bloomWas;
+    private bool _aowas;
 
     // Start is called before the first frame update
     void Start()
     {
-        postProcessVolume.profile.TryGetSettings(out bloomLayer);
-        postProcessVolume.profile.TryGetSettings(out ambientOcclusionLayer);
+        postProcessVolume.profile.TryGetSettings(out _bloomLayer);
+        postProcessVolume.profile.TryGetSettings(out _ambientOcclusionLayer);
         
-        bloomWas = planet.bloom;
-        aowas = planet.ambientOcclusion;
+        _bloomWas = planet.bloom;
+        _aowas = planet.ambientOcclusion;
     }
 
     void Update()
     {
-        if (planet.bloom != bloomWas)
+        if (planet.bloom != _bloomWas)
         {
-            bloomLayer.enabled.value = planet.bloom;
-            bloomWas = planet.bloom;
+            _bloomLayer.enabled.value = planet.bloom;
+            _bloomWas = planet.bloom;
         }
-        if (planet.ambientOcclusion != aowas)
+        if (planet.ambientOcclusion != _aowas)
         {
-            ambientOcclusionLayer.enabled.value = planet.ambientOcclusion;
-            aowas = planet.ambientOcclusion;
+            _ambientOcclusionLayer.enabled.value = planet.ambientOcclusion;
+            _aowas = planet.ambientOcclusion;
         }
     }
 }

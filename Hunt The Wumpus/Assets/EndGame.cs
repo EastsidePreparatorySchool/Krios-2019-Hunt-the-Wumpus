@@ -1,9 +1,6 @@
 ﻿using CommandView;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 public class EndGame : MonoBehaviour
 {
@@ -14,7 +11,7 @@ public class EndGame : MonoBehaviour
     public TextMeshProUGUI turnsText;
     public TextMeshProUGUI button;
 
-    private bool stop = false;
+    private bool _stop;
 
     // Start is called before the first frame update
     void Start()
@@ -27,17 +24,17 @@ public class EndGame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_planet.curGameStatus != GameStatus.InPlay && !stop)
+        if (_planet.curGameStatus != GameStatus.InPlay && !_stop)
             EndTheGame(_planet.curGameStatus);
     }
 
     void EndTheGame(GameStatus status)
     {
-        stop = true;
+        _stop = true;
         transform.GetChild(0).gameObject.SetActive(true);
         //TextMeshProUGUI  endText = endTextP.GetComponent<TextMeshProUGUI>();
         //TextMeshProUGUI turnsText = turnsTextP.GetComponent<TextMeshProUGUI>();
-        stop = true;
+        _stop = true;
         switch (status)
         {
             case GameStatus.Win:
@@ -64,7 +61,7 @@ public class EndGame : MonoBehaviour
         {
             transform.GetChild(0).gameObject.SetActive(false);
             _planet.curGameStatus = 0;
-            stop = false;
+            _stop = false;
         }
         else
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MiniGame.Creatures.DeathHandlers
 {
-    public class SoldierDeathHandler :  MonoBehaviour, DeathHandler
+    public class SoldierDeathHandler :  MonoBehaviour, IDeathHandler
     {
         private ResultHandler _resultHandler;
         private GameObject _camera;

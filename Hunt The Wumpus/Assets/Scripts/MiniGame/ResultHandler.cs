@@ -30,24 +30,24 @@ namespace MiniGame
 
         public int NumTroopsLeft()
         {
-            return _result.inGameTroops.Count;
+            return _result.InGameTroops.Count;
         }
         
         
         public void EarnMoney(int money)
         {
-            _result.moneyCollected += money;
+            _result.MoneyCollected += money;
         }
 
         public void RemoveTroop(TroopMeta troopMeta)
         {
-            _result.inGameTroops.Remove(troopMeta);
+            _result.InGameTroops.Remove(troopMeta);
         }
 
         public void EndMiniGame(bool didWin = true)
         {
             _planetHandler.didSomething = true;
-            _result.didWin = didWin;
+            _result.DidWin = didWin;
             
             StartCoroutine(FadeOutAndSwitch());
 

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using Gui;
 using SaveLoad;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using JetBrains.Annotations;
 
 public enum HazardTypes
 {
@@ -23,20 +21,20 @@ public enum GameStatus
     LostSentTroopToWumpling
 }
 
-public class Mountain
-{
-    public GameObject mountain;
-    public MeshVertex meshVertex1;
-    public MeshVertex meshVertex2;
-    public bool discovered;
-    public bool colonized;
-
-    public Mountain(MeshVertex mv1, MeshVertex mv2)
-    {
-        meshVertex1 = mv1;
-        meshVertex2 = mv2;
-    }
-}
+// public struct Mountain
+// {
+//     public GameObject mountain;
+//     public MeshVertex MeshVertex1;
+//     public MeshVertex MeshVertex2;
+//     public bool Discovered;
+//     public bool Colonized;
+//
+//     public Mountain(MeshVertex mv1, MeshVertex mv2)
+//     {
+//         MeshVertex1 = mv1;
+//         MeshVertex2 = mv2;
+//     }
+// }
 
 namespace CommandView
 {
@@ -44,7 +42,7 @@ namespace CommandView
     public class Planet : MonoBehaviour
     {
         //User Prefs
-        public bool ConfirmTurn;
+        public bool confirmTurn;
 
         //General
         public bool backFromMiniGame;
@@ -55,7 +53,7 @@ namespace CommandView
 
         public float volume = 0.5f;
 
-        public bool readyToPause = false;
+        public bool readyToPause;
         public bool readyToPlay = true;
 
         public int maxUpgrades;
@@ -82,11 +80,11 @@ namespace CommandView
         private List<MeshVertex> _vertices = new List<MeshVertex>();
         private GameObject _colonizedLine;
         private Material _altLineMaterial;
-        public const float territoryLineWidth = 0.15f;
+        public const float TerritoryLineWidth = 0.15f;
         private List<GameObject> _lines = new List<GameObject>();
         public bool borderAroundTerritory;
-        public List<Mountain> mountains = new List<Mountain>();
-        public int lastDisplayedTurn = 0;
+        // public List<Mountain> mountains = new List<Mountain>();
+        public int lastDisplayedTurn;
 
         // Mini-game global variables
         private int _faceInBattle = -1; // which face is being played on (-1=none)
@@ -100,12 +98,12 @@ namespace CommandView
         private bool[] IsColonized = new bool[30];
         private int[] HazardType = new int[30];
         private bool[] ShowHint = new bool[30];
-        private int[] troopType;
-        private string[] TroopName;
-        private bool[] IsExausted;
-        private bool[] IsHeld;
-        private int[] HeldLoc;
-        private int TotalTroops;
+        private int[] _troopType;
+        private string[] _troopName;
+        private bool[] _isExausted;
+        private bool[] _isHeld;
+        private int[] _heldLoc;
+        private int _totalTroops;
 
         public GameMeta meta;
         public MiniGameResult result;
@@ -113,6 +111,11 @@ namespace CommandView
         public int selectedFace = -1;
 
         public bool didSomething;
+
+        public Planet()
+        {
+            readyToPause = false;
+        }
 
         private void Awake()
         {
@@ -281,7 +284,7 @@ namespace CommandView
             list[j] = temp;
         }
 
-        private /*static*/ void Shuffle(List<int> list, Random rnd)
+        private /*static*/ void Shuffle(List<int> list)
         {
             for (var i = list.Count; i > 0; i--)
                 Swap(list, 0, Random.Range(0, i));
@@ -458,8 +461,6 @@ namespace CommandView
 
         private void MapMaker()
         {
-            Random random = new Random();
-
             List<int> order = new List<int>(); //a list of the rooms in order we're going to look at
             for (int i = 1; i < 31; i++)
             {
@@ -467,7 +468,7 @@ namespace CommandView
             }
 
             //print(OutputList(order));
-            Shuffle(order, random);
+            Shuffle(order);
             //print(OutputList(order));
 
             for (int i = 0; i < 30; i++)
@@ -628,7 +629,7 @@ namespace CommandView
                             edgePairs.Add(vertex.Id * neighbor.Id);
                             if (discoveredSharedFaces == 1 && undiscoveredSharedFaces == 1)
                             {
-                                _lines.Add(DrawVertexLine(vertex, neighbor, setActive, territoryLineWidth / 2f));
+                                _lines.Add(DrawVertexLine(vertex, neighbor, setActive, TerritoryLineWidth / 2f));
                                 continue;
                             }
                             _lines.Add(DrawVertexLine(vertex, neighbor, setActive));
@@ -661,13 +662,13 @@ namespace CommandView
 
                     if (edgePairs.Contains(discoveredEdgeVertex.Id * neighbor.Id)) continue;
                     edgePairs.Add(discoveredEdgeVertex.Id * neighbor.Id);
-                    _lines.Add(DrawVertexLine(discoveredEdgeVertex, neighbor, setActive, territoryLineWidth / 2f));
+                    _lines.Add(DrawVertexLine(discoveredEdgeVertex, neighbor, setActive, TerritoryLineWidth / 2f));
                     // There might be more to add here
                 }
             }
         }
 
-        private GameObject DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, bool setActive, float width = territoryLineWidth)
+        private GameObject DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, bool setActive, float width = TerritoryLineWidth)
         {
             // Debug.Log("Making Line...");
             GameObject line =
@@ -682,7 +683,7 @@ namespace CommandView
             
             lr.startWidth = width;
             lr.endWidth = width;
-            if (width < territoryLineWidth)
+            if (width < TerritoryLineWidth)
             {
                 lr.material = _altLineMaterial;
             }
@@ -891,32 +892,32 @@ namespace CommandView
                 i++;
             }
 
-            TotalTroops = GetComponent<GameMeta>().availableTroops.Count() + GetComponent<GameMeta>().exhaustedTroops.Count();
+            _totalTroops = GetComponent<GameMeta>().availableTroops.Count() + GetComponent<GameMeta>().exhaustedTroops.Count();
 
             foreach (FaceHandler face in faceHandlers)
-                TotalTroops += face.heldTroops.Count();
+                _totalTroops += face.heldTroops.Count();
 
-            troopType = new int[TotalTroops];
-            TroopName = new string[TotalTroops];
-            IsExausted = new bool[TotalTroops];
-            IsHeld = new bool[TotalTroops];
-            HeldLoc = new int[TotalTroops];
+            _troopType = new int[_totalTroops];
+            _troopName = new string[_totalTroops];
+            _isExausted = new bool[_totalTroops];
+            _isHeld = new bool[_totalTroops];
+            _heldLoc = new int[_totalTroops];
 
             i = 0;
             foreach (TroopMeta troop in GetComponent<GameMeta>().availableTroops)
             {
-                troopType[i] = (int)troop.type;
-                TroopName[i] = troop.name;
-                IsExausted[i] = false;
-                IsHeld[i] = false;
+                _troopType[i] = (int)troop.Type;
+                _troopName[i] = troop.Name;
+                _isExausted[i] = false;
+                _isHeld[i] = false;
                 i++;
             }
             foreach (TroopMeta troop in GetComponent<GameMeta>().exhaustedTroops)
             {
-                troopType[i] = (int)troop.type;
-                TroopName[i] = troop.name;
-                IsExausted[i] = true;
-                IsHeld[i] = false;
+                _troopType[i] = (int)troop.Type;
+                _troopName[i] = troop.Name;
+                _isExausted[i] = true;
+                _isHeld[i] = false;
                 i++;
             }
             for (int j = 0; j < faceHandlers.Count(); j++)
@@ -927,11 +928,11 @@ namespace CommandView
                 {
                     foreach (TroopMeta troop in face.heldTroops)
                     {
-                        troopType[i] = (int)troop.type;
-                        TroopName[i] = troop.name;
-                        IsExausted[i] = true;
-                        IsHeld[i] = true;
-                        HeldLoc[i] = j;
+                        _troopType[i] = (int)troop.Type;
+                        _troopName[i] = troop.Name;
+                        _isExausted[i] = true;
+                        _isHeld[i] = true;
+                        _heldLoc[i] = j;
                         i++;
                     }
                 }
@@ -939,7 +940,7 @@ namespace CommandView
             }
 
 
-            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, troopType, TroopName, IsExausted, IsHeld, HeldLoc, TotalTroops);
+            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, _troopType, _troopName, _isExausted, _isHeld, _heldLoc, _totalTroops);
         }
 
         public void Loadfunc()

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.InteropServices;
 using CommandView;
-using Gui;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 
 public class UpdateGui : MonoBehaviour
@@ -46,7 +43,7 @@ public class UpdateGui : MonoBehaviour
     private TextMeshProUGUI[] _faceDataHolderText;
     private TextMeshProUGUI[] _compArr;
 
-    private PlanetSpin _orbit;
+    // private PlanetSpin _orbit;
 
     private MainMenuVars _menu;
 
@@ -71,7 +68,7 @@ public class UpdateGui : MonoBehaviour
         _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
 
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
-        _orbit = FindObjectOfType<PlanetSpin>();
+        // _orbit = FindObjectOfType<PlanetSpin>();
 
         _menu = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
 
@@ -151,7 +148,7 @@ public class UpdateGui : MonoBehaviour
             _planetScript.lastDisplayedTurn = _inGameMeta.turnsElapsed;
         }
 
-        if (_menu.isPause == true)
+        if (_menu.isPause)
         {
             if (_ispaused == false)
             {
@@ -162,7 +159,7 @@ public class UpdateGui : MonoBehaviour
 
         if (_menu.isPause == false)
         {
-            if (_ispaused == true)
+            if (_ispaused)
             {
                 _ispaused = _menu.isPause;
                 StartCoroutine(WaitUntilGameBegins());
@@ -225,7 +222,7 @@ public class UpdateGui : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
-        yield return new WaitUntil(() => _menu.isPause == true);
+        yield return new WaitUntil(() => _menu.isPause);
         Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
         Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
         

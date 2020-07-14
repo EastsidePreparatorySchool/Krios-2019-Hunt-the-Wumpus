@@ -8,7 +8,7 @@ namespace Wumpus
     {
         public GameObject planetGameObject;
         private Planet _planet;
-        private GameMeta _ingameStat;
+        // private GameMeta _ingameStat;
     
         // init variables
         public FaceHandler location;
@@ -16,7 +16,7 @@ namespace Wumpus
 
         void Awake() {
             _planet = planetGameObject.GetComponent<Planet>();
-            _ingameStat = _planet.GetComponent<GameMeta>();
+            // _ingameStat = _planet.GetComponent<GameMeta>();
         }
         
         // Start is called before the first frame update

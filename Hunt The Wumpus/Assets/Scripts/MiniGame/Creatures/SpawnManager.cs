@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using CommandView;
-using MiniGame.Creatures;
 using MiniGame.Creatures.DeathHandlers;
 using MiniGame.Terrain;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class SpawnManager : MonoBehaviour
     {
@@ -39,7 +37,7 @@ namespace MiniGame
         {
         
             _planet = GameObject.Find("Planet").GetComponent<Planet>();
-            _troops = _planet.result.inGameTroops;
+            _troops = _planet.result.InGameTroops;
 
             _mapGen = GameObject.Find("Minigame Main Camera").GetComponent<MapGenerator>();
             FaceHandler faceHandler = _planet.faceHandlers[_planet.GetFaceInBattle()];
@@ -69,19 +67,19 @@ namespace MiniGame
 
         private void SpawnEntities()
         {
-            for (int i = 0; i < MapGenerator.nodeRows; i++)
+            for (int i = 0; i < MapGenerator.NodeRows; i++)
             {
-                for (int j = 0; j < MapGenerator.nodeCols; j++)
+                for (int j = 0; j < MapGenerator.NodeCols; j++)
                 {
                     Node node = _mapGen.GetNodeMap()[i, j];
-                    if (_mapGen.isStartNode(node))
+                    if (MapGenerator.IsStartNode(node))
                     {
                         SpawnTroops(node);
                     }
-                    else
-                    {
-                        PopulateWumplingRoom(node);
-                    }
+                    // else
+                    // {
+                    //     PopulateWumplingRoom(node);
+                    // }
                 }
             }
         }
@@ -117,15 +115,15 @@ namespace MiniGame
         {
             foreach (var troop in _troops)
             {
-                GameObject soldier = (GameObject) Instantiate(Resources.Load(troop.resourceString), _mapGen.GetRandomPositionInNodeFromNode(node), Quaternion.identity);
+                GameObject soldier = (GameObject) Instantiate(Resources.Load(troop.ResourceString), _mapGen.GetRandomPositionInNodeFromNode(node), Quaternion.identity);
                 soldier.GetComponent<SoldierDeathHandler>().troopMeta = troop;
                 soldier.GetComponent<CombatController>().troopMeta = troop;
             }
         }
 
-        private void PopulateWumplingRoom(Node node)
-        {
-            
-        }
+        // private void PopulateWumplingRoom(Node node)
+        // {
+        //     
+        // }
     }
 }

@@ -1,7 +1,7 @@
-﻿using MiniGame.Creatures;
+﻿using MiniGame.Selection;
 using UnityEngine;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class PointerSpawner : MonoBehaviour
     {
@@ -38,7 +38,7 @@ namespace MiniGame
                     bool makeWaypoint = Input.GetKey(WaypointKey);
                     
                     int followerCount = 0;
-                    foreach (Selectable selectable in RTSSelection.Selectables)
+                    foreach (Selectable selectable in RtsSelection.Selectables)
                     {
                         if (selectable.IsSelected)
                         {

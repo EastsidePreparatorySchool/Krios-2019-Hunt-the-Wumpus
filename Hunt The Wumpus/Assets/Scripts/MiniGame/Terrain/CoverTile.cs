@@ -1,24 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using MiniGame;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CoverTile : MonoBehaviour, ITile
+namespace MiniGame.Terrain
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CoverTile : MonoBehaviour, ITile
     {
+        // Start is called before the first frame update
+        void Start()
+        {
         
-    }
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
         
-    }
+        }
 
-    public bool CanWalkOn()
-    {
-        throw new System.NotImplementedException();
+        public bool CanWalkOn()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

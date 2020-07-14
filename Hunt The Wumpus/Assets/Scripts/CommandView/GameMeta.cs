@@ -1,6 +1,5 @@
 ﻿using Gui;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -99,7 +98,7 @@ namespace CommandView
         {
             MiniGameResult result = _planetHandler.result;
             
-            foreach (TroopMeta t in result.inGameTroops)
+            foreach (TroopMeta t in result.InGameTroops)
             {
                 exhaustedTroops.Add(t);
             }
@@ -107,7 +106,7 @@ namespace CommandView
             FaceHandler inBattleFaceHandler =
                 _planetHandler.faceHandlers[_planetHandler.GetFaceInBattle()];
 
-            if (inBattleFaceHandler.heldTroops.Any() && result.didWin)
+            if (inBattleFaceHandler.heldTroops.Any() && result.DidWin)
             {
                 foreach (TroopMeta heldTroop in inBattleFaceHandler.heldTroops)
                 {
@@ -117,11 +116,11 @@ namespace CommandView
                 
             }
 
-            money += result.moneyCollected;
+            money += result.MoneyCollected;
 
             _planetHandler.SetFaceInBattle(-1);
 
-            if (result.didWin)
+            if (result.DidWin)
             {
                 inBattleFaceHandler.SetColonized(false);
             }

@@ -1,57 +1,57 @@
 ﻿using CommandView;
-using System.Collections;
-using System.Collections.Generic;
 using Gui;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     public MusicController musicController;
-    Animator cameraAnimator;
-    Animator lettersAnimator;
+    private Animator _cameraAnimator;
+    private Animator _lettersAnimator;
 
-    public GameObject OptionsMenu;
-    GameObject optionsPanel;
+    public GameObject optionsMenu;
+    private GameObject _optionsPanel;
 
-    public GameObject MainMenuCanvas;
-    GameObject MainMenuPanel;
+    public GameObject mainMenuCanvas;
+    private GameObject _mainMenuPanel;
 
     public SettingsMenu settings;
 
-    Planet planet;
-    MainMenuVars vars;
+    private Planet _planet;
+    private MainMenuVars _vars;
+    private static readonly int FromMiniGame = Animator.StringToHash("BackFromMiniGame");
+    private static readonly int MoveIn = Animator.StringToHash("MoveIn");
+    private static readonly int MoveOut = Animator.StringToHash("MoveOut");
 
     void Start()
     {
-        cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
-        lettersAnimator = GameObject.Find("Letters").GetComponent<Animator>();
-        planet = GameObject.Find("Planet").GetComponent<Planet>();
-        vars = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
-        optionsPanel = OptionsMenu.transform.Find("Panel").gameObject;
-        MainMenuPanel = MainMenuCanvas.transform.Find("MenuPanel").gameObject;
+        _cameraAnimator = GameObject.Find("Main Camera").GetComponent<Animator>();
+        _lettersAnimator = GameObject.Find("Letters").GetComponent<Animator>();
+        _planet = GameObject.Find("Planet").GetComponent<Planet>();
+        _vars = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
+        _optionsPanel = optionsMenu.transform.Find("Panel").gameObject;
+        _mainMenuPanel = mainMenuCanvas.transform.Find("MenuPanel").gameObject;
     }
 
     void Update()
     {
-        if (planet.backFromMiniGame)
-            backFromMiniGame();
+        if (_planet.backFromMiniGame)
+            BackFromMiniGame();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (settings.inCredits)
                 settings.Credits();
-            else if (optionsPanel.activeSelf)
-                optionsPanel.SetActive(false);
-            else if (MainMenuPanel.activeSelf && planet.readyToPlay)
+            else if (_optionsPanel.activeSelf)
+                _optionsPanel.SetActive(false);
+            else if (_mainMenuPanel.activeSelf && _planet.readyToPlay)
             {
-                planet.readyToPlay = false;
+                _planet.readyToPlay = false;
                 Resume();
             }
-            else if (!MainMenuPanel.activeSelf && planet.readyToPause)
+            else if (!_mainMenuPanel.activeSelf && _planet.readyToPause)
             {
-                planet.readyToPause = false;
+                _planet.readyToPause = false;
                 Pause();
             }
         }
@@ -59,16 +59,16 @@ public class MainMenu : MonoBehaviour
 
     public void Resume()
     {
-        if (!planet.GetStartGame())
+        if (!_planet.GetStartGame())
         {
-            planet.SetStartGame();
+            _planet.SetStartGame();
             musicController.FadeOut();
         }
 
         ZoomIn();
         HideMainMenu();
-        vars.isPause = false;
-        vars.firstLaunch = false;
+        _vars.isPause = false;
+        _vars.firstLaunch = false;
     }
 
     public void NewGame()
@@ -78,14 +78,14 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGame()
     {
-        planet.Loadfunc();
+        _planet.Loadfunc();
         print("loaded");
         Resume();
     }
 
     public void Options()
     {
-        optionsPanel.SetActive(!optionsPanel.activeSelf);
+        _optionsPanel.SetActive(!_optionsPanel.activeSelf);
     }
 
     public void Save()
@@ -100,37 +100,37 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void backFromMiniGame()
+    private void BackFromMiniGame()
     {
-        vars.firstLaunch = false;
-        vars.isPause = false;
-        animBackFromMiniGame();
+        _vars.firstLaunch = false;
+        _vars.isPause = false;
+        AnimBackFromMiniGame();
         HideMainMenu();
-        planet.backFromMiniGame = false;
+        _planet.backFromMiniGame = false;
     }
 
-    void Pause()
+    private void Pause()
     {
         ZoomOut();
         ShowMainMenu();
-        vars.isPause = true;
+        _vars.isPause = true;
         HideStoreTroopSelect();
-        if (vars.firstLaunch == false)
+        if (_vars.firstLaunch == false)
             GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
     }
 
-    void HideMainMenu()
+    private void HideMainMenu()
     {
         print("Hiding main menu");
         GameObject.Find("MainMenuCanvas").transform.GetChild(0).gameObject.SetActive(false);
     }
 
-    void ShowMainMenu()
+    private void ShowMainMenu()
     {
         GameObject.Find("MainMenuCanvas").transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    void HideStoreTroopSelect()
+    private void HideStoreTroopSelect()
     {
         GameObject troopSelector = GameObject.Find("TroopSelectorUI");
         if (troopSelector != null)
@@ -145,29 +145,29 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    void animBackFromMiniGame()
+    private void AnimBackFromMiniGame()
     {
-        cameraAnimator.SetBool("BackFromMiniGame", true);
-        lettersAnimator.SetBool("BackFromMiniGame", true);
-        cameraAnimator.SetBool("MoveIn", false);
-        cameraAnimator.SetBool("MoveOut", false);
-        lettersAnimator.SetBool("MoveOut", false);
-        lettersAnimator.SetBool("MoveIn", false);
+        _cameraAnimator.SetBool(FromMiniGame, true);
+        _lettersAnimator.SetBool(FromMiniGame, true);
+        _cameraAnimator.SetBool(MoveIn, false);
+        _cameraAnimator.SetBool(MoveOut, false);
+        _lettersAnimator.SetBool(MoveOut, false);
+        _lettersAnimator.SetBool(MoveIn, false);
     }
 
-    void ZoomIn()
+    private void ZoomIn()
     {
-        cameraAnimator.SetBool("MoveIn", true);
-        cameraAnimator.SetBool("MoveOut", false);
-        lettersAnimator.SetBool("MoveOut", true);
-        lettersAnimator.SetBool("MoveIn", false);
+        _cameraAnimator.SetBool(MoveIn, true);
+        _cameraAnimator.SetBool(MoveOut, false);
+        _lettersAnimator.SetBool(MoveOut, true);
+        _lettersAnimator.SetBool(MoveIn, false);
     }
 
-    void ZoomOut()
+    private void ZoomOut()
     {
-        cameraAnimator.SetBool("MoveIn", false);
-        cameraAnimator.SetBool("MoveOut", true);
-        lettersAnimator.SetBool("MoveOut", false);
-        lettersAnimator.SetBool("MoveIn", true);
+        _cameraAnimator.SetBool(MoveIn, false);
+        _cameraAnimator.SetBool(MoveOut, true);
+        _lettersAnimator.SetBool(MoveOut, false);
+        _lettersAnimator.SetBool(MoveIn, true);
     }
 }

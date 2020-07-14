@@ -17,13 +17,13 @@ namespace CommandView
 {
     public class MiniGameResult
     {
-        public List<TroopMeta> inGameTroops;
-        public int moneyCollected;
-        public bool didWin;
+        public List<TroopMeta> InGameTroops;
+        public int MoneyCollected;
+        public bool DidWin;
 
         public MiniGameResult(List<TroopMeta> troopsToSend)
         {
-            inGameTroops = troopsToSend;
+            InGameTroops = troopsToSend;
         }
     }
 
@@ -78,7 +78,7 @@ namespace CommandView
         public List<MeshVertex> meshVertices = new List<MeshVertex>();
 
         // Game-relevant stats in this script are sent to a centralized location
-        private GameMeta _inGameStat;
+        // private GameMeta _inGameStat;
         public bool[] lastHintGiven;
         public int turnsSinceLastHint;
         public bool showHintOnTile;
@@ -89,7 +89,7 @@ namespace CommandView
         private bool _firstTimeRun;
         private bool playMiniGame = true; // you can turn this off if you just want to mess with the map
 
-        private GameMeta meta;
+        private GameMeta _meta;
         public List<TroopMeta> heldTroops = new List<TroopMeta>();
         private GameObject _batDestinationIndicator;
 
@@ -108,11 +108,11 @@ namespace CommandView
             // Initialize variables
             _planet = transform.parent.gameObject.GetComponent<Planet>();
             _faceNumber = Convert.ToInt32(gameObject.name) - 1;
-            _inGameStat = _planet.GetComponent<GameMeta>();
+            // _inGameStat = _planet.GetComponent<GameMeta>();
             lastHintGiven = _planet.GetHintsToGive();
             state = new[] {true, true, true, true};
             biomeType = BiomeType.None;
-            meta = _planet.GetComponent<GameMeta>();
+            _meta = _planet.GetComponent<GameMeta>();
         }
 
         // Start is called before the first frame update
@@ -475,18 +475,19 @@ namespace CommandView
         private IEnumerator PulseFace()
         {
             Renderer faceRenderer = GetComponent<Renderer>();
+            Material faceRendererMaterial = faceRenderer.material;
             float delta = 5f / 360f;
             int fadeDir = 1;
-            Color ogColor = faceRenderer.material.color;
+            Color ogColor = faceRendererMaterial.color;
             Color.RGBToHSV(ogColor, out float ogH, out float ogS, out float ogV);
 
             while (_planet.selectedFace == _faceNumber)
             {
                 float change = delta * 0.1f * fadeDir;
                 print(change);
-                faceRenderer.material.color = Color.HSVToRGB(ogH, ogS, ogV + change);
+                faceRendererMaterial.color = Color.HSVToRGB(ogH, ogS, ogV + change);
 
-                Color.RGBToHSV(faceRenderer.material.color, out _, out _, out float curV);
+                Color.RGBToHSV(faceRendererMaterial.color, out _, out _, out float curV);
                 print(curV + " -> " + ogV);
                 if (curV > ogV + delta)
                 {
@@ -500,7 +501,7 @@ namespace CommandView
                 yield return new WaitForSeconds(0.1f);
             }
 
-            faceRenderer.material.color = ogColor;
+            faceRendererMaterial.color = ogColor;
         }
 
         private void UpdateHintData()
@@ -545,9 +546,9 @@ namespace CommandView
                 meta.troops.RemoveAt(0);
             }*/
 
-            foreach (var troop in meta.availableTroops)
+            foreach (var troop in _meta.availableTroops)
             {
-                if (troop.sendToBattle)
+                if (troop.SendToBattle)
                 {
                     deployedTroops.Add(troop);
                 }
@@ -560,14 +561,14 @@ namespace CommandView
                 
                 foreach (var troop in deployedTroops)
                 {
-                    meta.availableTroops.Remove(troop);
-                    troop.sendToBattle = false;
+                    _meta.availableTroops.Remove(troop);
+                    troop.SendToBattle = false;
                 }
 
                 if (_planet.wumpus.location.Equals(this))
                 {
-                    if (meta.availableTroops.Count == 0 && meta.exhaustedTroops.Count == 0 && meta.nukes == 0 &&
-                        meta.money < 5 && !_planet.didSomething)
+                    if (_meta.availableTroops.Count == 0 && _meta.exhaustedTroops.Count == 0 && _meta.nukes == 0 &&
+                        _meta.money < 5 && !_planet.didSomething)
                     {
                         _planet.curGameStatus = GameStatus.RanOutOfResources;
                     }
@@ -727,11 +728,11 @@ namespace CommandView
 
         public void NukeTile()
         {
-            print("Nukes: " + meta.nukes);
-            if (meta.nukes != 0)
+            print("Nukes: " + _meta.nukes);
+            if (_meta.nukes != 0)
             {
                 Wumpus.Wumpus wumpus = _planet.wumpus;
-                meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
+                _meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
                 SetColonized();
                 heldTroops.Clear();
                 _planet.didSomething = true;
@@ -762,7 +763,7 @@ namespace CommandView
                     }
                 }
 
-                meta.EndTurn();
+                _meta.EndTurn();
             }
             else
             {
@@ -777,10 +778,10 @@ namespace CommandView
 
         public void AddSensorOnTile()
         {
-            if (meta.sensorTowers > 0 && colonized && !showHintOnTile)
+            if (_meta.sensorTowers > 0 && colonized && !showHintOnTile)
             {
                 showHintOnTile = true;
-                meta.sensorTowers--;
+                _meta.sensorTowers--;
 
                 CloseTroopSelector();
             }

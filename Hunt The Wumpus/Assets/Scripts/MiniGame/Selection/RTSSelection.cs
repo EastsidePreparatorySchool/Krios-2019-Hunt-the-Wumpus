@@ -9,9 +9,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MiniGame
+namespace MiniGame.Selection
 {
-    public class RTSSelection : MonoBehaviour
+    public class RtsSelection : MonoBehaviour
     {
         public static readonly List<Selectable> Selectables = new List<Selectable>();
  
@@ -219,7 +219,7 @@ namespace MiniGame
                 return;
             }
             Vector3 soldierPosition = hotkey.selectables[0].gameObject.transform.position;
-            cameraController.goTo(soldierPosition.x, soldierPosition.z-10);
+            cameraController.GoTo(soldierPosition.x, soldierPosition.z-10);
         }
 
         /// <summary>

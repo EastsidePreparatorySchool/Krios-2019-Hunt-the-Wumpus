@@ -1,29 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MovementTooltips : MonoBehaviour
+namespace MiniGame.Selection
 {
-    public GameObject tooltip;
+    public class MovementTooltips : MonoBehaviour
+    {
+        public GameObject tooltip;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Tab))
+        // Start is called before the first frame update
+        void Start()
         {
-            tooltip.SetActive(!tooltip.activeSelf);
-            if (tooltip.activeSelf)
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.Tab))
             {
-                Time.timeScale = 0.2f;
-            }
-            else
-            {
-                Time.timeScale = 1;
+                tooltip.SetActive(!tooltip.activeSelf);
+                if (tooltip.activeSelf)
+                {
+                    Time.timeScale = 0.2f;
+                }
+                else
+                {
+                    Time.timeScale = 1;
+                }
             }
         }
     }
