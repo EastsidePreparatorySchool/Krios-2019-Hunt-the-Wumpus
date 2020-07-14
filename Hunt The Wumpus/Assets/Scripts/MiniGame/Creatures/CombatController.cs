@@ -1,8 +1,6 @@
 ﻿using CommandView;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using UnityEngine;
 
 namespace MiniGame.Creatures
@@ -18,8 +16,8 @@ namespace MiniGame.Creatures
         public int attackDamage;
         public float attackRange = 2.0f;
 
-        private int particleTimeout = 1;
-        private float _particleTimeoutTime;
+        // private int _particleTimeout = 1;
+        // private float _particleTimeoutTime;
 
         public bool isEnemy; //Wumpling or Soldier
         public CombatController target; //Target object.
@@ -29,11 +27,16 @@ namespace MiniGame.Creatures
         public bool isAttacking;
         public bool doesAttackWhileMoving;
 
+
+        private Transform _myTransform;
+
         // Start is called before the first frame update
         void Start()
         {
             if (troopMeta != null)
                 attackDamage = troopMeta.Damage;
+
+            _myTransform = transform;
         }
 
         // Update is called once per frame
@@ -72,10 +75,10 @@ namespace MiniGame.Creatures
         }
 
         //Attacks the thing if it's not on this thing's side (Wumpling or Soldier)
-        public void Attack(CombatController target)
+        public void Attack(CombatController targetController)
         {
-            transform.LookAt(target.gameObject.transform);
-            transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, 0);
+            _myTransform.LookAt(targetController.gameObject.transform);
+            _myTransform.rotation = Quaternion.Euler(0, _myTransform.eulerAngles.y, 0);
             //print(transform.eulerAngles.x + " " + transform.eulerAngles.y + " " + transform.eulerAngles.z);
 
             /*if (target.isEnemy == isEnemy)
@@ -89,10 +92,10 @@ namespace MiniGame.Creatures
                 if (!isEnemy)
                 {
                     GetComponent<ParticleSystem>().Play();
-                    _particleTimeoutTime = Time.deltaTime + particleTimeout;
+                    // _particleTimeoutTime = Time.deltaTime + particleTimeout;
                 }
 
-                target.healthmgr.TakeDamage(attackDamage);
+                targetController.healthmgr.TakeDamage(attackDamage);
             }
         }
 
@@ -128,8 +131,9 @@ namespace MiniGame.Creatures
                 }
 
                 //if they both attack or neither attack, closer one goes first
-                float aDist = (a.gameObject.transform.position - transform.position).sqrMagnitude;
-                float bDist = (b.gameObject.transform.position - transform.position).sqrMagnitude;
+                Vector3 curPos = transform.position;
+                float aDist = (a.gameObject.transform.position - curPos).sqrMagnitude;
+                float bDist = (b.gameObject.transform.position - curPos).sqrMagnitude;
                 return ((aDist - bDist) < 0 ? -1 : 1);
             });
 

@@ -1,7 +1,6 @@
-﻿using MiniGame.Creatures;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class PointerSpawner : MonoBehaviour
     {

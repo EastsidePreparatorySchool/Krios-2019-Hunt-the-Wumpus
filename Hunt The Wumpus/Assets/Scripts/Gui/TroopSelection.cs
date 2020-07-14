@@ -27,7 +27,7 @@ namespace Gui
         public GameObject nukeBtn;
         public GameObject buildSensorBtn;
 
-        public GameObject BatEncounterAlertText;
+        public GameObject batEncounterAlertText;
 
         private GameObject _planet;
         private Planet _planetHandler;
@@ -173,10 +173,10 @@ namespace Gui
 
         public IEnumerator FlashBatsEncounterAlert()
         {
-            BatEncounterAlertText.SetActive(true);
+            batEncounterAlertText.SetActive(true);
             float nextTime = Time.time + 10f;
             yield return new WaitUntil(() => Time.time > nextTime);
-            BatEncounterAlertText.SetActive(false);
+            batEncounterAlertText.SetActive(false);
         }
 
         // Turn on toggle
@@ -199,25 +199,23 @@ namespace Gui
             Text label = labelGameObject.GetComponent<Text>();
             label.text = troop.Type + ": " + troop.Name;
 
-            GameObject UpgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
-            UpgradeBar.GetComponent<RectTransform>().offsetMax =
+            GameObject upgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
+            upgradeBar.GetComponent<RectTransform>().offsetMax =
                 new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
 
             return newTroopToggle;
         }
 
-        private GameObject CreateLabel(string str)
+        private void CreateLabel(string str)
         {
-            GameObject Label =
+            GameObject labelGo =
                 Instantiate(troopLabelBlueprint,
                     scrollViewContent.transform);
 
-            Text label = Label.GetComponent<Text>();
-            RectTransform transform = Label.GetComponent<RectTransform>();
+            Text label = labelGo.GetComponent<Text>();
+            RectTransform rectTransform = labelGo.GetComponent<RectTransform>();
             label.text = str;
-            transform.Translate(-10000, 0, 0);
-
-            return Label;
+            rectTransform.Translate(-10000, 0, 0);
         }
 
         private void ToggleValueChanged(Toggle toggle, TroopMeta troop)

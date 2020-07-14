@@ -9281,8 +9281,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   volumePercent: {fileID: 1004978814}
   planet: {fileID: 2076108097}
-  AOVolume: {fileID: 1947154974}
-  CreditsCanvas: {fileID: 974643377}
+  aoVolume: {fileID: 1947154974}
+  creditsCanvas: {fileID: 974643377}
   inCredits: 0
 --- !u!114 &621578644
 MonoBehaviour:
@@ -12110,7 +12110,7 @@ GameObject:
   - component: {fileID: 860531089}
   - component: {fileID: 860531088}
   m_Layer: 5
-  m_Name: ConfermationPanel
+  m_Name: ConfirmationPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26918,7 +26918,7 @@ MonoBehaviour:
   sendToBattleBtn: {fileID: 2065121122}
   nukeBtn: {fileID: 1243641877}
   buildSensorBtn: {fileID: 443259377}
-  BatEncounterAlertText: {fileID: 466108576}
+  batEncounterAlertText: {fileID: 466108576}
   needsRefresh: 0
 --- !u!222 &2055068144
 CanvasRenderer:
@@ -26960,7 +26960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851e95d48393de348b765e690661f5cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfirmPanel: {fileID: 860531086}
+  confirmPanel: {fileID: 860531086}
 --- !u!114 &2055068147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27203,7 +27203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 766f2d126d3b15d45a3e409400121bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfirmTurn: 0
+  confirmTurn: 0
   backFromMiniGame: 0
   isFadingMusic: 0
   bloom: 1

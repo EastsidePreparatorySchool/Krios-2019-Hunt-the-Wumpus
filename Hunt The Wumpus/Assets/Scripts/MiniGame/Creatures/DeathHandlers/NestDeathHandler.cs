@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MiniGame.Creatures.DeathHandlers
 {
     
-    public class NestDeathHandler : MonoBehaviour, DeathHandler
+    public class NestDeathHandler : MonoBehaviour, IDeathHandler
     {
         private ResultHandler _resultHandler;
 

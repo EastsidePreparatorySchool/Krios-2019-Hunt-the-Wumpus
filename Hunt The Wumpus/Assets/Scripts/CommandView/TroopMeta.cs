@@ -13,7 +13,7 @@ namespace CommandView
     {
         public readonly String ResourceString;
 
-        public readonly TroopType Type = TroopType.Marine;
+        public readonly TroopType Type;
         public readonly String Name;
 
         public int Damage;

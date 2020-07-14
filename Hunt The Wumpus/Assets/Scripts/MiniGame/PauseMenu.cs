@@ -1,56 +1,58 @@
-﻿using UnityEngine;
-using CommandView;
-using MiniGame;
+﻿using CommandView;
+using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+namespace MiniGame
 {
-    private GameObject _planet;
-    private Planet _planetHandler;
-    private GameMeta _gameMeta;
-
-    public static bool isPaused = false;
-
-    public GameObject pauseMenu;
-
-    void Start()
+    public class PauseMenu : MonoBehaviour
     {
-        _planet = GameObject.Find("Planet");
-        _planetHandler = _planet.GetComponent<Planet>();
-        _gameMeta = _planet.GetComponent<GameMeta>();
-    }
+        private GameObject _planet;
+        private Planet _planetHandler;
+        // private GameMeta _gameMeta;
 
+        private static bool _isPaused;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        public GameObject pauseMenu;
+
+        void Start()
         {
-            if (isPaused)
-                Resume();
-            else
-                Pause();
+            _planet = GameObject.Find("Planet");
+            _planetHandler = _planet.GetComponent<Planet>();
+            // _gameMeta = _planet.GetComponent<GameMeta>();
         }
-    }
 
-    public void Resume()
-    {
-        pauseMenu.SetActive(false);
-        Time.timeScale = 1f;
-        isPaused = false;
-    }
 
-    void Pause()
-    {
-        pauseMenu.SetActive(true);
-        Time.timeScale = 0f;
-        isPaused = true;
-    }
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (_isPaused)
+                    Resume();
+                else
+                    Pause();
+            }
+        }
 
-    public void Surrender()
-    {
-        _planetHandler.result.InGameTroops.Clear();
-        GameObject resultParent = GameObject.Find("Minigame Main Camera");
-        ResultHandler rehandle = resultParent.GetComponent<ResultHandler>();
-        Resume();
-        rehandle.EndMiniGame(false);
+        public void Resume()
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1f;
+            _isPaused = false;
+        }
+
+        void Pause()
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0f;
+            _isPaused = true;
+        }
+
+        public void Surrender()
+        {
+            _planetHandler.result.InGameTroops.Clear();
+            GameObject resultParent = GameObject.Find("Minigame Main Camera");
+            ResultHandler rehandle = resultParent.GetComponent<ResultHandler>();
+            Resume();
+            rehandle.EndMiniGame(false);
+        }
     }
 }

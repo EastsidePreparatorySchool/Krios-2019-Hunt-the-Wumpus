@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using MiniGame.Creatures;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class PlayerController : MonoBehaviour
     {

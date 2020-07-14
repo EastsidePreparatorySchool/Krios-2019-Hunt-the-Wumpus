@@ -1,5 +1,4 @@
-﻿using System;
-using CommandView;
+﻿using CommandView;
 using MiniGame.Creatures.DeathHandlers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +10,7 @@ namespace MiniGame.Creatures
         public int health;
         public int maxHealth;
 
-        public DeathHandler deathHandler;
+        public IDeathHandler deathHandler;
 
         public Image healthBar;
         public Canvas healthBarCanvas; //so I can hide it when the health is full
@@ -23,7 +22,7 @@ namespace MiniGame.Creatures
         // Start is called before the first frame update
         void Start()
         {
-            deathHandler = gameObject.GetComponentInParent<DeathHandler>();
+            deathHandler = gameObject.GetComponentInParent<IDeathHandler>();
 
             // GameObject p = this.transform.parent.gameObject;
 
@@ -39,7 +38,7 @@ namespace MiniGame.Creatures
         {
             if (health <= 0)
             {
-                string message = name + " died.";
+                // string message = name + " died.";
 
                 if (deathHandler == null)
                 {

@@ -12,13 +12,13 @@ namespace MiniGame
         public float maxZ = 3;
         public float minY = 6;
         public float maxY = 25;
-        private float zoom = 1;
-        private float originalY;
+        private float _zoom = 1;
+        private float _originalY;
 
         // Start is called before the first frame update
         void Start()
         {
-            originalY = transform.position.y;
+            _originalY = transform.position.y;
         }
 
         // Update is called once per frame
@@ -39,7 +39,7 @@ namespace MiniGame
             if (posY < maxY && posY > minY)
             {
                 position += myTrans.forward * (scrollWheelChange * 15);
-                zoom = 1 / (position.y / originalY);
+                _zoom = 1 / (position.y / _originalY);
             }
             myTrans.position = position;
             
@@ -48,8 +48,8 @@ namespace MiniGame
             float curY = pos.y;
             float curZ = pos.z;
 
-            float adjMaxX = maxX + (maxX - minX) * zoom / 4;
-            float adjMinX = minX - (maxX - minX) * zoom / 4;
+            float adjMaxX = maxX + (maxX - minX) * _zoom / 4;
+            float adjMinX = minX - (maxX - minX) * _zoom / 4;
             if (curX > adjMaxX)
             {
                 curX = adjMaxX;
@@ -65,8 +65,8 @@ namespace MiniGame
                 curY = minY;
             }
             
-            float adjMaxZ = maxZ + (maxZ - minZ) * zoom / 10;
-            float adjMinZ = minZ - (maxZ - minZ) * zoom / 40;
+            float adjMaxZ = maxZ + (maxZ - minZ) * _zoom / 10;
+            float adjMinZ = minZ - (maxZ - minZ) * _zoom / 40;
             if (curZ > adjMaxZ)
             {
                 curZ = adjMaxZ;
@@ -124,7 +124,7 @@ namespace MiniGame
             */
         }
 
-        public void goTo(float x, float z)
+        public void GoTo(float x, float z)
         {
             this.gameObject.transform.position = new Vector3(
                 Math.Min(maxX, Math.Max(minX, x)),

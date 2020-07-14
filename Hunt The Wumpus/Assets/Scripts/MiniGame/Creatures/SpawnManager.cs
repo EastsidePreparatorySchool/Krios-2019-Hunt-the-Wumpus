@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using CommandView;
-using MiniGame.Creatures;
 using MiniGame.Creatures.DeathHandlers;
 using MiniGame.Terrain;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace MiniGame
+namespace MiniGame.Creatures
 {
     public class SpawnManager : MonoBehaviour
     {
@@ -78,10 +76,10 @@ namespace MiniGame
                     {
                         SpawnTroops(node);
                     }
-                    else
-                    {
-                        PopulateWumplingRoom(node);
-                    }
+                    // else
+                    // {
+                    //     PopulateWumplingRoom(node);
+                    // }
                 }
             }
         }
@@ -123,9 +121,9 @@ namespace MiniGame
             }
         }
 
-        private void PopulateWumplingRoom(Node node)
-        {
-            
-        }
+        // private void PopulateWumplingRoom(Node node)
+        // {
+        //     
+        // }
     }
 }
