@@ -948,6 +948,7 @@ namespace CommandView
             SaveData data = DoSaving.LoadTheData();
 
             meta.turnsElapsed = data.turnsElapsed;
+            didSomething = data.didSomething;
             meta.money = data.money;
             meta.nukes = data.nukes;
             meta.sensorTowers = data.sensors;
