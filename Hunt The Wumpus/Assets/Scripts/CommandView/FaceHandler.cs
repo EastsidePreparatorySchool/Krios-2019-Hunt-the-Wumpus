@@ -305,8 +305,9 @@ namespace CommandView
                 }
             }
 
-            if (Input.anyKeyDown)
-                noNukeText.SetActive(false);
+            // TODO: fix null exeption ref after returning from Mini-Game
+            // if (Input.anyKeyDown)
+            //     noNukeText.SetActive(false);
         }
 
         public void GenerateBatNet()
@@ -563,7 +564,7 @@ namespace CommandView
             {
                 TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
                 troopSelector.ActivateTroopSelector(_faceNumber, true);
-                
+
                 foreach (var troop in deployedTroops)
                 {
                     _meta.availableTroops.Remove(troop);
