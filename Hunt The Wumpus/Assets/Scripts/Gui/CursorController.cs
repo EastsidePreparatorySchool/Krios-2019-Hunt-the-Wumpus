@@ -5,13 +5,14 @@ namespace Gui
 {
     public class CursorController : MonoBehaviour
     {
-        //public Image img;
+        private Image img;
+        public Sprite[] cursors;
         
         // Start is called before the first frame update
         void Start()
         {
             Cursor.visible = false;
-            //img = GetComponent<Image>();
+            img = GetComponent<Image>();
 
         }
 
@@ -19,6 +20,11 @@ namespace Gui
         void Update()
         {
             transform.position = Input.mousePosition;
+        }
+
+        public void SetCursor(int index)
+        {
+            img.sprite = cursors[index];
         }
     }
 }

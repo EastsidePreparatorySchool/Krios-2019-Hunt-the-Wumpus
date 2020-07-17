@@ -10,6 +10,7 @@ namespace Gui
         public Planet planet;
         public GameObject aoVolume;
         public GameObject creditsCanvas;
+        public GameObject cursor;
 
         public bool inCredits;
 
@@ -36,6 +37,11 @@ namespace Gui
             }
         }
         //Gameplay Tab
+        public void SetCursor(int index)
+        {
+            cursor.GetComponent<CursorController>().SetCursor(index);
+        }
+
         public void ConfirmTurn(bool confirmTurnBool)
         {
             planet.confirmTurn = confirmTurnBool;
