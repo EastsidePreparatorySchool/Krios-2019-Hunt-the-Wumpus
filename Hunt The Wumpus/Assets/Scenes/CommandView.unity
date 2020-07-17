@@ -3220,6 +3220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 198120909}
+  - component: {fileID: 198120910}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -3246,6 +3247,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!225 &198120910
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198120908}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &203093096
 GameObject:
   m_ObjectHideFlags: 0
@@ -28092,6 +28105,7 @@ MonoBehaviour:
   - Jackson
   - Martin
   totalFaces: 0
+  gameInPlay: 0
 --- !u!114 &2076108100
 MonoBehaviour:
   m_ObjectHideFlags: 0
