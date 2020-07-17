@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Gui;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Gui;
 //using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -72,7 +72,8 @@ namespace CommandView
         private float _lastColorSwitch;
         private bool _pulsingColor;
 
-        public GameObject noNukeText;
+        private GameObject _canvas;
+        private GameObject _noNukeText;
 
         public Vector3 lastRightClickPos;
         public bool noMoney;
@@ -123,6 +124,8 @@ namespace CommandView
             faceMaterial = GetComponent<Renderer>().material;
             faceMeshFilter = GetComponent<MeshFilter>();
             CalculateFaceGeometry();
+            _canvas = GameObject.Find("Canvas");
+            _noNukeText = _canvas.transform.Find("OutOfNukesText").gameObject;
 
             adjacentFaceHandlers = new FaceHandler[adjacentFaces.Length];
             for (int i = 0; i < adjacentFaces.Length; i++)
@@ -305,9 +308,8 @@ namespace CommandView
                 }
             }
 
-            // TODO: fix null exeption ref after returning from Mini-Game
-            // if (Input.anyKeyDown)
-            //     noNukeText.SetActive(false);
+            if (Input.anyKeyDown && _noNukeText != null)
+                _noNukeText.SetActive(false);
         }
 
         public void GenerateBatNet()
@@ -564,7 +566,7 @@ namespace CommandView
             {
                 TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
                 troopSelector.ActivateTroopSelector(_faceNumber, true);
-
+                
                 foreach (var troop in deployedTroops)
                 {
                     _meta.availableTroops.Remove(troop);
@@ -774,7 +776,7 @@ namespace CommandView
             }
             else
             {
-                noNukeText.SetActive(true);
+                _noNukeText.SetActive(true);
                 print("Not enough nukes");
             }
 

@@ -29,7 +29,7 @@ namespace Gui
 
         void Update()
         {
-            if (transform.InverseTransformPoint(creditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().position).y > 3400f)
+            if (transform.InverseTransformPoint(creditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().position).y >= 2990f && inCredits)
             {
                 creditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().transform.Translate(0, -400, 0);
                 Credits();
