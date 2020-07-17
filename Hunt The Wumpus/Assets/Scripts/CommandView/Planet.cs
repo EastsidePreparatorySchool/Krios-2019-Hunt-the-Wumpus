@@ -120,6 +120,11 @@ namespace CommandView
         private void Awake()
         {
             volume = .5f;
+
+            if (!meta.skipIntro)
+            {
+                
+            }
             // make sure there is only one instance of the Planet and make it persistent
             if (Instance == null)
             {
