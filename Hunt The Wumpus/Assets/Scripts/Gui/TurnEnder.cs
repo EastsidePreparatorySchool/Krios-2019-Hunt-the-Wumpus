@@ -59,9 +59,7 @@ namespace Gui
                 EndTurn();
             else
             {
-                //if (_planet.didSomething)
-                    confirmPanel.SetActive(true);
-                //else
+                confirmPanel.SetActive(true);
                 if (!_planet.didSomething)
                     CantEndTurn();
             }
@@ -81,7 +79,8 @@ namespace Gui
         private void CloseConfirm()
         {
             confirmPanel.SetActive(false);
-            _cantEndPanel.SetActive(false);
+            if (_cantEndPanel != null)
+                _cantEndPanel.SetActive(false);
         }
 
         public void EndTurn()
