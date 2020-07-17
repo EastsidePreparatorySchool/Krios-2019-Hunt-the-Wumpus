@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class UpdateGui : MonoBehaviour
 {
     // 
-    // This NEEDS to be in the top-level "Assests" folder to work; Kenneth can vouch
+    // This NEEDS to be in the top-level "Assets" folder to work; Kenneth can vouch
     //
     // Script reads off variables in a bunch of other scripts to update UI elements.
     //
@@ -20,22 +20,15 @@ public class UpdateGui : MonoBehaviour
 
     private GameObject _faceInfoBox; // Blueprint for the UI elements that will be spawned
 
+    private CanvasGroup _canvasGroup;
+
     private TextMeshProUGUI _troopCounter;
     private TextMeshProUGUI _moneyCounter;
     private TextMeshProUGUI _nukeCounter;
     private TextMeshProUGUI _sensorCounter;
     private TextMeshProUGUI _turnDisplay;
 
-    private Button _endTurnBtn;
-    private Graphic _endTurnBtnTargetGraphic;
-    private TextMeshProUGUI _endTurnBtnText;
-
-
-    private Button _openStoreBtn;
-    private Graphic _openStoreBtnTargetGraphic;
-    private TextMeshProUGUI _openStoreBtnText;
-
-    private int[] _counterValues = new int[4];
+    private readonly int[] _counterValues = new int[4];
 
     private Planet _planetHandler;
     private GameMeta _inGameMeta;
@@ -47,7 +40,7 @@ public class UpdateGui : MonoBehaviour
 
     private MainMenuVars _menu;
 
-    private bool _ispaused;
+    private bool _isPaused;
 
     // private int _default = 0;
 
@@ -59,13 +52,7 @@ public class UpdateGui : MonoBehaviour
         _planetScript = _planet.GetComponent<Planet>();
         _planetHandler = _planetScript.GetComponent<Planet>();
 
-        _openStoreBtn = GameObject.Find("OpenStoreBtn").GetComponent<Button>();
-        _openStoreBtnTargetGraphic = _openStoreBtn.targetGraphic;
-        _openStoreBtnText = _openStoreBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
-
-        _endTurnBtn = GameObject.Find("EndTurnBtn").GetComponent<Button>();
-        _endTurnBtnTargetGraphic = _endTurnBtn.targetGraphic;
-        _endTurnBtnText = _endTurnBtn.transform.Find("Text (TMP)").gameObject.GetComponent<TextMeshProUGUI>();
+        _canvasGroup = GameObject.Find("MainUICvsGroup").GetComponent<CanvasGroup>();
 
         _compArr = GetComponentsInChildren<TextMeshProUGUI>();
         // _orbit = FindObjectOfType<PlanetSpin>();
@@ -74,25 +61,22 @@ public class UpdateGui : MonoBehaviour
 
 
         // Sync UI appearance with camera entry spin
+        _canvasGroup.alpha = 0f;
         foreach (TextMeshProUGUI i in _compArr)
         {
             switch (i.name)
             {
                 case "TroopCounter":
                     _troopCounter = i;
-                    _troopCounter.alpha = 0f;
                     break;
                 case "MoneyCounter":
                     _moneyCounter = i;
-                    _moneyCounter.alpha = 0f;
                     break;
                 case "NukeCounter":
                     _nukeCounter = i;
-                    _nukeCounter.alpha = 0f;
                     break;
                 case "SensorCounter":
                     _sensorCounter = i;
-                    _sensorCounter.alpha = 0f;
                     break;
                 case "TurnNumDisplay":
                     _turnDisplay = i;
@@ -102,22 +86,7 @@ public class UpdateGui : MonoBehaviour
             }
         }
 
-        Color storeBtnAlpha = _openStoreBtnTargetGraphic.color;
-        _openStoreBtnText.alpha = 0f;
-        storeBtnAlpha.a = 0f;
-        _openStoreBtnTargetGraphic.color = storeBtnAlpha;
-
-        Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
-        _endTurnBtnText.alpha = 0f;
-        endTurnBtnAlpha.a = 0f;
-        _endTurnBtnTargetGraphic.color = endTurnBtnAlpha;
-
-        //
-
-        StartCoroutine(WaitUntilGameBegins());
-
-
-        // StartCoroutine(TurnDisplayAnimation());
+        StartCoroutine(FadeAnim(false));
     }
 
     // Update is called once per frame
@@ -150,143 +119,54 @@ public class UpdateGui : MonoBehaviour
 
         if (_menu.isPause)
         {
-            if (_ispaused == false)
+            if (_isPaused == false)
             {
-                _ispaused = _menu.isPause;
-                StartCoroutine(FadeOut());
+                _isPaused = _menu.isPause;
+                StartCoroutine(FadeAnim());
             }
         }
 
         if (_menu.isPause == false)
         {
-            if (_ispaused)
+            if (_isPaused)
             {
-                _ispaused = _menu.isPause;
-                StartCoroutine(WaitUntilGameBegins());
+                _isPaused = _menu.isPause;
+                StartCoroutine(FadeAnim(false));
             }
         }
     }
 
-    private IEnumerator WaitUntilGameBegins()
+    private IEnumerator FadeAnim(bool fadeOut = true)
     {
-        yield return new WaitUntil(() => _menu.isPause == false);
-        yield return new WaitForSeconds(2F);
-        Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
-        Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
-        
-        /*while (openStoreBtnAlpha.a < 1)
+        yield return new WaitUntil(() => _menu.isPause == fadeOut);
+        if (!fadeOut)
         {
-            coverColor.a += 0.1f;
-            _textCover.color = coverColor;
-
-            _troopCounter.alpha += 0.1f;
-            _moneyCounter.alpha += 0.1f;
-            _nukeCounter.alpha += 0.1f;
-            _sensorCounter.alpha += 0.1f;
-
-            _openStoreBtnText.alpha += 0.1f;
-            openStoreBtnAlpha.a += 0.1f;
-            _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
-
-            _endTurnBtnText.alpha += 0.1f;
-            endTurnBtnAlpha.a += 0.1f;
-            _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
-
-            yield return new WaitForSeconds(0.025F);
-        }*/
-        
-        float fade = 0.25f;
-        if (_troopCounter.alpha < 1)
-        {
-            StartCoroutine(LerpAlpha(result => _troopCounter.alpha = result, 0, 1, fade));
-            StartCoroutine(LerpAlpha(result => _moneyCounter.alpha = result, 0, 1, fade));
-            StartCoroutine(LerpAlpha(result => _nukeCounter.alpha = result, 0, 1, fade));
-            StartCoroutine(LerpAlpha(result => _sensorCounter.alpha = result, 0, 1, fade));
-            
-            StartCoroutine(LerpAlpha(result => _openStoreBtnText.alpha = result, 0, 1, fade));
-            StartCoroutine(LerpAlpha(result =>
-            {
-                openStoreBtnAlpha.a = result;
-                _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
-            }, 0, 1, fade));
-
-            StartCoroutine(LerpAlpha(result => _endTurnBtnText.alpha = result, 0, 1, fade));
-            StartCoroutine(LerpAlpha(result =>
-            {
-                endTurnBtnAlpha.a = result;
-                _endTurnBtnTargetGraphic.color = endTurnBtnAlpha;
-            }, 0, 1, fade));
+            yield return new WaitForSeconds(2f);
         }
-        _planetHandler.readyToPause = true;
-    }
 
-    private IEnumerator FadeOut()
-    {
-        yield return new WaitUntil(() => _menu.isPause);
-        Color openStoreBtnAlpha = _openStoreBtnTargetGraphic.color;
-        Color endTurnBtnAlpha = _endTurnBtnTargetGraphic.color;
-        
-        /*while (_troopCounter.alpha > 0)
+        float fadeDuration = 0.25f;
+        StartCoroutine(LerpAlpha(result => _canvasGroup.alpha = result, fadeOut ? 1 : 0, fadeOut ? 0 : 1,
+            fadeDuration));
+
+        if (fadeOut)
         {
-            coverColor.a -= 0.1f;
-            _textCover.color = coverColor;
-
-            _troopCounter.alpha -= 0.1f;
-            _moneyCounter.alpha -= 0.1f;
-            _nukeCounter.alpha -= 0.1f;
-            _sensorCounter.alpha -= 0.1f;
-
-            _openStoreBtnText.alpha -= 0.1f;
-            openStoreBtnAlpha.a -= 0.1f;
-            _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
-
-            _endTurnBtnText.alpha -= 0.1f;
-            endTurnBtnAlpha.a -= 0.1f;
-            _endTurnBtnTargetGraphic.color = openStoreBtnAlpha;
-
-            yield return new WaitForSeconds(0.025F);
-        }*/
-
-        float fade = 0.25f;
-        if (_troopCounter.alpha > 0)
-        {
-            StartCoroutine(LerpAlpha(result => _troopCounter.alpha = result, 1, 0, fade));
-            StartCoroutine(LerpAlpha(result => _moneyCounter.alpha = result, 1, 0, fade));
-            StartCoroutine(LerpAlpha(result => _nukeCounter.alpha = result, 1, 0, fade));
-            StartCoroutine(LerpAlpha(result => _sensorCounter.alpha = result, 1, 0, fade));
-            
-            StartCoroutine(LerpAlpha(result => _openStoreBtnText.alpha = result, 1, 0, fade));
-            StartCoroutine(LerpAlpha(result =>
-            {
-                openStoreBtnAlpha.a = result;
-                _openStoreBtnTargetGraphic.color = openStoreBtnAlpha;
-            }, 1, 0, fade));
-
-            StartCoroutine(LerpAlpha(result => _endTurnBtnText.alpha = result, 1, 0, fade));
-            StartCoroutine(LerpAlpha(result =>
-            {
-                endTurnBtnAlpha.a = result;
-                _endTurnBtnTargetGraphic.color = endTurnBtnAlpha;
-            }, 1, 0, fade));
+            _planetHandler.readyToPlay = true;
         }
-        _planetHandler.readyToPlay = true;
+        else
+        {
+            _planetHandler.readyToPause = true;
+        }
     }
 
     private IEnumerator TurnDisplayAnimation(int turnToDisplay)
     {
         yield return new WaitUntil(() => _menu.isPause == false);
-        
+
         _turnDisplay.text = "Turn " + turnToDisplay;
 
         _turnDisplay.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(2);
-
-        /*while (_turnDisplay.alpha > 0)
-        {
-            _turnDisplay.alpha -= 0.2F;
-            yield return new WaitForSeconds(0.2F);
-        }*/
 
         float fade = 1.5f;
         StartCoroutine(LerpAlpha(result => _turnDisplay.alpha = result, 1, 0, fade));
@@ -295,22 +175,6 @@ public class UpdateGui : MonoBehaviour
         _turnDisplay.gameObject.SetActive(false);
     }
 
-    /*private IEnumerator LerpAlpha(TextMeshProUGUI target, float from, float to, float time)
-    {
-        float lerpStart = Time.time;
-        while (true)
-        {
-            var progress = Time.time - lerpStart;
-            target.alpha = Mathf.Lerp(from, to, progress / time);
-            if (time < progress)
-            {
-                break;
-            }
-
-            yield return new WaitForEndOfFrame();
-        }
-    }*/
-    
     private IEnumerator LerpAlpha(Action<float> target, float from, float to, float time)
     {
         float lerpStart = Time.time;
