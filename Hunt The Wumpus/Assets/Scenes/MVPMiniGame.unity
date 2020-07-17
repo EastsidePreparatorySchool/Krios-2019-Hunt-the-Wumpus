@@ -1310,6 +1310,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad3e5514a33c8472d802c15947e79199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 849438018}
+  selectionBox: {fileID: 1911523615}
+  minigameCamera: {fileID: 1212444793}
+  cameraController: {fileID: 1212444795}
 --- !u!114 &1212444797
 MonoBehaviour:
   m_ObjectHideFlags: 0
