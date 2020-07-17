@@ -17280,6 +17280,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
 --- !u!1 &1234321755 stripped
@@ -25237,6 +25241,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
       propertyPath: m_LocalScale.z
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
