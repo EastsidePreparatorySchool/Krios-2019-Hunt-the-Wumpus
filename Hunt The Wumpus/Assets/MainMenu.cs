@@ -44,7 +44,7 @@ public class MainMenu : MonoBehaviour
                 settings.Credits();
             else if (_optionsPanel.activeSelf)
                 _optionsPanel.SetActive(false);
-            else if (_mainMenuPanel.activeSelf && _planet.readyToPlay)
+            else if (_mainMenuPanel.activeSelf && _planet.readyToPlay && !_vars.firstLaunch)
             {
                 _planet.readyToPlay = false;
                 Resume();

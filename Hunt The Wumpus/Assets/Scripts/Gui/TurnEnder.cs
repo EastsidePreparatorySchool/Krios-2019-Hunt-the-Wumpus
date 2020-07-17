@@ -9,6 +9,7 @@ namespace Gui
         private Planet _planet;
         private GameMeta _meta;
         public GameObject confirmPanel;
+        private GameObject _cantEndPanel;
 
         private bool _mouseIsOver;
         private void OnEnable()
@@ -41,6 +42,7 @@ namespace Gui
             _meta = GameObject.Find("Planet").GetComponent<GameMeta>();
 
             EventSystem.current.SetSelectedGameObject(confirmPanel);
+            _cantEndPanel = confirmPanel.transform.Find("CantEndPanel").gameObject;
         }
 
         void Update()
@@ -57,9 +59,8 @@ namespace Gui
                 EndTurn();
             else
             {
-                if (_planet.didSomething)
-                    confirmPanel.SetActive(true);
-                else
+                confirmPanel.SetActive(true);
+                if (!_planet.didSomething)
                     CantEndTurn();
             }
         }
@@ -78,6 +79,8 @@ namespace Gui
         private void CloseConfirm()
         {
             confirmPanel.SetActive(false);
+            if (_cantEndPanel != null)
+                _cantEndPanel.SetActive(false);
         }
 
         public void EndTurn()
@@ -98,7 +101,7 @@ namespace Gui
 
         private void CantEndTurn()
         {
-
+            _cantEndPanel.SetActive(true);
         }
     }
 }
