@@ -145,8 +145,16 @@ public class UpdateGui : MonoBehaviour
         }
 
         float fadeDuration = 0.25f;
-        StartCoroutine(LerpAlpha(result => _canvasGroup.alpha = result, fadeOut ? 1 : 0, fadeOut ? 0 : 1,
-            fadeDuration));
+
+        if (fadeOut && _canvasGroup.alpha > 0)
+        {
+            StartCoroutine(LerpAlpha(result => _canvasGroup.alpha = result, 1, 0,
+                fadeDuration));
+        } else if (!fadeOut && _canvasGroup.alpha < 1)
+        {
+            StartCoroutine(LerpAlpha(result => _canvasGroup.alpha = result, 0, 1,
+                fadeDuration));
+        }
 
         if (fadeOut)
         {
