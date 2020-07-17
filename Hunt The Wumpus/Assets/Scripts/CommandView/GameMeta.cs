@@ -32,6 +32,7 @@ namespace CommandView
         public List<TroopMeta> availableTroops;
         public List<TroopMeta> exhaustedTroops;
 
+        public bool gameInPlay;
         //public MiniGameResult miniGameResult;
 
         // Start is called before the first frame update
