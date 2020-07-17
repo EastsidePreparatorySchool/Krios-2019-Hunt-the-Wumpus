@@ -72,6 +72,8 @@ namespace CommandView
         private float _lastColorSwitch;
         private bool _pulsingColor;
 
+        public GameObject noNukeText;
+
         public Vector3 lastRightClickPos;
         public bool noMoney;
 
@@ -302,6 +304,9 @@ namespace CommandView
                     _pulsingColor = false;
                 }
             }
+
+            if (Input.anyKeyDown)
+                noNukeText.SetActive(false);
         }
 
         public void GenerateBatNet()
@@ -764,16 +769,18 @@ namespace CommandView
                 }
 
                 _meta.EndTurn();
+                CloseTroopSelector();
             }
             else
             {
+                noNukeText.SetActive(true);
                 print("Not enough nukes");
             }
 
             // GameObject troopSelector = GameObject.Find("TroopSelectorUI");
             // if (troopSelector != null)
             //     troopSelector.SetActive(false);
-            CloseTroopSelector();
+            //CloseTroopSelector();
         }
 
         public void AddSensorOnTile()
