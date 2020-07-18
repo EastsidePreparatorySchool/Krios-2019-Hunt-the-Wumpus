@@ -16,9 +16,8 @@ namespace MiniGame.Creatures.DeathHandlers
         // Update is called once per frame
         void Update()
         {
-        
         }
-        
+
         public void Die()
         {
             print("Wumpling death");

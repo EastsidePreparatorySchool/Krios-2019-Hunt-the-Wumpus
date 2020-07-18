@@ -15,9 +15,9 @@ namespace MiniGame
         {
             _anim = this.GetComponent<Animator>();
         }
+
         void Update()
         {
-
             if (combatCtr.isMoving)
             {
                 _anim.SetBool(IsShooting, false);

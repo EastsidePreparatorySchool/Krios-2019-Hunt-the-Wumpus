@@ -5,11 +5,11 @@ namespace MiniGame.Creatures
     public class NestController : MonoBehaviour
     {
         public GameObject wumpling;
-    
+
         public float timeBetweenSpawns = 25f;
         private float _timeDiffCounter;
         public int wumpsPerSpawn = 1;
-    
+
         // Start is called before the first frame update
         void Start()
         {
@@ -33,7 +33,7 @@ namespace MiniGame.Creatures
                 _timeDiffCounter = 0;
             }
         }
-    
+
         private void SpawnWumpling()
         {
             Vector3 spawnLoc = transform.position;

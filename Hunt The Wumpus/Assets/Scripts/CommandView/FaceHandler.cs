@@ -566,7 +566,7 @@ namespace CommandView
             {
                 TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
                 troopSelector.ActivateTroopSelector(_faceNumber, true);
-                
+
                 foreach (var troop in deployedTroops)
                 {
                     _meta.availableTroops.Remove(troop);

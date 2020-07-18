@@ -2,7 +2,6 @@
 
 namespace MiniGame.Creatures.DeathHandlers
 {
-    
     public class NestDeathHandler : MonoBehaviour, IDeathHandler
     {
         private ResultHandler _resultHandler;
@@ -10,6 +9,7 @@ namespace MiniGame.Creatures.DeathHandlers
         private GameObject _camera;
 
         public bool endMinigame;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -20,9 +20,8 @@ namespace MiniGame.Creatures.DeathHandlers
         // Update is called once per frame
         void Update()
         {
-            
         }
-        
+
         public void Die()
         {
             _resultHandler.EarnMoney(1);

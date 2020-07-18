@@ -51,7 +51,7 @@ namespace TileBattle
         public void OnClick()
         {
             print("Returning to CommandView");
-            _planet.SetHintsToGive(new []{false,false,false});
+            _planet.SetHintsToGive(new[] {false, false, false});
             SceneManager.LoadScene(0);
         }
     }

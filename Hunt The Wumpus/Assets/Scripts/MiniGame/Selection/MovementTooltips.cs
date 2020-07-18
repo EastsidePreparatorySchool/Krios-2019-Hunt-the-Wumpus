@@ -5,7 +5,7 @@ namespace MiniGame.Selection
     public class MovementTooltips : MonoBehaviour
     {
         public GameObject tooltip;
-    
+
         // Start is called before the first frame update
         void Start()
         {

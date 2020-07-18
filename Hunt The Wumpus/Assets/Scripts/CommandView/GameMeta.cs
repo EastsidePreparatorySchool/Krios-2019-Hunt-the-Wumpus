@@ -18,9 +18,10 @@ namespace CommandView
 
         public String[] firstNames = new[]
         {
-                "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
-                "Mary", "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
+            "James", "Michael", "Robert", "John", "David", "William", "Richard", "Thomas", "Mark", "Charles",
+            "Mary", "Linda", "Patricia", "Susan", "Deborah", "Barbara", "Debra", "Karen", "Nancy", "Donna"
         };
+
         public String[] lastNames = new[]
         {
             "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
@@ -100,12 +101,12 @@ namespace CommandView
         public void UpdateGameStateWithResult()
         {
             MiniGameResult result = _planetHandler.result;
-            
+
             foreach (TroopMeta t in result.InGameTroops)
             {
                 exhaustedTroops.Add(t);
             }
-            
+
             FaceHandler inBattleFaceHandler =
                 _planetHandler.faceHandlers[_planetHandler.GetFaceInBattle()];
 
@@ -115,8 +116,8 @@ namespace CommandView
                 {
                     exhaustedTroops.Add(heldTroop);
                 }
+
                 inBattleFaceHandler.heldTroops = new List<TroopMeta>();
-                
             }
 
             money += result.MoneyCollected;
@@ -130,24 +131,25 @@ namespace CommandView
         }
 
         public void EndTurn()
-         {
-             print("end turn");
-             turnsElapsed++;
-             foreach (TroopMeta troop in exhaustedTroops)
-             {
-                 availableTroops.Add(troop);
-             }
-             exhaustedTroops.Clear();
- 
-             foreach (FaceHandler face in _faceHandlers)
-             {
-                 if (face.colonized && !face.noMoney)
-                 {
-                     money++;
-                 }
-             }
+        {
+            print("end turn");
+            turnsElapsed++;
+            foreach (TroopMeta troop in exhaustedTroops)
+            {
+                availableTroops.Add(troop);
+            }
+
+            exhaustedTroops.Clear();
+
+            foreach (FaceHandler face in _faceHandlers)
+            {
+                if (face.colonized && !face.noMoney)
+                {
+                    money++;
+                }
+            }
 
             GameObject.Find("Canvas").GetComponent<TroopSelection>().needsRefresh = true;
-         }
-     }
- }
+        }
+    }
+}

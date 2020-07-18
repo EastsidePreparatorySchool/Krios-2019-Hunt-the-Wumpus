@@ -7,7 +7,7 @@ namespace MiniGame.Terrain
         private const bool Walkable = true;
 
         public GameObject TileGameObject;
-    
+
         public bool CanWalkOn()
         {
             return Walkable;
@@ -17,6 +17,5 @@ namespace MiniGame.Terrain
         {
             TileGameObject = tileGameObject;
         }
-    
     }
 }

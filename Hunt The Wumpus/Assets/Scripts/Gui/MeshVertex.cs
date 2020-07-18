@@ -15,7 +15,7 @@ namespace Gui
         public List<MeshVertex> VertexNeighbors = new List<MeshVertex>();
         public int Id;
         private static Random _random = new Random();
-        
+
         public static List<MeshVertex> Vertices = new List<MeshVertex>();
 
         public MeshVertex(FaceHandler parent, Vector3 vertexCoords)
@@ -33,7 +33,7 @@ namespace Gui
                 {
                     VertexNeighbors.Add(vertex);
                 }
-                
+
                 //Debug.Log(Coords);
             }
 
@@ -58,7 +58,7 @@ namespace Gui
                     }
                 }
             }
-            
+
             // Debug.Log(VertexNeighbors.Count);
             //  foreach (var VARIABLE in VertexNeighbors)
             //  {
@@ -70,9 +70,10 @@ namespace Gui
         {
             if (!(Math.Abs(DistanceBetweenAdjacentVertices - Vector3.Distance(Coords, vertex.Coords)) <
                   Tolerance)) return;
-                    
+
             bool uniqueCoords = true;
-            foreach(MeshVertex i in VertexNeighbors) {
+            foreach (MeshVertex i in VertexNeighbors)
+            {
                 if (i.Coords == vertex.Coords)
                 {
                     uniqueCoords = false;
@@ -95,13 +96,14 @@ namespace Gui
                 {
                     countColonized++;
                 }
-            } 
+            }
+
             //Debug.Log(ParentFaces.Count);
             if (countColonized == 0 || countColonized == mv.ParentFaces.Count)
             {
                 return false;
             }
-            
+
             return true;
         }
 
@@ -114,6 +116,7 @@ namespace Gui
                 {
                     return false;
                 }
+
                 if (face.discovered)
                 {
                     isOnEdge = true;

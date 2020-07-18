@@ -9,6 +9,7 @@ namespace CommandView
         // Tank,
         // Defender
     }
+
     public class TroopMeta
     {
         public readonly String ResourceString;
@@ -19,7 +20,7 @@ namespace CommandView
         public int Damage;
 
         public bool SendToBattle = false;
-        
+
         public int BattlesFought;
 
         public int UpgradeLvl;
@@ -29,7 +30,7 @@ namespace CommandView
             this.Type = type;
             this.Name = name;
             Damage = 10;
-            
+
 
             switch (type)
             {

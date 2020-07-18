@@ -10,6 +10,7 @@ public class IntroVideoHandler : MonoBehaviour
     public AudioSource introLoopMusic;
 
     public bool planetPlayIntro;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,16 +23,15 @@ public class IntroVideoHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
-    
+
     private IEnumerator WaitThenComplete()
     {
         yield return new WaitForSeconds(36.11666f);
         CompleteIntroVid();
     }
 
-    private void CompleteIntroVid(bool forced=false)
+    private void CompleteIntroVid(bool forced = false)
     {
         SceneManager.LoadScene(0);
         introVideo.targetCameraAlpha = 0;

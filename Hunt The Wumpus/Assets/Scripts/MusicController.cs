@@ -5,12 +5,13 @@ using UnityEngine;
 public class MusicController : MonoBehaviour
 {
     public Planet planetHandler;
+
     public void FadeOut()
     {
         planetHandler.isFadingMusic = true;
         StartCoroutine(FaderOut());
     }
-    
+
     private IEnumerator FaderOut()
     {
         print("Fader Out");
@@ -24,9 +25,11 @@ public class MusicController : MonoBehaviour
             AudioListener.volume = Mathf.Lerp(curVol, 0, elapsedTime / dur);
             yield return null;
         }
+
         print("Fader done");
         planetHandler.isFadingMusic = false;
     }
+
     // Update is called once per frame
     void Update()
     {

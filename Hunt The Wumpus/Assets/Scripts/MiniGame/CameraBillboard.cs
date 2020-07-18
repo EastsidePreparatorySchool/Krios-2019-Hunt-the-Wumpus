@@ -16,7 +16,7 @@ namespace MiniGame
     public class CameraBillboard : MonoBehaviour
     {
         public Camera minigameCamera;
-        
+
         public bool billboardX = true;
         public bool billboardY = true;
         public bool billboardZ = true;
@@ -37,7 +37,11 @@ namespace MiniGame
         {
             _myTrans = transform;
 
-            if (minigameCamera == null) { return; }
+            if (minigameCamera == null)
+            {
+                return;
+            }
+
             Quaternion mainCameraRot = minigameCamera.transform.rotation;
             _myTrans.LookAt(_myTrans.position + mainCameraRot * Vector3.forward,
                 mainCameraRot * Vector3.up);
