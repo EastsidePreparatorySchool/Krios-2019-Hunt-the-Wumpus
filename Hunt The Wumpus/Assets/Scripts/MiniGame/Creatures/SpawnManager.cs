@@ -31,11 +31,10 @@ namespace MiniGame.Creatures
         //
         // private bool _isDone;
 
-    
+
         // Start is called before the first frame update
         void Start()
         {
-        
             _planet = GameObject.Find("Planet").GetComponent<Planet>();
             _troops = _planet.result.InGameTroops;
 
@@ -62,7 +61,6 @@ namespace MiniGame.Creatures
         void Update()
         {
             //if(_planet.result.inGameTroops.)
-
         }
 
         private void SpawnEntities()
@@ -76,6 +74,7 @@ namespace MiniGame.Creatures
                     {
                         SpawnTroops(node);
                     }
+
                     // else
                     // {
                     //     PopulateWumplingRoom(node);
@@ -91,7 +90,7 @@ namespace MiniGame.Creatures
                 yield return true;
             }
         }
-        
+
         private void SpawnCharacter()
         {
             // //I don't want Wumps to spawn in the middle, so I pick 2 random values one on each side and then use another random to choose between them.
@@ -115,7 +114,8 @@ namespace MiniGame.Creatures
         {
             foreach (var troop in _troops)
             {
-                GameObject soldier = (GameObject) Instantiate(Resources.Load(troop.ResourceString), _mapGen.GetRandomPositionInNodeFromNode(node), Quaternion.identity);
+                GameObject soldier = (GameObject) Instantiate(Resources.Load(troop.ResourceString),
+                    _mapGen.GetRandomPositionInNodeFromNode(node), Quaternion.identity);
                 soldier.GetComponent<SoldierDeathHandler>().troopMeta = troop;
                 soldier.GetComponent<CombatController>().troopMeta = troop;
             }

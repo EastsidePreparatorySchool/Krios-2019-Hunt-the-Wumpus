@@ -14,7 +14,7 @@ namespace MiniGame.Selection
     public class RTSSelection : MonoBehaviour
     {
         public static readonly List<Selectable> Selectables = new List<Selectable>();
- 
+
         public Canvas canvas;
         public Image selectionBox;
         private KeyCode selectionToggleKey = KeyCode.LeftShift;
@@ -23,33 +23,35 @@ namespace MiniGame.Selection
         {
             public KeyCode keyCode;
             public List<Selectable> selectables;
+
             public Hotkey(KeyCode key, List<Selectable> selectables)
             {
                 this.keyCode = key;
                 this.selectables = selectables;
             }
         }
-        
+
         private Hotkey[] _armyHotkeys;
         //private KeyCode selectAllArmyKey = KeyCode.Alpha1;
 
         public static readonly float DoubleClickCooldown = 0.5f;
         private float _buttonCooler;
+
         private KeyCode _lastButton;
         //private int _buttonCount;
-        
+
         public Camera minigameCamera;
         public CameraController cameraController;
         private Vector3 _startScreenPos;
         private BoxCollider _worldCollider;
         private RectTransform _rt;
         private bool _isSelecting;
- 
+
         void Awake()
         {
             if (canvas == null)
                 canvas = FindObjectOfType<Canvas>();
- 
+
             if (selectionBox != null)
             {
                 //We need to reset anchors and pivot to ensure proper positioning
@@ -63,13 +65,13 @@ namespace MiniGame.Selection
             cameraController = minigameCamera.gameObject.GetComponent<CameraController>();
             InitializeHotkeys();
         }
- 
+
         void Update()
         {
             HandleClicks();
             HandleHotkeys();
         }
-        
+
         private void HandleClicks()
         {
             if (Input.GetMouseButtonDown(0))
@@ -155,6 +157,7 @@ namespace MiniGame.Selection
                 _armyHotkeys[i] = new Hotkey(hotkeyOptions[i], new List<Selectable>());
             }
         }
+
         private void HandleHotkeys()
         {
             if (_armyHotkeys[0].selectables.Count == 0)
@@ -164,10 +167,10 @@ namespace MiniGame.Selection
                     _armyHotkeys[0].selectables.Add(s);
                 }
             }
-            
+
             foreach (Hotkey hotkey in _armyHotkeys)
             {
-                if(Input.GetKeyDown(hotkey.keyCode))
+                if (Input.GetKeyDown(hotkey.keyCode))
                 {
                     //print(hotkey.keyCode + ": " + hotkey.selectables.Count);
                     if (Input.GetKey(KeyCode.LeftShift))
@@ -175,7 +178,8 @@ namespace MiniGame.Selection
                         hotkey.selectables.Clear();
                         foreach (Selectable s in Selectables)
                         {
-                            if(s.IsSelected) {
+                            if (s.IsSelected)
+                            {
                                 hotkey.selectables.Add(s);
                             }
                         }
@@ -186,6 +190,7 @@ namespace MiniGame.Selection
                         {
                             s.IsSelected = false;
                         }
+
                         foreach (Selectable s in hotkey.selectables)
                         {
                             s.IsSelected = true;
@@ -196,14 +201,16 @@ namespace MiniGame.Selection
                             print("double click " + _lastButton);
                             MoveCameraToArmy(hotkey);
                         }
+
                         _lastButton = hotkey.keyCode;
                         _buttonCooler = DoubleClickCooldown;
                     }
                 }
             }
+
             if (_buttonCooler > 0)
             {
-                _buttonCooler -= 1 * Time.deltaTime ;
+                _buttonCooler -= 1 * Time.deltaTime;
             }
             else
             {
@@ -218,8 +225,9 @@ namespace MiniGame.Selection
             {
                 return;
             }
+
             Vector3 soldierPosition = hotkey.selectables[0].gameObject.transform.position;
-            cameraController.GoTo(soldierPosition.x, soldierPosition.z-10);
+            cameraController.GoTo(soldierPosition.x, soldierPosition.z - 10);
         }
 
         /// <summary>
@@ -232,7 +240,7 @@ namespace MiniGame.Selection
             if (s.IsSelected != value)
                 s.IsSelected = value;
         }
- 
+
         /// <summary>
         /// Returns all Selectable objects with isSelected set to true
         /// </summary>
@@ -241,7 +249,7 @@ namespace MiniGame.Selection
         {
             return new List<Selectable>(Selectables.Where(x => x.IsSelected));
         }
- 
+
         /// <summary>
         /// Clears the full selection
         /// </summary>
@@ -249,6 +257,5 @@ namespace MiniGame.Selection
         {
             Selectables.ForEach(x => x.IsSelected = false);
         }
- 
     }
 }

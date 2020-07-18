@@ -51,12 +51,13 @@ namespace Gui
                     else
                         tmpToggles.Add(CreateNewToggle(troop, false));
                 }
+
                 toggles = tmpToggles;
                 needsRefresh = false;
             }
         }
 
-        
+
         // Turn on toggle
         // Create new Toggle for each soldier in 
 
@@ -77,7 +78,8 @@ namespace Gui
             label.text = troop.Type + ": " + troop.Name;
 
             GameObject upgradeBar = newTroopToggle.gameObject.transform.Find("UpgradeBar/UpgradeLevel").gameObject;
-            upgradeBar.GetComponent<RectTransform>().offsetMax = new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
+            upgradeBar.GetComponent<RectTransform>().offsetMax =
+                new Vector2(270 / _planetHandler.maxUpgrades * troop.UpgradeLvl - 270, 0);
 
             toggle.isOn = check;
             //roop.sendToBattle = check;

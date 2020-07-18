@@ -12,6 +12,7 @@ namespace Gui
         private GameObject _cantEndPanel;
 
         private bool _mouseIsOver;
+
         private void OnEnable()
         {
             EventSystem.current.SetSelectedGameObject(gameObject);

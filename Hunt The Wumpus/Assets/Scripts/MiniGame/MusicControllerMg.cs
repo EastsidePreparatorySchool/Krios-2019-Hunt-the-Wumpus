@@ -47,6 +47,7 @@ namespace MiniGame
             {
                 AudioListener.volume = _planet.volume;
             }
+
             // print(AudioListener.volume+", "+_planet.volume);
         }
     }

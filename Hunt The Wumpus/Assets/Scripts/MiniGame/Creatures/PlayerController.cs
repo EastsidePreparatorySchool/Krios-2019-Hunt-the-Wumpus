@@ -24,7 +24,6 @@ namespace MiniGame.Creatures
         void Start()
         {
             _combatController = GetComponent<CombatController>();
-            
         }
 
         // Update is called once per frame
@@ -33,7 +32,8 @@ namespace MiniGame.Creatures
             PointerController pointer = PeekPointer();
             if (pointer && !atPointer)
             {
-                if (pointer.attackMove && !_combatController.doesAttackWhileMoving && _combatController.target != null) //must stop to attack
+                if (pointer.attackMove && !_combatController.doesAttackWhileMoving && _combatController.target != null
+                ) //must stop to attack
                 {
                     StopMoving();
                 }
@@ -62,26 +62,32 @@ namespace MiniGame.Creatures
             {
                 return null;
             }
+
             return pointers.Peek();
         }
+
         public PointerController DequeuePointer()
         {
             if (pointers.Count == 0)
             {
                 return null;
             }
+
             return pointers.Dequeue();
         }
+
         public void AddPointer(PointerController item)
         {
             pointers.Enqueue(item);
         }
+
         public void RemovePointers()
         {
             foreach (PointerController pointer in pointers)
             {
                 pointer.followers--;
             }
+
             pointers.Clear();
         }
 
@@ -98,6 +104,7 @@ namespace MiniGame.Creatures
             {
                 pointer.followers--;
             }
+
             PointerController next = PeekPointer();
             if (next == null)
             {
@@ -126,8 +133,8 @@ namespace MiniGame.Creatures
                 return;
             }
 
-            if (otherController.PeekPointer() == PeekPointer() && 
-                otherController.atPointer && 
+            if (otherController.PeekPointer() == PeekPointer() &&
+                otherController.atPointer &&
                 curDisFromPointer < maxDistFromPointer)
             {
                 ArriveAtPointer();

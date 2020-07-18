@@ -6,6 +6,7 @@ namespace MiniGame
     public class PauseMenu : MonoBehaviour
     {
         private GameObject _planet;
+
         private Planet _planetHandler;
         // private GameMeta _gameMeta;
 

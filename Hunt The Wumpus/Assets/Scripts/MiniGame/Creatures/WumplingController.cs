@@ -58,7 +58,8 @@ namespace MiniGame.Creatures
                 if (rigidBody)
                 {
                     rigidBody.constraints =
-                        RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
+                        RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ |
+                        RigidbodyConstraints.FreezePositionY;
                 }
             }
             else

@@ -36,7 +36,7 @@ namespace CommandView
                 ambientMusic.Stop();
                 introMusicStart.Stop();
                 introMusicLoop.Stop();
-                
+
                 StartCoroutine(PlayIntroVideo());
             }
         }

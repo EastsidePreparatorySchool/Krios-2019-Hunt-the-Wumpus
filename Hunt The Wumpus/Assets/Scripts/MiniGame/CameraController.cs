@@ -29,7 +29,7 @@ namespace MiniGame
 
             float deltaX = horizontalInput * flySpeed * Time.deltaTime;
             float deltaZ = verticalInput * flySpeed * Time.deltaTime;
-            
+
             float scrollWheelChange = Input.GetAxis("Mouse ScrollWheel");
 
             Transform myTrans;
@@ -41,8 +41,9 @@ namespace MiniGame
                 position += myTrans.forward * (scrollWheelChange * 15);
                 _zoom = 1 / (position.y / _originalY);
             }
+
             myTrans.position = position;
-            
+
             Vector3 pos = myTrans.position;
             float curX = pos.x;
             float curY = pos.y;
@@ -53,28 +54,32 @@ namespace MiniGame
             if (curX > adjMaxX)
             {
                 curX = adjMaxX;
-            } else if (curX < adjMinX)
+            }
+            else if (curX < adjMinX)
             {
                 curX = adjMinX;
             }
+
             if (curY > maxY)
             {
                 curY = maxY;
-            } else if (curY < minY)
+            }
+            else if (curY < minY)
             {
                 curY = minY;
             }
-            
+
             float adjMaxZ = maxZ + (maxZ - minZ) * _zoom / 10;
             float adjMinZ = minZ - (maxZ - minZ) * _zoom / 40;
             if (curZ > adjMaxZ)
             {
                 curZ = adjMaxZ;
-            } else if (curZ < adjMinZ)
+            }
+            else if (curZ < adjMinZ)
             {
                 curZ = adjMinZ;
             }
-            
+
 
             /*
             if (curZ > maxZ)
@@ -85,7 +90,7 @@ namespace MiniGame
                 curZ = minZ;
             }
             */
-            myTrans.position= new Vector3(curX, curY, curZ);
+            myTrans.position = new Vector3(curX, curY, curZ);
 
             /*
             if (curX > maxX)

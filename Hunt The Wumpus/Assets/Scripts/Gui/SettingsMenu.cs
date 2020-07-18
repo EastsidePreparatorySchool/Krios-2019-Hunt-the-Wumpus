@@ -14,7 +14,7 @@ namespace Gui
 
         public bool inCredits;
 
-        private int[,] Resolutions = new int[3,2];
+        private int[,] Resolutions = new int[3, 2];
 
         void Start()
         {
@@ -30,12 +30,15 @@ namespace Gui
 
         void Update()
         {
-            if (transform.InverseTransformPoint(creditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().position).y >= 2990f && inCredits)
+            if (transform.InverseTransformPoint(creditsCanvas.transform.Find("Panel/TextHolder")
+                .GetComponent<RectTransform>().position).y >= 2990f && inCredits)
             {
-                creditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().transform.Translate(0, -400, 0);
+                creditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().transform
+                    .Translate(0, -400, 0);
                 Credits();
             }
         }
+
         //Gameplay Tab
         public void SetCursor(int index)
         {
@@ -60,10 +63,12 @@ namespace Gui
             Screen.SetResolution(Resolutions[resolutionIndex, 0], Resolutions[resolutionIndex, 1], Screen.fullScreen);
             print(Screen.currentResolution);
         }
+
         public void SetFullscreen(bool isFullscreen)
         {
             Screen.fullScreen = isFullscreen;
         }
+
         public void SetQuality(int qualityInex)
         {
             QualitySettings.SetQualityLevel(qualityInex);
@@ -79,7 +84,7 @@ namespace Gui
             planet.ambientOcclusion = aoOn;
         }
 
-        public void SetVolume (float volume)
+        public void SetVolume(float volume)
         {
             planet.volume = volume;
             print(volume);
