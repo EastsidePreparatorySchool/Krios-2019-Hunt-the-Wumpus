@@ -33,6 +33,10 @@ namespace CommandView
             if (!PlayerPrefs.HasKey("needPlayIntroVid"))
             {
                 otherUi.alpha = 0;
+                ambientMusic.Stop();
+                introMusicStart.Stop();
+                introMusicLoop.Stop();
+                
                 StartCoroutine(PlayIntroVideo());
             }
         }
@@ -59,30 +63,33 @@ namespace CommandView
         void Update()
         {
             // print(planetHandler.GetStartGame()+", "+planetHandler.isFadingMusic);
-            if (!ambientMusic.isPlaying && !planetHandler.isFadingMusic && !introVideo.isPlaying &&
-                !menuVars.firstLaunch)
+            if (introVideo.isPlaying || !PlayerPrefs.HasKey("needPlayIntroVid"))
+            {
+                ambientMusic.Stop();
+                introMusicStart.Stop();
+                introMusicLoop.Stop();
+            }
+            else if (!ambientMusic.isPlaying && !planetHandler.isFadingMusic &&
+                     !menuVars.firstLaunch)
             {
                 print("Playing ambient");
                 AudioListener.volume = planetHandler.volume;
                 ambientMusic.Play();
-                if (introMusicStart.isPlaying || introMusicLoop.isPlaying)
-                {
-                    StartCoroutine(FadeIntroMusic());
-                }
+                introMusicStart.Stop();
+                introMusicLoop.Stop();
+                // if (introMusicStart.isPlaying && introMusicStart.volume > 0.01f || introMusicLoop.isPlaying && introMusicLoop.volume > 0.01f)
+                // {
+                //     StartCoroutine(FadeIntroMusic());
+                // }
             }
-
-            if (!(introMusicStart.isPlaying && introMusicLoop.isPlaying) && !ambientMusic.isPlaying &&
-                !introVideo.isPlaying && !introVideo.isPlaying && menuVars.firstLaunch)
+            else if (!introMusicStart.isPlaying && !introMusicLoop.isPlaying && !ambientMusic.isPlaying &&
+                     menuVars.firstLaunch)
             {
                 AudioListener.volume = planetHandler.volume;
                 introMusicStart.Play();
                 introMusicLoop.PlayDelayed(introMusicStart.clip.length);
             }
 
-            if (ambientMusic.isPlaying && introVideo.isPlaying)
-            {
-                ambientMusic.Stop();
-            }
 
             if (ambientMusic.isPlaying && Math.Abs(AudioListener.volume) < 0.01f && !planetHandler.isFadingMusic)
             {
