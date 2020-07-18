@@ -730,7 +730,7 @@ namespace CommandView
             else
             {
                 print("Going to TileBattle");
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene(2);
             }
         }
 

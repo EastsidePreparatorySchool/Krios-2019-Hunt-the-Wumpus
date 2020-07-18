@@ -114,11 +114,6 @@ namespace CommandView
 
         public bool didSomething;
 
-        // Intro Vid
-        private IntroVideoHandler _introVideoHandler;
-        public AudioSource introMusicStart;
-        public AudioSource introMusicLoop;
-
         // TODO: remove if unnecessary
         public Planet()
         {
