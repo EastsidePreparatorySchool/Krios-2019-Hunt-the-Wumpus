@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace CommandView
 {
     public class CameraHandler : MonoBehaviour
     {
         public Planet planetHandler;
+        public GameMeta meta;
         public GameStarter gameStarter;
+        public CanvasGroup otherUI;
+        public VideoPlayer introVideo;
+        
+        
         public float beginningDistance = 30.0f;
         public float targetDistance = 17.0f; //will be at this most of the game
         public float zoomSpeed = 5.0f; //how fast it zooms in at the beginning of the game
@@ -17,10 +24,29 @@ namespace CommandView
         public AudioSource ambientMusic;
 
         // Start is called before the first frame update
+        private void Awake()
+        {
+            if (meta.needToPlayIntro)
+            {
+                meta.needToPlayIntro = false;
+                otherUI.alpha = 0;
+                StartCoroutine(PlayIntroVideo());
+            }
+        }
+
         void Start()
         {
             distance = beginningDistance;
             transform.position = new Vector3(0, 0, -distance);
+        }
+        
+        private IEnumerator PlayIntroVideo()
+        {
+            introVideo.Play();
+            introVideo.gameObject.GetComponent<AudioSource>().PlayDelayed((float) introVideo.clip.length); // music loop
+            yield return new WaitForSeconds(36.8f);
+            introVideo.targetCameraAlpha = 0;
+            otherUI.alpha = 1;
         }
 
         // Update is called once per frame
