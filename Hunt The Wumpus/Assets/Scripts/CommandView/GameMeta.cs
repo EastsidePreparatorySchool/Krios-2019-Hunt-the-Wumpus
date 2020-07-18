@@ -34,7 +34,7 @@ namespace CommandView
 
         public bool gameInPlay;
 
-        public bool skipIntro;
+        public bool needToPlayIntro = true;
         //public MiniGameResult miniGameResult;
 
         // Start is called before the first frame update
