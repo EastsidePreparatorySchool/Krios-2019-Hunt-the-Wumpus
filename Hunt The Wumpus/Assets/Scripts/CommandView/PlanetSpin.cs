@@ -36,11 +36,7 @@ namespace CommandView
             _horizontalInput = Input.GetAxis("Horizontal");
             _verticalInput = Input.GetAxis("Vertical");
 
-            if (starterHandler.postVideo)
-            {
-                UpdateSpin(); //for the fun animation at the beginning
-            }
-
+            UpdateSpin();
 
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {

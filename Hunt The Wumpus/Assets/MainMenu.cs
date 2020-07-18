@@ -3,6 +3,7 @@ using Gui;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class MainMenu : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class MainMenu : MonoBehaviour
     private GameObject _mainMenuPanel;
 
     public SettingsMenu settings;
+
+    public VideoPlayer introVideo;
 
     private Planet _planet;
     private MainMenuVars _vars;
@@ -67,6 +70,14 @@ public class MainMenu : MonoBehaviour
 
         ZoomIn();
         HideMainMenu();
+
+        // if (introVideo != null)
+        // {
+        //     Destroy(introVideo);
+        //     introVideo = null;
+        // }
+        introVideo.Stop();
+
         _vars.isPause = false;
         _vars.firstLaunch = false;
     }

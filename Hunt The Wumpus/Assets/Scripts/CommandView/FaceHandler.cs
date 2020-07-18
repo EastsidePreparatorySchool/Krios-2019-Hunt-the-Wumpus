@@ -725,12 +725,12 @@ namespace CommandView
             {
                 print("Going to Battle");
                 CloseTroopSelector();
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(1);
             }
             else
             {
                 print("Going to TileBattle");
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(2);
             }
         }
 

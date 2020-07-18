@@ -41,10 +41,10 @@ namespace CommandView
     // Planet will be the Global (constant) data holder
     public class Planet : MonoBehaviour
     {
-        //User Prefs
+        // User Prefs
         public bool confirmTurn;
 
-        //General
+        // General
         public bool backFromMiniGame;
         private bool _startGame;
         public bool isFadingMusic;
@@ -82,7 +82,9 @@ namespace CommandView
         private Material _altLineMaterial;
         public const float TerritoryLineWidth = 0.15f;
         private List<GameObject> _lines = new List<GameObject>();
+
         public bool borderAroundTerritory;
+
         // public List<Mountain> mountains = new List<Mountain>();
         public int lastDisplayedTurn;
 
@@ -112,6 +114,7 @@ namespace CommandView
 
         public bool didSomething;
 
+        // TODO: remove if unnecessary
         public Planet()
         {
             readyToPause = false;
@@ -120,6 +123,7 @@ namespace CommandView
         private void Awake()
         {
             volume = .5f;
+
             // make sure there is only one instance of the Planet and make it persistent
             if (Instance == null)
             {
@@ -163,10 +167,11 @@ namespace CommandView
                 {
                     continue;
                 }
+
                 int biomeNum = Random.Range(0, 3);
                 faceHandler.biomeType = biomeNum == 0 ? BiomeType.Plains :
                     biomeNum == 1 ? BiomeType.Desert : BiomeType.Jungle;
-                
+
                 //print(biomeNum);
 
                 foreach (FaceHandler adjacentHandler in faceHandler.GetOpenAdjacentFaces())
@@ -177,7 +182,7 @@ namespace CommandView
                     }
                 }
             }
-            
+
             // Reset planet to undiscovered
             foreach (FaceHandler faceHandler in faceHandlers)
             {
@@ -576,7 +581,8 @@ namespace CommandView
                 if (MeshVertex.IsOnColonizedEdge(vertex))
                 {
                     edgeVertices.Add(vertex);
-                } 
+                }
+
                 if (MeshVertex.IsOnDiscoveredEdge(vertex))
                 {
                     discoveredEdgeVertices.Add(vertex);
@@ -605,7 +611,8 @@ namespace CommandView
                                 else if (faceHandler1.discovered && !faceHandler1.colonized)
                                 {
                                     discoveredSharedFaces++;
-                                } else if (!faceHandler1.discovered)
+                                }
+                                else if (!faceHandler1.discovered)
                                 {
                                     undiscoveredSharedFaces++;
                                 }
@@ -632,6 +639,7 @@ namespace CommandView
                                 _lines.Add(DrawVertexLine(vertex, neighbor, setActive, TerritoryLineWidth / 2f));
                                 continue;
                             }
+
                             _lines.Add(DrawVertexLine(vertex, neighbor, setActive));
                             // There might be more to add here
                         }
@@ -668,19 +676,20 @@ namespace CommandView
             }
         }
 
-        private GameObject DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, bool setActive, float width = TerritoryLineWidth)
+        private GameObject DrawVertexLine(MeshVertex fromVertex, MeshVertex toVertex, bool setActive,
+            float width = TerritoryLineWidth)
         {
             // Debug.Log("Making Line...");
             GameObject line =
                 Instantiate(_colonizedLine, GameObject.Find("EventSystem").transform);
-            
+
             line.transform.position = Vector3.zero;
             line.transform.localScale = Vector3.one;
             line.SetActive(setActive);
-            
+
             LineRenderer lr = line.GetComponent<LineRenderer>();
             if (!lr) return line; // Return immediately if not a Line GameObject
-            
+
             lr.startWidth = width;
             lr.endWidth = width;
             if (width < TerritoryLineWidth)
@@ -767,7 +776,7 @@ namespace CommandView
         //     }
         //     
         // }
-        
+
         private string OutputList(List<int> l)
         {
             string temp = "";
@@ -885,14 +894,15 @@ namespace CommandView
                 FaceHandler faceHandler = face.GetComponent<FaceHandler>();
                 for (int j = 0; j < 4; j++)
                     States[j, i] = faceHandler.state[j];
-                BiomeNum[i] = (int)faceHandler.biomeType;
+                BiomeNum[i] = (int) faceHandler.biomeType;
                 IsColonized[i] = faceHandler.colonized;
-                HazardType[i] = (int)faceHandler.GetHazardObject();
+                HazardType[i] = (int) faceHandler.GetHazardObject();
                 ShowHint[i] = faceHandler.showHintOnTile;
                 i++;
             }
 
-            _totalTroops = GetComponent<GameMeta>().availableTroops.Count() + GetComponent<GameMeta>().exhaustedTroops.Count();
+            _totalTroops = GetComponent<GameMeta>().availableTroops.Count() +
+                           GetComponent<GameMeta>().exhaustedTroops.Count();
 
             foreach (FaceHandler face in faceHandlers)
                 _totalTroops += face.heldTroops.Count();
@@ -906,20 +916,22 @@ namespace CommandView
             i = 0;
             foreach (TroopMeta troop in GetComponent<GameMeta>().availableTroops)
             {
-                _troopType[i] = (int)troop.Type;
+                _troopType[i] = (int) troop.Type;
                 _troopName[i] = troop.Name;
                 _isExausted[i] = false;
                 _isHeld[i] = false;
                 i++;
             }
+
             foreach (TroopMeta troop in GetComponent<GameMeta>().exhaustedTroops)
             {
-                _troopType[i] = (int)troop.Type;
+                _troopType[i] = (int) troop.Type;
                 _troopName[i] = troop.Name;
                 _isExausted[i] = true;
                 _isHeld[i] = false;
                 i++;
             }
+
             for (int j = 0; j < faceHandlers.Count(); j++)
             {
                 FaceHandler face = faceHandlers[j];
@@ -928,7 +940,7 @@ namespace CommandView
                 {
                     foreach (TroopMeta troop in face.heldTroops)
                     {
-                        _troopType[i] = (int)troop.Type;
+                        _troopType[i] = (int) troop.Type;
                         _troopName[i] = troop.Name;
                         _isExausted[i] = true;
                         _isHeld[i] = true;
@@ -936,11 +948,11 @@ namespace CommandView
                         i++;
                     }
                 }
-
             }
 
 
-            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, _troopType, _troopName, _isExausted, _isHeld, _heldLoc, _totalTroops);
+            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, _troopType, _troopName,
+                _isExausted, _isHeld, _heldLoc, _totalTroops);
         }
 
         public void Loadfunc()
@@ -967,8 +979,8 @@ namespace CommandView
                 FaceHandler faceHandler = face.GetComponent<FaceHandler>();
                 for (int j = 0; j < 4; j++)
                     faceHandler.state[j] = data.state[j, i];
-                faceHandler.biomeType = (BiomeType)data.biomeNum[i];
-                faceHandler.SetHazard((HazardTypes)data.hazardType[i]);
+                faceHandler.biomeType = (BiomeType) data.biomeNum[i];
+                faceHandler.SetHazard((HazardTypes) data.hazardType[i]);
                 faceHandler.showHintOnTile = data.showHint[i];
                 if (data.isColonized[i])
                 {
@@ -977,6 +989,7 @@ namespace CommandView
                 }
                 else
                     print("not colonized");
+
                 ColonizedLineUpdate();
                 faceHandler.UpdateFaceColors();
                 i++;
@@ -990,13 +1003,15 @@ namespace CommandView
             {
                 if (data.isHeld[i])
                 {
-                    faceHandlers[data.heldLoc[i]].heldTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
+                    faceHandlers[data.heldLoc[i]].heldTroops
+                        .Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
                     faceHandlers[data.heldLoc[i]].UpdateFaceColors();
                 }
                 else if (data.isExausted[i])
-                    meta.exhaustedTroops.Add(new TroopMeta((TroopType)data.troopType[i],data.troopName[i]));
+                    meta.exhaustedTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
+
                 if (!data.isExausted[i] && !data.isHeld[i])
-                    meta.availableTroops.Add(new TroopMeta((TroopType)data.troopType[i], data.troopName[i]));
+                    meta.availableTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
             }
         }
 
@@ -1009,6 +1024,5 @@ namespace CommandView
         {
             return _startGame;
         }
-
     }
 }

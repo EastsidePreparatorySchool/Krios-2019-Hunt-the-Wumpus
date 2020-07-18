@@ -21,7 +21,7 @@ namespace CommandView
 
         public Material titleTextOpaque;
         public Material titleTextFade;
-        private Renderer[] _letterRenderers = new Renderer[4];
+        private readonly Renderer[] _letterRenderers = new Renderer[4];
         private Color _opaqueColor;
         // private Color _transparentColor;
 
