@@ -26,9 +26,10 @@ namespace CommandView
         // Start is called before the first frame update
         private void Awake()
         {
-            if (meta.needToPlayIntro)
+            if (!PlayerPrefs.HasKey("needPlayIntroVid"))
             {
-                meta.needToPlayIntro = false;
+                PlayerPrefs.SetInt("needPlayIntroVid", 1);
+                PlayerPrefs.Save();
                 otherUI.alpha = 0;
                 StartCoroutine(PlayIntroVideo());
             }
