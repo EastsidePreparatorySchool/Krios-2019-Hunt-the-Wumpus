@@ -566,7 +566,7 @@ namespace CommandView
             {
                 TroopSelection troopSelector = GameObject.Find("Canvas").GetComponent<TroopSelection>();
                 troopSelector.ActivateTroopSelector(_faceNumber, true);
-                
+
                 foreach (var troop in deployedTroops)
                 {
                     _meta.availableTroops.Remove(troop);
@@ -725,12 +725,12 @@ namespace CommandView
             {
                 print("Going to Battle");
                 CloseTroopSelector();
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(1);
             }
             else
             {
                 print("Going to TileBattle");
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(2);
             }
         }
 

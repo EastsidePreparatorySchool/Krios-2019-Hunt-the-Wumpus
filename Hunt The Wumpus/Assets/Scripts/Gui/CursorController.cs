@@ -7,13 +7,12 @@ namespace Gui
     {
         private Image img;
         public Sprite[] cursors;
-        
+
         // Start is called before the first frame update
         void Start()
         {
             Cursor.visible = false;
             img = GetComponent<Image>();
-
         }
 
         // Update is called once per frame

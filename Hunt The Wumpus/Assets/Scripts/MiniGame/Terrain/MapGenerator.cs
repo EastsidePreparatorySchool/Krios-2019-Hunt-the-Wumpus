@@ -84,6 +84,7 @@ namespace MiniGame.Terrain
 
 
         private GameObject[,] _iTilePrefabs;
+
         private GameObject[,] _iTiles;
         // private readonly List<GameObject> _nests = new List<GameObject>();
 

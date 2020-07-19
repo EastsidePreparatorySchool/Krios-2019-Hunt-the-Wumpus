@@ -7,18 +7,20 @@ namespace Wumpus
     public class Wumpus : MonoBehaviour
     {
         public GameObject planetGameObject;
+
         private Planet _planet;
         // private GameMeta _ingameStat;
-    
+
         // init variables
         public FaceHandler location;
         public bool status; //false = sleeping | true = awake
 
-        void Awake() {
+        void Awake()
+        {
             _planet = planetGameObject.GetComponent<Planet>();
             // _ingameStat = _planet.GetComponent<GameMeta>();
         }
-        
+
         // Start is called before the first frame update
         void Start()
         {
@@ -35,9 +37,9 @@ namespace Wumpus
             //     location = (location + 7) % 29;
             // }
             // TODO: no conflict with adjacent rooms
-            
-            print("Wumpus Location: "+location);
-            print("Wumpus Status: "+status);
+
+            print("Wumpus Location: " + location);
+            print("Wumpus Status: " + status);
         }
 
         // Update is called once per frame
@@ -47,7 +49,8 @@ namespace Wumpus
 
         // movement function (if player location == wumpus location, fight, then run)
         //takes adj faces of current location, th
-        public void Move(int repeat) {
+        public void Move(int repeat)
+        {
             //otherwise, we simply pick a random adj face and update the location
             for (int i = 0; i < repeat; i++)
             {
@@ -62,8 +65,10 @@ namespace Wumpus
                         potentialFaces.Add(face);
                     }
                 }
+
                 location = potentialFaces[Random.Range(0, potentialFaces.Count)];
             }
+
             print("wumpus moved to " + location.GetTileNumber());
         }
     }

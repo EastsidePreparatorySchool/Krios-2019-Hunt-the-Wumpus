@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/CommandView.unity
     guid: 1bd86cea23045c64fa09cb7147bef5f4
   - enabled: 1
-    path: Assets/Scenes/TileBattle.unity
-    guid: cf84034af8fafd041b8e1a986f5aee4b
-  - enabled: 1
     path: Assets/Scenes/MVPMiniGame.unity
     guid: a13c1207eeee44b29b72cf4c2e24c848
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 3858a6da9c5dac349b6a30857ad1c86f
+  - enabled: 1
+    path: Assets/Scenes/TileBattle.unity
+    guid: cf84034af8fafd041b8e1a986f5aee4b
   m_configObjects: {}

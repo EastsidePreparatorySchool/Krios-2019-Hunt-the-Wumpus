@@ -139,9 +139,10 @@ public class UpdateGui : MonoBehaviour
     private IEnumerator FadeAnim(bool fadeOut = true)
     {
         yield return new WaitUntil(() => _menu.isPause == fadeOut);
-        if (!fadeOut)
+        if (!_inGameMeta.gameInPlay && !fadeOut)
         {
             yield return new WaitForSeconds(2f);
+            _inGameMeta.gameInPlay = true;
         }
 
         float fadeDuration = 0.25f;

@@ -17,10 +17,7 @@ namespace MiniGame.Selection
 
         internal bool IsSelected
         {
-            get
-            {
-                return _isSelected;
-            }
+            get { return _isSelected; }
             set
             {
                 _isSelected = value;
@@ -28,21 +25,20 @@ namespace MiniGame.Selection
                 //GameObject matParent = GameObject.Find("Soldier/Cube");
                 Renderer r = GetComponentInChildren<SkinnedMeshRenderer>();
                 if (r != null)
-                    r.material.color = value ? Color.HSVToRGB(230f/360, .3f, .6f) : new Color(.8f, .8f, .8f);
+                    r.material.color = value ? Color.HSVToRGB(230f / 360, .3f, .6f) : new Color(.8f, .8f, .8f);
             }
         }
- 
+
         private bool _isSelected;
- 
+
         void OnEnable()
         {
             RTSSelection.Selectables.Add(this);
         }
- 
+
         void OnDisable()
         {
             RTSSelection.Selectables.Remove(this);
         }
- 
     }
 }

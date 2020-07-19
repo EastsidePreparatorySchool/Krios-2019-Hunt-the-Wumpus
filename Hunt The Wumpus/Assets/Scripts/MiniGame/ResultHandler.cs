@@ -32,8 +32,8 @@ namespace MiniGame
         {
             return _result.InGameTroops.Count;
         }
-        
-        
+
+
         public void EarnMoney(int money)
         {
             _result.MoneyCollected += money;
@@ -48,7 +48,7 @@ namespace MiniGame
         {
             _planetHandler.didSomething = true;
             _result.DidWin = didWin;
-            
+
             StartCoroutine(FadeOutAndSwitch());
 
             _planetHandler.backFromMiniGame = true;
@@ -59,7 +59,7 @@ namespace MiniGame
             _planet.GetComponent<MusicController>().FadeOut();
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
             SceneManager.LoadScene(0);
-            
+
             _meta.UpdateGameStateWithResult();
         }
     }

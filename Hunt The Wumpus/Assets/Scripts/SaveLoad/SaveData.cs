@@ -28,7 +28,9 @@ namespace SaveLoad
         public bool[] isHeld;
         public int[] heldLoc;
 
-        public SaveData(Planet planet, bool[,] states, int[] biomeNum, bool[] isColonized, int[] hazardType, bool[] showHint, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld, int[] heldLoc, int numOfTroops)
+        public SaveData(Planet planet, bool[,] states, int[] biomeNum, bool[] isColonized, int[] hazardType,
+            bool[] showHint, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld, int[] heldLoc,
+            int numOfTroops)
         {
             turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
             didSomething = planet.GetComponent<Planet>().didSomething;
@@ -40,8 +42,8 @@ namespace SaveLoad
 
             int i;
             for (i = 0; i < 30; i++)
-                for (int j = 0; j < 4; j++)
-                    state[j, i] = states[j, i];
+            for (int j = 0; j < 4; j++)
+                state[j, i] = states[j, i];
 
             i = 0;
             foreach (int bn in biomeNum)
