@@ -12,6 +12,7 @@ namespace CommandView
         public MainMenuVars menuVars;
         public CanvasGroup otherUi;
         public VideoPlayer introVideo;
+        public Animator cameraAnimator;
 
 
         public float beginningDistance = 30.0f;
@@ -24,19 +25,20 @@ namespace CommandView
         public AudioSource ambientMusic;
         public AudioSource introMusicStart;
         public AudioSource introMusicLoop;
+        private static readonly int IntroVideoComplete = Animator.StringToHash("IntroVideoComplete");
 
         // Start is called before the first frame update
         private void Awake()
         {
-            // PlayerPrefs.DeleteKey("needPlayIntroVid");
-            // PlayerPrefs.Save();
+            PlayerPrefs.DeleteKey("needPlayIntroVid");
+            PlayerPrefs.Save();
             if (!PlayerPrefs.HasKey("needPlayIntroVid"))
             {
                 otherUi.alpha = 0;
                 ambientMusic.Stop();
                 introMusicStart.Stop();
                 introMusicLoop.Stop();
-
+                
                 StartCoroutine(PlayIntroVideo());
             }
         }
@@ -49,12 +51,20 @@ namespace CommandView
 
         private IEnumerator PlayIntroVideo()
         {
+            introVideo.Prepare();
+            yield return new WaitUntil(() => introVideo.isPrepared);
+
+            // introVideo.time = 34f;
             introVideo.Play();
             introVideo.SetDirectAudioVolume(0, planetHandler.volume);
             introVideo.gameObject.GetComponent<AudioSource>().PlayDelayed((float) introVideo.clip.length); // music loop
-            yield return new WaitForSeconds(36.8f);
+            yield return new WaitForSeconds(36.11666f);
+            // yield return new WaitForSeconds(0.25f);
             PlayerPrefs.SetInt("needPlayIntroVid", 0);
             PlayerPrefs.Save();
+            
+            cameraAnimator.SetBool(IntroVideoComplete, true);
+            
             introVideo.targetCameraAlpha = 0;
             otherUi.alpha = 1;
         }
