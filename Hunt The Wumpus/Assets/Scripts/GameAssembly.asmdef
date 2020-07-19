@@ -1,14 +1,17 @@
 {
     "name": "GameAssembly",
     "references": [
-        "NavMeshComponents"
+        "NavMeshComponents",
+        "Unity.TextMeshPro",
+        "Nobi.UiRoundedCorners"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
