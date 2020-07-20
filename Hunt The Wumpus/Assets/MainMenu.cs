@@ -26,6 +26,7 @@ public class MainMenu : MonoBehaviour
     private static readonly int FromMiniGame = Animator.StringToHash("BackFromMiniGame");
     private static readonly int MoveIn = Animator.StringToHash("MoveIn");
     private static readonly int MoveOut = Animator.StringToHash("MoveOut");
+    private static readonly int IntroVideoComplete = Animator.StringToHash("IntroVideoComplete");
 
     void Start()
     {
@@ -168,6 +169,7 @@ public class MainMenu : MonoBehaviour
 
     private void ZoomIn()
     {
+        _cameraAnimator.SetBool(IntroVideoComplete, false);
         _cameraAnimator.SetBool(MoveIn, true);
         _cameraAnimator.SetBool(MoveOut, false);
         _lettersAnimator.SetBool(MoveOut, true);
