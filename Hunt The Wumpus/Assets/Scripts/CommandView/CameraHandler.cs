@@ -54,19 +54,32 @@ namespace CommandView
             introVideo.Prepare();
             yield return new WaitUntil(() => introVideo.isPrepared);
 
-            // introVideo.time = 34f;
+            introVideo.time = 34f;
             introVideo.Play();
             introVideo.SetDirectAudioVolume(0, planetHandler.volume);
             introVideo.gameObject.GetComponent<AudioSource>().PlayDelayed((float) introVideo.clip.length); // music loop
-            yield return new WaitForSeconds(36.11666f);
-            // yield return new WaitForSeconds(0.25f);
+            // yield return new WaitForSeconds(36.11666f);
+            yield return new WaitForSeconds(2.11666f);
             PlayerPrefs.SetInt("needPlayIntroVid", 0);
             PlayerPrefs.Save();
             
             cameraAnimator.SetBool(IntroVideoComplete, true);
             
             introVideo.targetCameraAlpha = 0;
-            otherUi.alpha = 1;
+
+            yield return new WaitForSeconds(0.88334f);
+            float lerpStart = Time.time;
+            while (true)
+            {
+                var progress = Time.time - lerpStart;
+                otherUi.alpha = Mathf.Lerp(0, 1, progress / 0.1f);
+                if (0.1 < progress)
+                {
+                    break;
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         // Update is called once per frame
