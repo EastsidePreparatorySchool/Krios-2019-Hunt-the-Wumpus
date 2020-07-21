@@ -27886,6 +27886,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ccfc8eaab02b064090111d7ec2ce7bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planet: {fileID: 2076108095}
+  planetHandler: {fileID: 2076108097}
+  canvasGroup: {fileID: 1416640922}
+  troopCounter: {fileID: 1726680346}
+  moneyCounter: {fileID: 1748397718}
+  nukeCounter: {fileID: 1254623099}
+  sensorCounter: {fileID: 1061942523}
+  turnDisplay: {fileID: 37543119}
+  inGameMeta: {fileID: 2076108099}
+  menu: {fileID: 657961598}
 --- !u!114 &2055068143
 MonoBehaviour:
   m_ObjectHideFlags: 0
