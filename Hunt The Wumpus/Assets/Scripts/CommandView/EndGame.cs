@@ -5,9 +5,9 @@ namespace CommandView
 {
     public class EndGame : MonoBehaviour
     {
-        private GameObject _actualPlanet;
-        private Planet _planet;
-        private MainMenu _mainMenu;
+        private GameObject _planet;
+        private Planet _planetHandler;
+        public MainMenu mainMenu;
         public TextMeshProUGUI endText;
         public TextMeshProUGUI turnsText;
         public TextMeshProUGUI button;
@@ -17,16 +17,16 @@ namespace CommandView
         // Start is called before the first frame update
         void Start()
         {
-            _actualPlanet = GameObject.Find("Planet");
-            _planet = GameObject.Find("Planet").GetComponent<Planet>();
-            _mainMenu = GameObject.Find("Main Camera").GetComponent<MainMenu>();
+            _planet = GameObject.Find("Planet");
+            _planetHandler = GameObject.Find("Planet").GetComponent<Planet>();
+            mainMenu = GameObject.Find("Main Camera").GetComponent<MainMenu>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (_planet.curGameStatus != GameStatus.InPlay && !_stop)
-                EndTheGame(_planet.curGameStatus);
+            if (_planetHandler.curGameStatus != GameStatus.InPlay && !_stop)
+                EndTheGame(_planetHandler.curGameStatus);
         }
 
         void EndTheGame(GameStatus status)
@@ -53,22 +53,22 @@ namespace CommandView
                     break;
             }
 
-            turnsText.text = "Turns: " + _planet.GetComponent<GameMeta>().turnsElapsed;
+            turnsText.text = "Turns: " + _planetHandler.GetComponent<GameMeta>().turnsElapsed;
         }
 
         public void Button()
         {
-            if (_planet.curGameStatus.Equals(GameStatus.LostSentTroopToWumpling))
+            if (_planetHandler.curGameStatus.Equals(GameStatus.LostSentTroopToWumpling))
             {
                 transform.GetChild(0).gameObject.SetActive(false);
-                _planet.curGameStatus = 0;
+                _planetHandler.curGameStatus = 0;
                 _stop = false;
             }
             else
             {
-                _planet.curGameStatus = 0;
-                Destroy(_actualPlanet);
-                _mainMenu.NewGame();
+                _planetHandler.curGameStatus = 0;
+                Destroy(_planet);
+                mainMenu.NewGame();
             }
         }
     }
