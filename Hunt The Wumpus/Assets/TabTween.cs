@@ -11,8 +11,8 @@ public class TabTween : MonoBehaviour
     public void TabChange(bool firstTab)
     {
         if (firstTab)
-            LeanTween.moveLocalX(gameObject, -distance, speed).setEase(ease);
+            gameObject.LeanMoveLocalX(-distance, speed).setEase(ease);
         else
-            LeanTween.moveLocalX(gameObject, distance, speed).setEase(ease);
+            gameObject.LeanMoveLocalX(distance, speed).setEase(ease);
     }
 }

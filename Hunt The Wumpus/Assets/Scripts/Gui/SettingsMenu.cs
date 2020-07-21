@@ -1,4 +1,5 @@
 ﻿using CommandView;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,16 +51,23 @@ namespace Gui
             planet.confirmTurn = confirmTurnBool;
         }
 
+        IEnumerator CreditsAfterDelay(float time)
+        {
+            yield return new WaitForSeconds(time);
+            creditsCanvas.SetActive(!creditsCanvas.activeSelf);
+        }
+
         public void Credits()
         {
             inCredits = !inCredits;
-            creditsCanvas.SetActive(!creditsCanvas.activeSelf);
+            StartCoroutine(CreditsAfterDelay(0.2f));
         }
 
 
         //AV Tab
-        public void SetResolution(int resolutionIndex)
+        public void SetResolution(float floatIndex)
         {
+            int resolutionIndex = (int) floatIndex;
             Screen.SetResolution(Resolutions[resolutionIndex, 0], Resolutions[resolutionIndex, 1], Screen.fullScreen);
             print(Screen.currentResolution);
         }
