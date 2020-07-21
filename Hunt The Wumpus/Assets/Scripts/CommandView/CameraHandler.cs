@@ -12,6 +12,8 @@ namespace CommandView
         public MainMenuVars menuVars;
         public CanvasGroup otherUi;
         public VideoPlayer introVideo;
+        public Animator cameraAnimator;
+        public Animator lettersAnimator;
 
 
         public float beginningDistance = 30.0f;
@@ -24,6 +26,9 @@ namespace CommandView
         public AudioSource ambientMusic;
         public AudioSource introMusicStart;
         public AudioSource introMusicLoop;
+        private static readonly int IntroVideoComplete = Animator.StringToHash("IntroVideoComplete");
+        private static readonly int IntroTitles = Animator.StringToHash("IntroTitles");
+        private static readonly int CamIntroFast = Animator.StringToHash("CamIntroFast");
 
         // Start is called before the first frame update
         private void Awake()
@@ -36,8 +41,14 @@ namespace CommandView
                 ambientMusic.Stop();
                 introMusicStart.Stop();
                 introMusicLoop.Stop();
-
+                
                 StartCoroutine(PlayIntroVideo());
+            }
+            else
+            {
+                introVideo.targetCameraAlpha = 0f;
+                cameraAnimator.SetBool(CamIntroFast, true);
+                lettersAnimator.SetBool(IntroTitles, true);
             }
         }
 
@@ -49,14 +60,39 @@ namespace CommandView
 
         private IEnumerator PlayIntroVideo()
         {
+            introVideo.Prepare();
+            yield return new WaitUntil(() => introVideo.isPrepared);
+
+            // introVideo.time = 34f;
             introVideo.Play();
             introVideo.SetDirectAudioVolume(0, planetHandler.volume);
-            introVideo.gameObject.GetComponent<AudioSource>().PlayDelayed((float) introVideo.clip.length); // music loop
-            yield return new WaitForSeconds(36.8f);
+            introMusicLoop.PlayDelayed((float) introVideo.clip.length);
+            yield return new WaitForSeconds(36.11666f);
+            // yield return new WaitForSeconds(2.11666f);
             PlayerPrefs.SetInt("needPlayIntroVid", 0);
             PlayerPrefs.Save();
+            
+            cameraAnimator.SetBool(IntroVideoComplete, true);
+            
             introVideo.targetCameraAlpha = 0;
-            otherUi.alpha = 1;
+
+            yield return new WaitForSeconds(0.81667f); // 0.88334f - (4/60)
+            lettersAnimator.SetBool(IntroTitles, true);
+            
+            yield return new WaitForSeconds(2.06666f); // 2f + (4/60)
+            float lerpStart = Time.time;
+            while (true)
+            {
+                var progress = Time.time - lerpStart;
+                float duration = 0.2f;
+                otherUi.alpha = Mathf.Lerp(0, 1, progress / duration);
+                if (duration < progress)
+                {
+                    break;
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
         }
 
         // Update is called once per frame
@@ -75,6 +111,7 @@ namespace CommandView
                 print("Playing ambient");
                 AudioListener.volume = planetHandler.volume;
                 ambientMusic.Play();
+                introVideo.Stop();
                 introMusicStart.Stop();
                 introMusicLoop.Stop();
                 // if (introMusicStart.isPlaying && introMusicStart.volume > 0.01f || introMusicLoop.isPlaying && introMusicLoop.volume > 0.01f)
