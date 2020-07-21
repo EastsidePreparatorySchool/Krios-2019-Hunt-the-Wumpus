@@ -79,7 +79,7 @@ public class MainMenu : MonoBehaviour
         //     Destroy(introVideo);
         //     introVideo = null;
         // }
-        introVideo.Stop();
+        // introVideo.Stop();
 
         _vars.isPause = false;
         _vars.firstLaunch = false;
