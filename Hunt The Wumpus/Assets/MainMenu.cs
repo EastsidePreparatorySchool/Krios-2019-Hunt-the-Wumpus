@@ -74,13 +74,6 @@ public class MainMenu : MonoBehaviour
         ZoomIn();
         HideMainMenu();
 
-        // if (introVideo != null)
-        // {
-        //     Destroy(introVideo);
-        //     introVideo = null;
-        // }
-        // introVideo.Stop();
-
         _vars.isPause = false;
         _vars.firstLaunch = false;
     }

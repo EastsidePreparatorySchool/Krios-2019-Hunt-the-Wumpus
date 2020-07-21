@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 namespace CommandView
 {
     public class PlanetSpin : MonoBehaviour
     {
-        public GameStarter starterHandler;
+        public VideoPlayer introVideo;
         public float beginningSpin; //500.0f;
         public float spinSlowFactor = 0.99f; //beginningSpin is multiplied by this every frame to slow it down
 
@@ -36,7 +38,10 @@ namespace CommandView
             _horizontalInput = Input.GetAxis("Horizontal");
             _verticalInput = Input.GetAxis("Vertical");
 
-            UpdateSpin();
+            if (introVideo.targetCameraAlpha.Equals(0f))
+            {
+                UpdateSpin();
+            }
 
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {

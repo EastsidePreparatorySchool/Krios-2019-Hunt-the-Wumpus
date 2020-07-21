@@ -33,8 +33,8 @@ namespace CommandView
         // Start is called before the first frame update
         private void Awake()
         {
-            PlayerPrefs.DeleteKey("needPlayIntroVid");
-            PlayerPrefs.Save();
+            // PlayerPrefs.DeleteKey("needPlayIntroVid");
+            // PlayerPrefs.Save();
             if (!PlayerPrefs.HasKey("needPlayIntroVid"))
             {
                 otherUi.alpha = 0;
@@ -46,6 +46,7 @@ namespace CommandView
             }
             else
             {
+                introVideo.targetCameraAlpha = 0f;
                 cameraAnimator.SetBool(CamIntroFast, true);
                 lettersAnimator.SetBool(IntroTitles, true);
             }
@@ -62,12 +63,12 @@ namespace CommandView
             introVideo.Prepare();
             yield return new WaitUntil(() => introVideo.isPrepared);
 
-            introVideo.time = 34f;
+            // introVideo.time = 34f;
             introVideo.Play();
             introVideo.SetDirectAudioVolume(0, planetHandler.volume);
             introMusicLoop.PlayDelayed((float) introVideo.clip.length);
-            // yield return new WaitForSeconds(36.11666f);
-            yield return new WaitForSeconds(2.11666f);
+            yield return new WaitForSeconds(36.11666f);
+            // yield return new WaitForSeconds(2.11666f);
             PlayerPrefs.SetInt("needPlayIntroVid", 0);
             PlayerPrefs.Save();
             

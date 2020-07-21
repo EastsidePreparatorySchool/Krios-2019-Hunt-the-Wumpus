@@ -28345,7 +28345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81cade481669c114d9066616e69814cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starterHandler: {fileID: 0}
+  introVideo: {fileID: 413430563}
   beginningSpin: 75
   spinSlowFactor: 0.99
   minSpinSpeedBeforeZero: 10
