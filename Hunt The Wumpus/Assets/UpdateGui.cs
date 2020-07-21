@@ -3,7 +3,6 @@ using System.Collections;
 using CommandView;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 
 
 public class UpdateGui : MonoBehaviour
