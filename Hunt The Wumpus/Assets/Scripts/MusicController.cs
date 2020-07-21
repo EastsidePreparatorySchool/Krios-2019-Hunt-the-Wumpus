@@ -29,7 +29,10 @@ public class MusicController : MonoBehaviour
         }
 
         print("Fader done");
-        introVideo.Stop();
+        if (introVideo != null)
+        {
+            introVideo.Stop();
+        }
         planetHandler.isFadingMusic = false;
     }
 
