@@ -5,14 +5,14 @@ namespace Gui
 {
     public class CursorController : MonoBehaviour
     {
-        private Image img;
+        private Image _img;
         public Sprite[] cursors;
 
         // Start is called before the first frame update
         void Start()
         {
             Cursor.visible = false;
-            img = GetComponent<Image>();
+            _img = GetComponent<Image>();
         }
 
         // Update is called once per frame
@@ -23,7 +23,7 @@ namespace Gui
 
         public void SetCursor(int index)
         {
-            img.sprite = cursors[index];
+            _img.sprite = cursors[index];
         }
     }
 }

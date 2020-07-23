@@ -3,6 +3,7 @@
     "references": [
         "NavMeshComponents",
         "Unity.TextMeshPro",
+        "Unity.Postprocessing.Runtime",
         "Nobi.UiRoundedCorners"
     ],
     "includePlatforms": [],
