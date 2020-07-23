@@ -150,10 +150,17 @@ namespace Gui
             _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().PlayMiniGame();
         }
 
+        IEnumerator WaitAndNuke()
+        {
+            yield return new WaitForSeconds(0.4f);
+            print("Nuking Tile");
+            _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile();
+        }
+
         public void NukeTile()
         {
-            print("Nuking Tile!");
-            _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile();
+            print("Waiting To Nuke Tile");
+            StartCoroutine(WaitAndNuke());
         }
 
         public void AddSensorOnTile()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Boo.Lang;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,19 +14,14 @@ public class ButtonClickTween : MonoBehaviour
     public float hoverSpeed = .2f;
     public float buttonScaleAmount = 1.3f;
 
-    IEnumerator ResetScaleAfterDelay()
-    {
-        yield return new WaitForSeconds(clickSpeed);
-        circleToScale.LeanScaleX(0.001f, 0.01f);
-        circleToScale.LeanScaleY(0.001f, 0.01f);
-    }
-
     public void OnClick()
     {
         circleToScale.transform.position = Input.mousePosition;
         circleToScale.LeanScaleX(circleScaleAmount, clickSpeed);
         circleToScale.LeanScaleY(circleScaleAmount, clickSpeed);
-        StartCoroutine(ResetScaleAfterDelay());
+        //StartCoroutine(ResetScaleAfterDelay());
+        circleToScale.LeanScaleX(0.001f, 0.01f).setDelay(clickSpeed + 0.05f);
+        circleToScale.LeanScaleY(0.001f, 0.01f).setDelay(clickSpeed + 0.05f);
     }
 
     public void OnStartHover()

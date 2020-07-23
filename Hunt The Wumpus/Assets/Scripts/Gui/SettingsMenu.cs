@@ -77,8 +77,9 @@ namespace Gui
             Screen.fullScreen = isFullscreen;
         }
 
-        public void SetQuality(int qualityInex)
+        public void SetQuality(float floatInex)
         {
+            int qualityInex = (int)floatInex;
             QualitySettings.SetQualityLevel(qualityInex);
         }
 
