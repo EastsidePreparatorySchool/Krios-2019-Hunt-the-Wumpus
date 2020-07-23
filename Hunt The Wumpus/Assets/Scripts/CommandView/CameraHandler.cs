@@ -33,8 +33,8 @@ namespace CommandView
         // Start is called before the first frame update
         private void Awake()
         {
-            // PlayerPrefs.DeleteKey("needPlayIntroVid");
-            // PlayerPrefs.Save();
+            //PlayerPrefs.DeleteKey("needPlayIntroVid");
+            //PlayerPrefs.Save();
             if (!PlayerPrefs.HasKey("needPlayIntroVid"))
             {
                 otherUi.alpha = 0;

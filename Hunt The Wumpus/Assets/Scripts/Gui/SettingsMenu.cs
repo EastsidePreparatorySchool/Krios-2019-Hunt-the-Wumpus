@@ -54,6 +54,12 @@ namespace Gui
             planet.confirmTurn = confirmTurnBool;
         }
 
+        IEnumerator CreditsAfterDelay(float time)
+        {
+            yield return new WaitForSeconds(time);
+            creditsCanvas.SetActive(!creditsCanvas.activeSelf);
+        }
+
         public void Credits()
         {
             inCredits = !inCredits;
@@ -85,8 +91,9 @@ namespace Gui
 
 
         //AV Tab
-        public void SetResolution(int resolutionIndex)
+        public void SetResolution(float floatIndex)
         {
+            int resolutionIndex = (int) floatIndex;
             Screen.SetResolution(_resolutions[resolutionIndex, 0], _resolutions[resolutionIndex, 1], Screen.fullScreen);
             print(Screen.currentResolution);
         }
@@ -96,8 +103,9 @@ namespace Gui
             Screen.fullScreen = isFullscreen;
         }
 
-        public void SetQuality(int qualityInex)
+        public void SetQuality(float floatInex)
         {
+            int qualityInex = (int)floatInex;
             QualitySettings.SetQualityLevel(qualityInex);
         }
 
