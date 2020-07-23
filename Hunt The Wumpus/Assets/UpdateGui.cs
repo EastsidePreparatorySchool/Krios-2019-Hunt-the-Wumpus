@@ -16,7 +16,7 @@ public class UpdateGui : MonoBehaviour
 
 
     private GameObject _planet;
-    private Planet _planetScript;
+    private Planet _planetHandler;
 
     private GameObject _faceInfoBox; // Blueprint for the UI elements that will be spawned
 
@@ -30,7 +30,6 @@ public class UpdateGui : MonoBehaviour
 
     private readonly int[] _counterValues = new int[4];
 
-    private Planet _planetHandler;
     private GameMeta _inGameMeta;
     private FaceHandler[] _faceHandlers;
     private TextMeshProUGUI[] _faceDataHolderText;
@@ -49,8 +48,7 @@ public class UpdateGui : MonoBehaviour
     {
         // Fill Variables
         _planet = GameObject.Find("Planet");
-        _planetScript = _planet.GetComponent<Planet>();
-        _planetHandler = _planetScript.GetComponent<Planet>();
+        _planetHandler = _planet.GetComponent<Planet>();
 
         _canvasGroup = GameObject.Find("MainUICvsGroup").GetComponent<CanvasGroup>();
 
@@ -95,7 +93,7 @@ public class UpdateGui : MonoBehaviour
         // TODO: Implement Troops, Money, & Score
         if (_inGameMeta == null)
         {
-            _inGameMeta = _planetScript.GetComponent<GameMeta>();
+            _inGameMeta = _planetHandler.GetComponent<GameMeta>();
         }
 
         //print("Stats: " + _inGameMeta);
@@ -111,10 +109,10 @@ public class UpdateGui : MonoBehaviour
             _sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
         }
 
-        if (_inGameMeta.turnsElapsed != _planetScript.lastDisplayedTurn)
+        if (_inGameMeta.turnsElapsed != _planetHandler.lastDisplayedTurn)
         {
             StartCoroutine(TurnDisplayAnimation(_inGameMeta.turnsElapsed));
-            _planetScript.lastDisplayedTurn = _inGameMeta.turnsElapsed;
+            _planetHandler.lastDisplayedTurn = _inGameMeta.turnsElapsed;
         }
 
         if (_menu.isPause)
@@ -173,6 +171,7 @@ public class UpdateGui : MonoBehaviour
 
         _turnDisplay.text = "Turn " + turnToDisplay;
 
+        _turnDisplay.alpha = 1;
         _turnDisplay.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(2);
