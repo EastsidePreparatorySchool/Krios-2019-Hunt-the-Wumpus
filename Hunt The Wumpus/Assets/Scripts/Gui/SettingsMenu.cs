@@ -1,6 +1,8 @@
-﻿using CommandView;
+﻿using System.Collections;
+using CommandView;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 namespace Gui
 {
@@ -10,33 +12,35 @@ namespace Gui
         public Planet planet;
         public GameObject aoVolume;
         public GameObject creditsCanvas;
+        public VideoPlayer creditsVideo;
+        public CanvasGroup otherUI;
         public GameObject cursor;
 
         public bool inCredits;
 
-        private int[,] Resolutions = new int[3, 2];
+        private int[,] _resolutions = new int[3, 2];
 
         void Start()
         {
-            Resolutions[0, 0] = 1280;
-            Resolutions[0, 1] = 720;
+            _resolutions[0, 0] = 1280;
+            _resolutions[0, 1] = 720;
 
-            Resolutions[1, 0] = 1920;
-            Resolutions[1, 1] = 1080;
+            _resolutions[1, 0] = 1920;
+            _resolutions[1, 1] = 1080;
 
-            Resolutions[2, 0] = 2560;
-            Resolutions[2, 1] = 1440;
+            _resolutions[2, 0] = 2560;
+            _resolutions[2, 1] = 1440;
         }
 
         void Update()
         {
-            if (transform.InverseTransformPoint(creditsCanvas.transform.Find("Panel/TextHolder")
-                .GetComponent<RectTransform>().position).y >= 2990f && inCredits)
-            {
-                creditsCanvas.transform.Find("Panel/TextHolder").GetComponent<RectTransform>().transform
-                    .Translate(0, -400, 0);
-                Credits();
-            }
+            // if (transform.InverseTransformPoint(creditsExitBtn
+            //     .GetComponent<RectTransform>().position).y >= 2990f && inCredits)
+            // {
+            //     creditsExitBtn.GetComponent<RectTransform>().transform
+            //         .Translate(0, -400, 0);
+            //     Credits();
+            // }
         }
 
         //Gameplay Tab
@@ -54,13 +58,36 @@ namespace Gui
         {
             inCredits = !inCredits;
             creditsCanvas.SetActive(!creditsCanvas.activeSelf);
+            if (inCredits)
+            {
+                StartCoroutine(PrepAndCloseCredits());
+            }
+            else
+            {
+                otherUI.alpha = 1;
+            }
+        }
+
+        private IEnumerator PrepAndCloseCredits()
+        {
+            // creditsVideo.Prepare();
+            yield return new WaitUntil(() => creditsVideo.isPrepared);
+            // creditsVideo.Play();
+            otherUI.alpha = 0;
+
+            yield return new WaitUntil(() => !creditsVideo.isPlaying);
+
+            if (inCredits)
+            {
+                Credits();
+            }
         }
 
 
         //AV Tab
         public void SetResolution(int resolutionIndex)
         {
-            Screen.SetResolution(Resolutions[resolutionIndex, 0], Resolutions[resolutionIndex, 1], Screen.fullScreen);
+            Screen.SetResolution(_resolutions[resolutionIndex, 0], _resolutions[resolutionIndex, 1], Screen.fullScreen);
             print(Screen.currentResolution);
         }
 
