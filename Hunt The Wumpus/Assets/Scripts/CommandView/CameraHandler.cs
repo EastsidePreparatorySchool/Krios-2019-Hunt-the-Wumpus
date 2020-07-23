@@ -111,7 +111,6 @@ namespace CommandView
                 print("Playing ambient");
                 AudioListener.volume = planetHandler.volume;
                 ambientMusic.Play();
-                introVideo.Stop();
                 introMusicStart.Stop();
                 introMusicLoop.Stop();
                 // if (introMusicStart.isPlaying && introMusicStart.volume > 0.01f || introMusicLoop.isPlaying && introMusicLoop.volume > 0.01f)

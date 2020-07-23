@@ -1,10 +1,12 @@
 ﻿using CommandView;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class MusicController : MonoBehaviour
 {
     public Planet planetHandler;
+    public VideoPlayer introVideo;
 
     public void FadeOut()
     {
@@ -27,6 +29,10 @@ public class MusicController : MonoBehaviour
         }
 
         print("Fader done");
+        if (introVideo != null)
+        {
+            introVideo.Stop();
+        }
         planetHandler.isFadingMusic = false;
     }
 

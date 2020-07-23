@@ -34,17 +34,16 @@ namespace CommandView
         // Update is called once per frame
         void Update()
         {
-            // Get input from keyboard
-            _horizontalInput = Input.GetAxis("Horizontal");
-            _verticalInput = Input.GetAxis("Vertical");
-
-            if (introVideo.targetCameraAlpha.Equals(0f))
-            {
-                UpdateSpin();
-            }
-
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
+                // Get input from keyboard
+                _horizontalInput = Input.GetAxis("Horizontal");
+                _verticalInput = Input.GetAxis("Vertical");
+
+                if (introVideo != null && introVideo.targetCameraAlpha.Equals(0f))
+                {
+                    UpdateSpin();
+                }
                 // float vertDelta = Time.deltaTime * rotationSpeed * -_verticalInput;
                 // if (_verticalTilt > 50)
                 // {
