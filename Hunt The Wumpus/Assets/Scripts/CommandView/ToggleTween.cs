@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ToggleTween : MonoBehaviour
+namespace CommandView
 {
-    public LeanTweenType ease;
-    public float distance;
-    public float speed;
-
-    public void SetToggle(bool isOn)
+    public class ToggleTween : MonoBehaviour
     {
-        if (isOn)
-            LeanTween.moveLocalX(gameObject, distance, speed).setEase(ease);
-        else
-            LeanTween.moveLocalX(gameObject, -distance, speed).setEase(ease);
+        public LeanTweenType ease;
+        public float distance;
+        public float speed;
+
+        public void SetToggle(bool isOn)
+        {
+            if (isOn)
+                LeanTween.moveLocalX(gameObject, distance, speed).setEase(ease);
+            else
+                LeanTween.moveLocalX(gameObject, -distance, speed).setEase(ease);
+        }
     }
 }

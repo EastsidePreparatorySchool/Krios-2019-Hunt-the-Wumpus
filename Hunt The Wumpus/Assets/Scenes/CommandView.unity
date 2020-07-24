@@ -8440,7 +8440,7 @@ MonoBehaviour:
   aoVolume: {fileID: 1947154974}
   creditsCanvas: {fileID: 974643377}
   creditsVideo: {fileID: 41692105}
-  otherUI: {fileID: 198120910}
+  otherUi: {fileID: 198120910}
   cursor: {fileID: 1794313184}
   inCredits: 0
 --- !u!114 &621578644
@@ -25555,7 +25555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 851e95d48393de348b765e690661f5cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EndTurnBtn: {fileID: 1519103408}
+  endTurnBtn: {fileID: 1519103408}
   confirmPanel: {fileID: 860531086}
   tooltip: {fileID: 11146132}
 --- !u!114 &2055068147

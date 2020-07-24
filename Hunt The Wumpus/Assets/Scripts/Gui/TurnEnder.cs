@@ -1,5 +1,4 @@
 ﻿using CommandView;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,11 +9,11 @@ namespace Gui
     {
         private Planet _planet;
         private GameMeta _meta;
-        public Button EndTurnBtn;
+        public Button endTurnBtn;
         public GameObject confirmPanel;
         public GameObject tooltip;
 
-        private bool _buttonEnabled = false;
+        private bool _buttonEnabled;
         private Vector2 _mousePos;
 
         private bool _mouseIsOver;
@@ -59,7 +58,7 @@ namespace Gui
             }
             if (_planet.didSomething != _buttonEnabled)
             {
-                EndTurnBtn.interactable = _planet.didSomething;
+                endTurnBtn.interactable = _planet.didSomething;
                 _buttonEnabled = _planet.didSomething;
             }
             if (!_buttonEnabled)
