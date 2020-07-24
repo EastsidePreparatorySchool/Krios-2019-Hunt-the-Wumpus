@@ -43,7 +43,7 @@ namespace Gui
             _meta = GameObject.Find("Planet").GetComponent<GameMeta>();
 
             EventSystem.current.SetSelectedGameObject(confirmPanel);
-            _cantEndPanel = confirmPanel.transform.Find("CantEndPanel").gameObject;
+            _cantEndPanel = confirmPanel.transform.Find("DUMMYFORCANTEND").gameObject;
         }
 
         void Update()
