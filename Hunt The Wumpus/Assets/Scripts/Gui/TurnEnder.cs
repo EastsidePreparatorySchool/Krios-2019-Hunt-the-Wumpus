@@ -1,6 +1,8 @@
 ﻿using CommandView;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Gui
 {
@@ -8,7 +10,12 @@ namespace Gui
     {
         private Planet _planet;
         private GameMeta _meta;
+        public Button EndTurnBtn;
         public GameObject confirmPanel;
+        public GameObject tooltip;
+
+        private bool _buttonEnabled = false;
+        private Vector2 _mousePos;
 
         private bool _mouseIsOver;
 
@@ -50,6 +57,27 @@ namespace Gui
             {
                 CloseConfirm();
             }
+            if (_planet.didSomething != _buttonEnabled)
+            {
+                EndTurnBtn.interactable = _planet.didSomething;
+                _buttonEnabled = _planet.didSomething;
+            }
+            if (!_buttonEnabled)
+            {
+                _mousePos = Input.mousePosition;
+                tooltip.transform.position = new Vector2(_mousePos.x + 75, _mousePos.y + 45);
+            }
+        }
+
+        public void MouseEnter()
+        {
+            if (!_buttonEnabled)
+                tooltip.SetActive(true);
+        }
+
+        public void MouseExit()
+        {
+            tooltip.SetActive(false);
         }
 
         public void EndTurnButton()
@@ -80,16 +108,13 @@ namespace Gui
 
         public void EndTurn()
         {
-            if (_planet.didSomething)
-            {
-                _planet.didSomething = false;
-                GameObject canvasGo = GameObject.Find("Canvas");
-                TroopSelection troopSelector = canvasGo.GetComponent<TroopSelection>();
-                if (troopSelector != null)
-                    troopSelector.ActivateTroopSelector(0, true);
+            _planet.didSomething = false;
+            GameObject canvasGo = GameObject.Find("Canvas");
+            TroopSelection troopSelector = canvasGo.GetComponent<TroopSelection>();
+            if (troopSelector != null)
+                troopSelector.ActivateTroopSelector(0, true);
 
-                _meta.EndTurn();
-            }
+            _meta.EndTurn();
         }
     }
 }
