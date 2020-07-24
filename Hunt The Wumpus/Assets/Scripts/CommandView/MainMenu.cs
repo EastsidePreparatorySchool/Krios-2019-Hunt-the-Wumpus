@@ -49,13 +49,27 @@ namespace CommandView
             {
                 if (settings.inCredits)
                     settings.Credits();
+
                 else if (_optionsPanel.activeSelf)
                     _optionsPanel.SetActive(false);
+
+                else if (GameObject.Find("BuyTroopsPanel") != null)
+                {
+                    GameObject store = GameObject.Find("StoreUI");
+                    for (int i = 0; i < store.transform.childCount; i++)
+                    {
+                        var child = store.transform.GetChild(i).gameObject;
+                        if (child != null)
+                            child.SetActive(false);
+                    }
+                }
+
                 else if (_mainMenuPanel.activeSelf && _planet.readyToPlay && !_vars.firstLaunch)
                 {
                     _planet.readyToPlay = false;
                     Resume();
                 }
+
                 else if (!_mainMenuPanel.activeSelf && _planet.readyToPause)
                 {
                     _planet.readyToPause = false;
