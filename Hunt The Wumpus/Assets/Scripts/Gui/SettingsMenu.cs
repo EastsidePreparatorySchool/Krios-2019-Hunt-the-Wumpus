@@ -54,6 +54,15 @@ namespace Gui
             planet.confirmTurn = confirmTurnBool;
         }
 
+        public void SetVideo(bool toggle)
+        {
+            if (toggle)
+                PlayerPrefs.DeleteKey("needPlayIntroVid");
+            else
+                PlayerPrefs.SetInt("needPlayIntroVid", 0);
+            PlayerPrefs.Save();
+        }
+
         IEnumerator CreditsAfterDelay(float time)
         {
             yield return new WaitForSeconds(time);

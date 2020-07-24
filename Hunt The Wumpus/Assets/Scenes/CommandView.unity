@@ -11496,6 +11496,16 @@ PrefabInstance:
       propertyPath: m_Type
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5883859812619336307, guid: 63a2805a9de90e84fb762632a067c043,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 621578642}
+    - target: {fileID: 5883859812619336307, guid: 63a2805a9de90e84fb762632a067c043,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetVideo
+      objectReference: {fileID: 0}
     - target: {fileID: 5883859812619336308, guid: 63a2805a9de90e84fb762632a067c043,
         type: 3}
       propertyPath: m_LocalPosition.x
