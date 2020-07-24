@@ -743,7 +743,7 @@ namespace CommandView
                 _meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
                 SetColonized();
                 heldTroops.Clear();
-                _planet.didSomething = true;
+                //_planet.didSomething = true;
                 if (wumpus.location.Equals(this))
                 {
                     print("Hit the Wumpus! You win!");
