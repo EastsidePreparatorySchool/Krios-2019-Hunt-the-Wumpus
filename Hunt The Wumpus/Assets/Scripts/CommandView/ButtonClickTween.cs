@@ -1,8 +1,4 @@
-﻿using Boo.Lang;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class ButtonClickTween : MonoBehaviour
 {
