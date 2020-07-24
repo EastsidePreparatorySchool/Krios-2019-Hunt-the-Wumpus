@@ -33,8 +33,8 @@ namespace CommandView
         // Start is called before the first frame update
         private void Awake()
         {
-            //PlayerPrefs.DeleteKey("needPlayIntroVid");
-            //PlayerPrefs.Save();
+            // PlayerPrefs.DeleteKey("needPlayIntroVid");
+            // PlayerPrefs.Save();
             if (!PlayerPrefs.HasKey("needPlayIntroVid"))
             {
                 otherUi.alpha = 0;
@@ -65,7 +65,7 @@ namespace CommandView
 
             // introVideo.time = 34f;
             introVideo.Play();
-            introVideo.SetDirectAudioVolume(0, planetHandler.volume);
+            AudioListener.volume = planetHandler.volume;
             introMusicLoop.PlayDelayed((float) introVideo.clip.length);
             yield return new WaitForSeconds(36.11666f);
             // yield return new WaitForSeconds(2.11666f);
@@ -99,7 +99,7 @@ namespace CommandView
         void Update()
         {
             // print(planetHandler.GetStartGame()+", "+planetHandler.isFadingMusic);
-            if (introVideo.isPlaying || !PlayerPrefs.HasKey("needPlayIntroVid"))
+            if (introVideo.isPlaying || !PlayerPrefs.HasKey("needPlayIntroVid") && menuVars.firstLaunch)
             {
                 ambientMusic.Stop();
                 introMusicStart.Stop();
