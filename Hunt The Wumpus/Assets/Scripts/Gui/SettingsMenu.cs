@@ -13,7 +13,7 @@ namespace Gui
         public GameObject aoVolume;
         public GameObject creditsCanvas;
         public VideoPlayer creditsVideo;
-        public CanvasGroup otherUI;
+        public CanvasGroup otherUi;
         public GameObject cursor;
 
         public bool inCredits;
@@ -79,7 +79,7 @@ namespace Gui
             }
             else
             {
-                otherUI.alpha = 1;
+                otherUi.alpha = 1;
             }
         }
 
@@ -88,7 +88,7 @@ namespace Gui
             // creditsVideo.Prepare();
             yield return new WaitUntil(() => creditsVideo.isPrepared);
             // creditsVideo.Play();
-            otherUI.alpha = 0;
+            otherUi.alpha = 0;
 
             yield return new WaitUntil(() => !creditsVideo.isPlaying);
 
