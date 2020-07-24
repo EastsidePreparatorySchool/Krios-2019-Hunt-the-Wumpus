@@ -5,6 +5,7 @@ namespace MiniGame.Creatures
     public class PointerController : MonoBehaviour
     {
         public int followers;
+        public GameObject AttackKnob;
         public bool attackMove;
 
         // Start is called before the first frame update

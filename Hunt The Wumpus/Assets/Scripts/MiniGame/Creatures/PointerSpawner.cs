@@ -71,12 +71,14 @@ namespace MiniGame.Creatures
             if (Input.GetAxisRaw("Attack Command") > 0)
             {
                 pointerController.attackMove = true;
-                pointerInstance.GetComponent<Renderer>().material.color = AttackColor;
+                //pointerInstance.GetComponent<Renderer>().material.color = AttackColor;
+                pointerInstance.GetComponent<PointerController>().AttackKnob.SetActive(true);
             }
             else
             {
                 pointerController.attackMove = false;
-                pointerInstance.GetComponent<Renderer>().material.color = MoveColor;
+                //pointerInstance.GetComponent<Renderer>().material.color = MoveColor;
+                pointerInstance.GetComponent<PointerController>().AttackKnob.SetActive(false);
             }
         }
     }
