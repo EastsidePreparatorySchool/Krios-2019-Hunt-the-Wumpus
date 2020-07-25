@@ -489,6 +489,7 @@ namespace MiniGame.Terrain
             if (isEndNode(n))
             {
                 nest.GetComponent<NestDeathHandler>().OnDeathEndMiniGame();
+                nest.GetComponent<NestController>().ShowIndicatorPs();
             }
 
             // _nests.Add(nest);
