@@ -21476,7 +21476,18 @@ MonoBehaviour:
       m_Image: {fileID: 21300000, guid: e0562e5d0f12aeb4d81c7121738eb436, type: 3}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 621578642}
+        m_MethodName: SetWaypoint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1716017878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25723,6 +25734,7 @@ MonoBehaviour:
   lastDisplayedTurn: 0
   wumplingWaves: 03000000050000000a000000
   soldiers: 20
+  WaypointIndex: 4
   meta: {fileID: 2076108099}
   selectedFace: -1
   didSomething: 0

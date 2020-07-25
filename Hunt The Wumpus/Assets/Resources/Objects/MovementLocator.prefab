@@ -189,8 +189,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followers: 0
+  Indicator: {fileID: 8115664821585989903}
   AttackKnob: {fileID: 3629436938843773253}
   attackMove: 0
+  sprites:
+  - {fileID: 21300000, guid: f7ce61a90906d15408bf58beefbebdd2, type: 3}
+  - {fileID: 21300000, guid: 551656602fb570943b6d23721f1266f5, type: 3}
+  - {fileID: 21300000, guid: e34ad9749a29bf04eb02e720299df8c3, type: 3}
+  - {fileID: 21300000, guid: 43b8aee90b8b9374bab045d41d112b74, type: 3}
+  - {fileID: 21300000, guid: 3c4e800c9fe758e44b7a6f97b2eefa0a, type: 3}
+  - {fileID: 21300000, guid: a67fce3785ef7de44bc4389d8b9b16a3, type: 3}
+  - {fileID: 21300000, guid: e0562e5d0f12aeb4d81c7121738eb436, type: 3}
 --- !u!1 &8115664821585989903
 GameObject:
   m_ObjectHideFlags: 0

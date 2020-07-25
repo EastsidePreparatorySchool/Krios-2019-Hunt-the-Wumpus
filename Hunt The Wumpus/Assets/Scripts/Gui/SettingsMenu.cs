@@ -49,6 +49,11 @@ namespace Gui
             cursor.GetComponent<CursorController>().SetCursor(index);
         }
 
+        public void SetWaypoint(int index)
+        {
+            planet.WaypointIndex = index;
+        }
+
         public void ConfirmTurn(bool confirmTurnBool)
         {
             planet.confirmTurn = confirmTurnBool;
