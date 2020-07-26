@@ -675,10 +675,29 @@ namespace CommandView
             }
         }
 
-        public IEnumerator NukeTile()
+        public void NukeTile()
+        {
+            print("Nukes: " + _meta.nukes);
+            if (_meta.nukes != 0)
+            {
+                StartCoroutine(NukePs());
+            }
+            else
+            {
+                _noNukeText.SetActive(true);
+                print("Not enough nukes");
+            }
+        }
+
+        private float avgVecPos(Vector3 localPos)
+        {
+            return (localPos.x + localPos.y + localPos.z) / 3f;
+        }
+
+        private IEnumerator NukePs()
         {
             CalculateFaceGeometry();
-            
+
             GameObject nukeGo = Instantiate(Resources.Load<GameObject>("Objects/Nuke"), faceCenter,
                 Quaternion.FromToRotation(Vector3.up, faceNormal));
             nukeGo.transform.rotation =
@@ -687,7 +706,7 @@ namespace CommandView
 
             nukeGo.transform.position += nukeGo.transform.up * 20f;
 
-            while (nukeGo.transform.position.y > 1f)
+            while (Vector3.SqrMagnitude(nukeGo.transform.localPosition) > 0.0001f)
             {
                 nukeGo.transform.position -= nukeGo.transform.up * (Time.deltaTime * 30f);
                 yield return new WaitForEndOfFrame();
@@ -698,54 +717,40 @@ namespace CommandView
 
         private void NukeLogic()
         {
-            print("Nukes: " + _meta.nukes);
-            if (_meta.nukes != 0)
+            Wumpus.Wumpus wumpus = _planet.wumpus;
+            _meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
+            SetColonized();
+            heldTroops.Clear();
+            //_planet.didSomething = true;
+            if (wumpus.location.Equals(this))
             {
-                Wumpus.Wumpus wumpus = _planet.wumpus;
-                _meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
-                SetColonized();
-                heldTroops.Clear();
-                //_planet.didSomething = true;
-                if (wumpus.location.Equals(this))
-                {
-                    print("Hit the Wumpus! You win!");
-                    _planet.curGameStatus = GameStatus.Win;
-                }
-                else
-                {
-                    print("You didn't hit the Wumpus, but the tile is cleared. Adjacent faces don't make money");
-
-                    bool wumpusAdjacent = false;
-
-                    foreach (FaceHandler adjacentFaceHandler in GetOpenAdjacentFaces())
-                    {
-                        adjacentFaceHandler.noMoney = true;
-
-                        if (wumpus.location == adjacentFaceHandler)
-                        {
-                            wumpusAdjacent = true;
-                        }
-                    }
-
-                    if (wumpusAdjacent)
-                    {
-                        wumpus.Move(30);
-                    }
-                }
-
-                _meta.EndTurn();
-                CloseTroopSelector();
+                print("Hit the Wumpus! You win!");
+                _planet.curGameStatus = GameStatus.Win;
             }
             else
             {
-                _noNukeText.SetActive(true);
-                print("Not enough nukes");
+                print("You didn't hit the Wumpus, but the tile is cleared. Adjacent faces don't make money");
+
+                bool wumpusAdjacent = false;
+
+                foreach (FaceHandler adjacentFaceHandler in GetOpenAdjacentFaces())
+                {
+                    adjacentFaceHandler.noMoney = true;
+
+                    if (wumpus.location == adjacentFaceHandler)
+                    {
+                        wumpusAdjacent = true;
+                    }
+                }
+
+                if (wumpusAdjacent)
+                {
+                    wumpus.Move(30);
+                }
             }
 
-            // GameObject troopSelector = GameObject.Find("TroopSelectorUI");
-            // if (troopSelector != null)
-            //     troopSelector.SetActive(false);
-            //CloseTroopSelector();
+            _meta.EndTurn();
+            CloseTroopSelector();
         }
 
         public void AddSensorOnTile()
@@ -822,7 +827,7 @@ namespace CommandView
             // _planet.CreateMountains();
 
             CalculateFaceGeometry();
-            
+
             GameObject colonizedPsGo = Instantiate(Resources.Load<GameObject>("Objects/ColonizedPs"), faceCenter,
                 Quaternion.FromToRotation(Vector3.up, faceNormal));
             colonizedPsGo.transform.rotation =
