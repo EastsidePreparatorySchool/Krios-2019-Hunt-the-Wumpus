@@ -94,6 +94,9 @@ namespace CommandView
         public int[] wumplingWaves;
         public int soldiers;
 
+        public int CursorIndex = 0;
+        public int WaypointIndex = 4;
+
         // Some of the save/load variables
         private bool[,] States = new bool[4, 30];
         private int[] BiomeNum = new int[30];
