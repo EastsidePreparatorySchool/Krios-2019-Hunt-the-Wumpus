@@ -715,7 +715,7 @@ namespace CommandView
         {
             Wumpus.Wumpus wumpus = _planet.wumpus;
             _meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
-            SetColonized();
+            SetColonized(withParticles: true);
             heldTroops.Clear();
             //_planet.didSomething = true;
             if (wumpus.location.Equals(this))
@@ -798,7 +798,7 @@ namespace CommandView
             _hazardObject = haz;
         }
 
-        public void SetColonized(bool setTerritoryLinesActive = true)
+        public void SetColonized(bool setTerritoryLinesActive = true, bool withParticles = false)
         {
             discovered = true;
             colonized = true;
@@ -822,17 +822,20 @@ namespace CommandView
             _planet.ColonizedLineUpdate(setTerritoryLinesActive);
             // _planet.CreateMountains();
 
-            CalculateFaceGeometry();
+            if (withParticles)
+            {
+                CalculateFaceGeometry();
 
-            GameObject colonizedPsGo = Instantiate(Resources.Load<GameObject>("Objects/ColonizedPs"), faceCenter,
-                Quaternion.FromToRotation(Vector3.up, faceNormal));
-            colonizedPsGo.transform.rotation =
-                Quaternion.LookRotation(_majorAxisA - colonizedPsGo.transform.position, faceNormal);
-            colonizedPsGo.transform.parent = gameObject.transform;
+                GameObject colonizedPsGo = Instantiate(Resources.Load<GameObject>("Objects/ColonizedPs"), faceCenter,
+                    Quaternion.FromToRotation(Vector3.up, faceNormal));
+                colonizedPsGo.transform.rotation =
+                    Quaternion.LookRotation(_majorAxisA - colonizedPsGo.transform.position, faceNormal);
+                colonizedPsGo.transform.parent = gameObject.transform;
 
-            ParticleSystem colonizedPs = colonizedPsGo.GetComponentInChildren<ParticleSystem>();
-            colonizedPs.Play();
-            Destroy(colonizedPs.gameObject, 3.5f);
+                ParticleSystem colonizedPs = colonizedPsGo.GetComponentInChildren<ParticleSystem>();
+                colonizedPs.Play();
+                Destroy(colonizedPs.gameObject, 3.5f);
+            }
         }
 
         public void SetDiscovered()
