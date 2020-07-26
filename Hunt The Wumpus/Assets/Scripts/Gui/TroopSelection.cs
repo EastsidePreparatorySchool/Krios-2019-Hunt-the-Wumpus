@@ -154,8 +154,7 @@ namespace Gui
         {
             yield return new WaitForSeconds(0.4f);
             print("Nuking Tile");
-            StartCoroutine(
-                _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile());
+            _planetHandler.faces[_planetHandler.GetFaceInBattle()].GetComponent<FaceHandler>().NukeTile();
         }
 
         public void NukeTile()

@@ -1,5 +1,6 @@
 ﻿using Gui;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -126,8 +127,14 @@ namespace CommandView
 
             if (result.DidWin)
             {
-                inBattleFaceHandler.SetColonized(false);
+                StartCoroutine(SetColonizedDelayed(inBattleFaceHandler));
             }
+        }
+
+        private IEnumerator SetColonizedDelayed(FaceHandler faceHandler)
+        {
+            yield return new WaitForEndOfFrame();
+            faceHandler.SetColonized(false, true);
         }
 
         public void EndTurn()
