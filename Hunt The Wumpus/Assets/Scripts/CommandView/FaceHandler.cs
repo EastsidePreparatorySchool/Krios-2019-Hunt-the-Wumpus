@@ -589,83 +589,6 @@ namespace CommandView
                 {
                     SetHazard(HazardTypes.None);
 
-                    //// Pick two faces out
-                    // Get Face with border
-                    /*List<FaceHandler> borderFaces = new List<FaceHandler>();
-                    foreach (GameObject planetFace in _planet.faces)
-                    {
-                        FaceHandler curFaceHandler = planetFace.GetComponent<FaceHandler>();
-
-                        if (!curFaceHandler.colonized)
-                        {
-                            continue;
-                        }
-
-                        bool useCurFace = true;
-                        foreach (FaceHandler openAdjacentFace in curFaceHandler.GetOpenAdjacentFaces())
-                        {
-                            if (!openAdjacentFace.colonized)
-                            {
-                                borderFaces.Add(curFaceHandler);
-                                useCurFace = false;
-                                break;
-                            }
-                        }
-
-                        if (useCurFace)
-                        {
-                            borderFaces.Add(curFaceHandler);
-                        }
-                    }
-
-                    // pick one randomly
-                    FaceHandler randomFace;
-                    if (borderFaces.Count == 0)
-                    {
-                        randomFace = this;
-                    }
-                    else
-                    {
-                        randomFace = borderFaces[Random.Range(0, borderFaces.Count)];
-                    }
-
-                    // Move two faces out
-                    for (int i = 0; i < 2; i++)
-                    {
-                        List<FaceHandler> validFaces = new List<FaceHandler>();
-
-                        foreach (FaceHandler openAdjacentFace in randomFace.GetOpenAdjacentFaces())
-                        {
-                            if (borderFaces.Contains(openAdjacentFace) || validFaces.Contains(openAdjacentFace) ||
-                                openAdjacentFace.Equals(randomFace) || openAdjacentFace.Equals(this))
-                            {
-                                continue;
-                            }
-
-                            if (!openAdjacentFace.colonized)
-                            {
-                                validFaces.Add(openAdjacentFace);
-                            }
-                        }
-
-                        if (validFaces.Count == 0)
-                        {
-                            break;
-                        }
-
-                        randomFace = validFaces[Random.Range(0, validFaces.Count)];
-                    }
-
-                    // Set heldTroops to deployedTroops
-                    randomFace.heldTroops = deployedTroops;
-                    foreach (TroopMeta deployedTroop in deployedTroops)
-                    {
-                        meta.availableTroops.Remove(deployedTroop);
-                        deployedTroop.sendToBattle = false;
-                    }
-
-                    randomFace.GetComponent<Renderer>().material.color = Color.yellow;
-                    */
                     SetColonized();
 
                     List<FaceHandler> undiscoveredFaces = new List<FaceHandler>();
@@ -712,8 +635,9 @@ namespace CommandView
 
         private IEnumerator FadeOutAndSwitch()
         {
+            StartCoroutine(ShowLoadingCover());
+            
             _planet.GetComponent<MusicController>().FadeOut();
-
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
 
             // print("Stopping ambient");
@@ -731,6 +655,22 @@ namespace CommandView
             {
                 print("Going to TileBattle");
                 SceneManager.LoadScene(2);
+            }
+        }
+        private IEnumerator ShowLoadingCover()
+        {
+            CanvasGroup loadingCover = GameObject.Find("LoadingCover").GetComponent<CanvasGroup>();
+            float lerpStart = Time.time;
+            while (true)
+            {
+                var progress = Time.time - lerpStart;
+                loadingCover.alpha = Mathf.Lerp(0, 1, progress / 0.2f);
+                if (0.2f < progress)
+                {
+                    break;
+                }
+
+                yield return new WaitForEndOfFrame();
             }
         }
 
