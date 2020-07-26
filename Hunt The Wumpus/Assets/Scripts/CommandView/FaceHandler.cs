@@ -689,11 +689,6 @@ namespace CommandView
             }
         }
 
-        private float avgVecPos(Vector3 localPos)
-        {
-            return (localPos.x + localPos.y + localPos.z) / 3f;
-        }
-
         private IEnumerator NukePs()
         {
             CalculateFaceGeometry();
@@ -712,6 +707,7 @@ namespace CommandView
                 yield return new WaitForEndOfFrame();
             }
 
+            Destroy(nukeGo);
             NukeLogic();
         }
 
@@ -836,7 +832,7 @@ namespace CommandView
 
             ParticleSystem colonizedPs = colonizedPsGo.GetComponentInChildren<ParticleSystem>();
             colonizedPs.Play();
-            // Destroy(colonizedPs.gameObject, colonizedPs.main.duration);
+            Destroy(colonizedPs.gameObject, 3.5f);
         }
 
         public void SetDiscovered()
