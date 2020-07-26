@@ -33,12 +33,12 @@ namespace MiniGame.Selection
 
         void OnEnable()
         {
-            RtsSelection.Selectables.Add(this);
+            RTSSelection.Selectables.Add(this);
         }
 
         void OnDisable()
         {
-            RtsSelection.Selectables.Remove(this);
+            RTSSelection.Selectables.Remove(this);
         }
     }
 }

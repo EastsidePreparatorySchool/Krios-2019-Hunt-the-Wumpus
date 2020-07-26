@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using CommandView;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -9,12 +10,15 @@ namespace Gui
     public class SettingsMenu : MonoBehaviour
     {
         public GameObject volumePercent;
-        public Planet planet;
+        private Planet _planet;
         public GameObject aoVolume;
         public GameObject creditsCanvas;
         public VideoPlayer creditsVideo;
         public CanvasGroup otherUi;
-        public GameObject cursor;
+        private GameObject _cursor;
+
+        public TMP_Dropdown cursorDrop;
+        public TMP_Dropdown waypointDrop;
 
         public bool inCredits;
 
@@ -30,28 +34,38 @@ namespace Gui
 
             _resolutions[2, 0] = 2560;
             _resolutions[2, 1] = 1440;
+
+            _planet = GameObject.Find("Planet").GetComponent<Planet>();
+            _cursor = GameObject.Find("CursorImage");
+
+            SetupDrops();
         }
 
         void Update()
         {
-            // if (transform.InverseTransformPoint(creditsExitBtn
-            //     .GetComponent<RectTransform>().position).y >= 2990f && inCredits)
-            // {
-            //     creditsExitBtn.GetComponent<RectTransform>().transform
-            //         .Translate(0, -400, 0);
-            //     Credits();
-            // }
+        }
+
+        public void SetupDrops()
+        {
+            cursorDrop.value = _planet.CursorIndex;
+            waypointDrop.value = _planet.WaypointIndex;
         }
 
         //Gameplay Tab
         public void SetCursor(int index)
         {
-            cursor.GetComponent<CursorController>().SetCursor(index);
+            _planet.CursorIndex = index;
+            _cursor.GetComponent<CursorController>().SetCursor(index);
+        }
+
+        public void SetWaypoint(int index)
+        {
+            _planet.WaypointIndex = index;
         }
 
         public void ConfirmTurn(bool confirmTurnBool)
         {
-            planet.confirmTurn = confirmTurnBool;
+            _planet.confirmTurn = confirmTurnBool;
         }
 
         public void SetVideo(bool toggle)
@@ -120,17 +134,17 @@ namespace Gui
 
         public void SetBloom(bool bloomOn)
         {
-            planet.bloom = bloomOn;
+            _planet.bloom = bloomOn;
         }
 
         public void SetAo(bool aoOn)
         {
-            planet.ambientOcclusion = aoOn;
+            _planet.ambientOcclusion = aoOn;
         }
 
         public void SetVolume(float volume)
         {
-            planet.volume = volume;
+            _planet.volume = volume;
             print(volume);
             AudioListener.volume = volume;
             volumePercent.GetComponent<Text>().text = "Volume: " + Mathf.Round(volume * 100) + "%";
