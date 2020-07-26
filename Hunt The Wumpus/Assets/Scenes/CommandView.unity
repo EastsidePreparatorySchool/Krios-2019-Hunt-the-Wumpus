@@ -958,7 +958,7 @@ Transform:
   - {fileID: 413430564}
   - {fileID: 974643378}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &92659957
 GameObject:
@@ -2698,7 +2698,7 @@ Transform:
   - {fileID: 621578647}
   - {fileID: 28607406}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!225 &198120910
 CanvasGroup:
@@ -15952,7 +15952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -22864,6 +22864,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788492549}
   m_CullTransparentMesh: 0
+--- !u!224 &1790826715 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 30247419607256784, guid: 3bd63fd84893897478bde7723b621da4,
+    type: 3}
+  m_PrefabInstance: {fileID: 30247420936186553}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1791933208
 GameObject:
   m_ObjectHideFlags: 0
@@ -23677,7 +23683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 5e999c8eb03ade140b984a0045c66b6c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -25858,6 +25864,7 @@ Transform:
   - {fileID: 1523844847}
   - {fileID: 2124231920}
   - {fileID: 1567064617}
+  - {fileID: 1790826715}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26751,7 +26758,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 2076108096}
     m_Modifications:
     - target: {fileID: 30247419607256784, guid: 3bd63fd84893897478bde7723b621da4,
         type: 3}
@@ -26791,7 +26798,7 @@ PrefabInstance:
     - target: {fileID: 30247419607256784, guid: 3bd63fd84893897478bde7723b621da4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 30247419607256784, guid: 3bd63fd84893897478bde7723b621da4,
         type: 3}
