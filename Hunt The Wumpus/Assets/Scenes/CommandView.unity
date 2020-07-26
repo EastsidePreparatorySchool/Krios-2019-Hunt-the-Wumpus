@@ -8555,6 +8555,8 @@ MonoBehaviour:
   creditsVideo: {fileID: 41692105}
   otherUi: {fileID: 198120910}
   cursor: {fileID: 1794313184}
+  cursorDrop: {fileID: 1217767118}
+  waypointDrop: {fileID: 1716017877}
   inCredits: 0
 --- !u!114 &621578644
 MonoBehaviour:
@@ -25928,6 +25930,7 @@ MonoBehaviour:
   lastDisplayedTurn: 0
   wumplingWaves: 03000000050000000a000000
   soldiers: 20
+  CursorIndex: 0
   WaypointIndex: 4
   meta: {fileID: 2076108099}
   selectedFace: -1
