@@ -25942,7 +25942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnsElapsed: 0
   money: 0
-  nukes: 1
+  nukes: 30
   sensorTowers: 3
   firstNames:
   - James

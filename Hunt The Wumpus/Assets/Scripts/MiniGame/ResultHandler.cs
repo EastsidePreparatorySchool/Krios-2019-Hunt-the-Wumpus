@@ -8,8 +8,9 @@ namespace MiniGame
 {
     public class ResultHandler : MonoBehaviour
     {
-        public CanvasGroup loadingCover;
-        
+        public CanvasGroup winLoadingCover;
+        public CanvasGroup loseLoadingCover;
+
         private GameObject _planet;
         private Planet _planetHandler;
         private MiniGameResult _result;
@@ -66,13 +67,17 @@ namespace MiniGame
 
             _meta.UpdateGameStateWithResult();
         }
+
         private IEnumerator ShowLoadingCover()
         {
             float lerpStart = Time.time;
+
+            CanvasGroup coverToUse = _result.DidWin ? winLoadingCover : loseLoadingCover;
+            
             while (true)
             {
                 var progress = Time.time - lerpStart;
-                loadingCover.alpha = Mathf.Lerp(0, 1, progress / 0.2f);
+                coverToUse.alpha = Mathf.Lerp(0, 1, progress / 0.2f);
                 if (0.2f < progress)
                 {
                     break;
