@@ -8,6 +8,8 @@ namespace MiniGame
 {
     public class ResultHandler : MonoBehaviour
     {
+        public CanvasGroup loadingCover;
+        
         private GameObject _planet;
         private Planet _planetHandler;
         private MiniGameResult _result;
@@ -56,11 +58,28 @@ namespace MiniGame
 
         private IEnumerator FadeOutAndSwitch()
         {
+            StartCoroutine(ShowLoadingCover());
+
             _planet.GetComponent<MusicController>().FadeOut();
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
             SceneManager.LoadScene(0);
 
             _meta.UpdateGameStateWithResult();
+        }
+        private IEnumerator ShowLoadingCover()
+        {
+            float lerpStart = Time.time;
+            while (true)
+            {
+                var progress = Time.time - lerpStart;
+                loadingCover.alpha = Mathf.Lerp(0, 1, progress / 0.2f);
+                if (0.2f < progress)
+                {
+                    break;
+                }
+
+                yield return new WaitForEndOfFrame();
+            }
         }
     }
 }
