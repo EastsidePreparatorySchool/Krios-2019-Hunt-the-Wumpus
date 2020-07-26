@@ -674,7 +674,27 @@ namespace CommandView
             }
         }
 
-        public void NukeTile()
+        public IEnumerator NukeTile()
+        {
+            CalculateFaceGeometry();
+            
+            GameObject nukeMesh = Instantiate(Resources.Load<GameObject>("Objects/Nuke"), faceCenter,
+                Quaternion.FromToRotation(Vector3.up, faceNormal));
+            nukeMesh.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - nukeMesh.transform.position, faceNormal);
+            nukeMesh.transform.parent = gameObject.transform;
+
+            nukeMesh.transform.position += nukeMesh.transform.up * 20f;
+
+            while (nukeMesh.transform.position.y > 1f)
+            {
+                nukeMesh.transform.position -= nukeMesh.transform.up * (Time.deltaTime * 30f);
+                yield return new WaitForEndOfFrame();
+            }
+            
+            NukeLogic();
+        }
+        private void NukeLogic()
         {
             print("Nukes: " + _meta.nukes);
             if (_meta.nukes != 0)
