@@ -636,7 +636,7 @@ namespace CommandView
         private IEnumerator FadeOutAndSwitch()
         {
             StartCoroutine(ShowLoadingCover());
-            
+
             _planet.GetComponent<MusicController>().FadeOut();
             yield return new WaitUntil(() => Math.Abs(AudioListener.volume) < 0.001);
 
@@ -657,6 +657,7 @@ namespace CommandView
                 SceneManager.LoadScene(2);
             }
         }
+
         private IEnumerator ShowLoadingCover()
         {
             CanvasGroup loadingCover = GameObject.Find("LoadingCover").GetComponent<CanvasGroup>();
@@ -678,22 +679,23 @@ namespace CommandView
         {
             CalculateFaceGeometry();
             
-            GameObject nukeMesh = Instantiate(Resources.Load<GameObject>("Objects/Nuke"), faceCenter,
+            GameObject nukeGo = Instantiate(Resources.Load<GameObject>("Objects/Nuke"), faceCenter,
                 Quaternion.FromToRotation(Vector3.up, faceNormal));
-            nukeMesh.transform.rotation =
-                Quaternion.LookRotation(_majorAxisA - nukeMesh.transform.position, faceNormal);
-            nukeMesh.transform.parent = gameObject.transform;
+            nukeGo.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - nukeGo.transform.position, faceNormal);
+            nukeGo.transform.parent = gameObject.transform;
 
-            nukeMesh.transform.position += nukeMesh.transform.up * 20f;
+            nukeGo.transform.position += nukeGo.transform.up * 20f;
 
-            while (nukeMesh.transform.position.y > 1f)
+            while (nukeGo.transform.position.y > 1f)
             {
-                nukeMesh.transform.position -= nukeMesh.transform.up * (Time.deltaTime * 30f);
+                nukeGo.transform.position -= nukeGo.transform.up * (Time.deltaTime * 30f);
                 yield return new WaitForEndOfFrame();
             }
-            
+
             NukeLogic();
         }
+
         private void NukeLogic()
         {
             print("Nukes: " + _meta.nukes);
@@ -818,6 +820,18 @@ namespace CommandView
             // print("Colonized Here");
             _planet.ColonizedLineUpdate(setTerritoryLinesActive);
             // _planet.CreateMountains();
+
+            CalculateFaceGeometry();
+            
+            GameObject colonizedPsGo = Instantiate(Resources.Load<GameObject>("Objects/ColonizedPs"), faceCenter,
+                Quaternion.FromToRotation(Vector3.up, faceNormal));
+            colonizedPsGo.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - colonizedPsGo.transform.position, faceNormal);
+            colonizedPsGo.transform.parent = gameObject.transform;
+
+            ParticleSystem colonizedPs = colonizedPsGo.GetComponentInChildren<ParticleSystem>();
+            colonizedPs.Play();
+            // Destroy(colonizedPs.gameObject, colonizedPs.main.duration);
         }
 
         public void SetDiscovered()
