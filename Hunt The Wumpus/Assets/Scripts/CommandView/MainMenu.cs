@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using System.IO;
+using System.Collections;
 
 namespace CommandView
 {
@@ -26,6 +27,8 @@ namespace CommandView
         public GameObject ContinueBtn;
 
         public VideoPlayer introVideo;
+
+        public GameObject SavedPanel;
 
         private Planet _planet;
         private MainMenuVars _vars;
@@ -148,8 +151,16 @@ namespace CommandView
             _optionsPanel.SetActive(!_optionsPanel.activeSelf);
         }
 
+        IEnumerator CloseSavedAfterDelay(float time)
+        {
+            yield return new WaitForSeconds(time);
+            SavedPanel.SetActive(false);
+        }
+
         public void Save()
         {
+            SavedPanel.SetActive(true);
+            StartCoroutine(CloseSavedAfterDelay(1));
             GameObject.Find("Planet").GetComponent<Planet>().Savefunc();
             print("saved");
         }
