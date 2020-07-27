@@ -189,8 +189,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followers: 0
-  Indicator: {fileID: 8115664821585989903}
-  AttackKnob: {fileID: 3629436938843773253}
+  indicator: {fileID: 8115664821585989903}
+  attackKnob: {fileID: 3629436938843773253}
   attackMove: 0
   sprites:
   - {fileID: 21300000, guid: f7ce61a90906d15408bf58beefbebdd2, type: 3}

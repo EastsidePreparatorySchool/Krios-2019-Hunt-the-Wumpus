@@ -73,7 +73,7 @@ namespace MiniGame
             float lerpStart = Time.time;
 
             CanvasGroup coverToUse = _result.DidWin ? winLoadingCover : loseLoadingCover;
-            
+
             while (true)
             {
                 var progress = Time.time - lerpStart;

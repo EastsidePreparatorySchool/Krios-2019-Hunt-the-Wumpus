@@ -7,8 +7,8 @@ namespace MiniGame.Creatures
     {
         private Planet _planet;
         public int followers;
-        public GameObject Indicator;
-        public GameObject AttackKnob;
+        public GameObject indicator;
+        public GameObject attackKnob;
         public bool attackMove;
         public Sprite[] sprites;
 
@@ -16,7 +16,7 @@ namespace MiniGame.Creatures
         void Start()
         {
             _planet = GameObject.Find("Planet").GetComponent<Planet>();
-            Indicator.GetComponent<SpriteRenderer>().sprite = sprites[_planet.WaypointIndex];
+            indicator.GetComponent<SpriteRenderer>().sprite = sprites[_planet.waypointIndex];
         }
 
         // Update is called once per frame

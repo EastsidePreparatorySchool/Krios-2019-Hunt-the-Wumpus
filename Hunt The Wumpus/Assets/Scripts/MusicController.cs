@@ -33,6 +33,7 @@ public class MusicController : MonoBehaviour
         {
             introVideo.Stop();
         }
+
         planetHandler.isFadingMusic = false;
     }
 

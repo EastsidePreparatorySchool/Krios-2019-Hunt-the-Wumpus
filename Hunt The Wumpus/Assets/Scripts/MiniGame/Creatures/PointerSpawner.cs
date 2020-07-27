@@ -41,7 +41,7 @@ namespace MiniGame.Creatures
                     bool makeWaypoint = Input.GetKey(WaypointKey);
 
                     int followerCount = 0;
-                    foreach (Selectable selectable in RTSSelection.Selectables)
+                    foreach (Selectable selectable in RtsSelection.Selectables)
                     {
                         if (selectable.IsSelected)
                         {
@@ -72,13 +72,13 @@ namespace MiniGame.Creatures
             {
                 pointerController.attackMove = true;
                 //pointerInstance.GetComponent<Renderer>().material.color = AttackColor;
-                pointerInstance.GetComponent<PointerController>().AttackKnob.SetActive(true);
+                pointerInstance.GetComponent<PointerController>().attackKnob.SetActive(true);
             }
             else
             {
                 pointerController.attackMove = false;
                 //pointerInstance.GetComponent<Renderer>().material.color = MoveColor;
-                pointerInstance.GetComponent<PointerController>().AttackKnob.SetActive(false);
+                pointerInstance.GetComponent<PointerController>().attackKnob.SetActive(false);
             }
         }
     }

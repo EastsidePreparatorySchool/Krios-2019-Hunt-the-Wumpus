@@ -19,7 +19,7 @@ public class PostProcessingController : MonoBehaviour
     {
         postProcessVolume.profile.TryGetSettings(out _bloomLayer);
         postProcessVolume.profile.TryGetSettings(out _ambientOcclusionLayer);
-        
+
         _bloomWas = planet.bloom;
         _aowas = planet.ambientOcclusion;
     }
@@ -31,6 +31,7 @@ public class PostProcessingController : MonoBehaviour
             _bloomLayer.enabled.value = planet.bloom;
             _bloomWas = planet.bloom;
         }
+
         if (planet.ambientOcclusion != _aowas)
         {
             _ambientOcclusionLayer.enabled.value = planet.ambientOcclusion;

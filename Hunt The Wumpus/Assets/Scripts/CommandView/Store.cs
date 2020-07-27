@@ -107,7 +107,8 @@ namespace CommandView
                     {
                         storeCheckedTroop.Damage += troopDamageIncrease;
                         storeCheckedTroop.UpgradeLvl += 1;
-                        print("upgraed by " + troopDamageIncrease + ", now up to " + storeCheckedTroop.Damage + ", lvl: " +
+                        print("upgraed by " + troopDamageIncrease + ", now up to " + storeCheckedTroop.Damage +
+                              ", lvl: " +
                               storeCheckedTroop.UpgradeLvl);
                         GetComponent<StoreTroopSelect>().needsRefresh = true;
                         GetComponent<TroopSelection>().needsRefresh = true;

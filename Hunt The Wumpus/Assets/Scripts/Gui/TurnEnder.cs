@@ -56,11 +56,13 @@ namespace Gui
             {
                 CloseConfirm();
             }
+
             if (_planet.didSomething != _buttonEnabled)
             {
                 endTurnBtn.interactable = _planet.didSomething;
                 _buttonEnabled = _planet.didSomething;
             }
+
             if (!_buttonEnabled)
             {
                 _mousePos = Input.mousePosition;

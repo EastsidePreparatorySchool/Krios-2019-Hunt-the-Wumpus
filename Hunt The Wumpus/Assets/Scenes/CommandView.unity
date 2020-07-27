@@ -8549,12 +8549,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volumePercent: {fileID: 1004978814}
-  planet: {fileID: 2076108097}
   aoVolume: {fileID: 1947154974}
   creditsCanvas: {fileID: 974643377}
   creditsVideo: {fileID: 41692105}
   otherUi: {fileID: 198120910}
-  cursor: {fileID: 1794313184}
   cursorDrop: {fileID: 1217767118}
   waypointDrop: {fileID: 1716017877}
   inCredits: 0
@@ -13506,7 +13504,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -16274,7 +16272,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -21806,7 +21804,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -22105,7 +22103,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 41.99404}
+  m_SizeDelta: {x: 0, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1748397718
 MonoBehaviour:
@@ -22162,7 +22160,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -23029,12 +23027,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791933208}
   m_CullTransparentMesh: 0
---- !u!1 &1794313184 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 30247419232313689, guid: 3bd63fd84893897478bde7723b621da4,
-    type: 3}
-  m_PrefabInstance: {fileID: 30247420936186553}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1806369824
 GameObject:
   m_ObjectHideFlags: 0
