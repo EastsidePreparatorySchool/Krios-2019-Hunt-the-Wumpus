@@ -8,6 +8,8 @@ namespace CommandView
 {
     public class MainMenu : MonoBehaviour
     {
+        public EndGame EndGame;
+
         public MusicController musicController;
         private Animator _cameraAnimator;
         private Animator _lettersAnimator;
@@ -19,6 +21,8 @@ namespace CommandView
         private GameObject _mainMenuPanel;
 
         public SettingsMenu settings;
+
+        public GameObject ContinueBtn;
 
         public VideoPlayer introVideo;
 
@@ -39,6 +43,11 @@ namespace CommandView
             _vars = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
             _optionsPanel = optionsMenu.transform.Find("Panel").gameObject;
             _mainMenuPanel = mainMenuCanvas.transform.Find("MenuPanel").gameObject;
+
+            if (_planet.Loadfunc())
+            {
+                ContinueBtn.SetActive(true);
+            }
         }
 
         void Update()
@@ -78,6 +87,23 @@ namespace CommandView
             }
         }
 
+        public void Continue()
+        {
+            LoadGame();
+        }
+
+        public void NewGameBtn()
+        {
+            if (_vars.firstLaunch)
+                Resume();
+            else
+            {
+                _planet.curGameStatus.Equals(GameStatus.RanOutOfResources);
+                EndGame.Button();
+            }
+
+        }
+
         public void Resume()
         {
             if (!_planet.GetStartGame())
@@ -102,6 +128,7 @@ namespace CommandView
         {
             _planet.Loadfunc();
             print("loaded");
+            _vars.firstLaunch = false;
             Resume();
         }
 
@@ -138,7 +165,8 @@ namespace CommandView
             _vars.isPause = true;
             HideStoreTroopSelect();
             if (_vars.firstLaunch == false)
-                GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
+                ContinueBtn.SetActive(true);
+                //GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
         }
 
         private void HideMainMenu()
