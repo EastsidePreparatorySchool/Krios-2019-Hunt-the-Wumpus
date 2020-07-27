@@ -83,7 +83,8 @@ namespace Gui
 
         public void EndTurnButton()
         {
-            if (!_planet.confirmTurn)
+            bool confirm = PlayerPrefs.GetInt("ConfirmTurn") == 1 ? true : false;
+            if (!confirm)
                 EndTurn();
             else
             {

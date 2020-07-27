@@ -66,7 +66,10 @@ namespace CommandView
                     settings.Credits();
 
                 else if (_optionsPanel.activeSelf)
+                {
+                    PlayerPrefs.Save();
                     _optionsPanel.SetActive(false);
+                }
 
                 else if (GameObject.Find("BuyTroopsPanel") != null)
                 {
@@ -141,6 +144,7 @@ namespace CommandView
 
         public void Options()
         {
+            PlayerPrefs.Save();
             _optionsPanel.SetActive(!_optionsPanel.activeSelf);
         }
 

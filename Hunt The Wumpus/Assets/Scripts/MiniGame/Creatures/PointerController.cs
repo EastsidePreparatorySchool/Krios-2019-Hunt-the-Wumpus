@@ -16,7 +16,7 @@ namespace MiniGame.Creatures
         void Start()
         {
             _planet = GameObject.Find("Planet").GetComponent<Planet>();
-            indicator.GetComponent<SpriteRenderer>().sprite = sprites[_planet.waypointIndex];
+            indicator.GetComponent<SpriteRenderer>().sprite = sprites[PlayerPrefs.GetInt("Waypoint")];
         }
 
         // Update is called once per frame
