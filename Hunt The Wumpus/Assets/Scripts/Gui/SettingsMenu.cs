@@ -2,6 +2,7 @@
 using CommandView;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -17,8 +18,18 @@ namespace Gui
         public CanvasGroup otherUi;
         private GameObject _cursor;
 
+
         public TMP_Dropdown cursorDrop;
         public TMP_Dropdown waypointDrop;
+        public Toggle ConfirmTurnToggle;
+
+        public Slider ResolutionSlider;
+        public Toggle FullScreenToggle;
+        public Slider QualitySlider;
+        public Toggle BloomToggle;
+        public Toggle AOToggle;
+        public Slider VolumeSlider;
+
 
         public bool inCredits;
 
@@ -38,38 +49,47 @@ namespace Gui
             _planet = GameObject.Find("Planet").GetComponent<Planet>();
             _cursor = GameObject.Find("CursorImage");
 
-            SetupDrops();
+            SetupProps();
         }
 
         void Update()
         {
         }
 
-        public void SetupDrops()
+        public void SetupProps()
         {
-            cursorDrop.value = _planet.cursorIndex;
-            waypointDrop.value = _planet.waypointIndex;
+            cursorDrop.value = PlayerPrefs.GetInt("Cursor", 0);
+            waypointDrop.value = PlayerPrefs.GetInt("Waypoint", 4);
+            ConfirmTurnToggle.isOn = PlayerPrefs.GetInt("ConfirmTurn", 0) == 1 ? true : false;
+
+            ResolutionSlider.value = PlayerPrefs.GetInt("Resolution", 1);
+            FullScreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1 ? true : false;
+            QualitySlider.value = PlayerPrefs.GetInt("Quality", 1);
+            BloomToggle.isOn = PlayerPrefs.GetInt("Bloom", 1) == 1 ? true : false;
+            AOToggle.isOn = PlayerPrefs.GetInt("AmbientOcclusion", 1) == 1 ? true : false;
+            VolumeSlider.value = PlayerPrefs.GetFloat("Volume", .5f);
         }
 
         //Gameplay Tab
         public void SetCursor(int index)
         {
-            _planet.cursorIndex = index;
+            PlayerPrefs.SetInt("Cursor", index);
             _cursor.GetComponent<CursorController>().SetCursor(index);
         }
 
         public void SetWaypoint(int index)
         {
-            _planet.waypointIndex = index;
+            PlayerPrefs.SetInt("Waypoint", index);
         }
 
         public void ConfirmTurn(bool confirmTurnBool)
         {
-            _planet.confirmTurn = confirmTurnBool;
+            PlayerPrefs.SetInt("ConfirmTurn", confirmTurnBool ? 1 : 0);
         }
 
         public void SetVideo(bool toggle)
         {
+            ////////////////////////////fix this up
             if (toggle)
                 PlayerPrefs.DeleteKey("needPlayIntroVid");
             else
@@ -117,33 +137,39 @@ namespace Gui
         public void SetResolution(float floatIndex)
         {
             int resolutionIndex = (int) floatIndex;
+            PlayerPrefs.SetInt("Resolution", resolutionIndex);
             Screen.SetResolution(_resolutions[resolutionIndex, 0], _resolutions[resolutionIndex, 1], Screen.fullScreen);
             print(Screen.currentResolution);
         }
 
         public void SetFullscreen(bool isFullscreen)
         {
+            PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
             Screen.fullScreen = isFullscreen;
         }
 
         public void SetQuality(float floatInex)
         {
             int qualityInex = (int) floatInex;
+            PlayerPrefs.SetInt("Quality", qualityInex);
             QualitySettings.SetQualityLevel(qualityInex);
         }
 
         public void SetBloom(bool bloomOn)
         {
+            PlayerPrefs.SetInt("Bloom", bloomOn ? 1 : 0);
             _planet.bloom = bloomOn;
         }
 
         public void SetAo(bool aoOn)
         {
+            PlayerPrefs.SetInt("AmbientOcclusion", aoOn ? 1 : 0);
             _planet.ambientOcclusion = aoOn;
         }
 
         public void SetVolume(float volume)
         {
+            PlayerPrefs.SetFloat("Volume", volume);
             _planet.volume = volume;
             print(volume);
             AudioListener.volume = volume;
