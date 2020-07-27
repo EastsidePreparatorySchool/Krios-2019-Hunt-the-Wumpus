@@ -24,6 +24,7 @@ namespace CommandView
         private readonly int[] _counterValues = new int[4];
 
         private GameMeta _inGameMeta;
+
         private FaceHandler[] _faceHandlers;
         // private TextMeshProUGUI[] _faceDataHolderText;
 
@@ -40,7 +41,7 @@ namespace CommandView
             _planet = GameObject.Find("Planet");
             _planetHandler = _planet.GetComponent<Planet>();
             _inGameMeta = _planet.GetComponent<GameMeta>();
-            
+
             // Sync UI appearance with camera entry spin
             canvasGroup.alpha = 0f;
             turnDisplay.alpha = 1f;

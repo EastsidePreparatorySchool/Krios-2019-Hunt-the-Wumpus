@@ -41,7 +41,7 @@ namespace CommandView
                 ambientMusic.Stop();
                 introMusicStart.Stop();
                 introMusicLoop.Stop();
-                
+
                 StartCoroutine(PlayIntroVideo());
             }
             else
@@ -71,14 +71,14 @@ namespace CommandView
             // yield return new WaitForSeconds(2.11666f);
             PlayerPrefs.SetInt("needPlayIntroVid", 0);
             PlayerPrefs.Save();
-            
+
             cameraAnimator.SetBool(IntroVideoComplete, true);
-            
+
             introVideo.targetCameraAlpha = 0;
 
             yield return new WaitForSeconds(0.81667f); // 0.88334f - (4/60)
             lettersAnimator.SetBool(IntroTitles, true);
-            
+
             yield return new WaitForSeconds(2.06666f); // 2f + (4/60)
             float lerpStart = Time.time;
             while (true)

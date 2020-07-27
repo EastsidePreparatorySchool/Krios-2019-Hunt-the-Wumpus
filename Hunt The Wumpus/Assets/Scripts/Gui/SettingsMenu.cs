@@ -47,20 +47,20 @@ namespace Gui
 
         public void SetupDrops()
         {
-            cursorDrop.value = _planet.CursorIndex;
-            waypointDrop.value = _planet.WaypointIndex;
+            cursorDrop.value = _planet.cursorIndex;
+            waypointDrop.value = _planet.waypointIndex;
         }
 
         //Gameplay Tab
         public void SetCursor(int index)
         {
-            _planet.CursorIndex = index;
+            _planet.cursorIndex = index;
             _cursor.GetComponent<CursorController>().SetCursor(index);
         }
 
         public void SetWaypoint(int index)
         {
-            _planet.WaypointIndex = index;
+            _planet.waypointIndex = index;
         }
 
         public void ConfirmTurn(bool confirmTurnBool)
@@ -128,7 +128,7 @@ namespace Gui
 
         public void SetQuality(float floatInex)
         {
-            int qualityInex = (int)floatInex;
+            int qualityInex = (int) floatInex;
             QualitySettings.SetQualityLevel(qualityInex);
         }
 
