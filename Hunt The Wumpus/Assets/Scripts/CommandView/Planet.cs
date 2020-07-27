@@ -958,72 +958,63 @@ namespace CommandView
                 _isExausted, _isHeld, _heldLoc, _totalTroops);
         }
 
-        public bool Loadfunc()
+        public void Loadfunc()
         {
-            if (DoSaving.LoadTheData() != null)
+            SaveData data = DoSaving.LoadTheData();
+
+            meta.turnsElapsed = data.turnsElapsed;
+            didSomething = data.didSomething;
+            meta.money = data.money;
+            meta.nukes = data.nukes;
+            meta.sensorTowers = data.sensors;
+
+            wumpus.location = faces[data.wumpusLocation].GetComponent<FaceHandler>();
+
+            foreach (GameObject face in faces)
             {
-                SaveData data = DoSaving.LoadTheData();
-
-                meta.turnsElapsed = data.turnsElapsed;
-                didSomething = data.didSomething;
-                meta.money = data.money;
-                meta.nukes = data.nukes;
-                meta.sensorTowers = data.sensors;
-
-                wumpus.location = faces[data.wumpusLocation].GetComponent<FaceHandler>();
-
-                foreach (GameObject face in faces)
-                {
-                    face.GetComponent<FaceHandler>().colonized = false;
-                    face.GetComponent<FaceHandler>().discovered = false;
-                }
-
-                int i = 0;
-                foreach (GameObject face in faces)
-                {
-                    FaceHandler faceHandler = face.GetComponent<FaceHandler>();
-                    for (int j = 0; j < 4; j++)
-                        faceHandler.state[j] = data.state[j, i];
-                    faceHandler.biomeType = (BiomeType) data.biomeNum[i];
-                    faceHandler.SetHazard((HazardTypes) data.hazardType[i]);
-                    faceHandler.showHintOnTile = data.showHint[i];
-                    if (data.isColonized[i])
-                    {
-                        print("is colonized");
-                        faceHandler.SetColonized();
-                    }
-                    else
-                        print("not colonized");
-
-                    ColonizedLineUpdate();
-                    faceHandler.UpdateFaceColors();
-                    i++;
-                }
-
-
-                meta.availableTroops.Clear();
-                meta.exhaustedTroops.Clear();
-
-                for (i = 0; i < data.troopType.Count(); i++)
-                {
-                    if (data.isHeld[i])
-                    {
-                        faceHandlers[data.heldLoc[i]].heldTroops
-                            .Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
-                        faceHandlers[data.heldLoc[i]].UpdateFaceColors();
-                    }
-                    else if (data.isExausted[i])
-                        meta.exhaustedTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
-
-                    if (!data.isExausted[i] && !data.isHeld[i])
-                        meta.availableTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
-                }
-                return true;
+                face.GetComponent<FaceHandler>().colonized = false;
+                face.GetComponent<FaceHandler>().discovered = false;
             }
-            else
+
+            int i = 0;
+            foreach (GameObject face in faces)
             {
-                Debug.LogError("LoadTheData Error");
-                return false;
+                FaceHandler faceHandler = face.GetComponent<FaceHandler>();
+                for (int j = 0; j < 4; j++)
+                    faceHandler.state[j] = data.state[j, i];
+                faceHandler.biomeType = (BiomeType) data.biomeNum[i];
+                faceHandler.SetHazard((HazardTypes) data.hazardType[i]);
+                faceHandler.showHintOnTile = data.showHint[i];
+                if (data.isColonized[i])
+                {
+                    print("is colonized");
+                    faceHandler.SetColonized();
+                }
+                else
+                    print("not colonized");
+
+                ColonizedLineUpdate();
+                faceHandler.UpdateFaceColors();
+                i++;
+            }
+
+
+            meta.availableTroops.Clear();
+            meta.exhaustedTroops.Clear();
+
+            for (i = 0; i < data.troopType.Count(); i++)
+            {
+                if (data.isHeld[i])
+                {
+                    faceHandlers[data.heldLoc[i]].heldTroops
+                        .Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
+                    faceHandlers[data.heldLoc[i]].UpdateFaceColors();
+                }
+                else if (data.isExausted[i])
+                    meta.exhaustedTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
+
+                if (!data.isExausted[i] && !data.isHeld[i])
+                    meta.availableTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
             }
         }
 

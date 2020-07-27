@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using System.IO;
 
 namespace CommandView
 {
@@ -44,10 +45,15 @@ namespace CommandView
             _optionsPanel = optionsMenu.transform.Find("Panel").gameObject;
             _mainMenuPanel = mainMenuCanvas.transform.Find("MenuPanel").gameObject;
 
-            if (_planet.Loadfunc())
-            {
+            string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
+            if (File.Exists(path))
                 ContinueBtn.SetActive(true);
+            if (PlayerPrefs.GetInt("AutoStartNewGame") == 1 ? true : false)
+            {
+                PlayerPrefs.SetInt("AutoStartNewGame", false ? 1 : 0);
+                Resume();
             }
+
         }
 
         void Update()
@@ -98,10 +104,11 @@ namespace CommandView
                 Resume();
             else
             {
+                PlayerPrefs.SetInt("AutoStartNewGame", true ? 1 : 0);
+                PlayerPrefs.Save();
                 _planet.curGameStatus.Equals(GameStatus.RanOutOfResources);
                 EndGame.Button();
             }
-
         }
 
         public void Resume()
