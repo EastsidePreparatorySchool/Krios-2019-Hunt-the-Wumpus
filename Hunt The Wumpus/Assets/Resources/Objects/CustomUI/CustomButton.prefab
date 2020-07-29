@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 6845121793964303572}
   - component: {fileID: 6845121793964303573}
   - component: {fileID: 6845121793964303574}
+  - component: {fileID: 4322730314741425645}
   - component: {fileID: 6845121793964303569}
   m_Layer: 5
   m_Name: CustomButton
@@ -446,6 +447,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &4322730314741425645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6845121793964303579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaac15f0d80aa7d47bc09022ed02f244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 0}
+  tooltip: {fileID: 0}
+  offset: {x: 0, y: 0}
 --- !u!114 &6845121793964303569
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,7 +60,7 @@ namespace CommandView
                 troopCounter.text = "Troops: " + _inGameMeta.availableTroops.Count + "/" +
                                     (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
                 moneyCounter.text = "Money: " + _inGameMeta.money;
-                nukeCounter.text = "A.R.R.O.Ws: " + _inGameMeta.nukes;
+                nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
                 sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;
             }
 

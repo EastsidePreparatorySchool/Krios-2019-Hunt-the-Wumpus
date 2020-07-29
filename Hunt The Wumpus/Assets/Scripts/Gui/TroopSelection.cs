@@ -5,6 +5,7 @@ using UnityEngine;
 using Toggle = UnityEngine.UI.Toggle;
 using Text = UnityEngine.UI.Text;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace Gui
 {
@@ -68,6 +69,10 @@ namespace Gui
                 ActivateTroopSelector(0, true);
                 needsRefresh = false;
             }
+            if (_gameMeta.nukes > 0 != nukeBtn.GetComponent<Button>().interactable)
+                nukeBtn.GetComponent<Button>().interactable = _gameMeta.nukes > 0;
+            if (_gameMeta.sensorTowers > 0 != buildSensorBtn.GetComponent<Button>().interactable)
+                buildSensorBtn.GetComponent<Button>().interactable = _gameMeta.sensorTowers > 0;
         }
 
         public void ActivateTroopSelector(int faceNum, bool resetClose = false)
