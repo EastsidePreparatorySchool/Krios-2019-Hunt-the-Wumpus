@@ -3,11 +3,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using System.IO;
+using System.Collections;
 
 namespace CommandView
 {
     public class MainMenu : MonoBehaviour
     {
+        public EndGame EndGame;
+
         public MusicController musicController;
         private Animator _cameraAnimator;
         private Animator _lettersAnimator;
@@ -20,7 +24,11 @@ namespace CommandView
 
         public SettingsMenu settings;
 
+        public GameObject ContinueBtn;
+
         public VideoPlayer introVideo;
+
+        public GameObject SavedPanel;
 
         private Planet _planet;
         private MainMenuVars _vars;
@@ -39,6 +47,16 @@ namespace CommandView
             _vars = GameObject.Find("Main Camera").GetComponent<MainMenuVars>();
             _optionsPanel = optionsMenu.transform.Find("Panel").gameObject;
             _mainMenuPanel = mainMenuCanvas.transform.Find("MenuPanel").gameObject;
+
+            string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
+            if (File.Exists(path))
+                ContinueBtn.SetActive(true);
+            if (PlayerPrefs.GetInt("AutoStartNewGame") == 1 ? true : false)
+            {
+                PlayerPrefs.SetInt("AutoStartNewGame", false ? 1 : 0);
+                Resume();
+            }
+
         }
 
         void Update()
@@ -51,7 +69,10 @@ namespace CommandView
                     settings.Credits();
 
                 else if (_optionsPanel.activeSelf)
+                {
+                    PlayerPrefs.Save();
                     _optionsPanel.SetActive(false);
+                }
 
                 else if (GameObject.Find("BuyTroopsPanel") != null)
                 {
@@ -75,6 +96,24 @@ namespace CommandView
                     _planet.readyToPause = false;
                     Pause();
                 }
+            }
+        }
+
+        public void Continue()
+        {
+            LoadGame();
+        }
+
+        public void NewGameBtn()
+        {
+            if (_vars.firstLaunch)
+                Resume();
+            else
+            {
+                PlayerPrefs.SetInt("AutoStartNewGame", true ? 1 : 0);
+                PlayerPrefs.Save();
+                _planet.curGameStatus.Equals(GameStatus.RanOutOfResources);
+                EndGame.Button();
             }
         }
 
@@ -102,16 +141,26 @@ namespace CommandView
         {
             _planet.Loadfunc();
             print("loaded");
+            _vars.firstLaunch = false;
             Resume();
         }
 
         public void Options()
         {
+            PlayerPrefs.Save();
             _optionsPanel.SetActive(!_optionsPanel.activeSelf);
+        }
+
+        IEnumerator CloseSavedAfterDelay(float time)
+        {
+            yield return new WaitForSeconds(time);
+            SavedPanel.SetActive(false);
         }
 
         public void Save()
         {
+            SavedPanel.SetActive(true);
+            StartCoroutine(CloseSavedAfterDelay(1));
             GameObject.Find("Planet").GetComponent<Planet>().Savefunc();
             print("saved");
         }
@@ -138,7 +187,8 @@ namespace CommandView
             _vars.isPause = true;
             HideStoreTroopSelect();
             if (_vars.firstLaunch == false)
-                GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
+                ContinueBtn.SetActive(true);
+                //GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
         }
 
         private void HideMainMenu()

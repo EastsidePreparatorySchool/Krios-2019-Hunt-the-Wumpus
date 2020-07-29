@@ -42,7 +42,7 @@ namespace CommandView
     public class Planet : MonoBehaviour
     {
         // User Prefs
-        public bool confirmTurn;
+        //public bool confirmTurn;
 
         // General
         public bool backFromMiniGame;
@@ -94,8 +94,8 @@ namespace CommandView
         public int[] wumplingWaves;
         public int soldiers;
 
-        public int cursorIndex;
-        public int waypointIndex = 4;
+        //public int cursorIndex;
+        //public int waypointIndex = 4;
 
         // Some of the save/load variables
         private bool[,] States = new bool[4, 30];
