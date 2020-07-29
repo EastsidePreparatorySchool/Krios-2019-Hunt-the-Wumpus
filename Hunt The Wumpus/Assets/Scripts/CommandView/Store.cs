@@ -1,6 +1,7 @@
 ﻿using Gui;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CommandView
 {
@@ -15,6 +16,11 @@ namespace CommandView
         public int troopDamageCost;
         public int nukeCost;
         public int sensorTowerCost;
+
+        public Button BuyTroopBtn;
+        public Button BuyNukeBtn;
+        public Button BuySensorBtn;
+        public Button BuyUpgradeBtn;
 
         public TroopMeta checkedTroop;
 
@@ -34,6 +40,18 @@ namespace CommandView
         // Update is called once per frame
         void Update()
         {
+            if (GameObject.Find("BuyTroopsPanel") != null)
+            {
+                TMP_InputField troopNumberInput = GameObject.Find("BuyTroopsPanel/InputField (TMP)").GetComponent<TMP_InputField>();
+                if (_gameMeta.money >= marineCost * int.Parse(troopNumberInput.text) != BuyTroopBtn.interactable)
+                    BuyTroopBtn.interactable = _gameMeta.money >= marineCost * int.Parse(troopNumberInput.text);
+                if (_gameMeta.money >= nukeCost != BuyNukeBtn.interactable)
+                    BuyNukeBtn.interactable = _gameMeta.money >= nukeCost;
+                if (_gameMeta.money >= sensorTowerCost != BuySensorBtn.interactable)
+                    BuySensorBtn.interactable = _gameMeta.money >= sensorTowerCost;
+                if (_gameMeta.money >= troopDamageCost != BuyUpgradeBtn.interactable)
+                    BuyUpgradeBtn.interactable = _gameMeta.money >= troopDamageCost;
+            }
         }
 
         // For opening store UI

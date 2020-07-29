@@ -13,9 +13,6 @@ namespace Gui
         public GameObject confirmPanel;
         public GameObject tooltip;
 
-        private bool _buttonEnabled;
-        private Vector2 _mousePos;
-
         private bool _mouseIsOver;
 
         private void OnEnable()
@@ -57,28 +54,10 @@ namespace Gui
                 CloseConfirm();
             }
 
-            if (_planet.didSomething != _buttonEnabled)
+            if (_planet.didSomething != endTurnBtn.interactable)
             {
                 endTurnBtn.interactable = _planet.didSomething;
-                _buttonEnabled = _planet.didSomething;
             }
-
-            if (!_buttonEnabled)
-            {
-                _mousePos = Input.mousePosition;
-                tooltip.transform.position = new Vector2(_mousePos.x + 75, _mousePos.y + 45);
-            }
-        }
-
-        public void MouseEnter()
-        {
-            if (!_buttonEnabled)
-                tooltip.SetActive(true);
-        }
-
-        public void MouseExit()
-        {
-            tooltip.SetActive(false);
         }
 
         public void EndTurnButton()
