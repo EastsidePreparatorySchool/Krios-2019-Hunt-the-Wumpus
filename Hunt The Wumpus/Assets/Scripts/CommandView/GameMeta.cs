@@ -156,7 +156,7 @@ namespace CommandView
                 }
             }
 
-            GameObject.Find("Canvas").GetComponent<TroopSelection>().needsRefresh = true;
+            GameObject.Find("Canvas").GetComponent<TroopSelection>().ActivateTroopSelector(0, true);
         }
     }
 }
