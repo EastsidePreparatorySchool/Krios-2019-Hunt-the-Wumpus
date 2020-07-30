@@ -101,7 +101,10 @@ namespace CommandView
 
         public void Continue()
         {
-            LoadGame();
+            if (_vars.firstLaunch)
+                LoadGame();
+            else
+                Resume();
         }
 
         public void NewGameBtn()
