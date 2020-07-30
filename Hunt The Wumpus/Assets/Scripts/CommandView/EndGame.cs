@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using SaveLoad;
+using TMPro;
 using UnityEngine;
 
 namespace CommandView
@@ -40,9 +41,11 @@ namespace CommandView
             {
                 case GameStatus.Win:
                     endText.text = "Mission Accomplished\nYou Have Killed The Wumpus Queen";
+                    DoSaving.DeleteSave();
                     break;
                 case GameStatus.RanOutOfResources:
                     endText.text = "Mission Failed\nOut Of Moves";
+                    DoSaving.DeleteSave();
                     break;
                 case GameStatus.LostSentTroopToWumpling:
                     endText.text = "The Troops You Sent Have Been Murdered By The Wumpus";
