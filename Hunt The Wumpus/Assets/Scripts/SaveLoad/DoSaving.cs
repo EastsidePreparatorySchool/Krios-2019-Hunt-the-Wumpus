@@ -41,5 +41,14 @@ namespace SaveLoad
                 return null;
             }
         }
+
+        public static void DeleteSave()
+        {
+            string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
     }
 }
