@@ -9,10 +9,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-// using Random = System.Random;
-
-//using Random = System.Random;
-
 namespace CommandView
 {
     public class MiniGameResult
@@ -445,16 +441,12 @@ namespace CommandView
                 {
                     case HazardTypes.None:
                         print("Non-hazardous face, playing mini-game");
-                        SetupMiniGame();
                         break;
                     case HazardTypes.Pit:
                         print("YOU'VE FALLEN INTO A WUMPUS NEST (PIT)");
-                        SetupMiniGame();
                         break;
                     case HazardTypes.Bat:
-                        //TODO: re-implement for split army sit.
                         print("YOU'VE ENCOUNTERED THE SUPER-BATS!");
-                        SetupMiniGame();
                         // SetColonized();
                         // SetHazard(HazardTypes.None);
                         break;
@@ -463,8 +455,9 @@ namespace CommandView
             else
             {
                 print("YOU'VE ENCOUNTERED THE WUMPUS");
-                SetupMiniGame();
             }
+
+            SetupMiniGame();
         }
 
         private void SetupMiniGame() // Launch mini-game
@@ -573,17 +566,16 @@ namespace CommandView
                     troop.SendToBattle = false;
                 }
 
-                if (_planet.wumpus.location.Equals(this))
+                if (_planet.wumpus.location.Equals(this) && _meta.availableTroops.Count == 0 &&
+                    _meta.exhaustedTroops.Count == 0 && _meta.nukes == 0 &&
+                    _meta.money < 5 && !_planet.didSomething)
                 {
-                    if (_meta.availableTroops.Count == 0 && _meta.exhaustedTroops.Count == 0 && _meta.nukes == 0 &&
-                        _meta.money < 5 && !_planet.didSomething)
-                    {
-                        _planet.curGameStatus = GameStatus.RanOutOfResources;
-                    }
-                    else
-                    {
-                        _planet.curGameStatus = GameStatus.LostSentTroopToWumpling;
-                    }
+                    _planet.curGameStatus = GameStatus.RanOutOfResources;
+
+                    // else
+                    // {
+                    //     _planet.curGameStatus = GameStatus.LostSentTroopToWumpling;
+                    // }
                 }
                 else if (GetHazardObject().Equals(HazardTypes.Bat))
                 {
@@ -649,7 +641,7 @@ namespace CommandView
             {
                 print("Going to Battle");
                 CloseTroopSelector();
-                SceneManager.LoadScene(1);
+                SceneManager.LoadScene(_planet.wumpus.location.Equals(this) ? 3 : 1);
             }
             else
             {
