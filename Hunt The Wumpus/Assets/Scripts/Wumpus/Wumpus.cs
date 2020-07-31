@@ -55,12 +55,11 @@ namespace Wumpus
             for (int i = 0; i < repeat; i++)
             {
                 List<int> adjFaces = _planet.FindAdjacentFaces(location.GetTileNumber());
-                List<FaceHandler> potentialFaces = new List<FaceHandler>();
-                potentialFaces.Add(location);
+                List<FaceHandler> potentialFaces = new List<FaceHandler> {location};
                 foreach (var faceNum in adjFaces)
                 {
                     FaceHandler face = _planet.faceHandlers[faceNum];
-                    if (!face.colonized && !face.discovered && face.GetHazardObject() == HazardTypes.None)
+                    if (!face.colonized && face.GetHazardObject() == HazardTypes.None)
                     {
                         potentialFaces.Add(face);
                     }

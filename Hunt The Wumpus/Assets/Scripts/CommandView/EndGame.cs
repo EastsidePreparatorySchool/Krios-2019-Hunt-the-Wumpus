@@ -1,6 +1,7 @@
 ﻿using SaveLoad;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CommandView
 {
@@ -34,9 +35,6 @@ namespace CommandView
         {
             _stop = true;
             transform.GetChild(0).gameObject.SetActive(true);
-            //TextMeshProUGUI  endText = endTextP.GetComponent<TextMeshProUGUI>();
-            //TextMeshProUGUI turnsText = turnsTextP.GetComponent<TextMeshProUGUI>();
-            _stop = true;
             switch (status)
             {
                 case GameStatus.Win:
