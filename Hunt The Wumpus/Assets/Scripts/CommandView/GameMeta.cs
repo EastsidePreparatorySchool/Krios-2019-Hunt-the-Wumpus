@@ -157,6 +157,12 @@ namespace CommandView
             }
 
             GameObject.Find("Canvas").GetComponent<TroopSelection>().ActivateTroopSelector(0, true);
+            
+            if (availableTroops.Count + exhaustedTroops.Count + nukes == 0 &&
+                money < 5 && !_planetHandler.didSomething)
+            {
+                _planetHandler.curGameStatus = GameStatus.RanOutOfResources;
+            }
         }
     }
 }

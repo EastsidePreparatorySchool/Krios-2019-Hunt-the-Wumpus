@@ -18,7 +18,8 @@ public enum GameStatus
     InPlay,
     Win,
     RanOutOfResources,
-    LostSentTroopToWumpling
+    LostSentTroopToWumpus,
+    LostToWumpus
 }
 
 // public struct Mountain

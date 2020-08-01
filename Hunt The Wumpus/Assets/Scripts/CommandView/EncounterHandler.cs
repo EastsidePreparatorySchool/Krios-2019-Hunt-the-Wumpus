@@ -26,7 +26,7 @@ namespace CommandView
             }
             else
             {
-                _planetHandler.curGameStatus = GameStatus.RanOutOfResources;
+                _planetHandler.curGameStatus = GameStatus.LostToWumpus;
             }
 
             StartCoroutine(SwitchBack());
