@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WumpusEncounter.unity
     guid: a43d7a3c2809d054e841e261b036b1ac
+  - enabled: 1
+    path: Assets/Scenes/Lose.unity
+    guid: 61c1b320196439d4380597b8dde9efac
   m_configObjects: {}

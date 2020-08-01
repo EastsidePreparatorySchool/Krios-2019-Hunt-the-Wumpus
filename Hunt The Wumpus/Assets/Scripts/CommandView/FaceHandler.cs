@@ -566,18 +566,18 @@ namespace CommandView
                     troop.SendToBattle = false;
                 }
 
-                if (_planet.wumpus.location.Equals(this) && _meta.availableTroops.Count == 0 &&
-                    _meta.exhaustedTroops.Count == 0 && _meta.nukes == 0 &&
-                    _meta.money < 5 && !_planet.didSomething)
-                {
-                    _planet.curGameStatus = GameStatus.RanOutOfResources;
-
-                    // else
-                    // {
-                    //     _planet.curGameStatus = GameStatus.LostSentTroopToWumpling;
-                    // }
-                }
-                else if (GetHazardObject().Equals(HazardTypes.Bat))
+                // if (_planet.wumpus.location.Equals(this) && _meta.availableTroops.Count == 0 &&
+                //     _meta.exhaustedTroops.Count == 0 && _meta.nukes == 0 &&
+                //     _meta.money < 5 && !_planet.didSomething)
+                // {
+                //     _planet.curGameStatus = GameStatus.RanOutOfResources;
+                //
+                //     // else
+                //     // {
+                //     //     _planet.curGameStatus = GameStatus.LostSentTroopToWumpling;
+                //     // }
+                // }
+                if (GetHazardObject().Equals(HazardTypes.Bat))
                 {
                     SetHazard(HazardTypes.None);
 
@@ -641,7 +641,22 @@ namespace CommandView
             {
                 print("Going to Battle");
                 CloseTroopSelector();
-                SceneManager.LoadScene(_planet.wumpus.location.Equals(this) ? 3 : 1);
+                if (_planet.wumpus.location.Equals(this))
+                {
+                    if (_meta.availableTroops.Count + _meta.exhaustedTroops.Count + _meta.nukes == 0 &&
+                        _meta.money < 5 && !_planet.didSomething)
+                    {
+                        SceneManager.LoadScene(4);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(3);
+                    }
+                }
+                else
+                {
+                    SceneManager.LoadScene(1);
+                }
             }
             else
             {
