@@ -42,8 +42,9 @@ namespace CommandView
                     DoSaving.DeleteSave();
                     break;
                 case GameStatus.RanOutOfResources:
-                    endText.text = "Mission Failed\nOut Of Moves";
+                    // endText.text = "Mission Failed\nOut Of Moves";
                     DoSaving.DeleteSave();
+                    Button();
                     break;
                 case GameStatus.LostSentTroopToWumpling:
                     endText.text = "The Troops You Sent Have Been Murdered By The Wumpus";
