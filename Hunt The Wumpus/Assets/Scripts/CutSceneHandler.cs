@@ -1,19 +1,20 @@
 ﻿using System.Collections;
+using CommandView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 
-
-namespace CommandView
+public class CutSceneHandler : MonoBehaviour
 {
-    public class EncounterHandler : MonoBehaviour
-    {
-        public VideoPlayer encounterVid;
-        public bool resumeGame = true;
-        private Planet _planetHandler;
+    public VideoPlayer videoPlayer;
+    public bool resumeGame = true;
+    public bool isLogos;
+    private Planet _planetHandler;
 
-        // Start is called before the first frame update
-        void Start()
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (!isLogos)
         {
             _planetHandler = GameObject.Find("Planet").GetComponent<Planet>();
 
@@ -28,16 +29,16 @@ namespace CommandView
             {
                 _planetHandler.curGameStatus = GameStatus.LostToWumpus;
             }
-
-            StartCoroutine(SwitchBack());
         }
 
-        private IEnumerator SwitchBack()
-        {
-            yield return new WaitUntil(() => encounterVid.isPlaying);
-            yield return new WaitWhile(() => encounterVid.isPlaying);
+        StartCoroutine(SwitchBack());
+    }
 
-            SceneManager.LoadScene(0);
-        }
+    private IEnumerator SwitchBack()
+    {
+        yield return new WaitUntil(() => videoPlayer.isPlaying);
+        yield return new WaitWhile(() => videoPlayer.isPlaying);
+
+        SceneManager.LoadScene(1);
     }
 }
