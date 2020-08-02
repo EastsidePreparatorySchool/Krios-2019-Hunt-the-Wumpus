@@ -103,6 +103,7 @@ namespace CommandView
         private bool[] IsColonized = new bool[30];
         private int[] HazardType = new int[30];
         private bool[] ShowHint = new bool[30];
+        private bool[] NoMoney = new bool[30];
         private int[] _troopType;
         private string[] _troopName;
         private bool[] _isExausted;
@@ -901,6 +902,7 @@ namespace CommandView
                 IsColonized[i] = faceHandler.colonized;
                 HazardType[i] = (int) faceHandler.GetHazardObject();
                 ShowHint[i] = faceHandler.showHintOnTile;
+                NoMoney[i] = faceHandler.noMoney;
                 i++;
             }
 
@@ -954,7 +956,7 @@ namespace CommandView
             }
 
 
-            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, _troopType, _troopName,
+            DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, NoMoney, _troopType, _troopName,
                 _isExausted, _isHeld, _heldLoc, _totalTroops);
         }
 
@@ -985,6 +987,7 @@ namespace CommandView
                 faceHandler.biomeType = (BiomeType) data.biomeNum[i];
                 faceHandler.SetHazard((HazardTypes) data.hazardType[i]);
                 faceHandler.showHintOnTile = data.showHint[i];
+                faceHandler.noMoney = data.noMoney[i];
                 if (data.isColonized[i])
                 {
                     print("is colonized");
