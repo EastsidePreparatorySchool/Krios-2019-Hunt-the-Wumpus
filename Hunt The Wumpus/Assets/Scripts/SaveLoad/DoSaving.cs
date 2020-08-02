@@ -8,14 +8,14 @@ namespace SaveLoad
     public static class DoSaving
     {
         public static void DoTheSaving(Planet planet, bool[,] states, int[] biomeNum, bool[] isColonized,
-            int[] hazardType, bool[] showHint, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld,
+            int[] hazardType, bool[] showHint, bool[] noMoney, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld,
             int[] heldLoc, int numOfTroops)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             string path = Application.persistentDataPath + "/DONOTOPENTHIS.NOTHINGIMPORTANTHERE";
             FileStream stream = new FileStream(path, FileMode.Create);
 
-            SaveData data = new SaveData(planet, states, biomeNum, isColonized, hazardType, showHint, troopType,
+            SaveData data = new SaveData(planet, states, biomeNum, isColonized, hazardType, showHint, noMoney, troopType,
                 troopName, isExausted, isHeld, heldLoc, numOfTroops);
 
             formatter.Serialize(stream, data);

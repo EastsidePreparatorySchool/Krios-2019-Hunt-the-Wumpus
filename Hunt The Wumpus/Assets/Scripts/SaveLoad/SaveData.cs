@@ -21,6 +21,7 @@ namespace SaveLoad
         public bool[] isColonized = new bool[30];
         public int[] hazardType = new int[30];
         public bool[] showHint = new bool[30];
+        public bool[] noMoney = new bool[30];
 
         public int[] troopType;
         public string[] troopName;
@@ -29,7 +30,7 @@ namespace SaveLoad
         public int[] heldLoc;
 
         public SaveData(Planet planet, bool[,] states, int[] biomeNum, bool[] isColonized, int[] hazardType,
-            bool[] showHint, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld, int[] heldLoc,
+            bool[] showHint, bool[] noMoney, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld, int[] heldLoc,
             int numOfTroops)
         {
             turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
@@ -70,6 +71,13 @@ namespace SaveLoad
             foreach (bool sh in showHint)
             {
                 this.showHint[i] = sh;
+                i++;
+            }
+
+            i = 0;
+            foreach (bool nm in noMoney)
+            {
+                this.noMoney[i] = nm;
                 i++;
             }
 
