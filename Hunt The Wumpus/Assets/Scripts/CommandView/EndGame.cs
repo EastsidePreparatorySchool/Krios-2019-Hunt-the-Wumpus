@@ -38,18 +38,21 @@ namespace CommandView
             switch (status)
             {
                 case GameStatus.Win:
-                    endText.text = "Mission Accomplished\nYou Have Killed The Wumpus Queen";
+                    endText.text = "Mission Accomplished\nYou Have Killed The Wumpus";
                     DoSaving.DeleteSave();
                     break;
                 case GameStatus.RanOutOfResources:
-                    // endText.text = "Mission Failed\nOut Of Moves";
+                    endText.text = "Mission Failed\nYou've Run Out Of resources";
+                    DoSaving.DeleteSave();
+                    break;
+                case GameStatus.LostToWumpus:
                     DoSaving.DeleteSave();
                     Button();
                     break;
-                case GameStatus.LostSentTroopToWumpling:
-                    endText.text = "The Troops You Sent Have Been Murdered By The Wumpus";
-                    button.text = "Continue";
-                    break;
+                // case GameStatus.LostSentTroopToWumpus:
+                //     endText.text = "The Troops You Sent Have Been Murdered By The Wumpus";
+                //     button.text = "Continue";
+                //     break;
                 default:
                     print(status);
                     break;
@@ -60,7 +63,7 @@ namespace CommandView
 
         public void Button()
         {
-            if (_planetHandler.curGameStatus.Equals(GameStatus.LostSentTroopToWumpling))
+            if (_planetHandler.curGameStatus.Equals(GameStatus.LostSentTroopToWumpus))
             {
                 transform.GetChild(0).gameObject.SetActive(false);
                 _planetHandler.curGameStatus = 0;

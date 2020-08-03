@@ -646,22 +646,22 @@ namespace CommandView
                     if (_meta.availableTroops.Count + _meta.exhaustedTroops.Count + _meta.nukes == 0 &&
                         _meta.money < 5 && !_planet.didSomething)
                     {
-                        SceneManager.LoadScene(4);
+                        SceneManager.LoadScene(5);
                     }
                     else
                     {
-                        SceneManager.LoadScene(3);
+                        SceneManager.LoadScene(4);
                     }
                 }
                 else
                 {
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(2);
                 }
             }
             else
             {
                 print("Going to TileBattle");
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(3);
             }
         }
 
@@ -724,7 +724,6 @@ namespace CommandView
             _meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
             SetColonized(withParticles: true);
             heldTroops.Clear();
-            //_planet.didSomething = true;
             if (wumpus.location.Equals(this))
             {
                 print("Hit the Wumpus! You win!");
@@ -753,7 +752,11 @@ namespace CommandView
             }
 
             _meta.EndTurn();
-            CloseTroopSelector();
+            if (_meta.availableTroops.Count + _meta.exhaustedTroops.Count + _meta.nukes == 0 &&
+                _meta.money < 5 && !_planet.didSomething)
+            {
+                _planet.curGameStatus = GameStatus.RanOutOfResources;
+            }
         }
 
         public void AddSensorOnTile()

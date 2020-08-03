@@ -65,7 +65,7 @@ namespace TileBattle
                 }
 
                 planet.SetFaceInBattle(-1);
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(1);
             }
         }
     }

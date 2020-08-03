@@ -32,7 +32,7 @@ public class IntroVideoHandler : MonoBehaviour
 
     private void CompleteIntroVid(bool forced = false)
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         introVideo.targetCameraAlpha = 0;
 
         planetPlayIntro = forced;
