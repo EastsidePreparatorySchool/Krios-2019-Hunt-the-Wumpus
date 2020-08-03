@@ -646,22 +646,22 @@ namespace CommandView
                     if (_meta.availableTroops.Count + _meta.exhaustedTroops.Count + _meta.nukes == 0 &&
                         _meta.money < 5 && !_planet.didSomething)
                     {
-                        SceneManager.LoadScene(4);
+                        SceneManager.LoadScene(5);
                     }
                     else
                     {
-                        SceneManager.LoadScene(3);
+                        SceneManager.LoadScene(4);
                     }
                 }
                 else
                 {
-                    SceneManager.LoadScene(1);
+                    SceneManager.LoadScene(2);
                 }
             }
             else
             {
                 print("Going to TileBattle");
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene(3);
             }
         }
 
