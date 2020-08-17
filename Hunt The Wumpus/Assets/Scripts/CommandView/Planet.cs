@@ -16,10 +16,8 @@ public enum HazardTypes
 public enum GameStatus
 {
     InPlay,
-    Win,
     RanOutOfResources,
-    LostSentTroopToWumpus,
-    LostToWumpus
+    Finished
 }
 
 // public struct Mountain
@@ -907,8 +905,8 @@ namespace CommandView
                 i++;
             }
 
-            _totalTroops = GetComponent<GameMeta>().availableTroops.Count() +
-                           GetComponent<GameMeta>().exhaustedTroops.Count();
+            _totalTroops = GetComponent<GameMeta>().AvailableTroops.Count() +
+                           GetComponent<GameMeta>().ExhaustedTroops.Count();
 
             foreach (FaceHandler face in faceHandlers)
                 _totalTroops += face.heldTroops.Count();
@@ -920,7 +918,7 @@ namespace CommandView
             _heldLoc = new int[_totalTroops];
 
             i = 0;
-            foreach (TroopMeta troop in GetComponent<GameMeta>().availableTroops)
+            foreach (TroopMeta troop in GetComponent<GameMeta>().AvailableTroops)
             {
                 _troopType[i] = (int) troop.Type;
                 _troopName[i] = troop.Name;
@@ -929,7 +927,7 @@ namespace CommandView
                 i++;
             }
 
-            foreach (TroopMeta troop in GetComponent<GameMeta>().exhaustedTroops)
+            foreach (TroopMeta troop in GetComponent<GameMeta>().ExhaustedTroops)
             {
                 _troopType[i] = (int) troop.Type;
                 _troopName[i] = troop.Name;
@@ -1003,8 +1001,8 @@ namespace CommandView
             }
 
 
-            meta.availableTroops.Clear();
-            meta.exhaustedTroops.Clear();
+            meta.AvailableTroops.Clear();
+            meta.ExhaustedTroops.Clear();
 
             for (i = 0; i < data.troopType.Count(); i++)
             {
@@ -1015,10 +1013,10 @@ namespace CommandView
                     faceHandlers[data.heldLoc[i]].UpdateFaceColors();
                 }
                 else if (data.isExausted[i])
-                    meta.exhaustedTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
+                    meta.ExhaustedTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
 
                 if (!data.isExausted[i] && !data.isHeld[i])
-                    meta.availableTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
+                    meta.AvailableTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
             }
         }
 

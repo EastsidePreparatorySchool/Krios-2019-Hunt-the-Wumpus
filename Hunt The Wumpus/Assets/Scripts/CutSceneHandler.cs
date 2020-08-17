@@ -27,7 +27,7 @@ public class CutSceneHandler : MonoBehaviour
             }
             else
             {
-                _planetHandler.curGameStatus = GameStatus.LostToWumpus;
+                _planetHandler.curGameStatus = GameStatus.Finished;
             }
         }
 
@@ -39,6 +39,6 @@ public class CutSceneHandler : MonoBehaviour
         yield return new WaitUntil(() => videoPlayer.isPlaying);
         yield return new WaitWhile(() => videoPlayer.isPlaying);
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }

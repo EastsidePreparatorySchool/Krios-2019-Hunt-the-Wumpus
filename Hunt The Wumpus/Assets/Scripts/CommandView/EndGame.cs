@@ -35,18 +35,17 @@ namespace CommandView
         {
             _stop = true;
             transform.GetChild(0).gameObject.SetActive(true);
+            DoSaving.DeleteSave();
             switch (status)
             {
-                case GameStatus.Win:
-                    endText.text = "Mission Accomplished\nYou Have Killed The Wumpus";
-                    DoSaving.DeleteSave();
-                    break;
+                // case GameStatus.Win:
+                //     endText.text = "Mission Accomplished\nYou Have Killed The Wumpus";
+                //     DoSaving.DeleteSave();
+                //     break;
                 case GameStatus.RanOutOfResources:
                     endText.text = "Mission Failed\nYou've Run Out Of resources";
-                    DoSaving.DeleteSave();
                     break;
-                case GameStatus.LostToWumpus:
-                    DoSaving.DeleteSave();
+                case GameStatus.Finished:
                     Button();
                     break;
                 // case GameStatus.LostSentTroopToWumpus:
@@ -63,18 +62,18 @@ namespace CommandView
 
         public void Button()
         {
-            if (_planetHandler.curGameStatus.Equals(GameStatus.LostSentTroopToWumpus))
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                _planetHandler.curGameStatus = 0;
-                _stop = false;
-            }
-            else
-            {
-                _planetHandler.curGameStatus = 0;
-                Destroy(_planet);
-                mainMenu.NewGame();
-            }
+            // if (_planetHandler.curGameStatus.Equals(GameStatus.Finished))
+            // {
+            //     transform.GetChild(0).gameObject.SetActive(false);
+            //     _planetHandler.curGameStatus = 0;
+            //     _stop = false;
+            // }
+            // else
+            // {
+            _planetHandler.curGameStatus = GameStatus.InPlay;
+            Destroy(_planet);
+            mainMenu.NewGame();
+            // }
         }
     }
 }

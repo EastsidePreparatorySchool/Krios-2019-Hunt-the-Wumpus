@@ -15,7 +15,9 @@ namespace CommandView
         public int turnsElapsed;
         public int money;
         public int nukes;
+        public int nukesUsed;
         public int sensorTowers;
+        public int sensorTowersUsed;
 
         public String[] firstNames = new[]
         {
@@ -31,8 +33,9 @@ namespace CommandView
 
         public int totalFaces;
 
-        public List<TroopMeta> availableTroops;
-        public List<TroopMeta> exhaustedTroops;
+        public List<TroopMeta> AvailableTroops;
+        public List<TroopMeta> ExhaustedTroops;
+        public List<TroopMeta> TroopsUsed = new List<TroopMeta>();
 
         public bool gameInPlay;
 
@@ -42,8 +45,8 @@ namespace CommandView
         // Start is called before the first frame update
         void Start()
         {
-            availableTroops = new List<TroopMeta>();
-            exhaustedTroops = new List<TroopMeta>();
+            AvailableTroops = new List<TroopMeta>();
+            ExhaustedTroops = new List<TroopMeta>();
             SetupForDebug();
 
             turnsElapsed = 1;
@@ -95,7 +98,7 @@ namespace CommandView
         {
             for (int i = 0; i < 10; i++)
             {
-                availableTroops.Add(new TroopMeta(TroopType.Marine, firstNames[i] + " " + lastNames[i]));
+                AvailableTroops.Add(new TroopMeta(TroopType.Marine, firstNames[i] + " " + lastNames[i]));
             }
         }
 
@@ -105,7 +108,7 @@ namespace CommandView
 
             foreach (TroopMeta t in result.InGameTroops)
             {
-                exhaustedTroops.Add(t);
+                ExhaustedTroops.Add(t);
             }
 
             FaceHandler inBattleFaceHandler =
@@ -115,7 +118,7 @@ namespace CommandView
             {
                 foreach (TroopMeta heldTroop in inBattleFaceHandler.heldTroops)
                 {
-                    exhaustedTroops.Add(heldTroop);
+                    ExhaustedTroops.Add(heldTroop);
                 }
 
                 inBattleFaceHandler.heldTroops = new List<TroopMeta>();
@@ -141,12 +144,12 @@ namespace CommandView
         {
             print("end turn");
             turnsElapsed++;
-            foreach (TroopMeta troop in exhaustedTroops)
+            foreach (TroopMeta troop in ExhaustedTroops)
             {
-                availableTroops.Add(troop);
+                AvailableTroops.Add(troop);
             }
 
-            exhaustedTroops.Clear();
+            ExhaustedTroops.Clear();
 
             foreach (FaceHandler face in _faceHandlers)
             {
@@ -158,7 +161,7 @@ namespace CommandView
 
             GameObject.Find("Canvas").GetComponent<TroopSelection>().ActivateTroopSelector(0, true);
             
-            if (availableTroops.Count + exhaustedTroops.Count + nukes == 0 &&
+            if (AvailableTroops.Count + ExhaustedTroops.Count + nukes == 0 &&
                 money < 5 && !_planetHandler.didSomething)
             {
                 _planetHandler.curGameStatus = GameStatus.RanOutOfResources;

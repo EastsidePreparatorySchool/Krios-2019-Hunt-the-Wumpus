@@ -44,7 +44,7 @@ namespace Gui
 
                 oldValue = null;
 
-                foreach (TroopMeta troop in _gameMeta.availableTroops)
+                foreach (TroopMeta troop in _gameMeta.AvailableTroops)
                 {
                     if (troop == checkedTroop)
                         tmpToggles.Add(CreateNewToggle(troop, true));

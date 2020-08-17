@@ -54,11 +54,11 @@ namespace CommandView
         void Update()
         {
             int[] curCounterValue =
-                {_inGameMeta.availableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
+                {_inGameMeta.AvailableTroops.Count, _inGameMeta.money, _inGameMeta.nukes, _inGameMeta.sensorTowers};
             if (!_counterValues.Equals(curCounterValue))
             {
-                troopCounter.text = "Troops: " + _inGameMeta.availableTroops.Count + "/" +
-                                    (_inGameMeta.exhaustedTroops.Count + _inGameMeta.availableTroops.Count);
+                troopCounter.text = "Troops: " + _inGameMeta.AvailableTroops.Count + "/" +
+                                    (_inGameMeta.ExhaustedTroops.Count + _inGameMeta.AvailableTroops.Count);
                 moneyCounter.text = "Money: " + _inGameMeta.money;
                 nukeCounter.text = "Nukes: " + _inGameMeta.nukes;
                 sensorCounter.text = "Sensor Towers: " + _inGameMeta.sensorTowers;

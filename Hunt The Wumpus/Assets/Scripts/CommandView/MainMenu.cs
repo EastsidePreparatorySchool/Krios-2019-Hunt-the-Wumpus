@@ -56,7 +56,6 @@ namespace CommandView
                 PlayerPrefs.SetInt("AutoStartNewGame", false ? 1 : 0);
                 Resume();
             }
-
         }
 
         void Update()
@@ -137,7 +136,7 @@ namespace CommandView
 
         public void NewGame()
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
         }
 
         public void LoadGame()
@@ -191,7 +190,7 @@ namespace CommandView
             HideStoreTroopSelect();
             if (_vars.firstLaunch == false)
                 ContinueBtn.SetActive(true);
-                //GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
+            //GameObject.Find("MenuPanel/NewGame/Text (TMP)").GetComponent<TextMeshProUGUI>().text = "Continue";
         }
 
         private void HideMainMenu()

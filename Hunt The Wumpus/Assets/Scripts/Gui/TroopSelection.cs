@@ -103,14 +103,14 @@ namespace Gui
                 // print("Meta: " + _gameMeta + "; Troops: " + _gameMeta.availableTroops);
                 if (_toggles.Count == 0)
                 {
-                    foreach (var troop in _gameMeta.availableTroops)
+                    foreach (var troop in _gameMeta.AvailableTroops)
                         _toggles.Add(CreateNewToggle(troop));
                 }
 
-                if (!_gameMeta.availableTroops.Any())
+                if (!_gameMeta.AvailableTroops.Any())
                 {
-                    if (_gameMeta.exhaustedTroops.Any())
-                        CreateLabel(_gameMeta.exhaustedTroops.Count + " Exhausted Troops");
+                    if (_gameMeta.ExhaustedTroops.Any())
+                        CreateLabel(_gameMeta.ExhaustedTroops.Count + " Exhausted Troops");
                     else
                         CreateLabel("All your troops have died");
                 }

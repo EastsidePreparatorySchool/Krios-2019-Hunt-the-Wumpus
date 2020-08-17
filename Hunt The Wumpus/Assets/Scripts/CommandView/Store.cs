@@ -182,7 +182,7 @@ namespace CommandView
             int totalCost = marineCost * int.Parse(troopNumberInput.text);
             if (UseMoney(totalCost))
                 for (int i = 0; i < int.Parse(troopNumberInput.text); i++)
-                    _gameMeta.availableTroops.Add(new TroopMeta(TroopType.Marine,
+                    _gameMeta.AvailableTroops.Add(new TroopMeta(TroopType.Marine,
                         _gameMeta.firstNames[Random.Range(0, _gameMeta.firstNames.Length)] + " " +
                         _gameMeta.lastNames[Random.Range(0, _gameMeta.lastNames.Length)]));
         }

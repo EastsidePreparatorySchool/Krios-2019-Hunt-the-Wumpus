@@ -27666,8 +27666,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnsElapsed: 0
   money: 0
-  nukes: 1
-  sensorTowers: 3
+  nukes: 30
+  nukesUsed: 0
+  sensorTowers: 30
+  sensorTowersUsed: 0
   firstNames:
   - James
   - Michael
@@ -27711,6 +27713,7 @@ MonoBehaviour:
   - Jackson
   - Martin
   totalFaces: 0
+  troopsUsed: 0
   gameInPlay: 0
   needToPlayIntro: 1
 --- !u!114 &2076108100
