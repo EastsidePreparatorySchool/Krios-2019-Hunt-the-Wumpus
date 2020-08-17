@@ -15,7 +15,9 @@ namespace CommandView
         public int turnsElapsed;
         public int money;
         public int nukes;
+        public int nukesUsed;
         public int sensorTowers;
+        public int sensorTowersUsed;
 
         public String[] firstNames = new[]
         {
@@ -33,6 +35,7 @@ namespace CommandView
 
         public List<TroopMeta> availableTroops;
         public List<TroopMeta> exhaustedTroops;
+        public int troopsUsed;
 
         public bool gameInPlay;
 

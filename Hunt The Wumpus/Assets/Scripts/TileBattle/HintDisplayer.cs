@@ -52,7 +52,7 @@ namespace TileBattle
         {
             print("Returning to CommandView");
             _planet.SetHintsToGive(new[] {false, false, false});
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(0);
         }
     }
 }

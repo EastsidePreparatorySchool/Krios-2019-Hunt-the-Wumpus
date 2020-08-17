@@ -16,10 +16,8 @@ public enum HazardTypes
 public enum GameStatus
 {
     InPlay,
-    Win,
     RanOutOfResources,
-    LostSentTroopToWumpus,
-    LostToWumpus
+    Finished
 }
 
 // public struct Mountain

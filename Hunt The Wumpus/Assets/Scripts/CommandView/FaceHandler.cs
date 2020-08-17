@@ -646,22 +646,22 @@ namespace CommandView
                     if (_meta.availableTroops.Count + _meta.exhaustedTroops.Count + _meta.nukes == 0 &&
                         _meta.money < 5 && !_planet.didSomething)
                     {
-                        SceneManager.LoadScene(5);
+                        SceneManager.LoadScene(4);
                     }
                     else
                     {
-                        SceneManager.LoadScene(4);
+                        SceneManager.LoadScene(3);
                     }
                 }
                 else
                 {
-                    SceneManager.LoadScene(2);
+                    SceneManager.LoadScene(1);
                 }
             }
             else
             {
                 print("Going to TileBattle");
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene(2);
             }
         }
 
@@ -727,7 +727,7 @@ namespace CommandView
             if (wumpus.location.Equals(this))
             {
                 print("Hit the Wumpus! You win!");
-                _planet.curGameStatus = GameStatus.Win;
+                SceneManager.LoadScene(5);
             }
             else
             {

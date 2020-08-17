@@ -37,15 +37,15 @@ namespace CommandView
             transform.GetChild(0).gameObject.SetActive(true);
             switch (status)
             {
-                case GameStatus.Win:
-                    endText.text = "Mission Accomplished\nYou Have Killed The Wumpus";
-                    DoSaving.DeleteSave();
-                    break;
+                // case GameStatus.Win:
+                //     endText.text = "Mission Accomplished\nYou Have Killed The Wumpus";
+                //     DoSaving.DeleteSave();
+                //     break;
                 case GameStatus.RanOutOfResources:
                     endText.text = "Mission Failed\nYou've Run Out Of resources";
                     DoSaving.DeleteSave();
                     break;
-                case GameStatus.LostToWumpus:
+                case GameStatus.Finished:
                     DoSaving.DeleteSave();
                     Button();
                     break;
@@ -63,7 +63,7 @@ namespace CommandView
 
         public void Button()
         {
-            if (_planetHandler.curGameStatus.Equals(GameStatus.LostSentTroopToWumpus))
+            if (_planetHandler.curGameStatus.Equals(GameStatus.Finished))
             {
                 transform.GetChild(0).gameObject.SetActive(false);
                 _planetHandler.curGameStatus = 0;

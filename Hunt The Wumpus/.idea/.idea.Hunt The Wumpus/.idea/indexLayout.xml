@@ -3,6 +3,7 @@
   <component name="ContentModelUserStore">
     <attachedFolders />
     <explicitIncludes>
+      <Path>Library/PackageCache/com.nobi.roundedcorners@2cf5c829cc</Path>
       <Path>Library/PackageCache/com.unity.ads@2.0.8</Path>
       <Path>Library/PackageCache/com.unity.ads@3.4.7</Path>
       <Path>Library/PackageCache/com.unity.analytics@3.2.3</Path>
@@ -16,6 +17,7 @@
       <Path>Library/PackageCache/com.unity.postprocessing@2.3.0</Path>
       <Path>Library/PackageCache/com.unity.purchasing@2.0.6</Path>
       <Path>Library/PackageCache/com.unity.test-framework@1.1.14</Path>
+      <Path>Library/PackageCache/com.unity.test-framework@1.1.16</Path>
       <Path>Library/PackageCache/com.unity.textmeshpro@1.4.1</Path>
       <Path>Library/PackageCache/com.unity.textmeshpro@2.0.1</Path>
       <Path>Library/PackageCache/com.unity.timeline@1.2.15</Path>
