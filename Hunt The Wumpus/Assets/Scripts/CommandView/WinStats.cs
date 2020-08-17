@@ -27,7 +27,7 @@ namespace CommandView
             turnsTxt.text = "In " + _meta.turnsElapsed + " Turns";
             turnsTxt.alpha = 0;
             
-            troopsTxt.text = "With " + _meta.troopsUsed + " Troops"; // TODO: count this
+            troopsTxt.text = "With " + _meta.TroopsUsed.Count + " Troops"; // TODO: count this
             troopsTxt.alpha = 0;
             
             sensorsTxt.text = _meta.sensorTowersUsed + " Sensor Towers"; // TODO: count this

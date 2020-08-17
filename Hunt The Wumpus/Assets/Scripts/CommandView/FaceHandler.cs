@@ -547,11 +547,16 @@ namespace CommandView
                 meta.troops.RemoveAt(0);
             }*/
 
-            foreach (var troop in _meta.availableTroops)
+            foreach (var troop in _meta.AvailableTroops)
             {
                 if (troop.SendToBattle)
                 {
                     deployedTroops.Add(troop);
+
+                    if (!_meta.TroopsUsed.Contains(troop))
+                    {
+                        _meta.TroopsUsed.Add(troop);
+                    }
                 }
             }
 
@@ -562,7 +567,7 @@ namespace CommandView
 
                 foreach (var troop in deployedTroops)
                 {
-                    _meta.availableTroops.Remove(troop);
+                    _meta.AvailableTroops.Remove(troop);
                     troop.SendToBattle = false;
                 }
 
@@ -643,7 +648,7 @@ namespace CommandView
                 CloseTroopSelector();
                 if (_planet.wumpus.location.Equals(this))
                 {
-                    if (_meta.availableTroops.Count + _meta.exhaustedTroops.Count + _meta.nukes == 0 &&
+                    if (_meta.AvailableTroops.Count + _meta.ExhaustedTroops.Count + _meta.nukes == 0 &&
                         _meta.money < 5 && !_planet.didSomething)
                     {
                         SceneManager.LoadScene(4);
@@ -721,7 +726,8 @@ namespace CommandView
         private void NukeLogic()
         {
             Wumpus.Wumpus wumpus = _planet.wumpus;
-            _meta.nukes--; // TODO: maybe change this to not directly call from GameMeta?
+            _meta.nukes--;
+            _meta.nukesUsed++;
             SetColonized(withParticles: true);
             heldTroops.Clear();
             if (wumpus.location.Equals(this))
@@ -752,7 +758,7 @@ namespace CommandView
             }
 
             _meta.EndTurn();
-            if (_meta.availableTroops.Count + _meta.exhaustedTroops.Count + _meta.nukes == 0 &&
+            if (_meta.AvailableTroops.Count + _meta.ExhaustedTroops.Count + _meta.nukes == 0 &&
                 _meta.money < 5 && !_planet.didSomething)
             {
                 _planet.curGameStatus = GameStatus.RanOutOfResources;
@@ -765,6 +771,7 @@ namespace CommandView
             {
                 showHintOnTile = true;
                 _meta.sensorTowers--;
+                _meta.sensorTowersUsed++;
 
                 CloseTroopSelector();
             }
