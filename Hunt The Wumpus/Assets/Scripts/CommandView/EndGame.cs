@@ -35,6 +35,7 @@ namespace CommandView
         {
             _stop = true;
             transform.GetChild(0).gameObject.SetActive(true);
+            DoSaving.DeleteSave();
             switch (status)
             {
                 // case GameStatus.Win:
@@ -43,10 +44,8 @@ namespace CommandView
                 //     break;
                 case GameStatus.RanOutOfResources:
                     endText.text = "Mission Failed\nYou've Run Out Of resources";
-                    DoSaving.DeleteSave();
                     break;
                 case GameStatus.Finished:
-                    DoSaving.DeleteSave();
                     Button();
                     break;
                 // case GameStatus.LostSentTroopToWumpus:
@@ -63,18 +62,18 @@ namespace CommandView
 
         public void Button()
         {
-            if (_planetHandler.curGameStatus.Equals(GameStatus.Finished))
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                _planetHandler.curGameStatus = 0;
-                _stop = false;
-            }
-            else
-            {
-                _planetHandler.curGameStatus = 0;
-                Destroy(_planet);
-                mainMenu.NewGame();
-            }
+            // if (_planetHandler.curGameStatus.Equals(GameStatus.Finished))
+            // {
+            //     transform.GetChild(0).gameObject.SetActive(false);
+            //     _planetHandler.curGameStatus = 0;
+            //     _stop = false;
+            // }
+            // else
+            // {
+            _planetHandler.curGameStatus = GameStatus.InPlay;
+            Destroy(_planet);
+            mainMenu.NewGame();
+            // }
         }
     }
 }
