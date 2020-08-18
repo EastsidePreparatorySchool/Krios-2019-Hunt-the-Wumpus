@@ -433,6 +433,7 @@ namespace MiniGame.Terrain
 
             biomeFloors[(int) planet.faces[planet.GetFaceInBattle()].GetComponent<FaceHandler>().biomeType - 1]
                 .SetActive(true);
+            // biomeFloors[1].SetActive(true);
 
             SpawnPrefabs();
             SpawnNests();
