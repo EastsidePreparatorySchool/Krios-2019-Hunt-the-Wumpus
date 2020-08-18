@@ -25,6 +25,11 @@ namespace MiniGame.Creatures.DeathHandlers
         public void Die()
         {
             _resultHandler.EarnMoney(1);
+
+            Vector3 myPos = transform.position;
+            Instantiate(Resources.Load<GameObject>("Objects/Coin"),
+                new Vector3(myPos.x, -1, myPos.z), Quaternion.identity);
+            
             if (endMinigame)
             {
                 _resultHandler.EndMiniGame();

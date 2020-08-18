@@ -131,10 +131,10 @@ namespace MiniGame
 
         public void GoTo(float x, float z)
         {
-            this.gameObject.transform.position = new Vector3(
+            LeanTween.move(gameObject, new Vector3(
                 Math.Min(maxX, Math.Max(minX, x)),
-                this.gameObject.transform.position.y,
-                Math.Min(maxZ, Math.Max(minZ, z)));
+                transform.position.y,
+                Math.Min(maxZ, Math.Max(minZ, z))), 1f).setEase(LeanTweenType.easeInOutQuad);
         }
     }
 }
