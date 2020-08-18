@@ -119,11 +119,15 @@ namespace CommandView
             }
         }
 
-        public void Resume()
+        public void Resume(bool initPlayer = true)
         {
             if (!_planet.GetStartGame())
             {
                 _planet.SetStartGame();
+                if (initPlayer)
+                {
+                    _planet.InitPlayer();
+                }
                 musicController.FadeOut();
             }
 
@@ -144,7 +148,7 @@ namespace CommandView
             _planet.Loadfunc();
             print("loaded");
             _vars.firstLaunch = false;
-            Resume();
+            Resume(false);
         }
 
         public void Options()

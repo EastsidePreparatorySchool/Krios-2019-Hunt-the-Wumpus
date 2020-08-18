@@ -134,7 +134,7 @@ namespace MiniGame
             LeanTween.move(gameObject, new Vector3(
                 Math.Min(maxX, Math.Max(minX, x)),
                 transform.position.y,
-                Math.Min(maxZ, Math.Max(minZ, z))), 1f).setEase(LeanTweenType.easeInOutQuad);
+                Math.Min(maxZ, Math.Max(minZ, z))), 0.5f).setEase(LeanTweenType.easeOutQuad);
         }
     }
 }

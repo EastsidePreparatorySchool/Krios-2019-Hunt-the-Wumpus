@@ -191,39 +191,6 @@ namespace CommandView
             {
                 faceHandler.UpdateFaceColors();
             }
-
-            // Set player start location to a random face, make it colonized (safe)
-            // _playerLoc = Mathf.RoundToInt(_random.Next(0, 29));
-            int splashSpot = Random.Range(0, 30);
-            faceHandlers[splashSpot].SetColonized();
-            /*transform.Rotate(Vector3.up, 
-                Vector3.Angle(Vector3.forward, 
-                    new Vector3(faceHandlers[splashSpot].faceNormal.x, 0, faceHandlers[splashSpot].faceNormal.z)), 
-                Space.World);*/
-            print("Player starting at " + splashSpot);
-
-            // TODO: either use the code below or something else to init wumpus with correct location
-            // Initialize Wumpus location as to not conflict with player initial location
-            // int wumpLoc;
-            //
-            // List<int> usedLocations = new List<int> {splashSpot};
-            // usedLocations.AddRange(faces[splashSpot].GetComponent<FaceHandler>().GetOpenAdjacentFaces()
-            //     .Select(openAdjacentFace => openAdjacentFace.GetComponent<FaceHandler>().GetTileNumber()));
-            //
-            // do
-            // {
-            //     wumpLoc = Mathf.RoundToInt(_random.Next(0, 29));
-            // } while (usedLocations.Contains(wumpLoc));
-            //
-            // wumpus.location = wumpLoc;
-
-
-            //print("Planet Started");
-
-            // Initialize hazards
-            MakeHazardObjects(splashSpot);
-
-            // CreateMountains();
         }
 
         // Update is called once per frame
@@ -235,6 +202,17 @@ namespace CommandView
             {
                 ShowPlanet(_isHidden);
             }
+        }
+        
+        public void InitPlayer()
+        {
+            int splashSpot = Random.Range(0, 30);
+            StartCoroutine(faceHandlers[splashSpot].FlyInShip());
+            print("Player starting at " + splashSpot);
+
+            // Initialize hazards
+            MakeHazardObjects(splashSpot);
+            wumpus.InitWumpus();
         }
 
         private void MakeHazardObjects(int safeSpot)
