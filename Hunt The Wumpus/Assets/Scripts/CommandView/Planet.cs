@@ -106,6 +106,7 @@ namespace CommandView
         private int[] _troopType;
         private string[] _troopName;
         private bool[] _isExausted;
+        private bool[] _isUsed;
         private bool[] _isHeld;
         private int[] _heldLoc;
         private int _totalTroops;
@@ -905,8 +906,9 @@ namespace CommandView
                 i++;
             }
 
-            _totalTroops = GetComponent<GameMeta>().AvailableTroops.Count() +
-                           GetComponent<GameMeta>().ExhaustedTroops.Count();
+            _totalTroops = meta.AvailableTroops.Count() +
+                           meta.ExhaustedTroops.Count() +
+                           meta.TroopsUsed.Count();
 
             foreach (FaceHandler face in faceHandlers)
                 _totalTroops += face.heldTroops.Count();
@@ -914,24 +916,37 @@ namespace CommandView
             _troopType = new int[_totalTroops];
             _troopName = new string[_totalTroops];
             _isExausted = new bool[_totalTroops];
+            _isUsed = new bool[_totalTroops];
             _isHeld = new bool[_totalTroops];
             _heldLoc = new int[_totalTroops];
 
             i = 0;
-            foreach (TroopMeta troop in GetComponent<GameMeta>().AvailableTroops)
+            foreach (TroopMeta troop in meta.AvailableTroops)
             {
                 _troopType[i] = (int) troop.Type;
                 _troopName[i] = troop.Name;
                 _isExausted[i] = false;
+                _isUsed[i] = false;
                 _isHeld[i] = false;
                 i++;
             }
 
-            foreach (TroopMeta troop in GetComponent<GameMeta>().ExhaustedTroops)
+            foreach (TroopMeta troop in meta.ExhaustedTroops)
             {
                 _troopType[i] = (int) troop.Type;
                 _troopName[i] = troop.Name;
                 _isExausted[i] = true;
+                _isUsed[i] = false;
+                _isHeld[i] = false;
+                i++;
+            }
+
+            foreach (TroopMeta troop in meta.TroopsUsed)
+            {
+                _troopType[i] = (int) troop.Type;
+                _troopName[i] = troop.Name;
+                _isExausted[i] = false;
+                _isUsed[i] = true;
                 _isHeld[i] = false;
                 i++;
             }
@@ -947,6 +962,7 @@ namespace CommandView
                         _troopType[i] = (int) troop.Type;
                         _troopName[i] = troop.Name;
                         _isExausted[i] = true;
+                        _isUsed[i] = false;
                         _isHeld[i] = true;
                         _heldLoc[i] = j;
                         i++;
@@ -956,7 +972,7 @@ namespace CommandView
 
 
             DoSaving.DoTheSaving(this, States, BiomeNum, IsColonized, HazardType, ShowHint, NoMoney, _troopType, _troopName,
-                _isExausted, _isHeld, _heldLoc, _totalTroops);
+                _isExausted, _isUsed, _isHeld, _heldLoc, _totalTroops);
         }
 
         public void Loadfunc()
@@ -968,6 +984,8 @@ namespace CommandView
             meta.money = data.money;
             meta.nukes = data.nukes;
             meta.sensorTowers = data.sensors;
+            meta.nukesUsed = data.nukesUsed;
+            meta.sensorTowersUsed = data.sensorTowersUsed;
 
             wumpus.location = faces[data.wumpusLocation].GetComponent<FaceHandler>();
 
@@ -1003,10 +1021,14 @@ namespace CommandView
 
             meta.AvailableTroops.Clear();
             meta.ExhaustedTroops.Clear();
+            meta.TroopsUsed.Clear();
 
             for (i = 0; i < data.troopType.Count(); i++)
             {
-                if (data.isHeld[i])
+                if (data.isUsed[i])
+                    meta.TroopsUsed.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
+                    
+                else if (data.isHeld[i])
                 {
                     faceHandlers[data.heldLoc[i]].heldTroops
                         .Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
@@ -1015,7 +1037,7 @@ namespace CommandView
                 else if (data.isExausted[i])
                     meta.ExhaustedTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
 
-                if (!data.isExausted[i] && !data.isHeld[i])
+                else if (!data.isExausted[i] && !data.isHeld[i])
                     meta.AvailableTroops.Add(new TroopMeta((TroopType) data.troopType[i], data.troopName[i]));
             }
         }

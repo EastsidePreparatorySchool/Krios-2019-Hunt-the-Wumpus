@@ -14,6 +14,9 @@ namespace SaveLoad
         public int nukes;
         public int sensors;
 
+        public int nukesUsed;
+        public int sensorTowersUsed;
+
         public int wumpusLocation;
 
         public bool[,] state = new bool[4, 30];
@@ -26,11 +29,12 @@ namespace SaveLoad
         public int[] troopType;
         public string[] troopName;
         public bool[] isExausted;
+        public bool[] isUsed;
         public bool[] isHeld;
         public int[] heldLoc;
 
         public SaveData(Planet planet, bool[,] states, int[] biomeNum, bool[] isColonized, int[] hazardType,
-            bool[] showHint, bool[] noMoney, int[] troopType, string[] troopName, bool[] isExausted, bool[] isHeld, int[] heldLoc,
+            bool[] showHint, bool[] noMoney, int[] troopType, string[] troopName, bool[] isExausted, bool[] isUsed, bool[] isHeld, int[] heldLoc,
             int numOfTroops)
         {
             turnsElapsed = planet.GetComponent<GameMeta>().turnsElapsed;
@@ -38,6 +42,8 @@ namespace SaveLoad
             money = planet.GetComponent<GameMeta>().money;
             nukes = planet.GetComponent<GameMeta>().nukes;
             sensors = planet.GetComponent<GameMeta>().sensorTowers;
+            nukesUsed  = planet.GetComponent<GameMeta>().nukesUsed;
+            sensorTowersUsed = planet.GetComponent<GameMeta>().sensorTowersUsed;
 
             wumpusLocation = planet.wumpus.location.GetTileNumber();
 
@@ -84,6 +90,7 @@ namespace SaveLoad
             this.troopType = new int[numOfTroops];
             this.troopName = new string[numOfTroops];
             this.isExausted = new bool[numOfTroops];
+            this.isUsed = new bool[numOfTroops];
             this.isHeld = new bool[numOfTroops];
             this.heldLoc = new int[numOfTroops];
 
@@ -92,6 +99,7 @@ namespace SaveLoad
                 this.troopType[i] = troopType[i];
                 this.troopName[i] = troopName[i];
                 this.isExausted[i] = isExausted[i];
+                this.isUsed[i] = isUsed[i];
                 this.isHeld[i] = isHeld[i];
                 this.heldLoc[i] = heldLoc[i];
             }
