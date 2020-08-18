@@ -12,8 +12,8 @@ public class CoinPop : MonoBehaviour
         float initY = transform.position.y;
 
         var seq = LeanTween.sequence();
-        seq.append(LeanTween.moveY(gameObject, initY + 5, 0.6f));
-        seq.append(LeanTween.moveY(gameObject, initY, 0.4f));
+        seq.append(LeanTween.moveY(gameObject, initY + 5, 0.5f).setEase(LeanTweenType.easeOutQuad));
+        seq.append(LeanTween.moveY(gameObject, initY, 0.5f).setEase(LeanTweenType.easeInQuad));
         Destroy(gameObject, 1f);
     }
 }
