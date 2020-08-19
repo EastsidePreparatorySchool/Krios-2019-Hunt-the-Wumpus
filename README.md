@@ -1,6 +1,8 @@
 # Krios-2019-Hunt-The-Wumpus
 The official repository for *Krios*, a Hunt the Wumpus game created by Option 2 Games.
 
+If you'd like to play the game, you can find it on [Itch.io](https://option2game.itch.io/krios)
+
 ## Status
 **Please be aware that this project is under heavy development!**
 
