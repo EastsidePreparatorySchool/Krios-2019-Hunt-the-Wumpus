@@ -1,7 +1,6 @@
 ﻿using SaveLoad;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace CommandView
 {
