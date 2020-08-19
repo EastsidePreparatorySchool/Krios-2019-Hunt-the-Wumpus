@@ -764,6 +764,28 @@ namespace CommandView
                 _planet.curGameStatus = GameStatus.RanOutOfResources;
             }
         }
+        
+        public IEnumerator FlyInShip()
+        {
+            CalculateFaceGeometry();
+
+            GameObject shipGo = Instantiate(Resources.Load<GameObject>("Objects/Ship"), faceCenter,
+                Quaternion.FromToRotation(Vector3.up, faceNormal));
+            shipGo.transform.rotation =
+                Quaternion.LookRotation(_majorAxisA - shipGo.transform.position, faceNormal);
+            shipGo.transform.parent = gameObject.transform;
+
+            shipGo.transform.position += shipGo.transform.up * 50f;
+
+            while (Vector3.SqrMagnitude(shipGo.transform.localPosition) > 0.0001f)
+            {
+                shipGo.transform.position -= shipGo.transform.up * (Time.deltaTime * 30f);
+                yield return new WaitForEndOfFrame();
+            }
+
+            Destroy(shipGo);
+            SetColonized();
+        }
 
         public void AddSensorOnTile()
         {

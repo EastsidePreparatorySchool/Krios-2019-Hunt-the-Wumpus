@@ -24,27 +24,22 @@ namespace Wumpus
         // Start is called before the first frame update
         void Start()
         {
-            // TODO: fix dependence on playerLocation (will not be using such)
-            //pick random face
-            // playerLocation = _planet.GetPlayerLocation();
-            do
-            {
-                location = _planet.faceHandlers[Random.Range(0, 30)];
-            } while (location.colonized || location.discovered || location.GetHazardObject() != HazardTypes.None);
 
-            //make sure room doesn't conflict
-            // if (location == playerLocation) {
-            //     location = (location + 7) % 29;
-            // }
-            // TODO: no conflict with adjacent rooms
-
-            print("Wumpus Location: " + location);
-            print("Wumpus Status: " + status);
         }
 
         // Update is called once per frame
         void Update()
         {
+        }
+
+        public void InitWumpus()
+        {
+            do
+            {
+                location = _planet.faceHandlers[Random.Range(0, 30)];
+            } while (location.colonized || location.discovered || location.GetHazardObject() != HazardTypes.None);
+            print("Wumpus Location: " + location);
+            print("Wumpus Status: " + status);
         }
 
         // movement function (if player location == wumpus location, fight, then run)

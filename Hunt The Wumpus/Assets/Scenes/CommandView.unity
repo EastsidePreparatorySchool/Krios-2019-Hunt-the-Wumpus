@@ -27713,7 +27713,6 @@ MonoBehaviour:
   - Jackson
   - Martin
   totalFaces: 0
-  troopsUsed: 0
   gameInPlay: 0
   needToPlayIntro: 1
 --- !u!114 &2076108100

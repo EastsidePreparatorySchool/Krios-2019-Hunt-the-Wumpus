@@ -23,7 +23,7 @@ namespace MiniGame.Selection
 
                 GuiGradientTools.Matrix2X3 localPositionMatrix = GuiGradientTools.LocalPositionMatrix(rect, dir);
 
-                UIVertex vertex = default(UIVertex);
+                UIVertex vertex = default;
                 for (int i = 0; i < vh.currentVertCount; i++)
                 {
                     vh.PopulateUIVertex(ref vertex, i);
